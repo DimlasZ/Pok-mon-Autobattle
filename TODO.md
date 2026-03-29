@@ -10,10 +10,10 @@
 
 ## Data Layer
 
-- [ ] Finalize Excel sheet structure (name, hp, attack, speed, ability, type, etc.)
-- [ ] Create PokemonData ScriptableObject script
-- [ ] Create ItemData ScriptableObject script
-- [ ] Import first 10 Pokemon as ScriptableObject assets
+- [x] Finalize Excel sheet structure (name, hp, attack, speed, ability, type, etc.)
+- [x] Create PokemonData ScriptableObject script
+- [x] Create ItemData ScriptableObject script
+- [ ] Import first 4 Pokemon as ScriptableObject assets
 - [ ] Import Pokemon sprites and link them to assets
 
 
@@ -28,11 +28,11 @@
 - [ ] Team slots UI (6 slots)
 - [ ] Shop slots UI (5-6 Pokemon offered)
 - [ ] Shop tier upgrade button and logic (unlocks stronger Pokemon per run)
-- [ ] Gold display
-- [ ] Gold interest and gold cap system
+- [ ] Pokédollar display
+- [ ] Pokédollar interest and Pokédollar cap system
 - [ ] Buy button logic
 - [ ] Sell button logic
-- [ ] Reroll button logic (costs gold)
+- [ ] Reroll button logic (costs Pokédollar)
 - [ ] Freeze/lock shop slot
 - [ ] Drag & drop Pokemon from shop to team slots
 - [ ] Team reordering (drag & drop within team slots)
@@ -40,7 +40,7 @@
 - [ ] Pokemon star/level indicator on cards
 - [ ] Item shop and held item logic
 - [ ] ShopManager script
-- [ ] Round start gold income
+- [ ] Round start Pokédollar income
 
 
 ## Battle Phase
@@ -84,12 +84,24 @@
 - [ ] Pause/settings menu
 - [ ] Sound effects (buy, sell, attack, faint)
 - [ ] Background music per phase
+- [ ] Main Menu screen
+- [ ] pokedollar icon
+
 
 
 ## Testing & Balancing
 
 - [ ] Test battle logic with 10 starter Pokemon
-- [ ] Balance gold economy
+- [ ] Balance Pokédollar economy
 - [ ] Balance Pokemon stats
 - [ ] Test ability triggers
 - [ ] Add remaining Pokemon once systems are stable
+
+
+## Things that might change, i need to think about it
+
+- [ ] Start with more HP as a player and lose more life based on surviving enmey pokemon.
+- [ ] How to evolve a pokemon, 3x1 = level 2 or buy the level 2 pokemon?
+- [ ] After how many rounds there is a draw?
+- [ ] Make Bench smaller, to 3 Poke? otherwise to many pokeslots
+- [ ] no max rounds
