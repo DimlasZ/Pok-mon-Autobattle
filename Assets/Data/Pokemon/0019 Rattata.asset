@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0019 Rattata
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 19
+  pokemonName: Rattata
+  attack: 56
+  hp: 27
+  type1: Normal
+  type2: 
+  speed: 72
+  tier: 1
+  abilityID: 
+  sprite: {fileID: 4755687773328978851, guid: 260f5920c46033744bdb0a77f7f03e00, type: 3}

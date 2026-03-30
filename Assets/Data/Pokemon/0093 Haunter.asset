@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0093 Haunter
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 93
+  pokemonName: Haunter
+  attack: 115
+  hp: 47
+  type1: Ghost
+  type2: Poison
+  speed: 95
+  tier: 1
+  abilityID: 
+  sprite: {fileID: 8559523246080902964, guid: 2097d230ed1ca6345b4ae1b1a4d88d7f, type: 3}

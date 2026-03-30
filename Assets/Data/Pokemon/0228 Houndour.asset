@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0228 Houndour
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 228
+  pokemonName: Houndour
+  attack: 80
+  hp: 38
+  type1: Dark
+  type2: Fire
+  speed: 65
+  tier: 1
+  abilityID: 
+  sprite: {fileID: 7291858346096596079, guid: 667c85b5ec414ea49b4e98afd099ec4f, type: 3}

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0149 Dragonite
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 149
+  pokemonName: Dragonite
+  attack: 134
+  hp: 190
+  type1: Dragon
+  type2: Flying
+  speed: 80
+  tier: 1
+  abilityID: 
+  sprite: {fileID: 4210720148232675348, guid: f5c4b30b50e0b584db1e53fa764abb63, type: 3}

@@ -35,7 +35,7 @@ public class UILayoutGenerator
         // --- Top Bar ---
         var topBar = CreatePanel(root, "TopBar", new Vector2(1920, 70), new Vector2(0, 475));
         SetColor(topBar, new Color(0.08f, 0.08f, 0.08f, 0.95f));
-        var roundText      = CreateText(topBar.transform, "RoundText",      "Round 1/8", 28, new Vector2(-700, 0));
+        var roundText      = CreateText(topBar.transform, "RoundText",      "Wins 0/10", 28, new Vector2(-700, 0));
         var pokedollarText = CreateText(topBar.transform, "PokedollarText", "P$5",       36, new Vector2(0, 0));
         var hpText         = CreateText(topBar.transform, "HPText",         "HP: 3/3",   28, new Vector2(700, 0));
 
@@ -170,24 +170,57 @@ public class UILayoutGenerator
         var spriteRect  = spriteGO.AddComponent<RectTransform>();
         var spriteImage = spriteGO.AddComponent<Image>();
         spriteGO.transform.SetParent(go.transform, false);
-        spriteRect.anchoredPosition = new Vector2(0, 15);
-        spriteRect.sizeDelta        = new Vector2(size.x - 20, size.y - 50);
+        spriteRect.anchoredPosition = new Vector2(0, 20);
+        spriteRect.sizeDelta        = new Vector2(size.x - 20, size.y - 65);
         spriteImage.preserveAspect  = true;
         spriteImage.color           = Color.white;
         slotUI.pokemonSprite        = spriteImage;
 
-        // HP text — bottom left
-        slotUI.hpText = CreateTMPText(go.transform, "HPText", "", 32,
-            new Vector2(-size.x / 4, -size.y / 2 + 18), new Vector2(size.x / 2, 36));
-        slotUI.hpText.alignment = TextAlignmentOptions.Left;
+        // Health bar — sits below the sprite, above the stat row
+        float barY = -size.y / 2 + 52;
+        var barBg   = new GameObject("HealthBarBG");
+        var barBgR  = barBg.AddComponent<RectTransform>();
+        var barBgI  = barBg.AddComponent<Image>();
+        barBg.transform.SetParent(go.transform, false);
+        barBgR.anchoredPosition = new Vector2(0, barY);
+        barBgR.sizeDelta        = new Vector2(size.x - 20, 8);
+        barBgI.color            = new Color(0.15f, 0.15f, 0.15f, 1f);
 
-        // Attack text — bottom right
-        slotUI.attackText = CreateTMPText(go.transform, "AttackText", "", 32,
-            new Vector2(size.x / 4, -size.y / 2 + 18), new Vector2(size.x / 2, 36));
-        slotUI.attackText.alignment = TextAlignmentOptions.Right;
+        var barFill  = new GameObject("HealthBarFill");
+        var barFillR = barFill.AddComponent<RectTransform>();
+        var barFillI = barFill.AddComponent<Image>();
+        barFill.transform.SetParent(barBg.transform, false);
+        barFillR.anchorMin   = new Vector2(0f, 0f);
+        barFillR.anchorMax   = new Vector2(1f, 1f);
+        barFillR.offsetMin   = Vector2.zero;
+        barFillR.offsetMax   = Vector2.zero;
+        barFillI.color       = new Color(0.18f, 0.78f, 0.18f);
+        slotUI.healthBarFill = barFillI;
 
-        // All shop-scene slots show player Pokemon — flip sprites to face right
-        slotUI.flipSprite = true;
+        float third = size.x / 3f;
+        float bottom = -size.y / 2 + 18;
+
+        // Attack — bottom left in layout (appears on the right when slot is flipped for player)
+        slotUI.attackText = CreateTMPText(go.transform, "AttackText", "", 28,
+            new Vector2(-third, bottom), new Vector2(third, 36));
+        slotUI.attackText.alignment = TextAlignmentOptions.Left;
+
+        // Speed — bottom center
+        slotUI.speedText = CreateTMPText(go.transform, "SpeedText", "", 28,
+            new Vector2(0, bottom), new Vector2(third, 36));
+        slotUI.speedText.alignment = TextAlignmentOptions.Center;
+
+        // HP — bottom right in layout (appears on the left when slot is flipped for player)
+        slotUI.hpText = CreateTMPText(go.transform, "HPText", "", 28,
+            new Vector2(third, bottom), new Vector2(third, 36));
+        slotUI.hpText.alignment = TextAlignmentOptions.Right;
+
+        // All shop-scene slots show player Pokemon — flip entire slot to face right
+        slotUI.flipSlot = true;
+        go.transform.localScale                = new Vector3(-1f, 1f, 1f);
+        slotUI.attackText.transform.localScale = new Vector3(-1f, 1f, 1f);
+        slotUI.speedText.transform.localScale  = new Vector3(-1f, 1f, 1f);
+        slotUI.hpText.transform.localScale     = new Vector3(-1f, 1f, 1f);
 
         return slotUI;
     }

@@ -5,7 +5,7 @@
 - [x] Create private GitHub repo with Unity .gitignore
 - [x] Set up Unity project
 - [x] Create folder structure (Scripts, Sprites, Data, Scenes, Audio)
-- [ ] Create the 4 Manager GameObjects in scene
+- [x] Create the 4 Manager GameObjects in scene
 
 
 ## Data Layer
@@ -13,8 +13,8 @@
 - [x] Finalize Excel sheet structure (name, hp, attack, speed, ability, type, etc.)
 - [x] Create PokemonData ScriptableObject script
 - [x] Create ItemData ScriptableObject script
-- [ ] Import first 4 Pokemon as ScriptableObject assets
-- [ ] Import Pokemon sprites and link them to assets
+- [x] Import all 386 Pokemon as ScriptableObject assets
+- [x] Import Pokemon sprites and link them to assets
 
 
 ## Main Menu
@@ -25,29 +25,30 @@
 
 ## Buy Phase
 
-- [ ] Team slots UI (6 slots)
-- [ ] Shop slots UI (5-6 Pokemon offered)
+- [x] Team slots UI (6 slots)
+- [x] Shop slots UI (5-6 Pokemon offered)
 - [ ] Shop tier upgrade button and logic (unlocks stronger Pokemon per run)
-- [ ] Pokédollar display
+- [x] Pokédollar display
 - [ ] Pokédollar interest and Pokédollar cap system
-- [ ] Buy button logic
-- [ ] Sell button logic
-- [ ] Reroll button logic (costs Pokédollar)
-- [ ] Freeze/lock shop slot
+- [x] Buy button logic
+- [x] Sell button logic
+- [x] Reroll button logic (costs Pokédollar)
+- [ ] Freeze/lock shop slot dont think i want that
 - [ ] Drag & drop Pokemon from shop to team slots
 - [ ] Team reordering (drag & drop within team slots)
-- [ ] Pokemon combining (3x same = level up)
-- [ ] Pokemon star/level indicator on cards
+- [ ] Pokemon evolving
+- [ ] Pokemon evolution and preevolution on hover
+- [ ] Ability on hover
 - [ ] Item shop and held item logic
-- [ ] ShopManager script
+- [x] ShopManager script
 - [ ] Round start Pokédollar income
 
 
 ## Battle Phase
 
-- [ ] BattleManager script
-- [ ] Attack order logic (based on Speed)
-- [ ] Damage calculation
+- [x] BattleManager script
+- [x] Attack order logic (based on Speed)
+- [x] Damage calculation
 - [ ] Type effectiveness (decide early if included)
 - [ ] Ability/passive trigger system (on attack, on faint, on round start)
 - [ ] Win/loss condition per battle
@@ -55,7 +56,8 @@
 - [ ] Health bars in battle UI
 - [ ] Enemy team display during battle phase
 - [ ] Basic battle animations (attack, hurt, faint)
-- [ ] Battle log / text feedback
+- [x] Battle log / text feedback
+- [ ] Sample teams need to better
 
 
 ## Results Screen
@@ -77,10 +79,10 @@
 
 ## UI & Polish
 
-- [ ] UIManager script
+- [x] UIManager script
 - [ ] Screen transitions (fade in/out)
-- [ ] Round indicator (Round 3 of 8)
-- [ ] Player HP display
+- [x] Round indicator (Round 3 of 8)
+- [x] Player HP display
 - [ ] Pause/settings menu
 - [ ] Sound effects (buy, sell, attack, faint)
 - [ ] Background music per phase
@@ -95,7 +97,7 @@
 - [ ] Balance Pokédollar economy
 - [ ] Balance Pokemon stats
 - [ ] Test ability triggers
-- [ ] Add remaining Pokemon once systems are stable
+- [x] Add remaining Pokemon once systems are stable
 
 
 ## Things that might change, i need to think about it
@@ -105,3 +107,7 @@
 - [ ] After how many rounds there is a draw?
 - [ ] Make Bench smaller, to 3 Poke? otherwise to many pokeslots
 - [ ] no max rounds
+- [ ] fix Tierlist
+- [ ] fix HP and attack
+- [ ] better enemy poketeams
+- [ ] only one type, fix logic and excel

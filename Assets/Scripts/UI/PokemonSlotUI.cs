@@ -8,13 +8,15 @@ using TMPro;
 public class PokemonSlotUI : MonoBehaviour
 {
     [Header("UI References")]
-    public Image pokemonSprite;           // The sprite image inside the slot
-    public TextMeshProUGUI hpText;        // HP display (bottom left) — shown as a single number
-    public TextMeshProUGUI attackText;    // Attack display (bottom right)
-    public Image highlight;               // Colored border shown when this slot is selected
+    public Image pokemonSprite;             // The sprite image inside the slot
+    public Image healthBarFill;             // The filled portion of the HP bar (child of a bar background)
+    public TextMeshProUGUI hpText;          // HP display — bottom right in code (left side visually when flipped)
+    public TextMeshProUGUI attackText;      // Attack display — bottom left in code (right side visually when flipped)
+    public TextMeshProUGUI speedText;       // Speed display — bottom center
+    public Image highlight;                 // Colored border shown when this slot is selected
 
     [Header("Display")]
-    public bool flipSprite; // True for player Pokemon (mirrors sprite to face right)
+    public bool flipSlot; // True for player Pokemon — flips the entire slot so sprite and all stats mirror correctly
 
     // Which row this slot belongs to and its index within that row
     public ShopManager.SelectionSource source;
@@ -26,6 +28,39 @@ public class PokemonSlotUI : MonoBehaviour
 
     // -------------------------------------------------------
 
+    void Awake()
+    {
+        if (!flipSlot) return;
+
+        // Flip the entire slot so the sprite and stat positions mirror automatically
+        transform.localScale = new Vector3(-1f, 1f, 1f);
+
+        // Counter-flip each text child so the text itself stays readable
+        if (hpText != null)     hpText.transform.localScale     = new Vector3(-1f, 1f, 1f);
+        if (attackText != null) attackText.transform.localScale = new Vector3(-1f, 1f, 1f);
+        if (speedText != null)  speedText.transform.localScale  = new Vector3(-1f, 1f, 1f);
+    }
+
+    // Updates the health bar width and color based on current/max HP
+    private void RefreshHealthBar(int currentHP, int maxHP)
+    {
+        if (healthBarFill == null) return;
+
+        float ratio = maxHP > 0 ? Mathf.Clamp01((float)currentHP / maxHP) : 0f;
+
+        // Scale the fill by moving its right anchor — works without a Source Image sprite
+        var rect = healthBarFill.rectTransform;
+        rect.anchorMin = new Vector2(0f, 0f);
+        rect.anchorMax = new Vector2(ratio, 1f);
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+
+        // Green > 50%, Yellow 25-50%, Red < 25%
+        if      (ratio > 0.5f)  healthBarFill.color = new Color(0.18f, 0.78f, 0.18f);
+        else if (ratio > 0.25f) healthBarFill.color = new Color(1f,    0.76f, 0.05f);
+        else                    healthBarFill.color = new Color(0.85f, 0.15f, 0.15f);
+    }
+
     // Called by ShopManager/UIManager to display a shop Pokemon (PokemonData)
     public void DisplayShopPokemon(PokemonData data)
     {
@@ -33,10 +68,12 @@ public class PokemonSlotUI : MonoBehaviour
 
         pokemonSprite.sprite = data.sprite;
         pokemonSprite.gameObject.SetActive(data.sprite != null);
-        pokemonSprite.transform.localScale = new Vector3(flipSprite ? -1f : 1f, 1f, 1f);
 
         hpText.text     = data.hp.ToString();
         attackText.text = data.attack.ToString();
+        speedText.text  = data.speed.ToString();
+
+        if (healthBarFill != null) healthBarFill.transform.parent.gameObject.SetActive(false);
 
         SetHighlight(false);
     }
@@ -48,10 +85,13 @@ public class PokemonSlotUI : MonoBehaviour
 
         pokemonSprite.sprite = instance.baseData.sprite;
         pokemonSprite.gameObject.SetActive(instance.baseData.sprite != null);
-        pokemonSprite.transform.localScale = new Vector3(flipSprite ? -1f : 1f, 1f, 1f);
 
         hpText.text     = instance.currentHP.ToString();
         attackText.text = instance.attack.ToString();
+        speedText.text  = instance.speed.ToString();
+
+        if (healthBarFill != null) healthBarFill.transform.parent.gameObject.SetActive(true);
+        RefreshHealthBar(instance.currentHP, instance.maxHP);
 
         SetHighlight(false);
     }
@@ -61,9 +101,10 @@ public class PokemonSlotUI : MonoBehaviour
     {
         pokemonSprite.sprite = null;
         pokemonSprite.gameObject.SetActive(false);
-        pokemonSprite.transform.localScale = Vector3.one;
         hpText.text     = "";
         attackText.text = "";
+        speedText.text  = "";
+        if (healthBarFill != null) healthBarFill.transform.parent.gameObject.SetActive(false);
         SetHighlight(false);
     }
 

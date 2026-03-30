@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0065 Alakazam
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 65
+  pokemonName: Alakazam
+  attack: 135
+  hp: 79
+  type1: Psychic
+  type2: 
+  speed: 120
+  tier: 1
+  abilityID: 
+  sprite: {fileID: -3023020507628859623, guid: a24628285db6ecb4ebdf755f842e7244, type: 3}

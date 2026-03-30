@@ -44,12 +44,13 @@ public class PokemonCSVImporter
             int hp        = int.Parse(col[3]);
             string type1  = col[4].Trim();
             string type2  = col.Length > 5 ? col[5].Trim() : "";
-            int speed     = col.Length > 6 && !string.IsNullOrEmpty(col[6]) ? int.Parse(col[6]) : 0;
-            int tier      = col.Length > 7 && !string.IsNullOrEmpty(col[7]) ? int.Parse(col[7]) : 1;
-            string ability = col.Length > 8 ? col[8].Trim() : "";
-            string spriteName = col.Length > 9 ? col[9].Trim() : "";
+            int speed     = col.Length > 8  && !string.IsNullOrEmpty(col[8])  ? int.Parse(col[8])  : 0;
+            int tier      = col.Length > 14 && !string.IsNullOrEmpty(col[14]) ? int.Parse(col[14]) : 1;
+            string ability    = col.Length > 15 ? col[15].Trim() : "";
+            string spriteName = col.Length > 16 ? col[16].Trim() : "";
 
-            string assetPath = $"{outputFolder}/{id:0000} {pName}.asset";
+            string safeName  = string.Concat(pName.Split(System.IO.Path.GetInvalidFileNameChars()));
+            string assetPath = $"{outputFolder}/{id:0000} {safeName}.asset";
 
             PokemonData data = AssetDatabase.LoadAssetAtPath<PokemonData>(assetPath);
             if (data == null)
@@ -71,7 +72,8 @@ public class PokemonCSVImporter
             // Try to find and link the sprite
             if (!string.IsNullOrEmpty(spriteName))
             {
-                string spritePath = $"Assets/Sprites/Pokémon/{spriteName}.png";
+                string safeSpriteName = string.Concat(spriteName.Split(System.IO.Path.GetInvalidFileNameChars())).Trim();
+                string spritePath = $"Assets/Sprites/Pokémon/{safeSpriteName}.png";
                 Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
                 if (sprite != null)
                     data.sprite = sprite;

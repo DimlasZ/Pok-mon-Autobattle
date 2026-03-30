@@ -147,7 +147,7 @@ public class UIManager : MonoBehaviour
     private void RefreshInfoDisplay()
     {
         pokedollarText.text = $"P${ShopManager.Instance.CurrentPokedollars}";
-        roundText.text      = $"Round {GameManager.Instance.CurrentRound}/{GameManager.Instance.totalRounds}";
+        roundText.text      = $"Wins {GameManager.Instance.PlayerWins}/{GameManager.Instance.winsToVictory}";
         playerHPText.text   = $"HP: {GameManager.Instance.PlayerHP}/{GameManager.Instance.playerMaxHP}";
     }
 

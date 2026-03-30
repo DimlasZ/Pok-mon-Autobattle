@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0317 Swalot
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 317
+  pokemonName: Swalot
+  attack: 73
+  hp: 166
+  type1: Poison
+  type2: 
+  speed: 55
+  tier: 1
+  abilityID: 
+  sprite: {fileID: 6917129268415600380, guid: 8117040a153af8942b5f4e75d91d885d, type: 3}

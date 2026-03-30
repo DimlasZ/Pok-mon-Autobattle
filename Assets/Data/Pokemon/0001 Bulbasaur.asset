@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 1
   pokemonName: Bulbasaur
-  attack: 2
-  hp: 2
+  attack: 65
+  hp: 54
   type1: Grass
   type2: Poison
-  speed: 1
+  speed: 45
   tier: 1
   abilityID: 
   sprite: {fileID: -4500970984119265330, guid: 6233f58ef9eae4b46bc9fcffb04e4d28, type: 3}

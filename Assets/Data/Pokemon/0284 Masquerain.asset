@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0284 Masquerain
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 284
+  pokemonName: Masquerain
+  attack: 100
+  hp: 101
+  type1: Bug
+  type2: Flying
+  speed: 80
+  tier: 1
+  abilityID: 
+  sprite: {fileID: -1386264416797662282, guid: 9929d8a53da75984abb677f5f890bfb7, type: 3}

@@ -26,6 +26,9 @@
 # Auto-generated meta files (only if assets exist)
 # *.meta  <- keep these, Unity needs them for asset tracking
 
+# Google Drive temp files
+~$*
+
 # OS generated
 .DS_Store
 .DS_Store?

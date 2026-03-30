@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0187 Hoppip
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 187
+  pokemonName: Hoppip
+  attack: 35
+  hp: 38
+  type1: Grass
+  type2: Flying
+  speed: 50
+  tier: 1
+  abilityID: 
+  sprite: {fileID: -4144118636600203171, guid: d2e1828ae2a86884a91595bbd7b3eb9d, type: 3}

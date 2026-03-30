@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0310 Manectric
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 310
+  pokemonName: Manectric
+  attack: 105
+  hp: 80
+  type1: Electric
+  type2: 
+  speed: 105
+  tier: 1
+  abilityID: 
+  sprite: {fileID: 8379769750783640903, guid: add3e73660f33cf4f9150a7acb3640c2, type: 3}

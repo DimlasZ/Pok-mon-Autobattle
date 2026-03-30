@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0124 Jynx
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 124
+  pokemonName: Jynx
+  attack: 115
+  hp: 83
+  type1: Ice
+  type2: Psychic
+  speed: 95
+  tier: 1
+  abilityID: 
+  sprite: {fileID: 6403512046488145894, guid: a1013354fec55f341a99ea5dd72929f0, type: 3}

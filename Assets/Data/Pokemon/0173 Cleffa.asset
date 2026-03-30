@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0173 Cleffa
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 173
+  pokemonName: Cleffa
+  attack: 45
+  hp: 42
+  type1: Fairy
+  type2: 
+  speed: 15
+  tier: 1
+  abilityID: 
+  sprite: {fileID: -4982052131520951542, guid: 8f620edda6de99b46b0ec8c04a9d80a4, type: 3}

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0106 Hitmonlee
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 106
+  pokemonName: Hitmonlee
+  attack: 120
+  hp: 89
+  type1: Fighting
+  type2: 
+  speed: 87
+  tier: 1
+  abilityID: 
+  sprite: {fileID: 4591843707559701621, guid: b81e77eb12641634ab77de6ebbaa6c53, type: 3}

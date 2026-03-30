@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0355 Duskull
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 355
+  pokemonName: Duskull
+  attack: 40
+  hp: 49
+  type1: Ghost
+  type2: 
+  speed: 25
+  tier: 1
+  abilityID: 
+  sprite: {fileID: -4985313909788243561, guid: a06ab57a418c96c4385974159616bdd1, type: 3}

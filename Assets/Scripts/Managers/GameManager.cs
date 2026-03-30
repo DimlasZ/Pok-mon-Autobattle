@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour
     public enum GamePhase { Buy, Battle, Results, GameOver, Victory }
     public GamePhase CurrentPhase { get; private set; }
 
-    [Header("Round Settings")]
-    public int totalRounds = 8;
+    [Header("Win Settings")]
+    public int winsToVictory = 10;
+    public int PlayerWins { get; private set; } = 0;
     public int CurrentRound { get; private set; } = 1;
 
     [Header("Player Health")]
@@ -78,17 +79,19 @@ public class GameManager : MonoBehaviour
         bool playerWon = result == BattleManager.BattleResult.PlayerWin;
         CurrentPhase   = GamePhase.Results;
 
-        if (!playerWon)
+        if (playerWon)
+            PlayerWins++;
+        else
             TakeDamage(1);
 
-        Debug.Log($"Round {CurrentRound} — {(playerWon ? "Victory!" : "Defeat")}");
+        Debug.Log($"Round {CurrentRound} — {(playerWon ? $"Victory! ({PlayerWins}/{winsToVictory} wins)" : "Defeat")}");
     }
 
     // Called when player clicks Continue after the battle
     public void ReturnToShop()
     {
         if (PlayerHP <= 0)               { EnterGameOver(); return; }
-        if (CurrentRound >= totalRounds) { EnterVictory();  return; }
+        if (PlayerWins >= winsToVictory) { EnterVictory();  return; }
 
         CurrentRound++;
 
@@ -124,7 +127,7 @@ public class GameManager : MonoBehaviour
     private void EnterVictory()
     {
         CurrentPhase = GamePhase.Victory;
-        Debug.Log("Victory! You survived all rounds!");
+        Debug.Log("You are the Pokémon Champion!");
         // TODO: Load Victory screen
     }
 }

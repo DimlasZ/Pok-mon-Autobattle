@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0361 Snorunt
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 361
+  pokemonName: Snorunt
+  attack: 50
+  hp: 50
+  type1: Ice
+  type2: 
+  speed: 50
+  tier: 1
+  abilityID: 
+  sprite: {fileID: 1248039007630339067, guid: d3c1dc88d28314f42bc85b34f3a003b0, type: 3}

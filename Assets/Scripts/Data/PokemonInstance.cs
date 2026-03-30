@@ -11,6 +11,7 @@ public class PokemonInstance
     public int currentHP;
     public int maxHP;
     public int attack;
+    public int speed;
 
     // Star level — 1 = base, 2 = combined (3x), 3 = fully evolved (3x level 2)
     public int starLevel = 1;
@@ -22,6 +23,7 @@ public class PokemonInstance
         maxHP      = data.hp;
         currentHP  = data.hp;
         attack     = data.attack;
+        speed      = data.speed;
         starLevel  = 1;
     }
 }
