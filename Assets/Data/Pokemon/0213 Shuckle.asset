@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 213
   pokemonName: Shuckle
-  attack: 10
+  attack: 20
   hp: 155
   type1: Bug
-  type2: Rock
   speed: 5
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -5287439385998533077, guid: 7bc29a7edbfb8bd46b6ab89abbb0309b, type: 3}

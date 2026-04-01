@@ -33,17 +33,14 @@ public class BattleManager : MonoBehaviour
 
     // -------------------------------------------------------
     // BATTLE ENTRY POINT
-    // Call this to run a full battle. Returns the result.
     // -------------------------------------------------------
 
     public BattleResult RunBattle()
     {
-        // Copy the player's battle row into a working list (only alive slots)
         List<PokemonInstance> playerTeam = ShopManager.Instance.BattleRow
             .Where(p => p != null)
             .ToList();
 
-        // Generate the enemy team based on current round
         List<PokemonInstance> enemyTeam = GenerateEnemyTeam();
 
         if (playerTeam.Count == 0)
@@ -54,10 +51,20 @@ public class BattleManager : MonoBehaviour
 
         Debug.Log($"Battle start! Player: {playerTeam.Count} Pokemon | Enemy: {enemyTeam.Count} Pokemon");
 
-        // Run turns
+        // Reset ability state (weather, sturdy flags, etc.)
+        AbilitySystem.ResetBattleState();
+
+        // Fire on_battle_start for all Pokemon (player first, then enemy)
+        AbilitySystem.FireBattleStart(playerTeam, enemyTeam);
+        AbilitySystem.FireBattleStart(enemyTeam, playerTeam);
+
         for (int turn = 1; turn <= maxTurns; turn++)
         {
             Debug.Log($"--- Turn {turn} ---");
+
+            // Fire on_round_start for all alive Pokemon
+            AbilitySystem.FireRoundStart(playerTeam, enemyTeam);
+            AbilitySystem.FireRoundStart(enemyTeam, playerTeam);
 
             // Get the front (first alive) Pokemon from each side
             PokemonInstance playerFront = GetFront(playerTeam);
@@ -65,14 +72,11 @@ public class BattleManager : MonoBehaviour
 
             if (playerFront == null || enemyFront == null) break;
 
-            // Run the turn — faster Pokemon attacks first
-            RunTurn(playerFront, enemyFront);
+            RunTurn(playerFront, enemyFront, playerTeam, enemyTeam);
 
-            // Remove any fainted Pokemon from both teams
             RemoveFainted(playerTeam);
             RemoveFainted(enemyTeam);
 
-            // Check win/loss after each turn
             if (playerTeam.Count == 0 && enemyTeam.Count == 0)
             {
                 Debug.Log("Battle result: Draw (both teams wiped on the same turn)");
@@ -90,7 +94,6 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        // If we reached the turn limit, it's a draw
         Debug.Log($"Battle result: Draw (reached {maxTurns} turn limit)");
         return BattleResult.Draw;
     }
@@ -99,83 +102,120 @@ public class BattleManager : MonoBehaviour
     // TURN LOGIC
     // -------------------------------------------------------
 
-    private void RunTurn(PokemonInstance a, PokemonInstance b)
+    private void RunTurn(PokemonInstance playerFront, PokemonInstance enemyFront,
+        List<PokemonInstance> playerTeam, List<PokemonInstance> enemyTeam)
     {
-        // Determine attack order based on Speed stat
-        // If speeds are equal, randomly pick who goes first
-        bool aGoesFirst;
+        bool playerGoesFirst;
 
-        if (a.baseData.speed != b.baseData.speed)
-            aGoesFirst = a.baseData.speed > b.baseData.speed;
+        if (playerFront.speed != enemyFront.speed)
+            playerGoesFirst = playerFront.speed > enemyFront.speed;
         else
-            aGoesFirst = Random.value > 0.5f;
+            playerGoesFirst = Random.value > 0.5f;
 
-        PokemonInstance first  = aGoesFirst ? a : b;
-        PokemonInstance second = aGoesFirst ? b : a;
+        PokemonInstance first      = playerGoesFirst ? playerFront : enemyFront;
+        PokemonInstance second     = playerGoesFirst ? enemyFront  : playerFront;
+        List<PokemonInstance> firstTeam  = playerGoesFirst ? playerTeam : enemyTeam;
+        List<PokemonInstance> secondTeam = playerGoesFirst ? enemyTeam  : playerTeam;
 
-        Debug.Log($"{first.baseData.pokemonName} (Speed {first.baseData.speed}) goes before {second.baseData.pokemonName} (Speed {second.baseData.speed})");
+        Debug.Log($"{first.baseData.pokemonName} (Speed {first.speed}) goes before {second.baseData.pokemonName} (Speed {second.speed})");
 
-        // First Pokemon attacks
-        Attack(first, second);
+        Attack(first, second, firstTeam, secondTeam);
 
-        // Second Pokemon only attacks back if they survived
         if (second.currentHP > 0)
-            Attack(second, first);
+            Attack(second, first, secondTeam, firstTeam);
     }
 
     // -------------------------------------------------------
     // ATTACK CALCULATION
     // -------------------------------------------------------
 
-    public void Attack(PokemonInstance attacker, PokemonInstance defender)
+    public void Attack(PokemonInstance attacker, PokemonInstance defender,
+        List<PokemonInstance> attackerTeam, List<PokemonInstance> defenderTeam)
     {
-        // Get the type effectiveness multiplier
-        // Attacker's type1 is used as the attack type
-        float multiplier = TypeChart.GetMultiplier(
+        // Type effectiveness
+        float typeMultiplier = TypeChart.GetMultiplier(
             attacker.baseData.type1,
-            defender.baseData.type1,
-            defender.baseData.type2
+            defender.baseData.type1
         );
 
-        // Base damage = attacker's attack stat
-        // Apply multiplier and always round UP (so minimum 1 damage if multiplier > 0)
-        int damage = Mathf.CeilToInt(attacker.attack * multiplier);
+        // Before-attack ability multiplier (e.g. Blaze at low HP)
+        float abilityMultiplier = AbilitySystem.FireBeforeAttack(attacker, attackerTeam, defenderTeam);
 
-        // Apply damage
-        defender.currentHP -= damage;
-        defender.currentHP  = Mathf.Max(defender.currentHP, 0); // Never go below 0
+        // Passive attack multiplier (e.g. Guts, Huge Power — checked live each attack)
+        float passiveMultiplier = AbilitySystem.GetPassiveAttackMultiplier(attacker);
 
-        // Log the result with effectiveness message
-        string effectText = GetEffectivenessText(multiplier);
+        // Flat attack bonus (e.g. Chlorophyll +20 in sun)
+        int flatBonus = AbilitySystem.GetFlatAttackBonus(attacker);
+
+        // Calculate raw damage
+        int effectiveAttack = attacker.attack + flatBonus;
+        int damage = Mathf.CeilToInt(effectiveAttack * typeMultiplier * abilityMultiplier * passiveMultiplier);
+
+        // Before-hit check — may fully negate the hit (Shell Armor, immune_to_ability_damage)
+        if (AbilitySystem.FireBeforeHit(defender, attacker, false))
+            return;
+
+        // Apply damage reduction unless the attacker ignores it (Aerial Ace)
+        if (!AbilitySystem.IgnoresDamageReduction(attacker))
+        {
+            float reduction = AbilitySystem.GetDamageReduction(defender)
+                            * AbilitySystem.GetAllyDamageReduction(defender, defenderTeam);
+            damage = Mathf.CeilToInt(damage * reduction);
+            damage -= AbilitySystem.GetFlatDamageReduction(defender);
+            damage = Mathf.Max(1, damage);
+        }
+
+        // on_hit — may modify damage (Sturdy, Rough Skin recoil)
+        damage = AbilitySystem.FireOnHit(defender, attacker, damage, defenderTeam, attackerTeam);
+
+        // Apply damage, track excess (for Bone Club overflow)
+        int preCombatHP   = defender.currentHP;
+        defender.currentHP = Mathf.Max(0, defender.currentHP - damage);
+        int actualDamage  = preCombatHP - defender.currentHP;
+        int excessDamage  = damage - actualDamage;
+
+        // Log
+        string effectText = GetEffectivenessText(typeMultiplier);
         Debug.Log($"{attacker.baseData.pokemonName} attacks {defender.baseData.pokemonName} " +
-                  $"for {damage} damage{effectText} — {defender.baseData.pokemonName} HP: {defender.currentHP}/{defender.maxHP}");
+                  $"for {actualDamage} damage{effectText} — {defender.baseData.pokemonName} HP: {defender.currentHP}/{defender.maxHP}");
 
+        // After-hit (Rest heal check)
+        AbilitySystem.FireAfterHit(defender);
+
+        // on_attack — splash damage, overflow, etc. (Surf, Earthquake, Ember, Bone Club...)
+        AbilitySystem.FireOnAttack(attacker, defender, actualDamage, excessDamage, attackerTeam, defenderTeam);
+
+        // after_attack — self heals (Absorb, Mega Drain, Leech Life, Roost...)
+        AbilitySystem.FireAfterAttack(attacker, defender, actualDamage, attackerTeam, defenderTeam);
+
+        // on_faint / on_kill
         if (defender.currentHP == 0)
+        {
             Debug.Log($"{defender.baseData.pokemonName} fainted!");
-    }
-
-    // Returns a readable string for the type effectiveness
-    private string GetEffectivenessText(float multiplier)
-    {
-        if (multiplier == 0f)   return " (no effect)";
-        if (multiplier >= 4f)   return " (it's super effective! x4)";
-        if (multiplier >= 2f)   return " (it's super effective!)";
-        if (multiplier <= 0.25f) return " (it's not very effective... x0.25)";
-        if (multiplier <= 0.5f)  return " (it's not very effective...)";
-        return "";
+            AbilitySystem.FireOnFaint(defender, defenderTeam, attackerTeam);
+            AbilitySystem.FireOnKill(attacker, attackerTeam, defenderTeam);
+        }
     }
 
     // -------------------------------------------------------
     // HELPERS
     // -------------------------------------------------------
 
-    // Returns the first Pokemon in the list that still has HP (the "front")
+    private string GetEffectivenessText(float multiplier)
+    {
+        if (multiplier == 0f)    return " (no effect)";
+        if (multiplier >= 4f)    return " (it's super effective! x4)";
+        if (multiplier >= 2f)    return " (it's super effective!)";
+        if (multiplier <= 0.25f) return " (it's not very effective... x0.25)";
+        if (multiplier <= 0.5f)  return " (it's not very effective...)";
+        return "";
+    }
+
     private PokemonInstance GetFront(List<PokemonInstance> team)
     {
         return team.FirstOrDefault(p => p.currentHP > 0);
     }
 
-    // Removes all fainted (0 HP) Pokemon from the team
     private void RemoveFainted(List<PokemonInstance> team)
     {
         team.RemoveAll(p => p.currentHP <= 0);
@@ -183,18 +223,14 @@ public class BattleManager : MonoBehaviour
 
     // -------------------------------------------------------
     // ENEMY TEAM GENERATION
-    // Creates an enemy team based on the current round
     // -------------------------------------------------------
 
     public List<PokemonInstance> GenerateEnemyTeam()
     {
         int round   = GameManager.Instance.CurrentRound;
         int maxTier = GetMaxTierForRound(round);
-
-        // How many enemy Pokemon to spawn — scales with round (min 1, max 3)
         int enemyCount = Mathf.Min(round, ShopManager.Instance.battleRowSize);
 
-        // Pick from the same pool as the shop
         List<PokemonData> available = ShopManager.Instance.allPokemon
             .Where(p => p.tier > 0 && p.tier <= maxTier)
             .ToList();
@@ -212,7 +248,6 @@ public class BattleManager : MonoBehaviour
         return enemyTeam;
     }
 
-    // Mirrors ShopManager's tier unlock schedule
     private int GetMaxTierForRound(int round)
     {
         if (round <= 2) return 1;

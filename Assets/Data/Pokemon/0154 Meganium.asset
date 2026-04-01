@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 154
   pokemonName: Meganium
-  attack: 83
+  attack: 115
   hp: 175
   type1: Grass
-  type2: 
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: -2916634183302355313, guid: bdfabb4c44e4d424b9922386c8ab534f, type: 3}

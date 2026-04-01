@@ -17,8 +17,7 @@ MonoBehaviour:
   attack: 105
   hp: 107
   type1: Fighting
-  type2: 
   speed: 76
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -6310860945214431191, guid: 523ba2c2623010f4aace7a4fc0ccd874, type: 3}

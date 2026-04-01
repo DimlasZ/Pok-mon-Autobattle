@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 90
   pokemonName: Shellder
-  attack: 65
+  attack: 38
   hp: 45
   type1: Water
-  type2: 
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: 2040182376882170958, guid: de7a432ec22bb394fa37c2a497d591f5, type: 3}

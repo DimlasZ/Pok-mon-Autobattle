@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 44
   pokemonName: Gloom
-  attack: 85
+  attack: 75
   hp: 89
   type1: Grass
-  type2: Poison
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 4
+  ability: {fileID: 0}
   sprite: {fileID: -3007085259817038793, guid: b8cad5fdfbb01f449990ad7bb9129cf8, type: 3}

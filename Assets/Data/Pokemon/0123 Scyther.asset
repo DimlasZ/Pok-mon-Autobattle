@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 123
   pokemonName: Scyther
-  attack: 110
+  attack: 103
   hp: 115
   type1: Bug
-  type2: Flying
   speed: 105
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: -1011093681461474110, guid: 8538dc67f35b48b4ca2a4d155ba4aac6, type: 3}

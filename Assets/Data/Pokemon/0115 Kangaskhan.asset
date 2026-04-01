@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 115
   pokemonName: Kangaskhan
-  attack: 95
+  attack: 91
   hp: 165
   type1: Normal
-  type2: 
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3458824998507678100, guid: 6d8e5718edd0632469014745602668dd, type: 3}

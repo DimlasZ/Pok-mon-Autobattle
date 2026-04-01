@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 177
   pokemonName: Natu
-  attack: 70
+  attack: 40
   hp: 39
-  type1: Psychic
-  type2: Flying
+  type1: Flying
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: 805010211572889633, guid: 5e4fb6162add696409922baaa53d3b3b, type: 3}

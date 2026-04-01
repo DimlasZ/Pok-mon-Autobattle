@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 236
   pokemonName: Tyrogue
-  attack: 35
+  attack: 28
   hp: 29
   type1: Fighting
-  type2: 
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3618994488388979393, guid: 70c63452d1d43094aadbe2a1d3ed612f, type: 3}

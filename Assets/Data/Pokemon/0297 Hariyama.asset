@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 297
   pokemonName: Hariyama
-  attack: 120
+  attack: 159
   hp: 149
   type1: Fighting
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -5025016608683029329, guid: 4ca5b5761be88b74786ff60b9d7d41c6, type: 3}

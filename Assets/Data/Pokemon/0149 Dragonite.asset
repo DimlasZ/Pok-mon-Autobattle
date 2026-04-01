@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 149
   pokemonName: Dragonite
-  attack: 134
+  attack: 149
   hp: 190
   type1: Dragon
-  type2: Flying
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 4210720148232675348, guid: f5c4b30b50e0b584db1e53fa764abb63, type: 3}

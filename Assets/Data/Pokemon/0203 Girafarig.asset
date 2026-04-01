@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 203
   pokemonName: Girafarig
-  attack: 90
+  attack: 123
   hp: 88
   type1: Normal
-  type2: Psychic
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7284765236358937579, guid: 0c994e845a411c64fa6875ae37d3239e, type: 3}

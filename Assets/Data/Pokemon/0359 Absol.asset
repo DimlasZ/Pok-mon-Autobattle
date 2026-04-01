@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 359
   pokemonName: Absol
-  attack: 130
+  attack: 106
   hp: 75
   type1: Dark
-  type2: 
   speed: 75
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -5062950108930423572, guid: 193e0a2ea3df2574fb35f6b2e6023cd2, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 294
   pokemonName: Loudred
-  attack: 71
+  attack: 62
   hp: 62
   type1: Normal
-  type2: 
   speed: 48
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8343559226837061409, guid: 28be35ceeb9855c4a90585d02ae9440d, type: 3}

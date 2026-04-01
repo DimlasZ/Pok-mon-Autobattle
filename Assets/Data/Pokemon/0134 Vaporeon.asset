@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 134
   pokemonName: Vaporeon
-  attack: 110
+  attack: 147
   hp: 192
   type1: Water
-  type2: 
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -6261813203078903769, guid: 3b60ec4bd5fd71a4494032c917cd1c1e, type: 3}

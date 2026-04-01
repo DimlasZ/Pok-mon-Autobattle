@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 347
   pokemonName: Anorith
-  attack: 95
+  attack: 72
   hp: 47
   type1: Rock
-  type2: Bug
   speed: 75
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -8320127971870697227, guid: 37baf213383c74147aecf84c0cf3e7ac, type: 3}

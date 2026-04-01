@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 9
   pokemonName: Blastoise
-  attack: 85
+  attack: 117
   hp: 179
   type1: Water
-  type2: 
   speed: 78
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 11400000, guid: 0a08ca5a1604d21418533948192d8820, type: 2}
   sprite: {fileID: 2340187426038918190, guid: b884ebbe0a3f52f47931ce80d19f5fff, type: 3}

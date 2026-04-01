@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 116
   pokemonName: Horsea
-  attack: 70
+  attack: 61
   hp: 35
   type1: Water
-  type2: 
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7996514391948816813, guid: 7eb091c7d5a834a46859fa2a06e456d2, type: 3}

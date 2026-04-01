@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 292
   pokemonName: Shedinja
-  attack: 90
+  attack: 87
   hp: 15
   type1: Bug
-  type2: Ghost
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 954372893554203023, guid: 5e51d546c36996a4c8ebac3ca5411ba4, type: 3}

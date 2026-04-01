@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 64
   pokemonName: Kadabra
-  attack: 120
+  attack: 123
   hp: 43
   type1: Psychic
-  type2: 
   speed: 105
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -6131471359188314447, guid: 2e9f20b5f5ad9e544b6cf083de5e8876, type: 3}

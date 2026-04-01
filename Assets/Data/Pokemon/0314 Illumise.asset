@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 314
   pokemonName: Illumise
-  attack: 73
+  attack: 81
   hp: 108
   type1: Bug
-  type2: 
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -5428814950192321156, guid: 0611abe3db2cbc747963fb11e25aa87f, type: 3}

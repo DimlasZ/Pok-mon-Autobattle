@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 330
   pokemonName: Flygon
-  attack: 100
+  attack: 95
   hp: 129
   type1: Ground
-  type2: Dragon
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7587545227191722299, guid: 96b31649cba49ad46b0e7d2e70eb448f, type: 3}

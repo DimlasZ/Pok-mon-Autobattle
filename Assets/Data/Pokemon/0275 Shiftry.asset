@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 275
   pokemonName: Shiftry
-  attack: 100
+  attack: 75
   hp: 99
   type1: Grass
-  type2: Dark
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8345886518296581609, guid: d366003a86420644b84396830da46326, type: 3}

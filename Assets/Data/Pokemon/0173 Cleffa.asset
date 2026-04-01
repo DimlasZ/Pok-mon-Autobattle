@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 173
   pokemonName: Cleffa
-  attack: 45
+  attack: 33
   hp: 42
   type1: Fairy
-  type2: 
   speed: 15
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -4982052131520951542, guid: 8f620edda6de99b46b0ec8c04a9d80a4, type: 3}

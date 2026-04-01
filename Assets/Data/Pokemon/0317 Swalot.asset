@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 317
   pokemonName: Swalot
-  attack: 73
+  attack: 103
   hp: 166
   type1: Poison
-  type2: 
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6917129268415600380, guid: 8117040a153af8942b5f4e75d91d885d, type: 3}

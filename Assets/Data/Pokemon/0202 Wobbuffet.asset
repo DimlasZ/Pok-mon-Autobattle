@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 202
   pokemonName: Wobbuffet
-  attack: 33
+  attack: 45
   hp: 183
   type1: Psychic
-  type2: 
   speed: 33
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1094250859702881523, guid: 38c1c2863fb900741832d507560b146f, type: 3}

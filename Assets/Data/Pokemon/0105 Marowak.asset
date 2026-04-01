@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 105
   pokemonName: Marowak
-  attack: 80
+  attack: 67
   hp: 126
   type1: Ground
-  type2: 
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -2415850016595825139, guid: 663f85cb2e07a8943bcb37101d431ebe, type: 3}

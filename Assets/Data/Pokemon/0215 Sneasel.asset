@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 215
   pokemonName: Sneasel
-  attack: 95
+  attack: 72
   hp: 73
   type1: Dark
-  type2: Ice
   speed: 115
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6596033769267146667, guid: c8ceb777b12d62a4096239258e561b54, type: 3}

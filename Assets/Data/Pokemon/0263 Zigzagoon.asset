@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 263
   pokemonName: Zigzagoon
-  attack: 30
+  attack: 36
   hp: 35
   type1: Normal
-  type2: 
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -5179083289649010709, guid: 8483710380939f54f8f31fbe251bdf3c, type: 3}

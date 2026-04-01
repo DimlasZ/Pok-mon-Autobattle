@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 76
   pokemonName: Golem
-  attack: 120
+  attack: 135
   hp: 169
-  type1: Rock
-  type2: Ground
+  type1: Ground
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -2272964107141979131, guid: b2d0ac036b4dbd340837263b9cc54509, type: 3}

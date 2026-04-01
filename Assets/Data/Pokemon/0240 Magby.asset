@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 240
   pokemonName: Magby
-  attack: 75
+  attack: 72
   hp: 43
   type1: Fire
-  type2: 
   speed: 83
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -8258987759600278822, guid: 883ad1e127c8c5d4d820240788f97ccb, type: 3}

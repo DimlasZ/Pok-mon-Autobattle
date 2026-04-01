@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 332
   pokemonName: Cacturne
-  attack: 115
+  attack: 84
   hp: 80
   type1: Grass
-  type2: Dark
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 2472206126931162213, guid: 56b905d7568c1724aad92a6b097dd24e, type: 3}

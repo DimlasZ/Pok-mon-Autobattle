@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 140
   pokemonName: Kabuto
-  attack: 80
+  attack: 63
   hp: 48
   type1: Rock
-  type2: Water
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -5691009877194455707, guid: 6ad89f8f9ae21e84c8401968d08d4519, type: 3}

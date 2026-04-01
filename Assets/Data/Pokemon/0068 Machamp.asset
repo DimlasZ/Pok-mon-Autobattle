@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 68
   pokemonName: Machamp
-  attack: 130
+  attack: 145
   hp: 150
   type1: Fighting
-  type2: 
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -4342098374906036667, guid: f1df1228e5d1511409e0981c3a434837, type: 3}

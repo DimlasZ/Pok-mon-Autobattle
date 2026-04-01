@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 94
   pokemonName: Gengar
-  attack: 130
+  attack: 119
   hp: 82
   type1: Ghost
-  type2: Poison
   speed: 110
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7115928118081496296, guid: 720f91399e597d2479c3482a5014fc25, type: 3}

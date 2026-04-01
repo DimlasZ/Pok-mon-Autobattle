@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 204
   pokemonName: Pineco
-  attack: 65
+  attack: 54
   hp: 64
   type1: Bug
-  type2: 
   speed: 15
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3464813320774642250, guid: 4fcca31ae7f7da1459b9f4e29f8a096b, type: 3}

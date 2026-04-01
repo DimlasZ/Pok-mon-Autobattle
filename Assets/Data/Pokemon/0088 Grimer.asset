@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 88
   pokemonName: Grimer
-  attack: 80
+  attack: 111
   hp: 72
   type1: Poison
-  type2: 
   speed: 25
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3409379943350261612, guid: ecd620b4c66a7ae4a8a79d65f3606a02, type: 3}

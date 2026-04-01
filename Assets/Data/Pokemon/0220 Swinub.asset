@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 220
   pokemonName: Swinub
-  attack: 50
+  attack: 43
   hp: 36
-  type1: Ice
-  type2: Ground
+  type1: Ground
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -8234737140139731707, guid: f6bda9bc1ac98c841bd6cb3c82d19d4e, type: 3}

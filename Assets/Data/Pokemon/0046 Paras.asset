@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 46
   pokemonName: Paras
-  attack: 70
+  attack: 43
   hp: 44
   type1: Bug
-  type2: Grass
   speed: 25
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8445481515654307640, guid: ab2a2df227d7e514280e5e88ddaeb95d, type: 3}

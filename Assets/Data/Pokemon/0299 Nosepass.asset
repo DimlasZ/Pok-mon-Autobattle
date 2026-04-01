@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 299
   pokemonName: Nosepass
-  attack: 45
+  attack: 60
   hp: 87
   type1: Rock
-  type2: 
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5666126988934372430, guid: 17140cc30306faa4c86cb11038b0036a, type: 3}

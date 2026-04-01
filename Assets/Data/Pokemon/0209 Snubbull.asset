@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 209
   pokemonName: Snubbull
-  attack: 80
+  attack: 71
   hp: 51
   type1: Fairy
-  type2: 
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -8332247368063362799, guid: b1fb3cab4464ce24883e8f94ac700630, type: 3}

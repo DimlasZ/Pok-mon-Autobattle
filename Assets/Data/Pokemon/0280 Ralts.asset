@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 280
   pokemonName: Ralts
-  attack: 45
+  attack: 38
   hp: 24
   type1: Psychic
-  type2: Fairy
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -4447709548733491470, guid: 214f23330e2c2234dbee8b78244bd005, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 374
   pokemonName: Beldum
-  attack: 55
+  attack: 43
   hp: 62
   type1: Steel
-  type2: Psychic
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -71020844815133103, guid: f679473a1e6de2945a151a4c0db4bcde, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 110
   pokemonName: Weezing
-  attack: 90
+  attack: 74
   hp: 135
   type1: Poison
-  type2: 
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -6192891092259379215, guid: feba4aac9f014ba44a46fd23f8578df1, type: 3}

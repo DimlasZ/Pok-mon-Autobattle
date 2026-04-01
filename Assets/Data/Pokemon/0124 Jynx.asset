@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 124
   pokemonName: Jynx
-  attack: 115
+  attack: 153
   hp: 83
   type1: Ice
-  type2: Psychic
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6403512046488145894, guid: a1013354fec55f341a99ea5dd72929f0, type: 3}

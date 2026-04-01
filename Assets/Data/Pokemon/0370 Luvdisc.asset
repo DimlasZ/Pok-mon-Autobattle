@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 370
   pokemonName: Luvdisc
-  attack: 40
+  attack: 63
   hp: 55
   type1: Water
-  type2: 
   speed: 97
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -242186650178881859, guid: aa1b2ac98f502274ab327e26de8755d5, type: 3}

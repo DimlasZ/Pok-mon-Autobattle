@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 174
   pokemonName: Igglybuff
-  attack: 40
+  attack: 51
   hp: 28
   type1: Normal
-  type2: Fairy
   speed: 15
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1663687882144056727, guid: b5c1a6f3060821a468768934c1666cd1, type: 3}

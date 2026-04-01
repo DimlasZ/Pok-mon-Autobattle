@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 301
   pokemonName: Delcatty
-  attack: 65
+  attack: 93
   hp: 80
   type1: Normal
-  type2: 
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3063952012405222299, guid: 1b93040275d96404d8b920d20b6a7578, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 15
   pokemonName: Beedrill
-  attack: 90
+  attack: 38
   hp: 75
   type1: Bug
-  type2: Poison
   speed: 75
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8668613311921375832, guid: 7387f7e97d8554a489dd70a7ce3bccbc, type: 3}

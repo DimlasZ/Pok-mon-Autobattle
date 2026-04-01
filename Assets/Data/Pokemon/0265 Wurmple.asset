@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 265
   pokemonName: Wurmple
-  attack: 45
+  attack: 31
   hp: 32
   type1: Bug
-  type2: 
   speed: 20
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3136228355419499048, guid: 31a95fe51c7f92548ba4d82851273c64, type: 3}

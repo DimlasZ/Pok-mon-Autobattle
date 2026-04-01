@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 230
   pokemonName: Kingdra
-  attack: 95
+  attack: 129
   hp: 154
   type1: Water
-  type2: Dragon
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 2362940735855881060, guid: cb42d7e11ce0dc845860bf6c4dea6840, type: 3}

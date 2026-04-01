@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 82
   pokemonName: Magneton
-  attack: 120
+  attack: 159
   hp: 90
   type1: Electric
-  type2: Steel
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 4
+  ability: {fileID: 0}
   sprite: {fileID: -7650161172141944494, guid: 7bb8034a5fd34884b9b3296e026930fe, type: 3}

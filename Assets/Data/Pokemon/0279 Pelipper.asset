@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 279
   pokemonName: Pelipper
-  attack: 95
+  attack: 129
   hp: 109
-  type1: Water
-  type2: Flying
+  type1: Flying
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 4
+  ability: {fileID: 0}
   sprite: {fileID: -2102898811054026311, guid: 685acb1043cc68647aa28c07b8a5510a, type: 3}

@@ -106,8 +106,9 @@
 - [ ] How to evolve a pokemon, 3x1 = level 2 or buy the level 2 pokemon?
 - [ ] After how many rounds there is a draw?
 - [ ] Make Bench smaller, to 3 Poke? otherwise to many pokeslots
-- [ ] no max rounds
+- [x] no max rounds
 - [ ] fix Tierlist
 - [ ] fix HP and attack
 - [ ] better enemy poketeams
-- [ ] only one type, fix logic and excel
+- [x] only one type, fix logic and excel
+- [ ] 8 wins and then top 4 + champ?

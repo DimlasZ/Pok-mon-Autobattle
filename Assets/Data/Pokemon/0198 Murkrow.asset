@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 198
   pokemonName: Murkrow
-  attack: 85
+  attack: 66
   hp: 48
   type1: Dark
-  type2: Flying
   speed: 91
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6580399158757631534, guid: b8cabddfb99f8444790e995b9d344328, type: 3}

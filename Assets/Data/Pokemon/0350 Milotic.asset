@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 350
   pokemonName: Milotic
-  attack: 100
+  attack: 135
   hp: 211
   type1: Water
-  type2: 
   speed: 81
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -6799497989176673562, guid: fa1ef59d5adda734988715573cdd2c52, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 51
   pokemonName: Dugtrio
-  attack: 100
+  attack: 115
   hp: 48
   type1: Ground
-  type2: 
   speed: 120
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7304440772578262010, guid: 4ead267f65aaa2c479cdbff679df83e8, type: 3}

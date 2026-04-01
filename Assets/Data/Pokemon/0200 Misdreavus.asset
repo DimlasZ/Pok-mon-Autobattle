@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 200
   pokemonName: Misdreavus
-  attack: 85
+  attack: 83
   hp: 89
   type1: Ghost
-  type2: 
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -8360798405118227305, guid: 4bd61c0176590294f812e2faee144f55, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 306
   pokemonName: Aggron
-  attack: 110
+  attack: 125
   hp: 199
   type1: Steel
-  type2: Rock
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7949436148123801168, guid: 4e3727e77ab68f74ea4d24e9207aab83, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 47
   pokemonName: Parasect
-  attack: 95
+  attack: 72
   hp: 101
   type1: Bug
-  type2: Grass
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -1413548908640436873, guid: 192ecb02cc848f04f9cc3e99d9e9ff90, type: 3}

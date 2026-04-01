@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 318
   pokemonName: Carvanha
-  attack: 90
+  attack: 69
   hp: 23
   type1: Water
-  type2: Dark
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 3816243095788161375, guid: fb139c25a067aae42a41ab72ef65dd42, type: 3}

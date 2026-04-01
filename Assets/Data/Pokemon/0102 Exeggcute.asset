@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 102
   pokemonName: Exeggcute
-  attack: 60
+  attack: 87
   hp: 74
   type1: Grass
-  type2: Psychic
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: 6740570818752068571, guid: 5a4c14fcb6410c74885431a9859df00d, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 11
   pokemonName: Metapod
-  attack: 25
+  attack: 24
   hp: 40
   type1: Bug
-  type2: 
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -521297858644848634, guid: 5b2252d17cbc1404fb37b63166b678ad, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 222
   pokemonName: Corsola
-  attack: 65
+  attack: 58
   hp: 135
   type1: Water
-  type2: Rock
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 4201608386622719617, guid: 02001822dd367624b808d0f9ae78c32d, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 78
   pokemonName: Rapidash
-  attack: 100
+  attack: 55
   hp: 99
   type1: Fire
-  type2: 
   speed: 105
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: 8762113056691808690, guid: 77b3595607b9ba8469c48cfbc52bc0b3, type: 3}

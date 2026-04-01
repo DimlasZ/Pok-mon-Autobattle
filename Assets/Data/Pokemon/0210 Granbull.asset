@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 210
   pokemonName: Granbull
-  attack: 120
+  attack: 123
   hp: 115
   type1: Fairy
-  type2: 
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 3660576089373829501, guid: fa8fa736c32b00d45915407faff7f5ab, type: 3}

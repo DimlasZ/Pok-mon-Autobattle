@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 148
   pokemonName: Dragonair
-  attack: 84
+  attack: 99
   hp: 83
   type1: Dragon
-  type2: 
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5574089540441964591, guid: ac31233651369e043bef0a4383e66fc4, type: 3}

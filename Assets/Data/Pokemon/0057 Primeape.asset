@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 57
   pokemonName: Primeape
-  attack: 105
+  attack: 68
   hp: 83
   type1: Fighting
-  type2: 
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7633123298727557614, guid: 4295730458482ce4cbf5edfa71cdb6a3, type: 3}

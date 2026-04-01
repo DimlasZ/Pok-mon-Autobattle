@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 83
   pokemonName: Farfetch'd
-  attack: 90
+  attack: 78
   hp: 62
-  type1: Normal
-  type2: Flying
+  type1: Flying
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -1820911006726442594, guid: d754cd7d801ad4b43b81c10eb449d56f, type: 3}

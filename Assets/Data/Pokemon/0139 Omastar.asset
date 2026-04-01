@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 139
   pokemonName: Omastar
-  attack: 115
+  attack: 153
   hp: 150
   type1: Rock
-  type2: Water
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6575947695901298671, guid: 873a11dc8ae2d7d4bbb32f08f484230b, type: 3}

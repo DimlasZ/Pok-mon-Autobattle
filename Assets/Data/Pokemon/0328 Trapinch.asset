@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 328
   pokemonName: Trapinch
-  attack: 100
+  attack: 95
   hp: 42
   type1: Ground
-  type2: 
   speed: 10
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -9021929935425475859, guid: 15b49bee20ccac6478abe3dd1fcc23c6, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 206
   pokemonName: Dunsparce
-  attack: 70
+  attack: 99
   hp: 126
   type1: Normal
-  type2: 
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3791016953667623376, guid: 989bf0430d868524885620499b7eef22, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 345
   pokemonName: Lileep
-  attack: 61
+  attack: 52
   hp: 113
   type1: Rock
-  type2: Grass
   speed: 23
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 2082627698383152430, guid: 97c744569bc4f9c46855a15ad42873ac, type: 3}

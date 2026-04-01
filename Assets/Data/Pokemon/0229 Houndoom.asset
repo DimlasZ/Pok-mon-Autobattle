@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 229
   pokemonName: Houndoom
-  attack: 110
+  attack: 125
   hp: 94
-  type1: Dark
-  type2: Fire
+  type1: Fire
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7505870135332016668, guid: 2d4fb61f9cb0f5f42b3d7d5a63035702, type: 3}

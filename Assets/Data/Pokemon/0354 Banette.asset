@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 354
   pokemonName: Banette
-  attack: 115
+  attack: 107
   hp: 81
   type1: Ghost
-  type2: 
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3295727569736989977, guid: 908817730d5de654f9ab3d9d38dc69b9, type: 3}

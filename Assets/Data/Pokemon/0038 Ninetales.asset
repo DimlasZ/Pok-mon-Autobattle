@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 38
   pokemonName: Ninetales
-  attack: 81
+  attack: 113
   hp: 134
   type1: Fire
-  type2: 
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: 2864149936026407876, guid: 359f200d434e7144f8d1000eecaa0fc9, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 245
   pokemonName: Suicune
-  attack: 90
+  attack: 123
   hp: 262
   type1: Water
-  type2: 
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1714229238690226044, guid: 72b46302bd056be4bacec7112ede95d2, type: 3}

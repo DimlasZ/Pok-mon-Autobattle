@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 285
   pokemonName: Shroomish
-  attack: 40
+  attack: 31
   hp: 71
   type1: Grass
-  type2: 
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: 4548963431571198209, guid: f4176be02b8a7324b9bcf3a2e5d49614, type: 3}

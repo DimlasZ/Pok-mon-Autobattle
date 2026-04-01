@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 373
   pokemonName: Salamence
-  attack: 135
+  attack: 150
   hp: 151
   type1: Dragon
-  type2: Flying
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -9050476235356070847, guid: d9ddfecdbb07b2e42a68393c4da986ed, type: 3}

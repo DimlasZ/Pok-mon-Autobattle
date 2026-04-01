@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 261
   pokemonName: Poochyena
-  attack: 55
+  attack: 48
   hp: 28
   type1: Dark
-  type2: 
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -413221087411355098, guid: 73d6ca869c5eb7240aa6c1b7796069db, type: 3}

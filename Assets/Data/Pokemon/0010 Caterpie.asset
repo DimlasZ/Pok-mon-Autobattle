@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 10
   pokemonName: Caterpie
-  attack: 30
+  attack: 26
   hp: 28
   type1: Bug
-  type2: 
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 3535939792652173090, guid: d470c7aaa6f8e7e458b5dbc72daf145c, type: 3}

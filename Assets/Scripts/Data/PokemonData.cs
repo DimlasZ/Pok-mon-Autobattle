@@ -8,9 +8,8 @@ public class PokemonData : ScriptableObject
     public int attack;
     public int hp;
     public string type1;
-    public string type2;
     public int speed;
     public int tier;
-    public string abilityID;
+    public AbilityData ability;
     public Sprite sprite;
 }

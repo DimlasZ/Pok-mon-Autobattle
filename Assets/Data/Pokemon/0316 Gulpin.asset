@@ -17,8 +17,7 @@ MonoBehaviour:
   attack: 43
   hp: 69
   type1: Poison
-  type2: 
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -162438624926259820, guid: fc7e9227ccf801c4b9ccebd3806a303c, type: 3}

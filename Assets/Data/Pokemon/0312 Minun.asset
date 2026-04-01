@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 312
   pokemonName: Minun
-  attack: 75
+  attack: 105
   hp: 82
   type1: Electric
-  type2: 
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: -3658296348491292504, guid: 12740ba4c24d32047b0251bd95172282, type: 3}

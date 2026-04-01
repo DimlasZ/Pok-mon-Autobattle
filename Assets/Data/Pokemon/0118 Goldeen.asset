@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 118
   pokemonName: Goldeen
-  attack: 67
+  attack: 59
   hp: 52
   type1: Water
-  type2: 
   speed: 63
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -1551338611927490262, guid: cdc2ceb5f8d8c2c45a2d29db78550cbe, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 296
   pokemonName: Makuhita
-  attack: 60
+  attack: 57
   hp: 39
   type1: Fighting
-  type2: 
   speed: 25
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1225740695506515280, guid: e97f18589cf318640840a3d06e1b9edf, type: 3}

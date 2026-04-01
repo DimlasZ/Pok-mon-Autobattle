@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 360
   pokemonName: Wynaut
-  attack: 23
+  attack: 15
   hp: 78
   type1: Psychic
-  type2: 
   speed: 23
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -536784786604551023, guid: 49783cf687a95554ebb83d11011e2d8b, type: 3}

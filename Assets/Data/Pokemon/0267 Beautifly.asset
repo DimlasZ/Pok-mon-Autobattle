@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 267
   pokemonName: Beautifly
-  attack: 100
+  attack: 105
   hp: 57
   type1: Bug
-  type2: Flying
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8462865423184562111, guid: cd33f2c096560884fab9be5ee1a26a4f, type: 3}

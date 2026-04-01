@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 165
   pokemonName: Ledyba
-  attack: 40
+  attack: 31
   hp: 48
-  type1: Bug
-  type2: Flying
+  type1: Flying
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: 5813745791638558764, guid: 9713babf5043962418d4e56af66759ed, type: 3}

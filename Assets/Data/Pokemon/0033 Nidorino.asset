@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 33
   pokemonName: Nidorino
-  attack: 72
+  attack: 26
   hp: 66
   type1: Poison
-  type2: 
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -2982948991592846837, guid: d9b4b635a88272047a50ef8c60997008, type: 3}

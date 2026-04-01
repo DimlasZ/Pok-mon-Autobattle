@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 199
   pokemonName: Slowking
-  attack: 100
+  attack: 105
   hp: 191
   type1: Water
-  type2: Psychic
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -2670650234163817344, guid: 122a256ef33d8454d82fbd594210ed54, type: 3}

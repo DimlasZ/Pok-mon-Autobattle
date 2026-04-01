@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 29
   pokemonName: Nidoran?
-  attack: 47
+  attack: 34
   hp: 49
   type1: Poison
-  type2: 
   speed: 41
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 2027939457747666523, guid: 3386ad788886eb7408fbf754d112421d, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 305
   pokemonName: Lairon
-  attack: 90
+  attack: 60
   hp: 126
   type1: Steel
-  type2: Rock
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1269672379761853247, guid: 53e9c40b08b5c924f946f34bfd2d8147, type: 3}

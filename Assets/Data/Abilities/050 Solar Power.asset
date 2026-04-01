@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d5fe0272ba41940a14853929658c3e, type: 3}
+  m_Name: 050 Solar Power
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityData
+  abilityID: 50
+  abilityName: Solar Power
+  trigger: passive
+  effect: solar_power
+  value: 1.3
+  condition: weather_sun
+  description: +30% attack in harsh sunlight but lose 5% max HP each round.

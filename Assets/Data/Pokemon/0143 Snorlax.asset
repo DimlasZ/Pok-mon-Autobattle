@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 143
   pokemonName: Snorlax
-  attack: 110
+  attack: 109
   hp: 277
   type1: Normal
-  type2: 
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 9043133829643452496, guid: c73410c4a3bad074dab7053c00f21453, type: 3}

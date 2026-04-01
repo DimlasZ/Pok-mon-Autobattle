@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 120
   pokemonName: Staryu
-  attack: 70
+  attack: 99
   hp: 39
   type1: Water
-  type2: 
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 4
+  ability: {fileID: 0}
   sprite: {fileID: -5282413766150661759, guid: 855a0a108c81d07458b63ad62949347c, type: 3}

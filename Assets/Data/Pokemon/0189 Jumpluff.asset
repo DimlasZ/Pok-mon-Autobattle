@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 189
   pokemonName: Jumpluff
-  attack: 55
+  attack: 62
   hp: 127
   type1: Grass
-  type2: Flying
   speed: 110
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 4134551131123892844, guid: 58db1dbdc05454b4297cbd285e1345bc, type: 3}

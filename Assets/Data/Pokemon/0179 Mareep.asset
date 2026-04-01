@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 179
   pokemonName: Mareep
-  attack: 65
+  attack: 41
   hp: 45
   type1: Electric
-  type2: 
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -8297022951636489423, guid: cbcb4efd12e3e714bbb03dad980b75eb, type: 3}

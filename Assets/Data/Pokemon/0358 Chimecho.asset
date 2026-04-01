@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 358
   pokemonName: Chimecho
-  attack: 95
+  attack: 91
   hp: 133
   type1: Psychic
-  type2: 
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6119574849273320733, guid: c663e30f3828dc24ea8bf11438358eb4, type: 3}

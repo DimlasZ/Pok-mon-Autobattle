@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 255
   pokemonName: Torchic
-  attack: 70
+  attack: 43
   hp: 42
   type1: Fire
-  type2: 
   speed: 45
   tier: 1
-  abilityID: 
+  ability: {fileID: 0}
   sprite: {fileID: -5106820169404967626, guid: ec34d79beffa768429398df37ece109d, type: 3}

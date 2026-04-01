@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 266
   pokemonName: Silcoon
-  attack: 35
+  attack: 15
   hp: 40
   type1: Bug
-  type2: 
   speed: 15
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3992884832846599753, guid: c3571a0f5b6caa3468aa09497e313173, type: 3}

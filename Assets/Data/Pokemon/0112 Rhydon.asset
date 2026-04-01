@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 112
   pokemonName: Rhydon
-  attack: 130
+  attack: 113
   hp: 172
   type1: Ground
-  type2: Rock
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -8259700312385462782, guid: 76ca0aed90fbef547bdff5cc18752cf3, type: 3}

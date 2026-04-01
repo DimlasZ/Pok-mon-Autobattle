@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 77
   pokemonName: Ponyta
-  attack: 85
+  attack: 49
   hp: 61
   type1: Fire
-  type2: 
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: -8364219994222518536, guid: b5c6c6e652c3b664c9b98339ed1130fc, type: 3}

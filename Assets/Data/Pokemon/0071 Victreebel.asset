@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 71
   pokemonName: Victreebel
-  attack: 105
+  attack: 73
   hp: 104
   type1: Grass
-  type2: Poison
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 4
+  ability: {fileID: 0}
   sprite: {fileID: 5119560968018955324, guid: 5f5b168a10bd8e54ba4e5c3ebadad763, type: 3}

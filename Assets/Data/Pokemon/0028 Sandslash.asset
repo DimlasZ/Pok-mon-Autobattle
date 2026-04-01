@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 28
   pokemonName: Sandslash
-  attack: 100
+  attack: 85
   hp: 127
   type1: Ground
-  type2: 
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -6469374818429266589, guid: a0f324f6d827fb34db7b6b40e9f42b36, type: 3}

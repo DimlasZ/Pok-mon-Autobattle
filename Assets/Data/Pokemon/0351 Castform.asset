@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 351
   pokemonName: Castform
-  attack: 70
+  attack: 40
   hp: 97
   type1: Normal
-  type2: 
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6538633527349469418, guid: 9911bade506077845b0a876b5a8e2ad9, type: 3}

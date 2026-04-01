@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 340
   pokemonName: Whiscash
-  attack: 78
+  attack: 86
   hp: 149
   type1: Water
-  type2: Ground
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3429948469971943010, guid: 5b2373f5785767945abbcb809182faff, type: 3}

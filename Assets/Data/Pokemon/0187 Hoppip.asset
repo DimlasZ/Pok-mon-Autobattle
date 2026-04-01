@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 187
   pokemonName: Hoppip
-  attack: 35
+  attack: 28
   hp: 38
   type1: Grass
-  type2: Flying
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -4144118636600203171, guid: d2e1828ae2a86884a91595bbd7b3eb9d, type: 3}

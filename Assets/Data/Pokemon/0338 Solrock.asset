@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 338
   pokemonName: Solrock
-  attack: 95
+  attack: 110
   hp: 132
   type1: Rock
-  type2: Psychic
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -2088956874489920061, guid: de2ed605a627a1247be3085b2ee04969, type: 3}

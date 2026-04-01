@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 327
   pokemonName: Spinda
-  attack: 60
+  attack: 87
   hp: 71
   type1: Normal
-  type2: 
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6148118361999144963, guid: a9941c189133c5e409dce674242ecd5e, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 344
   pokemonName: Claydol
-  attack: 70
+  attack: 71
   hp: 158
   type1: Ground
-  type2: Psychic
   speed: 75
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -4915128847949503564, guid: af493f6121ff3914d8601801f618fd9d, type: 3}

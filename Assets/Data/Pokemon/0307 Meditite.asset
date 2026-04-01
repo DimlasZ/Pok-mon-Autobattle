@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 307
   pokemonName: Meditite
-  attack: 40
+  attack: 49
   hp: 39
   type1: Fighting
-  type2: Psychic
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -5546665170896302200, guid: 9e16eefe2f439764db14234f78713a1e, type: 3}

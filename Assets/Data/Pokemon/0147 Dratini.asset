@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 147
   pokemonName: Dratini
-  attack: 64
+  attack: 79
   hp: 42
   type1: Dragon
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -744362881622792989, guid: 6b1ecfc11d2fcd247abd5295c012ccd9, type: 3}

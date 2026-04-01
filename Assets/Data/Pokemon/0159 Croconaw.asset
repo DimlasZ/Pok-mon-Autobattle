@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 159
   pokemonName: Croconaw
-  attack: 80
+  attack: 47
   hp: 94
   type1: Water
-  type2: 
   speed: 58
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: -6985890419942769988, guid: 73fbd7dec8f7d394297f9ed8bb8dfc64, type: 3}

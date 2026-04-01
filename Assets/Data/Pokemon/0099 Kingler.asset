@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 99
   pokemonName: Kingler
-  attack: 130
+  attack: 132
   hp: 97
   type1: Water
-  type2: 
   speed: 75
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -341337834816123469, guid: 3235bd23b28277c45a856c2aa0cca70d, type: 3}

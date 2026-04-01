@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 14
   pokemonName: Kakuna
-  attack: 25
+  attack: 19
   hp: 36
   type1: Bug
-  type2: Poison
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5239854141278325342, guid: 581948abb1daace47abc5ee50bfbbf24, type: 3}

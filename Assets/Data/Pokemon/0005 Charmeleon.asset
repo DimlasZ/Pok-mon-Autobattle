@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 5
   pokemonName: Charmeleon
-  attack: 80
+  attack: 91
   hp: 71
   type1: Fire
-  type2: 
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 11400000, guid: 336a63f44d0faa747971502bf03fab15, type: 2}
   sprite: {fileID: -5481333576836855463, guid: ecae1cab35eecef4e9f415a30ca47d8f, type: 3}

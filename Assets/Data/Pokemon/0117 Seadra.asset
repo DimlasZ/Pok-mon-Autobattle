@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 117
   pokemonName: Seadra
-  attack: 95
+  attack: 129
   hp: 79
   type1: Water
-  type2: 
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1544916041095316570, guid: 103d1e00070a7c549a1ab94e8d3f7a75, type: 3}

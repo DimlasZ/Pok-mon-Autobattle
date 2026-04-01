@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 224
   pokemonName: Octillery
-  attack: 105
+  attack: 173
   hp: 112
   type1: Water
-  type2: 
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 2243333622260729197, guid: cee864eaf4388dd409a3c1f8c16ab16d, type: 3}

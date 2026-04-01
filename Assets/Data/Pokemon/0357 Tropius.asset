@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 357
   pokemonName: Tropius
-  attack: 72
+  attack: 102
   hp: 170
   type1: Grass
-  type2: Flying
   speed: 51
-  tier: 1
-  abilityID: 
+  tier: 6
+  ability: {fileID: 0}
   sprite: {fileID: 2009729439293119495, guid: a9250db77448c4b4a89f5afa061e0e8a, type: 3}

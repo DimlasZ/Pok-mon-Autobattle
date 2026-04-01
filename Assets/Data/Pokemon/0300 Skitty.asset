@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 300
   pokemonName: Skitty
-  attack: 45
+  attack: 69
   hp: 40
   type1: Normal
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8092727416965044226, guid: 090aa69412b25234193ad80b04fdb90b, type: 3}

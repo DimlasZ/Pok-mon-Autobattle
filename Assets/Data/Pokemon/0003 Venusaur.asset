@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 3
   pokemonName: Venusaur
-  attack: 100
+  attack: 135
   hp: 155
   type1: Grass
-  type2: Poison
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 6
+  ability: {fileID: 11400000, guid: f1cbd93f8b2318d44879c7fb575780dd, type: 2}
   sprite: {fileID: 5388043245988455146, guid: feee6f25bea6a254dbb8b2a11c12c9e7, type: 3}

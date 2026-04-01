@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 243
   pokemonName: Raikou
-  attack: 115
+  attack: 153
   hp: 162
   type1: Electric
-  type2: 
   speed: 115
-  tier: 1
-  abilityID: 
+  tier: 6
+  ability: {fileID: 0}
   sprite: {fileID: 8756451912912252677, guid: 0e36f15da87603c42b8a4d78d9b3a5c9, type: 3}

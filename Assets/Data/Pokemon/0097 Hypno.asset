@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 97
   pokemonName: Hypno
-  attack: 73
+  attack: 81
   hp: 166
   type1: Psychic
-  type2: 
   speed: 67
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6595667291260799386, guid: a5a3b8f45def89b4688e9a6165fee073, type: 3}

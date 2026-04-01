@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 35
   pokemonName: Clefairy
-  attack: 60
+  attack: 87
   hp: 74
   type1: Normal
-  type2: 
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 3695467867673380996, guid: 4c9db909b8811a34a9feb0387f902376, type: 3}

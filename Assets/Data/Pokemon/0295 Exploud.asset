@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 295
   pokemonName: Exploud
-  attack: 91
+  attack: 143
   hp: 132
   type1: Normal
-  type2: 
   speed: 68
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 4438098225431566152, guid: abed39215c1ecd44b8a696232744475b, type: 3}

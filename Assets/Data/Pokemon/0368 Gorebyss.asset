@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 368
   pokemonName: Gorebyss
-  attack: 114
+  attack: 152
   hp: 109
   type1: Water
-  type2: 
   speed: 52
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -338900101782911399, guid: 03ac6686b1432b645908126579515e7d, type: 3}

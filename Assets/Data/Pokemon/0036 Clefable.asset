@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 36
   pokemonName: Clefable
-  attack: 95
+  attack: 129
   hp: 155
   type1: Normal
-  type2: 
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5452336691129591112, guid: 1a2a672f5d8e38f488ef3cbdf2298deb, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 249
   pokemonName: Lugia
-  attack: 90
+  attack: 141
   hp: 374
   type1: Psychic
-  type2: Flying
   speed: 110
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5335428921741802704, guid: 8434ddedc4a424d4f8ffbb1dd616cc5a, type: 3}

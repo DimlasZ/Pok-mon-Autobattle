@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 138
   pokemonName: Omanyte
-  attack: 90
+  attack: 74
   hp: 63
   type1: Rock
-  type2: Water
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -1210820332181615781, guid: 0740405d81939d3459e003ad53fc36a2, type: 3}

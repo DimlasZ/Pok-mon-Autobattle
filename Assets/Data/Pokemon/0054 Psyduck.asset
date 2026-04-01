@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 54
   pokemonName: Psyduck
-  attack: 65
+  attack: 48
   hp: 49
   type1: Water
-  type2: 
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8958775005749798953, guid: 1deb27c8efed30e4ea030228435e075c, type: 3}

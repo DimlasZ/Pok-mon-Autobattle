@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 166
   pokemonName: Ledian
-  attack: 55
+  attack: 81
   hp: 94
-  type1: Bug
-  type2: Flying
+  type1: Flying
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: 6483027291694296437, guid: d9545ba5bcbeaad439aa21a582b4de43, type: 3}

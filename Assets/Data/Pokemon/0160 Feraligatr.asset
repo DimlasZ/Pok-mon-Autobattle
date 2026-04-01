@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 160
   pokemonName: Feraligatr
-  attack: 105
+  attack: 141
   hp: 164
   type1: Water
-  type2: 
   speed: 78
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: -5941929255770504377, guid: 7f08bd10cee69ac4fa684b5264077050, type: 3}

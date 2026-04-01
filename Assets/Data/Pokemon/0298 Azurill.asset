@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 298
   pokemonName: Azurill
-  attack: 20
+  attack: 28
   hp: 40
   type1: Normal
-  type2: Fairy
   speed: 20
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3968123694356174200, guid: ef77fd7866491c64db30a47c936bdda0, type: 3}

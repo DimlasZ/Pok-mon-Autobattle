@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 81
   pokemonName: Magnemite
-  attack: 95
+  attack: 77
   hp: 40
   type1: Electric
-  type2: Steel
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: -2235109128826748474, guid: 13ab44e3682f19c4b894f7e06a029cd0, type: 3}

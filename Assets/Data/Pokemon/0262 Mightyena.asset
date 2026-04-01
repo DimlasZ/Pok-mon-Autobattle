@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 262
   pokemonName: Mightyena
-  attack: 90
+  attack: 87
   hp: 88
   type1: Dark
-  type2: 
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1240048351464042680, guid: 5ddf02907e2734c479485da167e79b98, type: 3}

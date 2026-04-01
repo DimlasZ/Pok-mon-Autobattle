@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 325
   pokemonName: Spoink
-  attack: 70
+  attack: 61
   hp: 67
   type1: Psychic
-  type2: 
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5460891097381204744, guid: 836f69bf6f7deb14aa09374dd587ae14, type: 3}

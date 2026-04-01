@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 343
   pokemonName: Baltoy
-  attack: 40
+  attack: 41
   hp: 55
   type1: Ground
-  type2: Psychic
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -8888150875990982830, guid: a8281ab7ad30de84f95fdb69341c5257, type: 3}

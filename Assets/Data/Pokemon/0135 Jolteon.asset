@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 135
   pokemonName: Jolteon
-  attack: 110
+  attack: 147
   hp: 104
   type1: Electric
-  type2: 
   speed: 130
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -5483716807420139692, guid: 365a94b9c7a75304fb496db03725bdf9, type: 3}

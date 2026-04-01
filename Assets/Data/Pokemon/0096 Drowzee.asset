@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 96
   pokemonName: Drowzee
-  attack: 48
+  attack: 39
   hp: 82
   type1: Psychic
-  type2: 
   speed: 42
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 2324229058030912934, guid: 4b34367942fc62345bc54a1b56725c09, type: 3}

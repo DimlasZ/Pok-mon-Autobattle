@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 221
   pokemonName: Piloswine
-  attack: 100
+  attack: 135
   hp: 132
-  type1: Ice
-  type2: Ground
+  type1: Ground
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 3640259657627556073, guid: 7b0158126b2e9794b8098e41d041cc1c, type: 3}

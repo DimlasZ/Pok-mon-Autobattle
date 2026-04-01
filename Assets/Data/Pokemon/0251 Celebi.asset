@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 251
   pokemonName: Celebi
-  attack: 100
+  attack: 95
   hp: 215
   type1: Psychic
-  type2: Grass
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -878318580675279039, guid: b11ade1f92ff29b4786294513a260640, type: 3}

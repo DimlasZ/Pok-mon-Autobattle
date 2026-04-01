@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 98
   pokemonName: Krabby
-  attack: 105
+  attack: 36
   hp: 41
   type1: Water
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6873920487435183437, guid: 364484e945cc83745be94091aa69bc96, type: 3}

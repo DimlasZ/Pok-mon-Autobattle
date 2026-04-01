@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 108
   pokemonName: Lickitung
-  attack: 60
+  attack: 63
   hp: 132
   type1: Normal
-  type2: 
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 2035004692252095537, guid: 80000f9894447464e87455682928b41b, type: 3}

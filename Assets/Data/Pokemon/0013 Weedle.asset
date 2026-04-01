@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 13
   pokemonName: Weedle
-  attack: 35
+  attack: 21
   hp: 25
   type1: Bug
-  type2: Poison
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8618905811214120936, guid: 93ff9a35ba3c0714d96d0eda8434ea79, type: 3}

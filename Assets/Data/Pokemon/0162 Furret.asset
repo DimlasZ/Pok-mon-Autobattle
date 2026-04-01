@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 162
   pokemonName: Furret
-  attack: 76
+  attack: 84
   hp: 93
   type1: Normal
-  type2: 
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3730913226547341999, guid: 00d798eaee69c5a4e8cc6d75cd68560c, type: 3}

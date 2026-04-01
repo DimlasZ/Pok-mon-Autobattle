@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 55
   pokemonName: Golduck
-  attack: 95
+  attack: 129
   hp: 127
   type1: Water
-  type2: 
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -5745194097823127958, guid: e40d9946f109a944fbe5be35db117da7, type: 3}

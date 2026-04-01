@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 286
   pokemonName: Breloom
-  attack: 130
+  attack: 145
   hp: 85
   type1: Grass
-  type2: Fighting
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 9089122183192586182, guid: ad8975430ff2d88488cc771f454db683, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 65
   pokemonName: Alakazam
-  attack: 135
+  attack: 137
   hp: 79
   type1: Psychic
-  type2: 
   speed: 120
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3023020507628859623, guid: a24628285db6ecb4ebdf755f842e7244, type: 3}

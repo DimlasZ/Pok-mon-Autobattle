@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 363
   pokemonName: Spheal
-  attack: 55
+  attack: 51
   hp: 64
   type1: Ice
-  type2: Water
   speed: 25
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 480754777386747201, guid: 17712a1cb613ac847aa9771d4bd995f9, type: 3}

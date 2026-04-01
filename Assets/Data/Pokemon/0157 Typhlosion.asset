@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 157
   pokemonName: Typhlosion
-  attack: 109
+  attack: 179
   hp: 130
   type1: Fire
-  type2: 
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 6
+  ability: {fileID: 0}
   sprite: {fileID: -6234186711492481590, guid: e9d1eb187aff9434ba31abf2b98500db, type: 3}

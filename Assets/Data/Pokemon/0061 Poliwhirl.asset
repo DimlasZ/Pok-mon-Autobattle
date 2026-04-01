@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 61
   pokemonName: Poliwhirl
-  attack: 65
+  attack: 93
   hp: 72
   type1: Water
-  type2: 
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -2454530933429001023, guid: e4556e85118379442ac1c1a2dc00c121, type: 3}

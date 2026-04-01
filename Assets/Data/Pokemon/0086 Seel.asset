@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 86
   pokemonName: Seel
-  attack: 45
+  attack: 56
   hp: 79
   type1: Water
-  type2: 
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: 820051798531519193, guid: df3f1965d3b5e574d8005f5597acc3dd, type: 3}

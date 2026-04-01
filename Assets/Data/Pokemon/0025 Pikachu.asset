@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 25
   pokemonName: Pikachu
-  attack: 55
+  attack: 81
   hp: 36
   type1: Electric
-  type2: 
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: -8168109919182025848, guid: 515c01cf93dc91a47a68714f23c459a8, type: 3}

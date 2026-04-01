@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 303
   pokemonName: Mawile
-  attack: 85
+  attack: 92
   hp: 74
   type1: Steel
-  type2: Fairy
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 9214743672730045807, guid: 488d652c445e5f8449928fd4fb5b60dc, type: 3}

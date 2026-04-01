@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 145
   pokemonName: Zapdos
-  attack: 125
+  attack: 165
   hp: 162
   type1: Electric
-  type2: Flying
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 9020989402330292518, guid: 4de1cf8cdde174c40a34ed246cea2ce8, type: 3}

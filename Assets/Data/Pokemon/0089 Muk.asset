@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 89
   pokemonName: Muk
-  attack: 105
+  attack: 141
   hp: 187
   type1: Poison
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5428639447868157321, guid: 06779b60f705eca4ca85a7b740337fec, type: 3}

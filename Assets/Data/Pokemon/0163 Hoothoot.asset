@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 163
   pokemonName: Hoothoot
-  attack: 36
+  attack: 33
   hp: 49
-  type1: Normal
-  type2: Flying
+  type1: Flying
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: -385103945515508150, guid: f6097daa077a52e408354c6f344b2b06, type: 3}

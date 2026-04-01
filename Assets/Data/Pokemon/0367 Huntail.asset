@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 367
   pokemonName: Huntail
-  attack: 104
+  attack: 140
   hp: 109
   type1: Water
-  type2: 
   speed: 52
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -1821486000519645807, guid: d239dc7b656d502438cbc50197399ccf, type: 3}

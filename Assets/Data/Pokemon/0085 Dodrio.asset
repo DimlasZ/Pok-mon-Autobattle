@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 85
   pokemonName: Dodrio
-  attack: 110
+  attack: 180
   hp: 78
-  type1: Normal
-  type2: Flying
+  type1: Flying
   speed: 110
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: 7865956295615477396, guid: e220f4e3e1ced9c43983688845125916, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 17
   pokemonName: Pidgeotto
-  attack: 60
+  attack: 51
   hp: 63
-  type1: Normal
-  type2: Flying
+  type1: Flying
   speed: 71
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 11400000, guid: efa94d6eea684794ba13d0faf2f390fa, type: 2}
   sprite: {fileID: 8792922005796137857, guid: 64c202747cf6e8340881be612c7ceeb3, type: 3}

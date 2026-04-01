@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 238
   pokemonName: Smoochum
-  attack: 85
+  attack: 49
   hp: 38
   type1: Ice
-  type2: Psychic
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5903272762477485573, guid: cdf76f5e0dcec4d4686a168c7161a50d, type: 3}

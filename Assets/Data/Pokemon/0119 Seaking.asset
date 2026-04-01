@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 119
   pokemonName: Seaking
-  attack: 92
+  attack: 89
   hp: 114
   type1: Water
-  type2: 
   speed: 68
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -6911487774970371015, guid: f95dd952a8007f6408a5153b9f35acd3, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 269
   pokemonName: Dustox
-  attack: 50
+  attack: 60
   hp: 101
   type1: Bug
-  type2: Poison
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3835377263833443357, guid: 874fdb997cfdc2543a7b36d0a373c49a, type: 3}

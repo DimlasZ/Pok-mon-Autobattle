@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 311
   pokemonName: Plusle
-  attack: 85
+  attack: 117
   hp: 67
   type1: Electric
-  type2: 
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: 3780237590136885954, guid: 0b0c579dff1d46c4bb8577fef6fe2631, type: 3}

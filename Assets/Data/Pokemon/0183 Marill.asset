@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 183
   pokemonName: Marill
-  attack: 20
+  attack: 19
   hp: 64
   type1: Water
-  type2: Fairy
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1727627709101658615, guid: 5400647701063da41b6a3fa7025b84db, type: 3}

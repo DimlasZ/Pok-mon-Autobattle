@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 121
   pokemonName: Starmie
-  attack: 100
+  attack: 135
   hp: 109
   type1: Water
-  type2: Psychic
   speed: 115
-  tier: 1
-  abilityID: 
+  tier: 6
+  ability: {fileID: 0}
   sprite: {fileID: 4053139908363080438, guid: 4bbcab9f953f2c94b9ea76b1b003a0d4, type: 3}

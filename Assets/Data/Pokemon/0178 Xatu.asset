@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 178
   pokemonName: Xatu
-  attack: 95
+  attack: 101
   hp: 91
-  type1: Psychic
-  type2: Flying
+  type1: Flying
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 4
+  ability: {fileID: 0}
   sprite: {fileID: 7941646142378962312, guid: 6ea2c1d1147a5114fbbb3421b1988a05, type: 3}

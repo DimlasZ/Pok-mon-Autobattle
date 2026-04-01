@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 80
   pokemonName: Slowbro
-  attack: 100
+  attack: 105
   hp: 191
   type1: Water
-  type2: Psychic
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -2328907735754614623, guid: 44297c7e1328114459d86fadd07c730b, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 378
   pokemonName: Regice
-  attack: 100
+  attack: 135
   hp: 309
   type1: Ice
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7443911276089981748, guid: b1d68900c8d34dd4691a82e1afbb90a8, type: 3}

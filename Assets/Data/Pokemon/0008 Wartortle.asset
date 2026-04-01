@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 8
   pokemonName: Wartortle
-  attack: 65
+  attack: 41
   hp: 99
   type1: Water
-  type2: 
   speed: 58
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 11400000, guid: 3d61535961bed6744a3ac2c82a824eab, type: 2}
   sprite: {fileID: 8080042981286147232, guid: 27a8f7b702f6a3b469c0e08b8853aa49, type: 3}

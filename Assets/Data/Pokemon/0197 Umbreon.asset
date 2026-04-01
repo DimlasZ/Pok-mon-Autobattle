@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 197
   pokemonName: Umbreon
-  attack: 65
+  attack: 54
   hp: 265
   type1: Dark
-  type2: 
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6447266389017475508, guid: 646aa19fd9ca5e8479b1bed0249d41ab, type: 3}

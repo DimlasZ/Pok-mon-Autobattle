@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 130
   pokemonName: Gyarados
-  attack: 125
+  attack: 165
   hp: 176
   type1: Water
-  type2: Flying
   speed: 81
-  tier: 1
-  abilityID: 
+  tier: 6
+  ability: {fileID: 0}
   sprite: {fileID: -154968669079002191, guid: 0a094e96aa0605f4db0bc6b9e85bfe14, type: 3}

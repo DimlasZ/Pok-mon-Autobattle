@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 291
   pokemonName: Ninjask
-  attack: 90
+  attack: 87
   hp: 55
   type1: Bug
-  type2: Flying
   speed: 160
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6466033504545129378, guid: 5f8233ace343da6408f177e9690c562a, type: 3}

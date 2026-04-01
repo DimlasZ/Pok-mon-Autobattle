@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 271
   pokemonName: Lombre
-  attack: 60
+  attack: 87
   hp: 71
   type1: Water
-  type2: Grass
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: 8198885706130841860, guid: f70d113fd1c877e4d90323550be8f402, type: 3}

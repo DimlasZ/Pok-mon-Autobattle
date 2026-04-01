@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 37
   pokemonName: Vulpix
-  attack: 50
+  attack: 63
   hp: 44
   type1: Fire
-  type2: 
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: 3936495470526350596, guid: 084e5a344ac50e4418efc8b68e720017, type: 3}

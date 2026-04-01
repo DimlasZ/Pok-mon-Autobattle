@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 128
   pokemonName: Tauros
-  attack: 100
+  attack: 165
   hp: 127
   type1: Normal
-  type2: 
   speed: 110
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3642850989884392111, guid: dbb87a4b5735c7d4ab066882a7a37863, type: 3}

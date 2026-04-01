@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 375
   pokemonName: Metang
-  attack: 75
+  attack: 53
   hp: 117
   type1: Steel
-  type2: Psychic
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -4147696323066915844, guid: 7177a6ab63cbac34097e457dc7d9a709, type: 3}

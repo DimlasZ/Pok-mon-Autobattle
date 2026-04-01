@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 324
   pokemonName: Torkoal
-  attack: 85
+  attack: 100
   hp: 166
   type1: Fire
-  type2: 
   speed: 20
-  tier: 1
-  abilityID: 
+  tier: 6
+  ability: {fileID: 0}
   sprite: {fileID: 3358800188011017905, guid: 1d332a0c755954849be44921fdf2c333, type: 3}

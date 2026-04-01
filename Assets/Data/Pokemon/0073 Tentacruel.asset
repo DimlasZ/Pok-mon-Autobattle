@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 73
   pokemonName: Tentacruel
-  attack: 80
+  attack: 111
   hp: 157
   type1: Water
-  type2: Poison
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: 203864989330968766, guid: 65bb691f3f52bcf4bbd6db9c45c67913, type: 3}

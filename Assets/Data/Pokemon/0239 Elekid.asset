@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 239
   pokemonName: Elekid
-  attack: 65
+  attack: 64
   hp: 43
   type1: Electric
-  type2: 
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -6974057741594100608, guid: d8b816816c2ea50429dd8bbab28d2ee1, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 339
   pokemonName: Barboach
-  attack: 48
+  attack: 47
   hp: 42
   type1: Water
-  type2: Ground
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -4111341447118966381, guid: 924b3723c3c83f8439d682cbb44b8046, type: 3}

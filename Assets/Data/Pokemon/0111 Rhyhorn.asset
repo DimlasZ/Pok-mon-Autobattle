@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 111
   pokemonName: Rhyhorn
-  attack: 85
+  attack: 79
   hp: 94
   type1: Ground
-  type2: Rock
   speed: 25
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -337529084853391875, guid: 3a99fdc705d5aa24181ee6833a95d973, type: 3}

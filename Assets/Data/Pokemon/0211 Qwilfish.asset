@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 211
   pokemonName: Qwilfish
-  attack: 95
+  attack: 129
   hp: 91
   type1: Water
-  type2: Poison
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1328163505516724464, guid: 7d2469d54591ac74482626b7cf91c8d7, type: 3}

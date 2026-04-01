@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 49
   pokemonName: Venomoth
-  attack: 90
+  attack: 60
   hp: 93
   type1: Bug
-  type2: Poison
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1631324472323463969, guid: acc3ba93bc3df5a43bfb416f53ffafac, type: 3}

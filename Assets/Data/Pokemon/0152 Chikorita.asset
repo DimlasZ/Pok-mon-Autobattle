@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 152
   pokemonName: Chikorita
-  attack: 49
+  attack: 42
   hp: 62
   type1: Grass
-  type2: 
   speed: 45
   tier: 1
-  abilityID: 
+  ability: {fileID: 0}
   sprite: {fileID: 8642657595741410745, guid: 39938880c953e0844af59b3ba0250d1b, type: 3}

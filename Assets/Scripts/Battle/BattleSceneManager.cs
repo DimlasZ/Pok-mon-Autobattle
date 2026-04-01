@@ -146,7 +146,7 @@ public class BattleSceneManager : MonoBehaviour
 
             // First Pokemon attacks
             string attackLog = GetAttackLog(first, second);
-            BattleManager.Instance.Attack(first, second);
+            BattleManager.Instance.Attack(first, second, playerGoesFirst ? playerTeam : enemyTeam, playerGoesFirst ? enemyTeam : playerTeam);
             Log(attackLog);
             RefreshHP();
             yield return WaitForPlayback();
@@ -160,7 +160,7 @@ public class BattleSceneManager : MonoBehaviour
             {
                 // Second Pokemon attacks back
                 string counterLog = GetAttackLog(second, first);
-                BattleManager.Instance.Attack(second, first);
+                BattleManager.Instance.Attack(second, first, playerGoesFirst ? enemyTeam : playerTeam, playerGoesFirst ? playerTeam : enemyTeam);
                 Log(counterLog);
                 RefreshHP();
                 yield return WaitForPlayback();
@@ -232,8 +232,7 @@ public class BattleSceneManager : MonoBehaviour
     {
         float multiplier = TypeChart.GetMultiplier(
             attacker.baseData.type1,
-            defender.baseData.type1,
-            defender.baseData.type2
+            defender.baseData.type1
         );
 
         int damage = Mathf.CeilToInt(attacker.attack * multiplier);

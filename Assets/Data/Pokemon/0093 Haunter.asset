@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 93
   pokemonName: Haunter
-  attack: 115
+  attack: 107
   hp: 47
   type1: Ghost
-  type2: Poison
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8559523246080902964, guid: 2097d230ed1ca6345b4ae1b1a4d88d7f, type: 3}

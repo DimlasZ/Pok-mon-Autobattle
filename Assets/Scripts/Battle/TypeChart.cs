@@ -141,17 +141,10 @@ public static class TypeChart
         }
     };
 
-    // Returns the damage multiplier for an attack of attackType hitting a Pokemon
-    // with type1 and type2. Pass "" for type2 if the defender is single-type.
-    public static float GetMultiplier(string attackType, string defenderType1, string defenderType2)
+    // Returns the damage multiplier for an attack of attackType hitting a Pokemon with defenderType.
+    public static float GetMultiplier(string attackType, string defenderType)
     {
-        float multiplier = GetSingleMultiplier(attackType, defenderType1);
-
-        // If defender has a second type, multiply again
-        if (!string.IsNullOrEmpty(defenderType2))
-            multiplier *= GetSingleMultiplier(attackType, defenderType2);
-
-        return multiplier;
+        return GetSingleMultiplier(attackType, defenderType);
     }
 
     // Returns the multiplier for a single type matchup

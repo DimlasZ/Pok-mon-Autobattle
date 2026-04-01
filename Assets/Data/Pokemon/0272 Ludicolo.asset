@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 272
   pokemonName: Ludicolo
-  attack: 90
+  attack: 123
   hp: 140
   type1: Water
-  type2: Grass
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: -4806272104496087844, guid: 13354dd128ab3344b963c2e9b3c966c9, type: 3}

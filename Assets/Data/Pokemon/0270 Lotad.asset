@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 270
   pokemonName: Lotad
-  attack: 40
+  attack: 23
   hp: 35
   type1: Water
-  type2: Grass
   speed: 30
   tier: 1
-  abilityID: 
+  ability: {fileID: 0}
   sprite: {fileID: 1806803338886857397, guid: dc78f660a5635d64b97ecde6afc2c660, type: 3}

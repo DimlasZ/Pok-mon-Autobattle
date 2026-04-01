@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 164
   pokemonName: Noctowl
-  attack: 86
+  attack: 93
   hp: 140
-  type1: Normal
-  type2: Flying
+  type1: Flying
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 4
+  ability: {fileID: 0}
   sprite: {fileID: 874068388577374651, guid: 1a63147e83a9b724291f63354f92cee3, type: 3}

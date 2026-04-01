@@ -16,9 +16,8 @@ MonoBehaviour:
   pokemonName: Wooper
   attack: 45
   hp: 38
-  type1: Water
-  type2: Ground
+  type1: Ground
   speed: 15
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1042425053278603357, guid: 9a9e2fc512f01ff4985ca7e7c2763ee6, type: 3}

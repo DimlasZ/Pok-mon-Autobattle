@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 223
   pokemonName: Remoraid
-  attack: 65
+  attack: 58
   hp: 29
   type1: Water
-  type2: 
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5115550513759990948, guid: 884f382632f78ba40bf9ecf52d5a0349, type: 3}

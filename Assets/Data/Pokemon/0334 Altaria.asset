@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 334
   pokemonName: Altaria
-  attack: 70
+  attack: 113
   hp: 159
-  type1: Dragon
-  type2: Flying
+  type1: Flying
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: 8972486027526558438, guid: fb55592080257f04fa7f9bbd64a22283, type: 3}

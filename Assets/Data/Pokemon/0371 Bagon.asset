@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 371
   pokemonName: Bagon
-  attack: 75
+  attack: 68
   hp: 42
   type1: Dragon
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7392013325498499270, guid: 9f62367ae16fbb34f926591dfdc592b2, type: 3}

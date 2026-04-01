@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 141
   pokemonName: Kabutops
-  attack: 115
+  attack: 153
   hp: 113
   type1: Rock
-  type2: Water
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1051513539034012392, guid: 24021a861a9abd14b9a79e7b46088737, type: 3}

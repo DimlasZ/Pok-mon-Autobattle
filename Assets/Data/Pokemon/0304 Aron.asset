@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 304
   pokemonName: Aron
-  attack: 70
+  attack: 50
   hp: 74
   type1: Steel
-  type2: Rock
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -792024913991470570, guid: 241916a6691679f4494ad0d27f9ffe3b, type: 3}

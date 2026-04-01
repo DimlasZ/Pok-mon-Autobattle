@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 326
   pokemonName: Grumpig
-  attack: 90
+  attack: 96
   hp: 146
   type1: Psychic
-  type2: 
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 9079559512319532713, guid: d1b03d31a9c8bc34c842b7f0107590b0, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 369
   pokemonName: Relicanth
-  attack: 90
+  attack: 123
   hp: 208
   type1: Water
-  type2: Rock
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -431172856295931627, guid: c7ad9cee927dd1548842f7f04c6ee75f, type: 3}

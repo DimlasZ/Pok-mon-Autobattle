@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 309
   pokemonName: Electrike
-  attack: 65
+  attack: 58
   hp: 35
   type1: Electric
-  type2: 
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1317234459087937388, guid: 9684021feeb09fa49a1d9e114f4357e0, type: 3}

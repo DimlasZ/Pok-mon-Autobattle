@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 336
   pokemonName: Seviper
-  attack: 100
+  attack: 135
   hp: 83
   type1: Poison
-  type2: 
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 821148548998077410, guid: c09e39a1f6e4ff74597afed1e8745ed7, type: 3}

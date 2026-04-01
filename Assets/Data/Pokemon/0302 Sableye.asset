@@ -17,8 +17,7 @@ MonoBehaviour:
   attack: 75
   hp: 74
   type1: Dark
-  type2: Ghost
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 3026109889069715304, guid: 054a64d2b9112964cbb0b1ae0ab17de1, type: 3}

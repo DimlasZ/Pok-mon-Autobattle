@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 193
   pokemonName: Yanma
-  attack: 75
+  attack: 83
   hp: 54
   type1: Bug
-  type2: Flying
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -5878551986126534238, guid: ff8524a4a938f8c46833bae221a0790f, type: 3}

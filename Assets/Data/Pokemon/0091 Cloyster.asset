@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 91
   pokemonName: Cloyster
-  attack: 95
+  attack: 129
   hp: 134
   type1: Water
-  type2: Ice
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: 1153417302907795093, guid: 2a33801f61442e541b9e9bbcfb8c820c, type: 3}

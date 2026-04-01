@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 384
   pokemonName: Rayquaza
-  attack: 150
+  attack: 225
   hp: 194
   type1: Dragon
-  type2: Flying
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3685304768763807316, guid: 4cb0e38b3e9d43b4f921d1bc59309b75, type: 3}

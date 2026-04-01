@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 346
   pokemonName: Cradily
-  attack: 81
+  attack: 80
   hp: 192
   type1: Rock
-  type2: Grass
   speed: 43
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 3969464178946257421, guid: c0be9f253e5feaa4cb0c0aa5839777e2, type: 3}

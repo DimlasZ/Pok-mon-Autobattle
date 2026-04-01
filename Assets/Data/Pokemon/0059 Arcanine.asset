@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 59
   pokemonName: Arcanine
-  attack: 110
+  attack: 147
   hp: 144
   type1: Fire
-  type2: 
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 6
+  ability: {fileID: 0}
   sprite: {fileID: -5719579118085658379, guid: 940063e540467b74dbf85b22a2749764, type: 3}

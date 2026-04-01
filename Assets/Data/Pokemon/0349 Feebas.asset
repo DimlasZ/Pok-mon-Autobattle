@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 349
   pokemonName: Feebas
-  attack: 15
+  attack: 21
   hp: 24
   type1: Water
-  type2: 
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 2839151074471267827, guid: c9d983c9992276544a3b6915f43f6524, type: 3}

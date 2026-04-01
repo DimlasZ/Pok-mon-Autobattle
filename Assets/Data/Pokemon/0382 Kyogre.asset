@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 382
   pokemonName: Kyogre
-  attack: 150
+  attack: 240
   hp: 262
   type1: Water
-  type2: 
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 851773422268854725, guid: f90e28f89b5c5b74f897293d62e984e7, type: 3}

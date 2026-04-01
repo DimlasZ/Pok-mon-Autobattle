@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 34
   pokemonName: Nidoking
-  attack: 102
+  attack: 97
   hp: 122
   type1: Poison
-  type2: Ground
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7191300327089440462, guid: 08df34bad93e77646a85bf7981a5e342, type: 3}

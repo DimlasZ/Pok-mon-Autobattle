@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 185
   pokemonName: Sudowoodo
-  attack: 100
+  attack: 115
   hp: 135
   type1: Rock
-  type2: 
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1820723559803022878, guid: c23791b10423a394aaaf0b628a69a099, type: 3}

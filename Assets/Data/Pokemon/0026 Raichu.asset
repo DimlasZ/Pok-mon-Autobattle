@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 26
   pokemonName: Raichu
-  attack: 90
+  attack: 123
   hp: 82
   type1: Electric
-  type2: 
   speed: 110
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: 3581099734582342990, guid: 1d2326081b98ab74aa1f45ff877ec212, type: 3}

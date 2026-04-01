@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 87
   pokemonName: Dewgong
-  attack: 70
+  attack: 82
   hp: 162
   type1: Water
-  type2: Ice
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 4
+  ability: {fileID: 0}
   sprite: {fileID: -1050301038988382279, guid: eb4ba01c16997354296dab9b4cf19aba, type: 3}

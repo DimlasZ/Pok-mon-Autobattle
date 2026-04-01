@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 289
   pokemonName: Slaking
-  attack: 160
+  attack: 255
   hp: 240
   type1: Normal
-  type2: 
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 4803441882199252010, guid: eb5a9ee4575099d4ab5a3f8755cb5607, type: 3}

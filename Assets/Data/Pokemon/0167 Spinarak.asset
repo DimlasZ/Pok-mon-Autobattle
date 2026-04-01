@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 167
   pokemonName: Spinarak
-  attack: 60
+  attack: 27
   hp: 35
   type1: Bug
-  type2: Poison
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8069950550863428223, guid: 7cdf9cd7ded701f4b8557b473b5a1072, type: 3}

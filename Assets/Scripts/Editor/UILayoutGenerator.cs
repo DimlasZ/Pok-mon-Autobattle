@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
+using UnityEditor.SceneManagement;
 using TMPro;
 using UnityEditor.Events;
 
@@ -31,6 +32,18 @@ public class UILayoutGenerator
         scaler.matchWidthOrHeight = 0.5f;
 
         Transform root = canvas.transform;
+
+        // --- Destroy existing panels so re-running doesn't stack duplicates ---
+        string[] managedNames = { "TopBar", "ShopPanel", "BattlePanel", "BenchPanel", "ActionPanel", "StartBattleButton", "Tooltip" };
+        foreach (string n in managedNames)
+        {
+            // Destroy ALL children with this name (handles accidental duplicates)
+            var found = new System.Collections.Generic.List<Transform>();
+            foreach (Transform child in root)
+                if (child.name == n) found.Add(child);
+            foreach (var t in found)
+                Undo.DestroyObjectImmediate(t.gameObject);
+        }
 
         // --- Top Bar ---
         var topBar = CreatePanel(root, "TopBar", new Vector2(1920, 70), new Vector2(0, 475));
@@ -70,12 +83,12 @@ public class UILayoutGenerator
         SetColor(benchPanel, new Color(0.08f, 0.18f, 0.08f, 0.95f));
         CreateLabel(benchPanel.transform, "BenchLabel", "BENCH", new Vector2(-820, 75));
 
-        var benchRow = CreatePanel(benchPanel.transform, "BenchSlotsRow", new Vector2(960, 190), new Vector2(0, -5));
+        var benchRow = CreatePanel(benchPanel.transform, "BenchSlotsRow", new Vector2(1250, 190), new Vector2(0, -5));
         SetColor(benchRow, Color.clear);
         AddHorizontalLayout(benchRow, 10);
         var benchSlots = new PokemonSlotUI[6];
         for (int i = 0; i < 6; i++)
-            benchSlots[i] = CreateSlot(benchRow.transform, $"BenchSlot_{i}", new Vector2(148, 185));
+            benchSlots[i] = CreateSlot(benchRow.transform, $"BenchSlot_{i}", new Vector2(200, 185));
 
         // --- Action Buttons Panel ---
         var actionPanel = CreatePanel(root, "ActionPanel", new Vector2(1920, 80), new Vector2(0, -430));
@@ -90,8 +103,12 @@ public class UILayoutGenerator
         SetButtonColor(startBattleBtn, new Color(0.8f, 0.2f, 0.2f));
 
         // --- UIManager ---
-        var uiManagerGO = GameObject.Find("UIManager") ?? new GameObject("UIManager");
-        Undo.RegisterCreatedObjectUndo(uiManagerGO, "Create UIManager");
+        var uiManagerGO = GameObject.Find("UIManager");
+        if (uiManagerGO == null)
+        {
+            uiManagerGO = new GameObject("UIManager");
+            Undo.RegisterCreatedObjectUndo(uiManagerGO, "Create UIManager");
+        }
 
         var uiManager = uiManagerGO.GetComponent<UIManager>() ?? uiManagerGO.AddComponent<UIManager>();
 
@@ -115,8 +132,12 @@ public class UILayoutGenerator
         SetupSlots(battleSlots, ShopManager.SelectionSource.Battle);
         SetupSlots(benchSlots,  ShopManager.SelectionSource.Bench);
 
+        // --- Tooltip Panel ---
+        UIGeneratorHelpers.CreateTooltip(root);
+
         EditorUtility.SetDirty(uiManagerGO);
         EditorUtility.SetDirty(canvas.gameObject);
+        EditorSceneManager.SaveOpenScenes();
 
         Debug.Log("UI Layout generated! Check your scene.");
     }
@@ -170,22 +191,52 @@ public class UILayoutGenerator
         var spriteRect  = spriteGO.AddComponent<RectTransform>();
         var spriteImage = spriteGO.AddComponent<Image>();
         spriteGO.transform.SetParent(go.transform, false);
-        spriteRect.anchoredPosition = new Vector2(0, 20);
-        spriteRect.sizeDelta        = new Vector2(size.x - 20, size.y - 65);
-        spriteImage.preserveAspect  = true;
-        spriteImage.color           = Color.white;
-        slotUI.pokemonSprite        = spriteImage;
+        spriteRect.anchoredPosition          = new Vector2(18f, 25f);
+        spriteRect.sizeDelta                 = new Vector2(180f, 120f);
+        spriteGO.transform.localEulerAngles  = new Vector3(0f, -180f, 0f);
+        spriteImage.preserveAspect           = true;
+        spriteImage.color                    = Color.white;
+        slotUI.pokemonSprite                 = spriteImage;
 
-        // Health bar — sits below the sprite, above the stat row
-        float barY = -size.y / 2 + 52;
-        var barBg   = new GameObject("HealthBarBG");
-        var barBgR  = barBg.AddComponent<RectTransform>();
-        var barBgI  = barBg.AddComponent<Image>();
-        barBg.transform.SetParent(go.transform, false);
-        barBgR.anchoredPosition = new Vector2(0, barY);
-        barBgR.sizeDelta        = new Vector2(size.x - 20, 8);
-        barBgI.color            = new Color(0.15f, 0.15f, 0.15f, 1f);
+        // Load HP bar sprites
+        Sprite hpBarBoxSprite   = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/UI/BattleBoxOverlay.png");
+        Sprite hpBarTrackSprite = null;
+        foreach (var a in AssetDatabase.LoadAllAssetsAtPath("Assets/Sprites/UI/BattleUI_sheet3.png"))
+            if (a is Sprite s && s.name == "HPBarTrack") { hpBarTrackSprite = s; break; }
 
+        // HP Bar Box (sprite frame)
+        var hpBox  = new GameObject("HPBarBox");
+        var hpBoxR = hpBox.AddComponent<RectTransform>();
+        var hpBoxI = hpBox.AddComponent<Image>();
+        hpBox.transform.SetParent(go.transform, false);
+        hpBoxR.anchoredPosition = new Vector2(0f, -20.8f);
+        hpBoxR.sizeDelta        = new Vector2(186f, 124f);
+        if (hpBarBoxSprite != null) { hpBoxI.sprite = hpBarBoxSprite; hpBoxI.type = Image.Type.Sliced; }
+        else hpBoxI.color = new Color(0.1f, 0.1f, 0.3f, 0.9f);
+        slotUI.hpBarBox = hpBoxI;
+
+        // Speed icon (child of HPBarBox)
+        Sprite speedIconSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Sprites/UI/flash.png");
+        var speedIconGO   = new GameObject("SpeedImage");
+        var speedIconRect = speedIconGO.AddComponent<RectTransform>();
+        var speedIconImg  = speedIconGO.AddComponent<Image>();
+        speedIconGO.transform.SetParent(hpBox.transform, false);
+        speedIconRect.anchoredPosition = new Vector2(-80f, 5f);
+        speedIconRect.sizeDelta        = new Vector2(15f, 15f);
+        if (speedIconSprite != null) speedIconImg.sprite = speedIconSprite;
+        speedIconImg.color = Color.white;
+
+        // HP Bar Track (child of box)
+        var barBg  = new GameObject("HealthBarBG");
+        var barBgR = barBg.AddComponent<RectTransform>();
+        var barBgI = barBg.AddComponent<Image>();
+        barBg.transform.SetParent(hpBox.transform, false);
+        barBgR.anchoredPosition = new Vector2(39f, -37.6f);
+        barBgR.sizeDelta        = new Vector2(86f, 5f);
+        if (hpBarTrackSprite != null) { barBgI.sprite = hpBarTrackSprite; barBgI.type = Image.Type.Sliced; }
+        else barBgI.color = new Color(0.15f, 0.15f, 0.15f, 1f);
+
+        // HP Fill (child of track)
         var barFill  = new GameObject("HealthBarFill");
         var barFillR = barFill.AddComponent<RectTransform>();
         var barFillI = barFill.AddComponent<Image>();
@@ -198,29 +249,30 @@ public class UILayoutGenerator
         slotUI.healthBarFill = barFillI;
 
         float third = size.x / 3f;
-        float bottom = -size.y / 2 + 18;
 
-        // Attack — bottom left in layout (appears on the right when slot is flipped for player)
-        slotUI.attackText = CreateTMPText(go.transform, "AttackText", "", 28,
-            new Vector2(-third, bottom), new Vector2(third, 36));
-        slotUI.attackText.alignment = TextAlignmentOptions.Left;
+        // Attack
+        slotUI.attackText = CreateTMPText(go.transform, "AttackText", "", 23,
+            new Vector2(-40.3f, 21.3f), new Vector2(third, 36));
+        slotUI.attackText.alignment        = TextAlignmentOptions.Left;
+        slotUI.attackText.fontStyle        = FontStyles.Bold;
+        slotUI.attackText.characterSpacing = -10;
+        slotUI.attackText.color            = new Color(36/255f, 36/255f, 36/255f);
 
-        // Speed — bottom center
-        slotUI.speedText = CreateTMPText(go.transform, "SpeedText", "", 28,
-            new Vector2(0, bottom), new Vector2(third, 36));
-        slotUI.speedText.alignment = TextAlignmentOptions.Center;
+        // Speed
+        slotUI.speedText = CreateTMPText(go.transform, "SpeedText", "", 23,
+            new Vector2(-65.5f, -18f), new Vector2(third, 36));
+        slotUI.speedText.alignment        = TextAlignmentOptions.Center;
+        slotUI.speedText.fontStyle        = FontStyles.Bold;
+        slotUI.speedText.characterSpacing = -10;
+        slotUI.speedText.color            = new Color(36/255f, 36/255f, 36/255f);
 
         // HP — bottom right in layout (appears on the left when slot is flipped for player)
-        slotUI.hpText = CreateTMPText(go.transform, "HPText", "", 28,
-            new Vector2(third, bottom), new Vector2(third, 36));
-        slotUI.hpText.alignment = TextAlignmentOptions.Right;
-
-        // All shop-scene slots show player Pokemon — flip entire slot to face right
-        slotUI.flipSlot = true;
-        go.transform.localScale                = new Vector3(-1f, 1f, 1f);
-        slotUI.attackText.transform.localScale = new Vector3(-1f, 1f, 1f);
-        slotUI.speedText.transform.localScale  = new Vector3(-1f, 1f, 1f);
-        slotUI.hpText.transform.localScale     = new Vector3(-1f, 1f, 1f);
+        slotUI.hpText = CreateTMPText(go.transform, "HPText", "", 23,
+            new Vector2(-67.5f, -60.5f), new Vector2(third, 36));
+        slotUI.hpText.alignment        = TextAlignmentOptions.Right;
+        slotUI.hpText.fontStyle        = FontStyles.Bold;
+        slotUI.hpText.characterSpacing = -10;
+        slotUI.hpText.color            = new Color(36/255f, 36/255f, 36/255f);
 
         return slotUI;
     }

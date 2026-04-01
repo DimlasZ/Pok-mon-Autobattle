@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 182
   pokemonName: Bellossom
-  attack: 90
+  attack: 96
   hp: 159
   type1: Grass
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 540967335863412136, guid: 186aa1f0c3b49a74a95734c60c89303b, type: 3}

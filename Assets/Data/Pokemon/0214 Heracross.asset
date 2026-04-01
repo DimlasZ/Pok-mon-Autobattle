@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 214
   pokemonName: Heracross
-  attack: 125
+  attack: 165
   hp: 140
   type1: Bug
-  type2: Fighting
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8259367060370454143, guid: cbbf3b68c9b5e864aae16b61695fc336, type: 3}

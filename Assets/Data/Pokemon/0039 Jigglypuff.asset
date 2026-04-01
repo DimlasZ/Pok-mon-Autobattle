@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 39
   pokemonName: Jigglypuff
-  attack: 45
+  attack: 69
   hp: 40
   type1: Normal
-  type2: 
   speed: 20
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7019020025108009706, guid: e6468833c0d617142b4eea5886d6c2c5, type: 3}

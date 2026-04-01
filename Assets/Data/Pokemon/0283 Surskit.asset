@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 283
   pokemonName: Surskit
-  attack: 50
+  attack: 48
   hp: 37
   type1: Bug
-  type2: Water
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8661308063642574608, guid: 118789a0a04ce75479ebbc96e3f28f14, type: 3}

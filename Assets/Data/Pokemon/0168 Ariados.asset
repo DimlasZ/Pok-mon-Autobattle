@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 168
   pokemonName: Ariados
-  attack: 90
+  attack: 33
   hp: 97
   type1: Bug
-  type2: Poison
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3272743355065630123, guid: 20066d8e18111594eb5ef42c6786d2be, type: 3}

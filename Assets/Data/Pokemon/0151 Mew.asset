@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 151
   pokemonName: Mew
-  attack: 100
+  attack: 105
   hp: 215
   type1: Psychic
-  type2: 
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6645684104271157284, guid: 40c37a6195d9d06408cfb8f79f62ad08, type: 3}

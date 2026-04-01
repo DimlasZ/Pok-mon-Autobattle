@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 186
   pokemonName: Politoed
-  attack: 90
+  attack: 123
   hp: 162
   type1: Water
-  type2: 
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3719967748343155801, guid: 1c2559399d8c4094d8349011a60e44bf, type: 3}

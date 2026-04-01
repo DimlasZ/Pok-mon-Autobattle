@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 232
   pokemonName: Donphan
-  attack: 120
+  attack: 135
   hp: 169
   type1: Ground
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -6565924468517702870, guid: 0770bc9327407384db8d98df34ba78af, type: 3}

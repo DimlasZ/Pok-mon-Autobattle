@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 60
   pokemonName: Poliwag
-  attack: 50
+  attack: 35
   hp: 35
   type1: Water
-  type2: 
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8561707345634901358, guid: 4eb99028a3f1e6240a79820a21f71bc1, type: 3}

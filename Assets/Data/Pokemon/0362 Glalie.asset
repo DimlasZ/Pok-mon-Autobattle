@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 362
   pokemonName: Glalie
-  attack: 80
+  attack: 111
   hp: 129
   type1: Ice
-  type2: 
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 3325034661708362845, guid: 844d47f806878e049b60cb453d6b0350, type: 3}

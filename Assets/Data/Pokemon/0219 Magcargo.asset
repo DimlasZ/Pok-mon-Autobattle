@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 219
   pokemonName: Magcargo
-  attack: 90
+  attack: 101
   hp: 135
   type1: Fire
-  type2: Rock
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7978123538866781351, guid: 763b789c99d235248b4c0ad014fa9d30, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 114
   pokemonName: Tangela
-  attack: 100
+  attack: 75
   hp: 104
   type1: Grass
-  type2: 
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3452529926588241664, guid: 2d4eab7b9d55657428f543ef53d74fd8, type: 3}

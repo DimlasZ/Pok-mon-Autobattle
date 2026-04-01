@@ -17,8 +17,7 @@ MonoBehaviour:
   attack: 75
   hp: 309
   type1: Steel
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -4356423836366556429, guid: 48e320da8773c7d468d3917974460739, type: 3}

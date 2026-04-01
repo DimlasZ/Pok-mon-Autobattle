@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 342
   pokemonName: Crawdaunt
-  attack: 120
+  attack: 123
   hp: 89
   type1: Water
-  type2: Dark
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7679079306067634135, guid: 35d4a32abf278694b96a17e2cc6ad4e5, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 158
   pokemonName: Totodile
-  attack: 65
+  attack: 41
   hp: 57
   type1: Water
-  type2: 
   speed: 43
   tier: 1
-  abilityID: 
+  ability: {fileID: 0}
   sprite: {fileID: 120414375827776358, guid: 5f95f3f19b65ad84a8ad7e186127ad29, type: 3}

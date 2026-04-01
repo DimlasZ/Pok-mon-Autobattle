@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 260
   pokemonName: Swampert
-  attack: 110
+  attack: 147
   hp: 186
   type1: Water
-  type2: Ground
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 6
+  ability: {fileID: 0}
   sprite: {fileID: 8974217312335422644, guid: 4d51578ccd735a34f90ccd62d609f00c, type: 3}

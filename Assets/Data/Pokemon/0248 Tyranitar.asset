@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 248
   pokemonName: Tyranitar
-  attack: 134
+  attack: 149
   hp: 230
-  type1: Rock
-  type2: Dark
+  type1: Ground
   speed: 61
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 394947032727991543, guid: 7882a1d4e57635b4bb32461683d721e7, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 281
   pokemonName: Kirlia
-  attack: 65
+  attack: 48
   hp: 38
   type1: Psychic
-  type2: Fairy
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3319916498463135741, guid: 5dd7386b341883d49a8d2f1b04433ba4, type: 3}

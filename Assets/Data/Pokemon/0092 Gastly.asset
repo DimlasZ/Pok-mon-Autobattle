@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 92
   pokemonName: Gastly
-  attack: 100
+  attack: 35
   hp: 26
   type1: Ghost
-  type2: Poison
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -2333754045699280062, guid: 76c720393b099224185edf3cecb155d5, type: 3}

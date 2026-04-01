@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 284
   pokemonName: Masquerain
-  attack: 100
+  attack: 105
   hp: 101
   type1: Bug
-  type2: Flying
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -1386264416797662282, guid: 9929d8a53da75984abb677f5f890bfb7, type: 3}

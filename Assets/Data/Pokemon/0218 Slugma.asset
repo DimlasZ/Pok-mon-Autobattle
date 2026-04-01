@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 218
   pokemonName: Slugma
-  attack: 70
+  attack: 82
   hp: 35
   type1: Fire
-  type2: 
   speed: 20
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8332893800438002563, guid: 8c8d046873d337740be495facb9ce348, type: 3}

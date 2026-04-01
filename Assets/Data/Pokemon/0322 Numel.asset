@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 322
   pokemonName: Numel
-  attack: 65
+  attack: 41
   hp: 48
   type1: Fire
-  type2: Ground
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: -4101179208127342770, guid: 61e37153905f2c240bfba35393ab87ac, type: 3}

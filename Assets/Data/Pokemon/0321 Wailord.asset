@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 321
   pokemonName: Wailord
-  attack: 90
+  attack: 150
   hp: 118
   type1: Water
-  type2: 
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 2461761449758566812, guid: 70b0fb66c090c1e4b98d549fb11e9a74, type: 3}

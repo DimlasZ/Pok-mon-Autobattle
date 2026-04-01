@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 201
   pokemonName: Unown
-  attack: 72
+  attack: 59
   hp: 47
   type1: Psychic
-  type2: 
   speed: 48
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -175732355779336025, guid: 2f1acafa9eaa4824fb8c4fddbcffcba2, type: 3}

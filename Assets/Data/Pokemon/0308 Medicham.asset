@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 308
   pokemonName: Medicham
-  attack: 60
+  attack: 66
   hp: 93
   type1: Fighting
-  type2: Psychic
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -2212571112927733186, guid: 17a62639fc578fa4e875dc332145c5e0, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 323
   pokemonName: Camerupt
-  attack: 105
+  attack: 120
   hp: 101
   type1: Fire
-  type2: Ground
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 4
+  ability: {fileID: 0}
   sprite: {fileID: 4281448370569767400, guid: 752313f94999b2645b92166d91b2a91e, type: 3}

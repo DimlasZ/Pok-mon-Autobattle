@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 23
   pokemonName: Ekans
-  attack: 60
+  attack: 24
   hp: 39
   type1: Poison
-  type2: 
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1710616396510682356, guid: e262cb71404ccfe4f97cda90d97a9915, type: 3}

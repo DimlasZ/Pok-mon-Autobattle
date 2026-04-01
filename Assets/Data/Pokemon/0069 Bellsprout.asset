@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 69
   pokemonName: Bellsprout
-  attack: 75
+  attack: 42
   hp: 34
   type1: Grass
-  type2: Poison
   speed: 40
   tier: 1
-  abilityID: 
+  ability: {fileID: 0}
   sprite: {fileID: -7527601525063159838, guid: 7d150c611ae26bc4799b101084fa381a, type: 3}

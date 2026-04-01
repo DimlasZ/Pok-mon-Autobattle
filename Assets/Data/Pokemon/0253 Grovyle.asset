@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 253
   pokemonName: Grovyle
-  attack: 85
+  attack: 32
   hp: 56
   type1: Grass
-  type2: 
   speed: 95
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: 5218223581940251502, guid: 3dc622d6a0f265b4695ed28799b4b42c, type: 3}

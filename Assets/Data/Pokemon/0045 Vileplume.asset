@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 45
   pokemonName: Vileplume
-  attack: 110
+  attack: 114
   hp: 138
   type1: Grass
-  type2: Poison
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: 4112311644201363536, guid: ed306872208de7f43ab966855c34c023, type: 3}

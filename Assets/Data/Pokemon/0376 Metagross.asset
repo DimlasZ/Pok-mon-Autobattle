@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 376
   pokemonName: Metagross
-  attack: 135
+  attack: 137
   hp: 200
   type1: Steel
-  type2: Psychic
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7421396628274652141, guid: 110a5744ab67d234a83592e27f1f2ee2, type: 3}

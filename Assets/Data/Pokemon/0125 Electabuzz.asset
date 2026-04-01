@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 125
   pokemonName: Electabuzz
-  attack: 95
+  attack: 129
   hp: 93
   type1: Electric
-  type2: 
   speed: 105
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 672783555438849485, guid: 22e565406a4430a4eb84375363ecf367, type: 3}

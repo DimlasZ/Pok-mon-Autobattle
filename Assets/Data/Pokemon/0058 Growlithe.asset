@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 58
   pokemonName: Growlithe
-  attack: 70
+  attack: 99
   hp: 51
   type1: Fire
-  type2: 
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: 1641662259417634921, guid: e70b55671ed1abb4da4f4593b8b6f0a1, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 122
   pokemonName: Mr. Mime
-  attack: 100
+  attack: 105
   hp: 86
   type1: Psychic
-  type2: 
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7221879357259585135, guid: 280b647dbf2326241b3b54568d9b4f46, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 256
   pokemonName: Combusken
-  attack: 85
+  attack: 49
   hp: 71
   type1: Fire
-  type2: Fighting
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: -3209696852090425940, guid: 43d4ed489be1b3f4eb6d9d8c2eb87ea5, type: 3}

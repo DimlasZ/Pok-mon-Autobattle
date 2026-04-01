@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 341
   pokemonName: Corphish
-  attack: 80
+  attack: 67
   hp: 45
   type1: Water
-  type2: 
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7376417661479558437, guid: 64adba6a91957c54b873a7dca60240e9, type: 3}

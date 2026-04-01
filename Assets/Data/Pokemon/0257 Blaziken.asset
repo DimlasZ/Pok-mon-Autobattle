@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 257
   pokemonName: Blaziken
-  attack: 120
+  attack: 159
   hp: 109
   type1: Fire
-  type2: Fighting
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: 6548313362805230033, guid: a4867fff73456d14b93bc6b3127cd732, type: 3}

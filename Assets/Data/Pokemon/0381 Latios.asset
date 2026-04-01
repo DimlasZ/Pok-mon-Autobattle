@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 381
   pokemonName: Latios
-  attack: 130
+  attack: 132
   hp: 163
   type1: Dragon
-  type2: Psychic
   speed: 110
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7877967158068391140, guid: 96a23dd38d461eb4dbd7e2e8e85f1f2a, type: 3}

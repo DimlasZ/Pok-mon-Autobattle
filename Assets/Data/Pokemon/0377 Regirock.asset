@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 377
   pokemonName: Regirock
-  attack: 100
+  attack: 115
   hp: 309
   type1: Rock
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7709856304410783479, guid: 78209ee2f8f453d448f0dadd7ea6d0aa, type: 3}

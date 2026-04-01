@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 228
   pokemonName: Houndour
-  attack: 80
+  attack: 47
   hp: 38
-  type1: Dark
-  type2: Fire
+  type1: Fire
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7291858346096596079, guid: 667c85b5ec414ea49b4e98afd099ec4f, type: 3}

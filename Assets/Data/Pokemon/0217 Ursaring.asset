@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 217
   pokemonName: Ursaring
-  attack: 130
+  attack: 106
   hp: 132
   type1: Normal
-  type2: 
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 538287551706545761, guid: 5a5022c0931a36f4993efab400d7efc4, type: 3}

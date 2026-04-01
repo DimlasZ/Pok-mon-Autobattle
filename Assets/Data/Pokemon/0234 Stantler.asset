@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 234
   pokemonName: Stantler
-  attack: 95
+  attack: 101
   hp: 89
   type1: Normal
-  type2: 
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1273748208436749298, guid: fb7a7a92c8289d148bfd408480aec27f, type: 3}

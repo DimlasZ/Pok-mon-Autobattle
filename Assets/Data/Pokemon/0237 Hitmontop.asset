@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 237
   pokemonName: Hitmontop
-  attack: 95
+  attack: 129
   hp: 119
   type1: Fighting
-  type2: 
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8007516225097918256, guid: 8d69ba7c9e6ee3840af444bca6d96871, type: 3}

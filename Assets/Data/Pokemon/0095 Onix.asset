@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 95
   pokemonName: Onix
-  attack: 45
+  attack: 38
   hp: 88
-  type1: Rock
-  type2: Ground
+  type1: Ground
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7990951248903140670, guid: 7035b394f12c5ea4c85903e67cc59047, type: 3}

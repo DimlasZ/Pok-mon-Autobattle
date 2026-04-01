@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 75
   pokemonName: Graveler
-  attack: 95
+  attack: 110
   hp: 94
-  type1: Rock
-  type2: Ground
+  type1: Ground
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -335808410432391859, guid: 1b3040f82957db24398a21b14f03e19f, type: 3}

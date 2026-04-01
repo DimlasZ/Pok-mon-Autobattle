@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 361
   pokemonName: Snorunt
-  attack: 50
+  attack: 43
   hp: 50
   type1: Ice
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1248039007630339067, guid: d3c1dc88d28314f42bc85b34f3a003b0, type: 3}

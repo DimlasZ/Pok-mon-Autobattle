@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 43
   pokemonName: Oddish
-  attack: 75
+  attack: 45
   hp: 57
   type1: Grass
-  type2: Poison
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: -9176146143294722519, guid: 9de533fefba2c5b4c8999570ea97a6b3, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 72
   pokemonName: Tentacool
-  attack: 50
+  attack: 48
   hp: 59
   type1: Water
-  type2: Poison
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: -5150642941966725782, guid: 66fbaf05a8669794a9c3103e5fac0c6a, type: 3}

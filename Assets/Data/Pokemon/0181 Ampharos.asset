@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 181
   pokemonName: Ampharos
-  attack: 115
+  attack: 153
   hp: 162
   type1: Electric
-  type2: 
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 4
+  ability: {fileID: 0}
   sprite: {fileID: 3381200212871159798, guid: b32ea074343405f478fd983232c63132, type: 3}

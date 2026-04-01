@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 106
   pokemonName: Hitmonlee
-  attack: 120
+  attack: 135
   hp: 89
   type1: Fighting
-  type2: 
   speed: 87
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 4591843707559701621, guid: b81e77eb12641634ab77de6ebbaa6c53, type: 3}

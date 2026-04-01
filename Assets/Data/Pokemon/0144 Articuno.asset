@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 144
   pokemonName: Articuno
-  attack: 95
+  attack: 129
   hp: 230
   type1: Ice
-  type2: Flying
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7737554494774426562, guid: 6183e6f73dd14dc4482dff172f8016c3, type: 3}

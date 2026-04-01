@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 290
   pokemonName: Nincada
-  attack: 45
+  attack: 24
   hp: 44
   type1: Bug
-  type2: Ground
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -8508356244786375109, guid: 1c444d628af13d54ba2330cb9d101cf7, type: 3}

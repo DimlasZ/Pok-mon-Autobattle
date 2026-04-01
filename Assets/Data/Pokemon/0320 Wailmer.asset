@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 320
   pokemonName: Wailmer
-  attack: 70
+  attack: 61
   hp: 69
   type1: Water
-  type2: 
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -1589044180578636798, guid: 5ad625411cc4b1141aa40fadc104f86a, type: 3}

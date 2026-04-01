@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 188
   pokemonName: Skiploom
-  attack: 45
+  attack: 31
   hp: 63
   type1: Grass
-  type2: Flying
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5505653794488120427, guid: 66569be4abbfdb149a6ed5961341f114, type: 3}

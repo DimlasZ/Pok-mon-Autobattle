@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 84
   pokemonName: Doduo
-  attack: 85
+  attack: 83
   hp: 33
-  type1: Normal
-  type2: Flying
+  type1: Flying
   speed: 75
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: 6951864281755071184, guid: 1e590d127bbd01a4eb0e934097ef38fe, type: 3}

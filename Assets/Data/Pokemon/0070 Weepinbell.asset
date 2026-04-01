@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 70
   pokemonName: Weepinbell
-  attack: 90
+  attack: 65
   hp: 58
   type1: Grass
-  type2: Poison
   speed: 55
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: 7789863066912482206, guid: bba4e9ac30b9a564d9c5cca99edd5095, type: 3}

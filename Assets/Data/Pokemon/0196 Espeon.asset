@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 196
   pokemonName: Espeon
-  attack: 130
+  attack: 132
   hp: 104
   type1: Psychic
-  type2: 
   speed: 110
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1302961450192795903, guid: 0ea89a1fbeb5c824ca95d45f184f8bbd, type: 3}

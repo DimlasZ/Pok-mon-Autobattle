@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 127
   pokemonName: Pinsir
-  attack: 125
+  attack: 115
   hp: 117
   type1: Bug
-  type2: 
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1504070743647692211, guid: 4bcc2e96db7609f4a9ca737e949768c5, type: 3}

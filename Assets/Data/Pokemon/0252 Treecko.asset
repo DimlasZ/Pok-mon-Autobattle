@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 252
   pokemonName: Treecko
-  attack: 65
+  attack: 28
   hp: 39
   type1: Grass
-  type2: 
   speed: 70
   tier: 1
-  abilityID: 
+  ability: {fileID: 0}
   sprite: {fileID: 5390905038288490246, guid: bd7c169f2b8454e44a543ab3a8577087, type: 3}

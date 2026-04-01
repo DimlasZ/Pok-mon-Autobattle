@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 195
   pokemonName: Quagsire
-  attack: 85
+  attack: 100
   hp: 138
-  type1: Water
-  type2: Ground
+  type1: Ground
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 877012776765354700, guid: 1af78a98a57f9e648a03a1284a69e952, type: 3}

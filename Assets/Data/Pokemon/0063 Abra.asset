@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 63
   pokemonName: Abra
-  attack: 105
+  attack: 68
   hp: 25
   type1: Psychic
-  type2: 
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1411461678269297779, guid: c46e409252d048f4cbaf3a598aa6e862, type: 3}

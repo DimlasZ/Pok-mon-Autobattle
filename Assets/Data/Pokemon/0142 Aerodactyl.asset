@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 142
   pokemonName: Aerodactyl
-  attack: 105
+  attack: 78
   hp: 109
   type1: Rock
-  type2: Flying
   speed: 130
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6721677436348613974, guid: d1d2da2597aa3654eaaacbb4c451cae8, type: 3}

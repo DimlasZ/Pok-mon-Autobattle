@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 226
   pokemonName: Mantine
-  attack: 80
+  attack: 83
   hp: 198
   type1: Water
-  type2: Flying
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 891938632619441127, guid: c2b2af87ef07c344eab737349b186fed, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 48
   pokemonName: Venonat
-  attack: 55
+  attack: 43
   hp: 61
   type1: Bug
-  type2: Poison
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -1051496375513184114, guid: dc6783f913cb5a34195ffbdb49eb6ab0, type: 3}

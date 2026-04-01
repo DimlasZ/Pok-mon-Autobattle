@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 126
   pokemonName: Magmar
-  attack: 100
+  attack: 135
   hp: 93
   type1: Fire
-  type2: 
   speed: 93
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 9169551899639477432, guid: 73f5f35edb55b9141b12e764d3093a99, type: 3}

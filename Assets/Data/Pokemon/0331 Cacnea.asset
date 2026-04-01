@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 331
   pokemonName: Cacnea
-  attack: 85
+  attack: 32
   hp: 40
   type1: Grass
-  type2: 
   speed: 35
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7766442053390731690, guid: 6e610c32f175b34449a402d7b7745b23, type: 3}

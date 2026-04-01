@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 216
   pokemonName: Teddiursa
-  attack: 80
+  attack: 47
   hp: 57
   type1: Normal
-  type2: 
   speed: 40
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -7760461162413151944, guid: e15d09143ed24c4469ea181fb61e2c3f, type: 3}

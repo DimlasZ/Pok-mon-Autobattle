@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 156
   pokemonName: Quilava
-  attack: 80
+  attack: 63
   hp: 71
   type1: Fire
-  type2: 
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 3
+  ability: {fileID: 0}
   sprite: {fileID: 7006557557517092206, guid: ac9eba840b0bbc64c9194177dd9c23e9, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 293
   pokemonName: Whismur
-  attack: 51
+  attack: 41
   hp: 29
   type1: Normal
-  type2: 
   speed: 28
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3694201731105352905, guid: f847b0d904e699c4c839b1ba13d1c6bb, type: 3}

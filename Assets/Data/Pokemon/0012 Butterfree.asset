@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 12
   pokemonName: Butterfree
-  attack: 90
+  attack: 69
   hp: 78
   type1: Bug
-  type2: Flying
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 6167955627167034874, guid: 617e47268b35ce144b9ec54e48ba5e24, type: 3}

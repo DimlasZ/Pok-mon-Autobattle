@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 131
   pokemonName: Lapras
-  attack: 85
+  attack: 117
   hp: 228
   type1: Water
-  type2: Ice
   speed: 60
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7082878178794243523, guid: 160e3f54bda5be94cb8b3f9fbabf7254, type: 3}

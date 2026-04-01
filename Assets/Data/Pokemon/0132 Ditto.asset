@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 132
   pokemonName: Ditto
-  attack: 48
+  attack: 15
   hp: 47
   type1: Normal
-  type2: 
   speed: 48
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8721096375736237811, guid: 2e03cef009c7356438a1158b69d756d5, type: 3}

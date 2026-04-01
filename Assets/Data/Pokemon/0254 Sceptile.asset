@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 254
   pokemonName: Sceptile
-  attack: 105
+  attack: 110
   hp: 106
   type1: Grass
-  type2: 
   speed: 120
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 0}
   sprite: {fileID: 4676968122384040008, guid: 8521cbcd073be9245a0382276d641e28, type: 3}

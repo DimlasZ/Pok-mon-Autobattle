@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 386
   pokemonName: Deoxys
-  attack: 150
+  attack: 225
   hp: 50
   type1: Psychic
-  type2: 
   speed: 150
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7423123005860167024, guid: c7c117f5a30a0864b8642fe4accfb86d, type: 3}

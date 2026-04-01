@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 161
   pokemonName: Sentret
-  attack: 46
+  attack: 34
   hp: 32
   type1: Normal
-  type2: 
   speed: 20
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -386621654021493198, guid: 9d45151cf926f8d4c8a57c4ef44e26b6, type: 3}

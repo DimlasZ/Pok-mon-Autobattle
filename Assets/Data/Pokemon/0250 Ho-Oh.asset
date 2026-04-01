@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 250
   pokemonName: Ho-Oh
-  attack: 130
+  attack: 197
   hp: 301
   type1: Fire
-  type2: Flying
   speed: 90
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 3391206803380321378, guid: 79a4cf648353ccd4b9050f68f0fa90a0, type: 3}

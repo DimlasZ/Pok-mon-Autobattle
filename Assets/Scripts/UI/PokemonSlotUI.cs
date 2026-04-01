@@ -1,14 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 // PokemonSlotUI is attached to every slot button in the game (shop, bench, battle).
 // It handles displaying the Pokemon inside it and notifying ShopManager when clicked.
 
-public class PokemonSlotUI : MonoBehaviour
+public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("UI References")]
     public Image pokemonSprite;             // The sprite image inside the slot
+    public Image hpBarBox;                  // The HP bar frame sprite (shown in battle, hidden in shop)
     public Image healthBarFill;             // The filled portion of the HP bar (child of a bar background)
     public TextMeshProUGUI hpText;          // HP display — bottom right in code (left side visually when flipped)
     public TextMeshProUGUI attackText;      // Attack display — bottom left in code (right side visually when flipped)
@@ -30,15 +32,6 @@ public class PokemonSlotUI : MonoBehaviour
 
     void Awake()
     {
-        if (!flipSlot) return;
-
-        // Flip the entire slot so the sprite and stat positions mirror automatically
-        transform.localScale = new Vector3(-1f, 1f, 1f);
-
-        // Counter-flip each text child so the text itself stays readable
-        if (hpText != null)     hpText.transform.localScale     = new Vector3(-1f, 1f, 1f);
-        if (attackText != null) attackText.transform.localScale = new Vector3(-1f, 1f, 1f);
-        if (speedText != null)  speedText.transform.localScale  = new Vector3(-1f, 1f, 1f);
     }
 
     // Updates the health bar width and color based on current/max HP
@@ -73,7 +66,10 @@ public class PokemonSlotUI : MonoBehaviour
         attackText.text = data.attack.ToString();
         speedText.text  = data.speed.ToString();
 
-        if (healthBarFill != null) healthBarFill.transform.parent.gameObject.SetActive(false);
+        _currentAbility = data.ability;
+
+        if (hpBarBox != null) hpBarBox.gameObject.SetActive(true);
+        RefreshHealthBar(data.hp, data.hp);
 
         SetHighlight(false);
     }
@@ -90,7 +86,9 @@ public class PokemonSlotUI : MonoBehaviour
         attackText.text = instance.attack.ToString();
         speedText.text  = instance.speed.ToString();
 
-        if (healthBarFill != null) healthBarFill.transform.parent.gameObject.SetActive(true);
+        _currentAbility = instance.baseData.ability;
+
+        if (hpBarBox != null) hpBarBox.gameObject.SetActive(true);
         RefreshHealthBar(instance.currentHP, instance.maxHP);
 
         SetHighlight(false);
@@ -104,7 +102,8 @@ public class PokemonSlotUI : MonoBehaviour
         hpText.text     = "";
         attackText.text = "";
         speedText.text  = "";
-        if (healthBarFill != null) healthBarFill.transform.parent.gameObject.SetActive(false);
+        _currentAbility = null;
+        if (hpBarBox != null) hpBarBox.gameObject.SetActive(false);
         SetHighlight(false);
     }
 
@@ -113,6 +112,32 @@ public class PokemonSlotUI : MonoBehaviour
     {
         if (highlight != null)
             highlight.color = on ? selectedColor : unselectedColor;
+    }
+
+    // The ability of the Pokemon currently displayed in this slot (null if empty)
+    private AbilityData _currentAbility;
+
+    // Show tooltip on hover — anchored to the top of the slot, not the cursor
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (_currentAbility == null || TooltipUI.Instance == null) return;
+
+        // Use the top-center of this slot as the anchor point
+        var rect = GetComponent<RectTransform>();
+        Vector3[] corners = new Vector3[4];
+        rect.GetWorldCorners(corners);
+        // corners: 0=bottom-left, 1=top-left, 2=top-right, 3=bottom-right
+        Vector2 topCenter = (corners[1] + corners[2]) / 2f;
+        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(null, topCenter);
+
+        TooltipUI.Instance.Show(_currentAbility, screenPos);
+    }
+
+    // Hide tooltip when cursor leaves
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (TooltipUI.Instance != null)
+            TooltipUI.Instance.Hide();
     }
 
     // Called when the player clicks this slot

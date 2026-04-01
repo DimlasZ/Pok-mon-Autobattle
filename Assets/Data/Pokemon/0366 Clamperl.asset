@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 366
   pokemonName: Clamperl
-  attack: 74
+  attack: 104
   hp: 56
   type1: Water
-  type2: 
   speed: 32
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 4904965020646121998, guid: 87a231423661005458f4894b5d58c4f8, type: 3}

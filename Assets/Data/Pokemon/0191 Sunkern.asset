@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 191
   pokemonName: Sunkern
-  attack: 30
+  attack: 51
   hp: 25
   type1: Grass
-  type2: 
   speed: 30
   tier: 1
-  abilityID: 
+  ability: {fileID: 0}
   sprite: {fileID: 8014240616972179008, guid: 003600b55c609d24fb186d9209602fd0, type: 3}

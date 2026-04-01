@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 180
   pokemonName: Flaaffy
-  attack: 80
+  attack: 47
   hp: 76
   type1: Electric
-  type2: 
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 2
+  ability: {fileID: 0}
   sprite: {fileID: -8982031950745213635, guid: dbc2328843978f549a72e27a6507e6ba, type: 3}

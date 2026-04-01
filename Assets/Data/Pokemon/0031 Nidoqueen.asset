@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 31
   pokemonName: Nidoqueen
-  attack: 92
+  attack: 98
   hp: 159
   type1: Poison
-  type2: Ground
   speed: 76
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 634895033319033241, guid: eff06d8b5e7c6e94d92f47069acd779b, type: 3}

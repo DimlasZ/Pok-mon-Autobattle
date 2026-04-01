@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 329
   pokemonName: Vibrava
-  attack: 70
+  attack: 57
   hp: 50
   type1: Ground
-  type2: Dragon
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -1633172671078752052, guid: 9c71676d9e3c323449139d1db542f541, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 244
   pokemonName: Entei
-  attack: 115
+  attack: 153
   hp: 180
   type1: Fire
-  type2: 
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7816979465887500749, guid: 0b09abafda78d764595af5d0add6387b, type: 3}

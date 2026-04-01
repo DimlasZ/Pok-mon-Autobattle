@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 348
   pokemonName: Armaldo
-  attack: 125
+  attack: 115
   hp: 143
   type1: Rock
-  type2: Bug
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8497552825551715113, guid: 0797def0ca1333a40ad8a2e9f32b732e, type: 3}

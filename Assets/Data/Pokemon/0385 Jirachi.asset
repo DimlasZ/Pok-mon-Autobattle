@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 385
   pokemonName: Jirachi
-  attack: 100
+  attack: 105
   hp: 215
   type1: Steel
-  type2: Psychic
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 7719252763152028486, guid: 75a352e75c5dceb43a10354592edb3bc, type: 3}

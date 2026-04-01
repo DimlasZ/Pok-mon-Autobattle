@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 372
   pokemonName: Shelgon
-  attack: 95
+  attack: 72
   hp: 99
   type1: Dragon
-  type2: 
   speed: 50
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1909207722147168885, guid: ff968b1784d1dd743bcd078580f16735, type: 3}

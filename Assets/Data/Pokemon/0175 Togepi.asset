@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 175
   pokemonName: Togepi
-  attack: 40
+  attack: 71
   hp: 52
   type1: Fairy
-  type2: 
   speed: 20
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1995642756099148435, guid: 1275e01ba76caa546ba77db69ac6aea1, type: 3}

@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 6
   pokemonName: Charizard
-  attack: 109
+  attack: 119
   hp: 130
   type1: Fire
-  type2: Flying
   speed: 100
-  tier: 1
-  abilityID: 
+  tier: 5
+  ability: {fileID: 11400000, guid: 7a4f6f2e2035c3a44be39ad98fe9dc66, type: 2}
   sprite: {fileID: 7832110101861302720, guid: c2a9e093d1cafda4486bf73357c42ced, type: 3}

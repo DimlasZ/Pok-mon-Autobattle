@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 313
   pokemonName: Volbeat
-  attack: 73
+  attack: 70
   hp: 108
   type1: Bug
-  type2: 
   speed: 85
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -5659149519331568057, guid: 6667232d93811654faf0f287d9b52607, type: 3}

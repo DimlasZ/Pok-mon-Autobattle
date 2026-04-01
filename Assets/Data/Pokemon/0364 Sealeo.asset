@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 364
   pokemonName: Sealeo
-  attack: 75
+  attack: 105
   hp: 120
   type1: Ice
-  type2: Water
   speed: 45
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3756878600716732260, guid: 34a3e468c54c7a4498846a858b553958, type: 3}

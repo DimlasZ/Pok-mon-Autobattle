@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 235
   pokemonName: Smeargle
-  attack: 20
+  attack: 15
   hp: 43
   type1: Normal
-  type2: 
   speed: 75
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -1442209507483598648, guid: 2a990aa4d621e994c98622a33f7264e2, type: 3}

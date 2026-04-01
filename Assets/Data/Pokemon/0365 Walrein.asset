@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 365
   pokemonName: Walrein
-  attack: 95
+  attack: 129
   hp: 203
   type1: Ice
-  type2: Water
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 1168823362671785542, guid: 6e50a6c0892536c45b3dce98af1dd87c, type: 3}

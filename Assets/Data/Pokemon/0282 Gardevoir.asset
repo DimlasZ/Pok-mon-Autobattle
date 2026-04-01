@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 282
   pokemonName: Gardevoir
-  attack: 125
+  attack: 140
   hp: 131
   type1: Psychic
-  type2: Fairy
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 3222785323818175775, guid: 2f7471fc05dbd2c458f30517209fdec4, type: 3}

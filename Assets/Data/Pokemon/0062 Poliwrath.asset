@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 62
   pokemonName: Poliwrath
-  attack: 95
+  attack: 129
   hp: 175
   type1: Water
-  type2: Fighting
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -1849467108279570171, guid: 16807e2ffead73e49bfbe99766ba15b5, type: 3}

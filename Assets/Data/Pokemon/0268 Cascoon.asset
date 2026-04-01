@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 268
   pokemonName: Cascoon
-  attack: 35
+  attack: 15
   hp: 40
   type1: Bug
-  type2: 
   speed: 15
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -3091355960628664343, guid: 2f2a72f7dd1a48b40a18744954a48bc2, type: 3}

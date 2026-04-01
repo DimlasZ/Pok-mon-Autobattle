@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 212
   pokemonName: Scizor
-  attack: 130
+  attack: 119
   hp: 135
   type1: Bug
-  type2: Steel
   speed: 65
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 9159335252060606472, guid: 4c8870c23fb16c04aa03957b9d3e5045, type: 3}

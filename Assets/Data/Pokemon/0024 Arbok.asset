@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 24
   pokemonName: Arbok
-  attack: 95
+  attack: 53
   hp: 91
   type1: Poison
-  type2: 
   speed: 80
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5592638611485164429, guid: bc024682a734ca84c8b9e62a71688dcf, type: 3}

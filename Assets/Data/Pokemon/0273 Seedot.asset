@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 273
   pokemonName: Seedot
-  attack: 40
+  attack: 15
   hp: 35
   type1: Grass
-  type2: 
   speed: 30
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8681628423407110638, guid: d64bae6a7055cdb43851ccabdd6a6188, type: 3}

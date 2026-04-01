@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 310
   pokemonName: Manectric
-  attack: 105
+  attack: 141
   hp: 80
   type1: Electric
-  type2: 
   speed: 105
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 8379769750783640903, guid: add3e73660f33cf4f9150a7acb3640c2, type: 3}

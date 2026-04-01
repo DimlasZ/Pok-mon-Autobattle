@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 337
   pokemonName: Lunatone
-  attack: 95
+  attack: 110
   hp: 132
   type1: Rock
-  type2: Psychic
   speed: 70
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: 5157141297862844667, guid: 24d6d573b96ce9240b728a584f3dfdd8, type: 3}

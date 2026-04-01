@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 380
   pokemonName: Latias
-  attack: 110
+  attack: 114
   hp: 200
   type1: Dragon
-  type2: Psychic
   speed: 110
-  tier: 1
-  abilityID: 
+  tier: 0
+  ability: {fileID: 0}
   sprite: {fileID: -4855073918032809386, guid: c356e3f6912d4b648a6cf0696a1a526d, type: 3}
