@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 259
   pokemonName: Marshtomp
-  attack: 62
-  hp: 97
+  attack: 40
+  hp: 58
   type1: Water
-  speed: 50
-  tier: 3
+  speed: 30
+  tier: 2
   ability: {fileID: 0}
   sprite: {fileID: -1590016584767629900, guid: 5746c8070c79d524eaf2236459159693, type: 3}

@@ -1,25 +1,29 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-// AbilitySystem fires ability effects at the right moment during battle.
-// All methods are static — call them from BattleManager at each trigger point.
+// AbilitySystem fires ability effects at the right trigger points during battle.
+// All methods are static — called from BattleManager / BattleSceneManager.
 //
-// VALUE RULES (per effect):
-//   heal_self         : value < 2  → % of max HP  |  value >= 2 → flat HP
-//   boost_attack      : value <= 4 → multiplier    |  value >  4 → flat bonus
-//   damage_*          : always flat damage
-//   damage_reduction  : value < 1  → multiplier (0.8 = take 80%)
-//   boost_attack_enemy: always multiplier
-//   recoil_damage     : always % of defender's max HP
+// Flow per trigger:
+//   1. Check trigger matches
+//   2. Check condition passes
+//   3. Check chance passes
+//   4. Resolve targets
+//   5. Apply effect
 
 public static class AbilitySystem
 {
-    // --- Battle State ---
+    // -------------------------------------------------------
+    // BATTLE STATE
+    // -------------------------------------------------------
+
     public static string ActiveWeather { get; private set; } = "";
     public static string ActiveScreen  { get; private set; } = "";
 
-    private static readonly HashSet<PokemonInstance> _sturdyUsed    = new HashSet<PokemonInstance>();
-    private static readonly HashSet<PokemonInstance> _shellArmorUsed = new HashSet<PokemonInstance>();
+    private static readonly HashSet<PokemonInstance> _sturdyUsed      = new HashSet<PokemonInstance>();
+    private static readonly HashSet<PokemonInstance> _shellArmorUsed  = new HashSet<PokemonInstance>();
+    private static readonly HashSet<PokemonInstance> _boostOnceApplied = new HashSet<PokemonInstance>();
+    private static readonly Dictionary<PokemonInstance, int> _allyFaintCount = new Dictionary<PokemonInstance, int>();
 
     public static void ResetBattleState()
     {
@@ -27,252 +31,246 @@ public static class AbilitySystem
         ActiveScreen  = "";
         _sturdyUsed.Clear();
         _shellArmorUsed.Clear();
+        _boostOnceApplied.Clear();
+        _allyFaintCount.Clear();
     }
 
     // -------------------------------------------------------
-    // TRIGGER: on_battle_start
+    // TRIGGERS
     // -------------------------------------------------------
 
     public static void FireBattleStart(List<PokemonInstance> team, List<PokemonInstance> enemyTeam)
     {
         foreach (var p in new List<PokemonInstance>(team))
-        {
-            var ab = p.baseData.ability;
-            if (ab == null || ab.trigger != "on_battle_start") continue;
-            if (!CheckCondition(p, ab.condition)) continue;
-            FireEffect(p, team, enemyTeam, ab, 0, 0, null);
-        }
+            TryFire("on_battle_start", p, team, enemyTeam, 0, 0, null);
     }
-
-    // -------------------------------------------------------
-    // TRIGGER: on_round_start
-    // -------------------------------------------------------
 
     public static void FireRoundStart(List<PokemonInstance> team, List<PokemonInstance> enemyTeam)
     {
         foreach (var p in new List<PokemonInstance>(team))
         {
             if (p.currentHP <= 0) continue;
-            var ab = p.baseData.ability;
-            if (ab == null || ab.trigger != "on_round_start") continue;
-            if (!CheckCondition(p, ab.condition)) continue;
-            FireEffect(p, team, enemyTeam, ab, 0, 0, null);
+            TryFire("on_round_start", p, team, enemyTeam, 0, 0, null);
         }
     }
 
-    // -------------------------------------------------------
-    // TRIGGER: before_attack
-    // Returns a damage multiplier (1.0 = no change).
-    // -------------------------------------------------------
-
+    // Returns a damage multiplier (1.0 = no change)
     public static float FireBeforeAttack(PokemonInstance attacker, List<PokemonInstance> attackerTeam, List<PokemonInstance> defenderTeam)
     {
         var ab = attacker.baseData.ability;
         if (ab == null || ab.trigger != "before_attack") return 1f;
         if (!CheckCondition(attacker, ab.condition)) return 1f;
-
-        if (ab.effect == "damage_multiplier")
-            return ab.FloatValue;
+        if (!ab.ShouldTrigger()) return 1f;
 
         return 1f;
     }
-
-    // -------------------------------------------------------
-    // TRIGGER: on_attack
-    // Called after damage is dealt. Handles splash effects.
-    // -------------------------------------------------------
 
     public static void FireOnAttack(PokemonInstance attacker, PokemonInstance defender,
         int damageDealt, int excessDamage,
         List<PokemonInstance> attackerTeam, List<PokemonInstance> defenderTeam)
     {
-        var ab = attacker.baseData.ability;
-        if (ab == null || ab.trigger != "on_attack") return;
-        if (!CheckCondition(attacker, ab.condition)) return;
-        FireEffect(attacker, attackerTeam, defenderTeam, ab, damageDealt, excessDamage, defender);
+        TryFire("on_attack", attacker, attackerTeam, defenderTeam, damageDealt, excessDamage, defender);
     }
-
-    // -------------------------------------------------------
-    // TRIGGER: after_attack
-    // Called after attack resolves. Handles self-heals.
-    // -------------------------------------------------------
 
     public static void FireAfterAttack(PokemonInstance attacker, PokemonInstance defender,
         int damageDealt, List<PokemonInstance> attackerTeam, List<PokemonInstance> defenderTeam)
     {
-        var ab = attacker.baseData.ability;
-        if (ab == null || ab.trigger != "after_attack") return;
-        FireEffect(attacker, attackerTeam, defenderTeam, ab, damageDealt, 0, defender);
+        TryFire("after_attack", attacker, attackerTeam, defenderTeam, damageDealt, 0, defender);
     }
 
-    // -------------------------------------------------------
-    // TRIGGER: before_hit
-    // Returns true if the hit should be fully negated (Shell Armor, immune_to_ability_damage).
-    // -------------------------------------------------------
-
+    // Returns true if the hit should be fully negated
     public static bool FireBeforeHit(PokemonInstance defender, PokemonInstance attacker, bool isAbilityDamage)
     {
         var ab = defender.baseData.ability;
         if (ab == null) return false;
 
-        // Shell Armor: negate the very first hit
         if (ab.trigger == "before_hit" && ab.effect == "negate_damage" && ab.condition == "first_hit")
         {
             if (!_shellArmorUsed.Contains(defender))
             {
                 _shellArmorUsed.Add(defender);
-                Debug.Log($"{defender.baseData.pokemonName}'s {ab.abilityName}: First hit negated!");
+                Debug.Log($"{defender.DisplayName}'s {ab.abilityName}: First hit negated!");
                 return true;
             }
         }
 
-        // Fur Coat / Battle Armor / Vital Spirit: immune to ability-sourced damage
         if (ab.effect == "immune_to_ability_damage" && isAbilityDamage)
         {
-            Debug.Log($"{defender.baseData.pokemonName}'s {ab.abilityName}: Immune to ability damage!");
+            Debug.Log($"{defender.DisplayName}'s {ab.abilityName}: Immune to ability damage!");
             return true;
         }
 
         return false;
     }
 
-    // -------------------------------------------------------
-    // TRIGGER: on_hit (defender receives damage)
-    // Returns the potentially modified damage value.
-    // -------------------------------------------------------
-
+    // Returns potentially modified incoming damage
     public static int FireOnHit(PokemonInstance defender, PokemonInstance attacker, int damage,
         List<PokemonInstance> defenderTeam, List<PokemonInstance> attackerTeam)
     {
         var ab = defender.baseData.ability;
         if (ab == null || ab.trigger != "on_hit") return damage;
+        if (!CheckCondition(defender, ab.condition)) return damage;
+        if (!ab.ShouldTrigger()) return damage;
 
-        // Sturdy: survive a KO hit when at full HP
-        if (ab.effect == "survive_ko" && ab.condition == "at_full_hp")
+        switch (ab.effect)
         {
-            if (!_sturdyUsed.Contains(defender) &&
-                defender.currentHP == defender.maxHP &&
-                damage >= defender.currentHP)
-            {
-                _sturdyUsed.Add(defender);
-                damage = defender.currentHP - 1;
-                Debug.Log($"{defender.baseData.pokemonName}'s {ab.abilityName}: Survived with 1 HP!");
-            }
-        }
+            case "survive_ko":
+                if (!_sturdyUsed.Contains(defender) &&
+                    defender.currentHP == defender.maxHP &&
+                    damage >= defender.currentHP)
+                {
+                    _sturdyUsed.Add(defender);
+                    damage = defender.currentHP - 1;
+                    Debug.Log($"{defender.DisplayName}'s {ab.abilityName}: Survived with 1 HP!");
+                }
+                break;
 
-        // Rest: fully heal when HP drops below 20% after this hit
-        if (ab.effect == "heal_self" && ab.condition == "hp_below_20")
-        {
-            float postRatio = (float)(defender.currentHP - damage) / defender.maxHP;
-            if (postRatio > 0f && postRatio < 0.2f)
-            {
-                Debug.Log($"{defender.baseData.pokemonName}'s {ab.abilityName}: Fully healed!");
-                // Healing fires after damage is applied — handled post-damage
-                // We flag it here by setting damage to not exceed HP - 1 and then heal below
-            }
-        }
+            case "heal":
+                // heal fires after damage is applied — handled in FireAfterHit
+                break;
 
-        // Rough Skin: deal recoil damage back to the attacker
-        if (ab.effect == "recoil_damage")
-        {
-            int recoil = Mathf.CeilToInt(defender.maxHP * ab.FloatValue);
-            if (!FireBeforeHit(attacker, defender, true))
-            {
-                attacker.currentHP = Mathf.Max(0, attacker.currentHP - recoil);
-                Debug.Log($"{defender.baseData.pokemonName}'s {ab.abilityName}: {attacker.baseData.pokemonName} takes {recoil} recoil!");
-            }
+            case "recoil_damage":
+                int recoil = Mathf.CeilToInt(defender.maxHP * ab.FloatValue);
+                if (!FireBeforeHit(attacker, defender, true))
+                {
+                    attacker.currentHP = Mathf.Max(0, attacker.currentHP - recoil);
+                    Debug.Log($"{defender.DisplayName}'s {ab.abilityName}: {attacker.DisplayName} takes {recoil} recoil!");
+                }
+                break;
+
+            case "reduce_attack":
+                int oldAtk = attacker.attack;
+                attacker.attack = Mathf.Max(1, Mathf.RoundToInt(attacker.attack * ab.FloatValue));
+                Debug.Log($"{defender.DisplayName}'s {ab.abilityName}: {attacker.DisplayName} Attack {oldAtk} → {attacker.attack}");
+                break;
+
+            case "reduce_speed":
+                int oldSpd = attacker.speed;
+                attacker.speed = Mathf.Max(1, Mathf.RoundToInt(attacker.speed * ab.FloatValue));
+                Debug.Log($"{defender.DisplayName}'s {ab.abilityName}: {attacker.DisplayName} Speed {oldSpd} → {attacker.speed}");
+                break;
+
+            case "boost_attack":
+                // raise all allies' attack when hit and surviving (e.g. ability 35)
+                break;
+
+            case "boost_speed":
+                // e.g. Weak Armor — speed boost on super-effective hit
+                if (ab.condition == "super_effective")
+                {
+                    int old = defender.speed;
+                    defender.speed = Mathf.RoundToInt(defender.speed * ab.FloatValue);
+                    Debug.Log($"{defender.DisplayName}'s {ab.abilityName}: Speed {old} → {defender.speed}");
+                }
+                break;
         }
 
         return damage;
     }
 
-    // Called AFTER damage is applied — handles Rest heal
-    public static void FireAfterHit(PokemonInstance defender)
+    public static void FireAfterHit(PokemonInstance defender, List<PokemonInstance> defenderTeam)
     {
         var ab = defender.baseData.ability;
         if (ab == null || ab.trigger != "on_hit") return;
+        if (!ab.ShouldTrigger()) return;
 
-        if (ab.effect == "heal_self" && ab.condition == "hp_below_20")
+        // heal effect on on_hit trigger (e.g. Rest — heals after damage lands)
+        if (ab.effect == "heal")
         {
-            float ratio = (float)defender.currentHP / defender.maxHP;
-            if (ratio > 0f && ratio < 0.2f)
+            if (!CheckCondition(defender, ab.condition)) return;
+            ApplyHeal(defender, defender, ab);
+        }
+
+        // Raise all allies' attack when hit and surviving
+        if (ab.effect == "boost_attack" && ab.target == "ally_all" && defender.currentHP > 0)
+        {
+            foreach (var ally in defenderTeam)
             {
-                defender.currentHP = defender.maxHP;
-                Debug.Log($"{defender.baseData.pokemonName}'s {ab.abilityName}: Fully healed to {defender.maxHP} HP!");
+                if (ally == defender || ally.currentHP <= 0) continue;
+                int old = ally.attack;
+                ally.attack = Mathf.RoundToInt(ally.attack * ab.FloatValue);
+                Debug.Log($"{defender.DisplayName}'s {ab.abilityName}: {ally.DisplayName} Attack {old} → {ally.attack}");
+            }
+        }
+
+        // One-time attack boost when HP first drops below threshold (Blaze, Torrent, Overgrow)
+        if (ab.effect == "boost_attack_once" && defender.currentHP > 0)
+        {
+            if (!_boostOnceApplied.Contains(defender) && CheckCondition(defender, ab.condition))
+            {
+                _boostOnceApplied.Add(defender);
+                int old = defender.attack;
+                defender.attack = Mathf.RoundToInt(defender.attack * ab.FloatValue);
+                Debug.Log($"{defender.DisplayName}'s {ab.abilityName}: Attack {old} → {defender.attack}!");
             }
         }
     }
 
-    // -------------------------------------------------------
-    // TRIGGER: on_kill
-    // -------------------------------------------------------
-
     public static void FireOnKill(PokemonInstance attacker,
         List<PokemonInstance> attackerTeam, List<PokemonInstance> defenderTeam)
     {
-        var ab = attacker.baseData.ability;
-        if (ab == null || ab.trigger != "on_kill") return;
-        FireEffect(attacker, attackerTeam, defenderTeam, ab, 0, 0, null);
+        TryFire("on_kill", attacker, attackerTeam, defenderTeam, 0, 0, null);
     }
-
-    // -------------------------------------------------------
-    // TRIGGER: on_faint
-    // -------------------------------------------------------
 
     public static void FireOnFaint(PokemonInstance fainted,
         List<PokemonInstance> faintedTeam, List<PokemonInstance> opposingTeam)
     {
-        var ab = fainted.baseData.ability;
-        if (ab == null || ab.trigger != "on_faint") return;
-        FireEffect(fainted, faintedTeam, opposingTeam, ab, 0, 0, null);
+        TryFire("on_faint", fainted, faintedTeam, opposingTeam, 0, 0, null);
+
+        // Notify all surviving allies on the same team
+        foreach (var ally in new List<PokemonInstance>(faintedTeam))
+        {
+            if (ally == fainted || ally.currentHP <= 0) continue;
+            var ab = ally.baseData.ability;
+            if (ab == null || ab.trigger != "on_ally_faint") continue;
+            if (!ab.ShouldTrigger()) continue;
+
+            if (!_allyFaintCount.ContainsKey(ally)) _allyFaintCount[ally] = 0;
+            _allyFaintCount[ally]++;
+
+            ApplyEffect(ally, faintedTeam, opposingTeam, ab, 0, 0, null);
+        }
     }
 
     // -------------------------------------------------------
-    // PASSIVE MODIFIERS — called inline during Attack() calculation
+    // PASSIVE QUERIES — called inline during damage calculation
     // -------------------------------------------------------
 
-    // Returns a damage multiplier from the attacker's conditional passive (e.g. Guts at low HP)
     public static float GetPassiveAttackMultiplier(PokemonInstance attacker)
     {
         var ab = attacker.baseData.ability;
         if (ab == null || ab.trigger != "passive") return 1f;
         if (!CheckCondition(attacker, ab.condition)) return 1f;
 
-        float v = ab.FloatValue;
-        if (ab.effect == "boost_attack" && v <= 4f)
-            return v; // multiplicative: 1.25, 1.5, 2.0
-
-        if (ab.effect == "damage_multiplier")
-            return v;
-
-        if (ab.effect == "ignore_damage_reduction")
-            return 1f; // handled separately in Attack()
-
+        switch (ab.effect)
+        {
+            case "boost_attack" when ab.FloatValue <= 4f: return ab.FloatValue;
+        }
         return 1f;
     }
 
-    // Returns a flat attack bonus from the attacker's passive (e.g. +20 from Chlorophyll in sun)
     public static int GetFlatAttackBonus(PokemonInstance attacker)
     {
         var ab = attacker.baseData.ability;
         if (ab == null || ab.trigger != "passive") return 0;
         if (!CheckCondition(attacker, ab.condition)) return 0;
 
-        float v = ab.FloatValue;
-        if (ab.effect == "boost_attack" && v > 4f)
-            return (int)v; // flat: 20
+        if (ab.effect == "boost_attack" && ab.FloatValue > 4f)
+            return (int)ab.FloatValue;
 
         return 0;
     }
 
-    // Returns damage multiplier from the defender's passive reduction (e.g. Thick Fat)
     public static float GetDamageReduction(PokemonInstance defender, bool isAbilityDamage = false)
     {
         var ab = defender.baseData.ability;
         if (ab == null) return 1f;
 
+        // Water Sport — only reduces Fire-type incoming damage, handled via GetTypeBasedDamageReduction
+        if (ab.custom == "water_sport") return 1f;
+
         if (ab.effect == "damage_reduction" && CheckCondition(defender, ab.condition))
-            return ab.FloatValue; // 0.8 = take 80%
+            return ab.FloatValue;
 
         if (ab.effect == "damage_reduction_abilities" && isAbilityDamage)
             return ab.FloatValue;
@@ -280,7 +278,21 @@ public static class AbilitySystem
         return 1f;
     }
 
-    // Returns flat damage reduction from the defender's passive (e.g. Bubble Shield -5)
+    // Returns a damage reduction multiplier based on the attacker's type (e.g. Water Sport vs Fire)
+    public static float GetTypeBasedDamageReduction(PokemonInstance defender, string attackerType)
+    {
+        var ab = defender.baseData.ability;
+        if (ab == null) return 1f;
+
+        if (ab.custom == "water_sport" && attackerType == "Fire")
+        {
+            Debug.Log($"{defender.DisplayName}'s {ab.abilityName}: Fire damage reduced!");
+            return ab.FloatValue;
+        }
+
+        return 1f;
+    }
+
     public static int GetFlatDamageReduction(PokemonInstance defender)
     {
         var ab = defender.baseData.ability;
@@ -292,7 +304,6 @@ public static class AbilitySystem
         return 0;
     }
 
-    // Returns damage multiplier from an ally's Friend Guard
     public static float GetAllyDamageReduction(PokemonInstance defender, List<PokemonInstance> defenderTeam)
     {
         foreach (var ally in defenderTeam)
@@ -300,240 +311,237 @@ public static class AbilitySystem
             if (ally == defender || ally.currentHP <= 0) continue;
             var ab = ally.baseData.ability;
             if (ab != null && ab.effect == "boost_defense_allies")
-                return ab.FloatValue; // 0.9 = allies take 90%
+                return ab.FloatValue;
         }
         return 1f;
     }
 
-    // Returns true if the attacker's ability ignores all damage reduction (Aerial Ace)
     public static bool IgnoresDamageReduction(PokemonInstance attacker)
     {
         var ab = attacker.baseData.ability;
         return ab != null && ab.effect == "ignore_damage_reduction";
     }
 
+    public static bool IsImmuneToGround(PokemonInstance defender)
+    {
+        var ab = defender.baseData.ability;
+        return ab != null && ab.effect == "immune_to_ground";
+    }
+
     // -------------------------------------------------------
-    // CORE EFFECT DISPATCHER
+    // CORE DISPATCHER
     // -------------------------------------------------------
 
-    private static void FireEffect(PokemonInstance source,
+    private static void TryFire(string trigger, PokemonInstance source,
         List<PokemonInstance> sourceTeam, List<PokemonInstance> enemyTeam,
-        AbilityData ab, int contextDamage, int excessDamage, PokemonInstance target)
+        int contextDamage, int excessDamage, PokemonInstance contextTarget)
+    {
+        var ab = source.baseData.ability;
+        if (ab == null || ab.trigger != trigger) return;
+        if (!CheckCondition(source, ab.condition)) return;
+        if (!ab.ShouldTrigger()) return;
+
+        ApplyEffect(source, sourceTeam, enemyTeam, ab, contextDamage, excessDamage, contextTarget);
+    }
+
+    private static void ApplyEffect(PokemonInstance source,
+        List<PokemonInstance> sourceTeam, List<PokemonInstance> enemyTeam,
+        AbilityData ab, int contextDamage, int excessDamage, PokemonInstance contextTarget)
     {
         float v = ab.FloatValue;
 
         switch (ab.effect)
         {
-            // --- HEALING ---
-
-            case "heal_self":
+            // --- HEAL (target = who gets healed) ---
+            // self      → heal user from own max HP
+            // ally_all  → heal all allies from their own max HP
+            case "heal":
             {
-                int amount = v < 2f
-                    ? Mathf.CeilToInt(source.maxHP * v)
-                    : (int)v;
-                int actual = Mathf.Min(amount, source.maxHP - source.currentHP);
-                if (actual > 0)
+                switch (ab.target)
                 {
-                    source.currentHP += actual;
-                    Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: Healed {actual} HP ({source.currentHP}/{source.maxHP})");
+                    case "self":
+                        ApplyHeal(source, source, ab);
+                        break;
+                    case "ally_all":
+                        foreach (var ally in sourceTeam)
+                        {
+                            if (ally.currentHP <= 0) continue;
+                            ApplyHeal(source, ally, ab);
+                        }
+                        break;
                 }
                 break;
             }
 
-            // --- DAMAGE TO ALL ENEMIES ---
-
-            case "damage_all_enemies":
+            // --- LEECH (drain from target's max HP, heal goes to user) ---
+            // enemy_front → drain from front enemy's max HP, heal self
+            // enemy_all   → drain from all enemies' max HP, heal self
+            case "leech":
             {
-                foreach (var enemy in new List<PokemonInstance>(enemyTeam))
+                switch (ab.target)
                 {
-                    if (enemy.currentHP <= 0) continue;
-                    if (FireBeforeHit(enemy, source, true)) continue;
-                    int dmg = ApplyTypeMultiplier(source, enemy, (int)v);
-                    dmg = Mathf.Max(0, dmg - GetFlatDamageReduction(enemy));
-                    float red = GetDamageReduction(enemy, true) * GetAllyDamageReduction(enemy, enemyTeam);
-                    dmg = Mathf.CeilToInt(dmg * red);
-                    if (dmg > 0)
+                    case "enemy_front":
                     {
-                        enemy.currentHP = Mathf.Max(0, enemy.currentHP - dmg);
-                        Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: {dmg} to {enemy.baseData.pokemonName} ({enemy.currentHP}/{enemy.maxHP})");
+                        var t = contextTarget ?? GetFirstAlive(enemyTeam);
+                        if (t != null) ApplyHeal(source, source, ab, t.maxHP);
+                        break;
+                    }
+                    case "enemy_all":
+                    {
+                        foreach (var t in enemyTeam)
+                        {
+                            if (t.currentHP <= 0) continue;
+                            ApplyHeal(source, source, ab, t.maxHP);
+                        }
+                        break;
                     }
                 }
                 break;
             }
 
-            // --- DAMAGE TO ALL (including allies) ---
-
-            case "damage_all":
+            // --- DEAL DAMAGE (generic — target resolved from ab.target, type chart applied) ---
+            case "deal_damage":
             {
-                var all = new List<PokemonInstance>(enemyTeam);
-                all.AddRange(sourceTeam);
-                foreach (var p in all)
+                int dmg = v < 1f ? Mathf.CeilToInt(source.attack * v) : (int)v;
+                switch (ab.target)
                 {
-                    if (p == source || p.currentHP <= 0) continue;
-                    // Levitate is immune to Earthquake
-                    if (ab.abilityName == "Earthquake" && p.baseData.ability != null
-                        && p.baseData.ability.effect == "immune_to_ground")
+                    case "enemy_front":
                     {
-                        Debug.Log($"{p.baseData.pokemonName} is immune to Earthquake (Levitate)!");
-                        continue;
+                        var t = GetFirstAlive(enemyTeam);
+                        if (t != null) DealAbilityDamage(source, t, enemyTeam, ab, dmg, true);
+                        break;
                     }
-                    bool isEnemy = enemyTeam.Contains(p);
-                    List<PokemonInstance> pTeam = isEnemy ? enemyTeam : sourceTeam;
-                    if (FireBeforeHit(p, source, true)) continue;
-                    int dmg = ApplyTypeMultiplier(source, p, (int)v);
-                    dmg = Mathf.Max(0, dmg - GetFlatDamageReduction(p));
-                    float red = GetDamageReduction(p, true) * GetAllyDamageReduction(p, pTeam);
-                    dmg = Mathf.CeilToInt(dmg * red);
-                    if (dmg > 0)
+                    case "enemy_next":
                     {
-                        p.currentHP = Mathf.Max(0, p.currentHP - dmg);
-                        Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: {dmg} to {p.baseData.pokemonName} ({p.currentHP}/{p.maxHP})");
+                        var t = GetNextAlive(enemyTeam, contextTarget);
+                        if (t != null) DealAbilityDamage(source, t, enemyTeam, ab, dmg, true);
+                        break;
                     }
-                }
-                break;
-            }
-
-            // --- DAMAGE TO NEXT ENEMY ---
-
-            case "damage_next_enemy":
-            {
-                var next = GetNextAlive(enemyTeam, target);
-                if (next == null) break;
-                if (FireBeforeHit(next, source, true)) break;
-                int baseDmg = v < 1f ? Mathf.CeilToInt(source.attack * v) : (int)v;
-                int dmg = ApplyTypeMultiplier(source, next, baseDmg);
-                float red = GetDamageReduction(next, true) * GetAllyDamageReduction(next, enemyTeam);
-                dmg = Mathf.Max(0, Mathf.CeilToInt((dmg - GetFlatDamageReduction(next)) * red));
-                if (dmg > 0)
-                {
-                    next.currentHP = Mathf.Max(0, next.currentHP - dmg);
-                    Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: {dmg} to {next.baseData.pokemonName} ({next.currentHP}/{next.maxHP})");
-                }
-                break;
-            }
-
-            // --- DAMAGE TO LAST ENEMY ---
-
-            case "damage_last_enemy":
-            {
-                var last = GetLastAlive(enemyTeam);
-                if (last == null || last == target) break;
-                if (FireBeforeHit(last, source, true)) break;
-                int baseDmg = v < 1f ? Mathf.CeilToInt(source.attack * v) : (int)v;
-                int dmg = ApplyTypeMultiplier(source, last, baseDmg);
-                float red = GetDamageReduction(last, true) * GetAllyDamageReduction(last, enemyTeam);
-                dmg = Mathf.Max(0, Mathf.CeilToInt((dmg - GetFlatDamageReduction(last)) * red));
-                if (dmg > 0)
-                {
-                    last.currentHP = Mathf.Max(0, last.currentHP - dmg);
-                    Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: {dmg} to {last.baseData.pokemonName} ({last.currentHP}/{last.maxHP})");
-                }
-                break;
-            }
-
-            // --- DAMAGE TO ENEMY IN SAME POSITION (Quick Claw) ---
-
-            case "damage_same_position":
-            {
-                int pos = sourceTeam.IndexOf(source);
-                if (pos < 0 || pos >= enemyTeam.Count) break;
-                var samePos = enemyTeam[pos];
-                if (samePos == null || samePos.currentHP <= 0) break;
-                if (FireBeforeHit(samePos, source, true)) break;
-                int dmg = ApplyTypeMultiplier(source, samePos, Mathf.CeilToInt(source.attack * v));
-                float red = GetDamageReduction(samePos, true) * GetAllyDamageReduction(samePos, enemyTeam);
-                dmg = Mathf.Max(0, Mathf.CeilToInt((dmg - GetFlatDamageReduction(samePos)) * red));
-                if (dmg > 0)
-                {
-                    samePos.currentHP = Mathf.Max(0, samePos.currentHP - dmg);
-                    Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: {dmg} to {samePos.baseData.pokemonName} at same position ({samePos.currentHP}/{samePos.maxHP})");
+                    case "enemy_last":
+                    {
+                        var t = GetLastAlive(enemyTeam);
+                        if (t != null && t != contextTarget) DealAbilityDamage(source, t, enemyTeam, ab, dmg, true);
+                        break;
+                    }
+                    case "enemy_all":
+                    {
+                        foreach (var t in new List<PokemonInstance>(enemyTeam))
+                            if (t.currentHP > 0) DealAbilityDamage(source, t, enemyTeam, ab, dmg, true);
+                        break;
+                    }
+                    case "all_others":
+                    {
+                        var all = new List<PokemonInstance>(enemyTeam);
+                        all.AddRange(sourceTeam);
+                        foreach (var t in all)
+                        {
+                            if (t == source || t.currentHP <= 0) continue;
+                            bool isEnemy = enemyTeam.Contains(t);
+                            DealAbilityDamage(source, t, isEnemy ? enemyTeam : sourceTeam, ab, dmg, true);
+                        }
+                        break;
+                    }
+                    case "all":
+                    {
+                        var all = new List<PokemonInstance>(enemyTeam);
+                        all.AddRange(sourceTeam);
+                        foreach (var t in all)
+                        {
+                            if (t.currentHP <= 0) continue;
+                            bool isEnemy = enemyTeam.Contains(t);
+                            DealAbilityDamage(source, t, isEnemy ? enemyTeam : sourceTeam, ab, dmg, true);
+                        }
+                        break;
+                    }
                 }
                 break;
             }
 
             // --- OVERFLOW DAMAGE (Bone Club) ---
-
             case "overflow_damage_next":
             {
                 if (excessDamage <= 0) break;
-                var next = GetNextAlive(enemyTeam, target);
+                var next = GetNextAlive(enemyTeam, contextTarget);
                 if (next == null) break;
                 if (FireBeforeHit(next, source, true)) break;
                 next.currentHP = Mathf.Max(0, next.currentHP - excessDamage);
-                Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: {excessDamage} overflow to {next.baseData.pokemonName} ({next.currentHP}/{next.maxHP})");
+                Debug.Log($"{source.DisplayName}'s {ab.abilityName}: {excessDamage} overflow to {next.DisplayName} ({next.currentHP}/{next.maxHP})");
                 break;
             }
 
-            // --- ENEMY ATTACK DEBUFF (Intimidate, Thunder Wave) ---
-
-            case "boost_attack_enemy":
-            {
-                PokemonInstance tgt = ab.condition == "last_enemy"
-                    ? GetLastAlive(enemyTeam)
-                    : GetFirstAlive(enemyTeam);
-                if (tgt == null) break;
-                int old = tgt.attack;
-                tgt.attack = Mathf.Max(1, Mathf.RoundToInt(tgt.attack * v));
-                Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: {tgt.baseData.pokemonName} attack {old} → {tgt.attack}");
-                break;
-            }
-
-            // --- SELF ATTACK BUFF (Moxie on kill) ---
-
+            // --- BOOST ATTACK (target-driven) ---
             case "boost_attack":
             {
-                int old = source.attack;
-                source.attack = v <= 4f
-                    ? Mathf.RoundToInt(source.attack * v)
-                    : source.attack + (int)v;
-                Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: Attack {old} → {source.attack}");
+                var targets = ResolveTargets(ab.target, source, sourceTeam, enemyTeam, contextTarget);
+                foreach (var tgt in targets)
+                {
+                    int old = tgt.attack;
+                    tgt.attack = v <= 4f
+                        ? Mathf.RoundToInt(tgt.attack * v)
+                        : tgt.attack + (int)v;
+                    Debug.Log($"{source.DisplayName}'s {ab.abilityName}: {tgt.DisplayName} Attack {old} → {tgt.attack}");
+                }
                 break;
             }
 
-            // --- SELF SPEED BUFF ---
-
+            // --- BOOST SPEED (target-driven) ---
             case "boost_speed":
             {
-                int old = source.speed;
-                source.speed += (int)v;
-                Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: Speed {old} → {source.speed}");
+                var targets = ResolveTargets(ab.target, source, sourceTeam, enemyTeam, contextTarget);
+                foreach (var tgt in targets)
+                {
+                    int old = tgt.speed;
+                    tgt.speed = v <= 4f
+                        ? Mathf.RoundToInt(tgt.speed * v)
+                        : tgt.speed + (int)v;
+                    Debug.Log($"{source.DisplayName}'s {ab.abilityName}: {tgt.DisplayName} Speed {old} → {tgt.speed}");
+                }
                 break;
             }
 
-            // --- ALLY ATTACK BUFF (Flower Gift in sun) ---
-
-            case "boost_attack_all_allies":
+            // --- REDUCE ATTACK (target-driven) ---
+            case "reduce_attack":
             {
-                foreach (var ally in sourceTeam)
+                var targets = ResolveTargets(ab.target, source, sourceTeam, enemyTeam, contextTarget);
+                foreach (var tgt in targets)
                 {
-                    if (ally == source || ally.currentHP <= 0) continue;
-                    ally.attack += (int)v;
-                    Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: {ally.baseData.pokemonName} attack +{(int)v} → {ally.attack}");
+                    int old = tgt.attack;
+                    tgt.attack = Mathf.Max(1, Mathf.RoundToInt(tgt.attack * v));
+                    Debug.Log($"{source.DisplayName}'s {ab.abilityName}: {tgt.DisplayName} Attack {old} → {tgt.attack}");
+                }
+                break;
+            }
+
+            // --- REDUCE SPEED (target-driven) ---
+            case "reduce_speed":
+            {
+                var targets = ResolveTargets(ab.target, source, sourceTeam, enemyTeam, contextTarget);
+                foreach (var tgt in targets)
+                {
+                    int old = tgt.speed;
+                    tgt.speed = Mathf.Max(1, Mathf.RoundToInt(tgt.speed * v));
+                    Debug.Log($"{source.DisplayName}'s {ab.abilityName}: {tgt.DisplayName} Speed {old} → {tgt.speed}");
                 }
                 break;
             }
 
             // --- SUMMON WEATHER ---
-
             case "summon_weather":
             {
-                // Weather name is stored in value field ("rain", "sun", "sandstorm")
                 ActiveWeather = ab.value;
-                Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: Weather → {ActiveWeather}!");
+                Debug.Log($"{source.DisplayName}'s {ab.abilityName}: Weather → {ActiveWeather}!");
                 break;
             }
 
             // --- SUMMON SCREEN ---
-
             case "summon_screen":
             {
-                ActiveScreen = ab.value; // "light_screen"
-                Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: {ActiveScreen} activated!");
+                ActiveScreen = ab.value;
+                Debug.Log($"{source.DisplayName}'s {ab.abilityName}: {ActiveScreen} activated!");
                 break;
             }
 
-            // --- SWAP ENEMIES (Stench, Whirlwind) ---
-
+            // --- SWAP ENEMIES ---
             case "swap_enemies":
             {
                 if (ab.condition == "first_last" && enemyTeam.Count >= 2)
@@ -541,7 +549,7 @@ public static class AbilitySystem
                     var tmp = enemyTeam[0];
                     enemyTeam[0] = enemyTeam[enemyTeam.Count - 1];
                     enemyTeam[enemyTeam.Count - 1] = tmp;
-                    Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: Swapped first and last enemy!");
+                    Debug.Log($"{source.DisplayName}'s {ab.abilityName}: Swapped first and last enemy!");
                 }
                 else if (ab.condition == "last_two" && enemyTeam.Count >= 2)
                 {
@@ -549,13 +557,12 @@ public static class AbilitySystem
                     var tmp = enemyTeam[c - 1];
                     enemyTeam[c - 1] = enemyTeam[c - 2];
                     enemyTeam[c - 2] = tmp;
-                    Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: Swapped last two enemies!");
+                    Debug.Log($"{source.DisplayName}'s {ab.abilityName}: Swapped last two enemies!");
                 }
                 break;
             }
 
             // --- MOVE ALLY TO FRONT (U-Turn) ---
-
             case "move_ally_to_front":
             {
                 int idx = sourceTeam.IndexOf(source);
@@ -568,35 +575,66 @@ public static class AbilitySystem
                 {
                     sourceTeam.Remove(nextAlly);
                     sourceTeam.Insert(0, nextAlly);
-                    Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: {nextAlly.baseData.pokemonName} moved to front!");
+                    Debug.Log($"{source.DisplayName}'s {ab.abilityName}: {nextAlly.DisplayName} moved to front!");
                 }
                 break;
             }
 
-            // --- MOODY: +15% attack, -10% speed ---
 
+            // --- MOODY ---
             case "moody":
             {
                 int oldAtk = source.attack, oldSpd = source.speed;
                 source.attack = Mathf.RoundToInt(source.attack * 1.15f);
                 source.speed  = Mathf.Max(1, Mathf.RoundToInt(source.speed * 0.90f));
-                Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: Attack {oldAtk}→{source.attack}, Speed {oldSpd}→{source.speed}");
+                Debug.Log($"{source.DisplayName}'s {ab.abilityName}: Attack {oldAtk}→{source.attack}, Speed {oldSpd}→{source.speed}");
                 break;
             }
 
-            // --- SOLAR POWER: +30% attack in sun, lose 5% HP per round ---
-
+            // --- SOLAR POWER ---
             case "solar_power":
             {
                 if (ActiveWeather == "sun")
                 {
-                    source.attack = Mathf.RoundToInt(source.attack * 1.3f);
+                    source.attack = Mathf.RoundToInt(source.attack * v);
                     int drain = Mathf.CeilToInt(source.maxHP * 0.05f);
                     source.currentHP = Mathf.Max(1, source.currentHP - drain);
-                    Debug.Log($"{source.baseData.pokemonName}'s {ab.abilityName}: +30% attack in sun, -{drain} HP ({source.currentHP}/{source.maxHP})");
+                    Debug.Log($"{source.DisplayName}'s {ab.abilityName}: +{(int)((v-1)*100)}% attack in sun, -{drain} HP ({source.currentHP}/{source.maxHP})");
                 }
                 break;
             }
+        }
+    }
+
+    // -------------------------------------------------------
+    // ABILITY DAMAGE HELPER
+    // Applies before-hit check, damage reduction, and logs result.
+    // -------------------------------------------------------
+
+    private static void DealAbilityDamage(PokemonInstance source, PokemonInstance target,
+        List<PokemonInstance> targetTeam, AbilityData ab, int baseDamage, bool applyTypeChart = false)
+    {
+        if (FireBeforeHit(target, source, true)) return;
+
+        int dmg = baseDamage;
+
+        if (applyTypeChart)
+        {
+            float typeMultiplier = TypeChart.GetMultiplier(source.baseData.type1, target.baseData.type1);
+            dmg = Mathf.CeilToInt(dmg * typeMultiplier);
+            string effectText = DamageCalculator.GetEffectivenessText(typeMultiplier);
+            if (!string.IsNullOrEmpty(effectText)) Debug.Log(effectText.Trim());
+            if (typeMultiplier == 0f) return;
+        }
+
+        dmg = Mathf.Max(0, dmg - GetFlatDamageReduction(target));
+        float reduction = GetDamageReduction(target, true) * GetAllyDamageReduction(target, targetTeam);
+        dmg = Mathf.CeilToInt(dmg * reduction);
+
+        if (dmg > 0)
+        {
+            target.currentHP = Mathf.Max(0, target.currentHP - dmg);
+            Debug.Log($"{source.DisplayName}'s {ab.abilityName}: {dmg} to {target.DisplayName} ({target.currentHP}/{target.maxHP})");
         }
     }
 
@@ -608,39 +646,111 @@ public static class AbilitySystem
     {
         if (string.IsNullOrEmpty(condition)) return true;
 
+        // hp_below_X — parses any threshold (hp_below_33, hp_below_40, hp_below_75, etc.)
+        if (condition.StartsWith("hp_below_"))
+        {
+            if (int.TryParse(condition.Substring("hp_below_".Length), out int threshold))
+                return (float)p.currentHP / p.maxHP < threshold / 100f;
+        }
+
         switch (condition)
         {
-            case "hp_below_20":       return (float)p.currentHP / p.maxHP < 0.20f;
-            case "hp_below_33":       return (float)p.currentHP / p.maxHP < 0.33f;
-            case "hp_below_50":       return (float)p.currentHP / p.maxHP < 0.50f;
             case "at_full_hp":        return p.currentHP == p.maxHP;
             case "weather_sun":       return ActiveWeather == "sun";
             case "weather_rain":      return ActiveWeather == "rain";
             case "weather_sandstorm": return ActiveWeather == "sandstorm";
             case "weather_hail":      return ActiveWeather == "hail";
-            // Targeting conditions are handled inside FireEffect, not here
-            case "first_enemy":
-            case "last_enemy":
-            case "first_last":
-            case "last_two":
-            case "first_hit":
-            case "light_screen":      return true;
             default:                  return true;
         }
     }
 
     // -------------------------------------------------------
-    // TYPE EFFECTIVENESS HELPER
+    // SERENE GRACE — doubles healing for the recipient
     // -------------------------------------------------------
 
-    // Applies type multiplier from source's type against a single target
-    private static int ApplyTypeMultiplier(PokemonInstance source, PokemonInstance target, int baseDamage)
+    // Unified heal helper.
+    // hpPool overrides whose maxHP is used as the basis (for leech effects).
+    private static void ApplyHeal(PokemonInstance healer, PokemonInstance recipient,
+        AbilityData ab, int hpPool = -1)
     {
-        float multiplier = TypeChart.GetMultiplier(source.baseData.type1, target.baseData.type1);
-        int result = Mathf.CeilToInt(baseDamage * multiplier);
-        if (multiplier >= 2f)  Debug.Log($"It's super effective! (x{multiplier})");
-        if (multiplier <= 0.5f && multiplier > 0f) Debug.Log($"It's not very effective... (x{multiplier})");
-        if (multiplier == 0f) { Debug.Log("It has no effect!"); return 0; }
+        float v = ab.FloatValue;
+        int pool = hpPool >= 0 ? hpPool : recipient.maxHP;
+        int amount = v < 2f ? Mathf.CeilToInt(pool * v) : (int)v;
+
+        // Serene Grace doubles healing for the recipient
+        var recipientAbility = recipient.baseData.ability;
+        if (recipientAbility != null && recipientAbility.effect == "boost_healing")
+            amount = Mathf.RoundToInt(amount * recipientAbility.FloatValue);
+
+        int actual = Mathf.Min(amount, recipient.maxHP - recipient.currentHP);
+        if (actual > 0)
+        {
+            recipient.currentHP += actual;
+            Debug.Log($"{healer.DisplayName}'s {ab.abilityName}: Healed {recipient.DisplayName} {actual} HP ({recipient.currentHP}/{recipient.maxHP})");
+        }
+    }
+
+    private static int ApplySereneGrace(PokemonInstance p, int healAmount)
+    {
+        var ab = p.baseData.ability;
+        if (ab != null && ab.effect == "boost_healing")
+            return Mathf.RoundToInt(healAmount * ab.FloatValue);
+        return healAmount;
+    }
+
+    // -------------------------------------------------------
+    // TARGET RESOLVER
+    // Returns the list of PokemonInstances the effect should apply to.
+    // -------------------------------------------------------
+
+    private static List<PokemonInstance> ResolveTargets(string target, PokemonInstance source,
+        List<PokemonInstance> sourceTeam, List<PokemonInstance> enemyTeam,
+        PokemonInstance contextTarget)
+    {
+        var result = new List<PokemonInstance>();
+        switch (target)
+        {
+            case "self":
+                result.Add(source);
+                break;
+            case "enemy_front":
+            {
+                var t = GetFirstAlive(enemyTeam);
+                if (t != null) result.Add(t);
+                break;
+            }
+            case "enemy_next":
+            {
+                var t = GetNextAlive(enemyTeam, contextTarget);
+                if (t != null) result.Add(t);
+                break;
+            }
+            case "enemy_last":
+            {
+                var t = GetLastAlive(enemyTeam);
+                if (t != null) result.Add(t);
+                break;
+            }
+            case "enemy_all":
+                foreach (var t in enemyTeam)
+                    if (t.currentHP > 0) result.Add(t);
+                break;
+            case "ally_all":
+                foreach (var t in sourceTeam)
+                    if (t != source && t.currentHP > 0) result.Add(t);
+                break;
+            case "attacker":
+                if (contextTarget != null) result.Add(contextTarget);
+                break;
+            case "all_others":
+                foreach (var t in enemyTeam)  if (t.currentHP > 0) result.Add(t);
+                foreach (var t in sourceTeam) if (t != source && t.currentHP > 0) result.Add(t);
+                break;
+            case "all":
+                foreach (var t in enemyTeam)  if (t.currentHP > 0) result.Add(t);
+                foreach (var t in sourceTeam) if (t.currentHP > 0) result.Add(t);
+                break;
+        }
         return result;
     }
 

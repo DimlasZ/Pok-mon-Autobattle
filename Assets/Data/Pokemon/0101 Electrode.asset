@@ -18,6 +18,6 @@ MonoBehaviour:
   hp: 93
   type1: Electric
   speed: 150
-  tier: 0
+  tier: 4
   ability: {fileID: 0}
   sprite: {fileID: 48509646242464464, guid: 14b28d1f33e01544ea5ad682a1ade65f, type: 3}

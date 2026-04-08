@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 20
   pokemonName: Raticate
-  attack: 80
-  hp: 73
+  attack: 29
+  hp: 44
   type1: Normal
-  speed: 97
-  tier: 0
+  speed: 63
+  tier: 2
   ability: {fileID: 0}
   sprite: {fileID: 6526055473014536669, guid: d5c4730ea4b8d8a438070bc8be8d0300, type: 3}

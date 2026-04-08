@@ -17,10 +17,10 @@ using System.Linq;
 public class BattleSceneManager : MonoBehaviour
 {
     [Header("Player Team (left side)")]
-    public PokemonSlotUI[] playerSlots; // 3 slots
+    public PokemonSlotUI[] playerSlots; // 6 slots (2x3 grid, slots 0-2 = front row, 3-5 = back row)
 
     [Header("Enemy Team (right side)")]
-    public PokemonSlotUI[] enemySlots;  // 3 slots
+    public PokemonSlotUI[] enemySlots;  // 6 slots (same layout)
 
     [Header("Battle Log")]
     public TextMeshProUGUI battleLogText; // Shows what just happened
@@ -49,6 +49,9 @@ public class BattleSceneManager : MonoBehaviour
     private List<PokemonInstance> playerTeam = new List<PokemonInstance>();
     private List<PokemonInstance> enemyTeam  = new List<PokemonInstance>();
 
+    // How many slots are active this battle (captured at Start, stays fixed during the fight)
+    private int activeSlots;
+
     // -------------------------------------------------------
 
     private void Start()
@@ -72,8 +75,16 @@ public class BattleSceneManager : MonoBehaviour
             .Select(p => new PokemonInstance(p.baseData))
             .ToList();
 
-        // Generate enemy team via BattleManager
-        enemyTeam = BattleManager.Instance.GenerateEnemyTeam();
+        // Generate enemy team
+        enemyTeam = EnemyGenerator.GenerateEnemyTeam();
+
+        // Tag enemy instances so they show as "Enemy X" in logs
+        foreach (var e in enemyTeam)
+            e.displayName = "Enemy " + e.baseData.pokemonName;
+
+        // Capture active slot count (max of both sides, they should be equal)
+        activeSlots = Mathf.Max(playerTeam.Count, enemyTeam.Count);
+        activeSlots = Mathf.Min(activeSlots, ShopManager.MaxBattleSize);
 
         // Show both teams on screen
         DisplayTeams();
@@ -88,14 +99,18 @@ public class BattleSceneManager : MonoBehaviour
 
     private void DisplayTeams()
     {
-        DisplayTeamInSlots(playerTeam, playerSlots);
-        DisplayTeamInSlots(enemyTeam,  enemySlots);
+        DisplayTeamInSlots(playerTeam, playerSlots, activeSlots);
+        DisplayTeamInSlots(enemyTeam,  enemySlots,  activeSlots);
     }
 
-    private void DisplayTeamInSlots(List<PokemonInstance> team, PokemonSlotUI[] slots)
+    private void DisplayTeamInSlots(List<PokemonInstance> team, PokemonSlotUI[] slots, int activeSize)
     {
         for (int i = 0; i < slots.Length; i++)
         {
+            bool inRange = i < activeSize;
+            slots[i].gameObject.SetActive(inRange);
+            if (!inRange) continue;
+
             if (i < team.Count && team[i] != null)
                 slots[i].DisplayPokemon(team[i]);
             else
@@ -115,10 +130,15 @@ public class BattleSceneManager : MonoBehaviour
 
     private IEnumerator RunBattleCoroutine()
     {
+        AbilitySystem.ResetBattleState();
+
         Log("Battle start!");
         yield return WaitForPlayback();
 
-        BattleManager.BattleResult result = BattleManager.BattleResult.Draw;
+        AbilitySystem.FireBattleStart(playerTeam, enemyTeam);
+        AbilitySystem.FireBattleStart(enemyTeam, playerTeam);
+
+        BattleResult result = BattleResult.Draw;
 
         for (int turn = 1; turn <= 20; turn++)
         {
@@ -128,46 +148,49 @@ public class BattleSceneManager : MonoBehaviour
 
             if (playerFront == null || enemyFront == null) break;
 
+            AbilitySystem.FireRoundStart(playerTeam, enemyTeam);
+            AbilitySystem.FireRoundStart(enemyTeam, playerTeam);
+
             Log($"— Turn {turn} —");
             yield return WaitForPlayback();
 
             // Determine attack order based on Speed (tie = random)
             bool playerGoesFirst;
-            if (playerFront.baseData.speed != enemyFront.baseData.speed)
-                playerGoesFirst = playerFront.baseData.speed > enemyFront.baseData.speed;
+            if (playerFront.speed != enemyFront.speed)
+                playerGoesFirst = playerFront.speed > enemyFront.speed;
             else
                 playerGoesFirst = Random.value > 0.5f;
 
             PokemonInstance first  = playerGoesFirst ? playerFront : enemyFront;
             PokemonInstance second = playerGoesFirst ? enemyFront  : playerFront;
 
-            Log($"{first.baseData.pokemonName} (Spd {first.baseData.speed}) goes before {second.baseData.pokemonName}");
+            Log($"{first.DisplayName} (Spd {first.speed}) goes before {second.DisplayName}");
             yield return WaitForPlayback();
 
             // First Pokemon attacks
             string attackLog = GetAttackLog(first, second);
-            BattleManager.Instance.Attack(first, second, playerGoesFirst ? playerTeam : enemyTeam, playerGoesFirst ? enemyTeam : playerTeam);
+            DamageCalculator.Attack(first, second, playerGoesFirst ? playerTeam : enemyTeam, playerGoesFirst ? enemyTeam : playerTeam);
             Log(attackLog);
             RefreshHP();
             yield return WaitForPlayback();
 
             if (second.currentHP <= 0)
             {
-                Log($"{second.baseData.pokemonName} fainted!");
+                Log($"{second.DisplayName} fainted!");
                 yield return WaitForPlayback();
             }
             else
             {
                 // Second Pokemon attacks back
                 string counterLog = GetAttackLog(second, first);
-                BattleManager.Instance.Attack(second, first, playerGoesFirst ? enemyTeam : playerTeam, playerGoesFirst ? playerTeam : enemyTeam);
+                DamageCalculator.Attack(second, first, playerGoesFirst ? enemyTeam : playerTeam, playerGoesFirst ? playerTeam : enemyTeam);
                 Log(counterLog);
                 RefreshHP();
                 yield return WaitForPlayback();
 
                 if (first.currentHP <= 0)
                 {
-                    Log($"{first.baseData.pokemonName} fainted!");
+                    Log($"{first.DisplayName} fainted!");
                     yield return WaitForPlayback();
                 }
             }
@@ -181,9 +204,9 @@ public class BattleSceneManager : MonoBehaviour
             bool playerWiped = playerTeam.Count == 0;
             bool enemyWiped  = enemyTeam.Count  == 0;
 
-            if (playerWiped && enemyWiped) { result = BattleManager.BattleResult.Draw;       break; }
-            if (enemyWiped)                { result = BattleManager.BattleResult.PlayerWin;  break; }
-            if (playerWiped)               { result = BattleManager.BattleResult.PlayerLoss; break; }
+            if (playerWiped && enemyWiped) { result = BattleResult.Draw;       break; }
+            if (enemyWiped)                { result = BattleResult.PlayerWin;  break; }
+            if (playerWiped)               { result = BattleResult.PlayerLoss; break; }
         }
 
         // Battle over — show result
@@ -194,19 +217,19 @@ public class BattleSceneManager : MonoBehaviour
     // RESULT
     // -------------------------------------------------------
 
-    private IEnumerator ShowResult(BattleManager.BattleResult result)
+    private IEnumerator ShowResult(BattleResult result)
     {
         string text  = result switch
         {
-            BattleManager.BattleResult.PlayerWin  => "VICTORY!",
-            BattleManager.BattleResult.PlayerLoss => "DEFEAT",
+            BattleResult.PlayerWin  => "VICTORY!",
+            BattleResult.PlayerLoss => "DEFEAT",
             _                                     => "DRAW"
         };
 
         Color color = result switch
         {
-            BattleManager.BattleResult.PlayerWin  => new Color(0.2f, 1f, 0.2f),
-            BattleManager.BattleResult.PlayerLoss => new Color(1f, 0.2f, 0.2f),
+            BattleResult.PlayerWin  => new Color(0.2f, 1f, 0.2f),
+            BattleResult.PlayerLoss => new Color(1f, 0.2f, 0.2f),
             _                                     => new Color(1f, 0.8f, 0.2f)
         };
 
@@ -239,15 +262,13 @@ public class BattleSceneManager : MonoBehaviour
 
         string effectiveness = multiplier switch
         {
-            0f         => " — No effect!",
-            >= 4f      => " — Super effective! (x4)",
-            >= 2f      => " — Super effective!",
-            <= 0.25f   => " — Not very effective (x0.25)",
-            <= 0.5f    => " — Not very effective",
-            _          => ""
+            0f       => " — No effect!",
+            >= 1.5f  => " — Super effective!",
+            <= 0.75f => " — Not very effective",
+            _        => ""
         };
 
-        return $"{attacker.baseData.pokemonName} → {defender.baseData.pokemonName}: {damage} dmg{effectiveness}";
+        return $"{attacker.DisplayName} -> {defender.DisplayName}: {damage} dmg{effectiveness}";
     }
 
     // -------------------------------------------------------

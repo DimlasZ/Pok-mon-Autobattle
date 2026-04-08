@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 258
   pokemonName: Mudkip
-  attack: 43
-  hp: 50
+  attack: 30
+  hp: 48
   type1: Water
-  speed: 40
+  speed: 20
   tier: 1
-  ability: {fileID: 0}
+  ability: {fileID: 11400000, guid: be427f171e7ea964d89b4cafb926d413, type: 2}
   sprite: {fileID: 7321914022788626847, guid: d549249e986629344ad0ab2107733845, type: 3}

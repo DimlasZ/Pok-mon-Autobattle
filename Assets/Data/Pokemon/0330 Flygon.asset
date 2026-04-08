@@ -18,6 +18,6 @@ MonoBehaviour:
   hp: 129
   type1: Ground
   speed: 100
-  tier: 0
+  tier: 5
   ability: {fileID: 0}
   sprite: {fileID: -7587545227191722299, guid: 96b31649cba49ad46b0e7d2e70eb448f, type: 3}

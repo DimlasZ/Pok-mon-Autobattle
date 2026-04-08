@@ -18,6 +18,6 @@ MonoBehaviour:
   hp: 135
   type1: Fire
   speed: 30
-  tier: 0
+  tier: 5
   ability: {fileID: 0}
   sprite: {fileID: -7978123538866781351, guid: 763b789c99d235248b4c0ad014fa9d30, type: 3}

@@ -5,10 +5,14 @@ using System.Collections.Generic;
 
 public class AbilityCSVImporter
 {
+    // CSV column order:
+    // 0=ID, 1=Name, 2=Trigger, 3=Target, 4=Effect, 5=Value, 6=Condition,
+    // 7=Chance, 8=Custom, 9=Description
+
     [MenuItem("Pokemon/Import Abilities from CSV")]
     public static void ImportFromCSV()
     {
-        string csvPath    = "Assets/Data/Ability_data.csv";
+        string csvPath      = "Assets/Data/Ability_data.csv";
         string outputFolder = "Assets/Data/Abilities";
 
         if (!File.Exists(csvPath))
@@ -21,7 +25,7 @@ public class AbilityCSVImporter
             AssetDatabase.CreateFolder("Assets/Data", "Abilities");
 
         string[] lines = File.ReadAllLines(csvPath, System.Text.Encoding.UTF8);
-        int created = 0, skipped = 0;
+        int created = 0, updated = 0, skipped = 0;
 
         for (int i = 1; i < lines.Length; i++)
         {
@@ -37,18 +41,28 @@ public class AbilityCSVImporter
                 continue;
             }
 
-            int    id          = int.Parse(col[0].Trim());
-            string abilityName = col[1].Trim();
-            string trigger     = col.Length > 2 ? col[2].Trim() : "";
-            string effect      = col.Length > 3 ? col[3].Trim() : "";
-            string value       = col.Length > 4 ? col[4].Trim() : "";
-            string condition   = col.Length > 5 ? col[5].Trim() : "";
-            string description = col.Length > 6 ? col[6].Trim() : "";
+            if (!int.TryParse(col[0].Trim(), out int id)) continue;
+
+            string abilityName = Get(col, 1);
+            string trigger     = Get(col, 2);
+            string target      = Get(col, 3);
+            string effect      = Get(col, 4);
+            string value       = Get(col, 5);
+            string condition   = Get(col, 6);
+            string chanceStr   = Get(col, 7);
+            string custom      = Get(col, 8);
+            string description = Get(col, 9);
+
+            float.TryParse(chanceStr,
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out float chance);
 
             string assetPath = $"{outputFolder}/{id:000} {abilityName}.asset";
 
             AbilityData data = AssetDatabase.LoadAssetAtPath<AbilityData>(assetPath);
-            if (data == null)
+            bool isNew = data == null;
+            if (isNew)
             {
                 data = ScriptableObject.CreateInstance<AbilityData>();
                 AssetDatabase.CreateAsset(data, assetPath);
@@ -57,25 +71,33 @@ public class AbilityCSVImporter
             data.abilityID   = id;
             data.abilityName = abilityName;
             data.trigger     = trigger;
+            data.target      = target;
             data.effect      = effect;
             data.value       = value;
             data.condition   = condition;
+            data.chance      = chance;
+            data.custom      = custom;
             data.description = description;
 
             EditorUtility.SetDirty(data);
-            created++;
+
+            if (isNew) created++;
+            else       updated++;
         }
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-        Debug.Log($"Ability import complete: {created} imported, {skipped} skipped.");
+        Debug.Log($"Ability import complete: {created} created, {updated} updated, {skipped} skipped.");
     }
+
+    private static string Get(string[] col, int index)
+        => col.Length > index ? col[index].Trim() : "";
 
     // Handles quoted fields with commas inside (e.g. "After attack, heal 5 HP.")
     private static string[] ParseCSVLine(string line)
     {
-        var result   = new List<string>();
-        var current  = new System.Text.StringBuilder();
+        var result  = new List<string>();
+        var current = new System.Text.StringBuilder();
         bool inQuotes = false;
 
         foreach (char c in line)

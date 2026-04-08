@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 16
   pokemonName: Pidgey
-  attack: 33
-  hp: 33
+  attack: 25
+  hp: 47
   type1: Flying
-  speed: 56
+  speed: 36
   tier: 2
-  ability: {fileID: 11400000, guid: 0ce03fea1dab4b54eafee3d01a3e905b, type: 2}
+  ability: {fileID: 0}
   sprite: {fileID: -530719906995331806, guid: 293b71dac370ef7419f01eb59fba5556, type: 3}

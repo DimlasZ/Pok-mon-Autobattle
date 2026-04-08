@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d5fe0272ba41940a14853929658c3e, type: 3}
+  m_Name: 002 Blaze
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityData
+  abilityID: 2
+  abilityName: Blaze
+  trigger: on_hit
+  target: self
+  effect: boost_attack_once
+  value: 1.25
+  condition: hp_below_40
+  chance: 0
+  custom: 
+  description: Boosts attacks by 25% when below 40% HP.

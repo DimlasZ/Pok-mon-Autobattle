@@ -64,19 +64,20 @@ public class GameManager : MonoBehaviour
     // Reverses the array so the rightmost shop slot (index 2) becomes the front fighter (index 0).
     public void StartBattle()
     {
-        var row = ShopManager.Instance.BattleRow;
-        PlayerBattleTeam = new PokemonInstance[row.Length];
-        for (int i = 0; i < row.Length; i++)
-            PlayerBattleTeam[i] = row[row.Length - 1 - i];
+        var row  = ShopManager.Instance.BattleRow;
+        int size = ShopManager.Instance.BattleSize;
+        PlayerBattleTeam = new PokemonInstance[size];
+        for (int i = 0; i < size; i++)
+            PlayerBattleTeam[i] = row[size - 1 - i];
 
         CurrentPhase = GamePhase.Battle;
         SceneManager.LoadScene(battleSceneName);
     }
 
     // Called by BattleSceneManager when the battle finishes
-    public void OnBattleComplete(BattleManager.BattleResult result)
+    public void OnBattleComplete(BattleResult result)
     {
-        bool playerWon = result == BattleManager.BattleResult.PlayerWin;
+        bool playerWon = result == BattleResult.PlayerWin;
         CurrentPhase   = GamePhase.Results;
 
         if (playerWon)

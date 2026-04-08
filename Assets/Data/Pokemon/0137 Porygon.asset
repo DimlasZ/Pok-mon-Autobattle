@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 137
   pokemonName: Porygon
-  attack: 83
-  hp: 95
+  attack: 20
+  hp: 45
   type1: Normal
-  speed: 40
-  tier: 0
-  ability: {fileID: 0}
+  speed: 20
+  tier: 1
+  ability: {fileID: 11400000, guid: 684c8de7c26422f44876f382a4bffb95, type: 2}
   sprite: {fileID: -6128306935726275527, guid: 31f55fa8364bfcd46b61cfee5fbf3012, type: 3}

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 50
   pokemonName: Diglett
-  attack: 54
-  hp: 19
+  attack: 22
+  hp: 15
   type1: Ground
-  speed: 95
-  tier: 0
+  speed: 75
+  tier: 2
   ability: {fileID: 0}
   sprite: {fileID: 9167512925853175917, guid: 47a31ced93b33124e8769f7b324a52f4, type: 3}

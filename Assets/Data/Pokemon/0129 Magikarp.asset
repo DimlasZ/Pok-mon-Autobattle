@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 129
   pokemonName: Magikarp
-  attack: 21
-  hp: 24
+  attack: 7
+  hp: 25
   type1: Water
-  speed: 80
-  tier: 1
+  speed: 35
+  tier: 2
   ability: {fileID: 0}
   sprite: {fileID: 6535559825099004184, guid: d3e45f12105b48443bb1b0468f13e498, type: 3}

@@ -16,8 +16,8 @@ MonoBehaviour:
   pokemonName: Lugia
   attack: 141
   hp: 374
-  type1: Psychic
+  type1: Flying
   speed: 110
-  tier: 0
+  tier: 6
   ability: {fileID: 0}
   sprite: {fileID: 5335428921741802704, guid: 8434ddedc4a424d4f8ffbb1dd616cc5a, type: 3}

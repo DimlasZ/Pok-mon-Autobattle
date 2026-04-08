@@ -16,7 +16,7 @@ MonoBehaviour:
   pokemonName: Scyther
   attack: 103
   hp: 115
-  type1: Bug
+  type1: Flying
   speed: 105
   tier: 5
   ability: {fileID: 0}

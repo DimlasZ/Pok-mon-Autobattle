@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 52
   pokemonName: Meowth
-  attack: 33
-  hp: 33
+  attack: 20
+  hp: 38
   type1: Normal
-  speed: 90
-  tier: 0
+  speed: 50
+  tier: 2
   ability: {fileID: 0}
   sprite: {fileID: 2854206300589878617, guid: d2d7633221a0917458a729d58bc8a057, type: 3}

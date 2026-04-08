@@ -18,6 +18,6 @@ MonoBehaviour:
   hp: 127
   type1: Water
   speed: 85
-  tier: 0
+  tier: 4
   ability: {fileID: 0}
   sprite: {fileID: -5745194097823127958, guid: e40d9946f109a944fbe5be35db117da7, type: 3}

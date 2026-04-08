@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
-// UIManager is responsible for keeping the screen in sync with the game state.
+// UIManager keeps the screen in sync with game state.
 // It does NOT make game decisions — it only reads from ShopManager/GameManager
 // and updates what the player sees.
 
@@ -11,27 +12,28 @@ public class UIManager : MonoBehaviour
     // --- Singleton ---
     public static UIManager Instance { get; private set; }
 
-    [Header("Shop Row (3 slots)")]
+    [Header("Shop Row (up to 5 slots)")]
     public PokemonSlotUI[] shopSlots;
 
-    [Header("Battle Row (3 slots)")]
+    [Header("Battle Row (up to 6 slots)")]
     public PokemonSlotUI[] battleSlots;
 
-    [Header("Bench Row (6 slots)")]
+    [Header("Bench Row (1 slot)")]
     public PokemonSlotUI[] benchSlots;
 
     [Header("Info Display")]
-    public TextMeshProUGUI pokedollarText;  // Shows current Pokédollars
-    public TextMeshProUGUI roundText;       // Shows current round
-    public TextMeshProUGUI playerHPText;    // Shows player HP
+    public TextMeshProUGUI pokedollarText;
+    public TextMeshProUGUI roundText;
+    public TextMeshProUGUI playerHPText;
 
     [Header("Action Buttons")]
-    public Button buyButton;          // Visible when a shop slot is selected
-    public Button sellButton;         // Visible when a bench slot is selected
-    public Button moveToBattleButton; // Visible when a bench slot is selected
-    public Button moveToBenchButton;  // Visible when a battle slot is selected
-    public Button rerollButton;       // Always visible during buy phase
-    public Button startBattleButton;  // Always visible during buy phase
+    public Button releaseButton;
+    public Button rerollButton;
+    public Button startBattleButton;
+
+    [Header("Release Drop Zone")]
+    [Tooltip("The UI object the player can drag Pokemon onto to release them.")]
+    public ReleaseDropZone releaseDropZone;
 
     // -------------------------------------------------------
 
@@ -43,23 +45,17 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        // Wire up slot indices and sources so each slot knows who it is
         SetupSlots(shopSlots,   ShopManager.SelectionSource.Shop);
         SetupSlots(battleSlots, ShopManager.SelectionSource.Battle);
         SetupSlots(benchSlots,  ShopManager.SelectionSource.Bench);
 
-        // Wire up action buttons to ShopManager methods
-        buyButton.onClick.AddListener(OnBuyClicked);
-        sellButton.onClick.AddListener(OnSellClicked);
-        moveToBattleButton.onClick.AddListener(OnMoveToBattleClicked);
-        moveToBenchButton.onClick.AddListener(OnMoveToBenchClicked);
+        releaseButton.onClick.AddListener(OnReleaseClicked);
         rerollButton.onClick.AddListener(OnRerollClicked);
         startBattleButton.onClick.AddListener(OnStartBattleClicked);
 
         RefreshAll();
     }
 
-    // Assigns source and index to each slot in an array
     private void SetupSlots(PokemonSlotUI[] slots, ShopManager.SelectionSource source)
     {
         for (int i = 0; i < slots.Length; i++)
@@ -71,7 +67,6 @@ public class UIManager : MonoBehaviour
 
     // -------------------------------------------------------
     // REFRESH
-    // Call this any time the game state changes to update the whole UI
     // -------------------------------------------------------
 
     public void RefreshAll()
@@ -81,19 +76,30 @@ public class UIManager : MonoBehaviour
         RefreshBattle();
         RefreshInfoDisplay();
         RefreshActionButtons();
+
+        // Re-apply target highlights based on current selection
+        var sel = ShopManager.Instance.CurrentSelection;
+        if (sel != ShopManager.SelectionSource.None)
+            HighlightValidTargets(sel);
+        else
+            ClearTargetHighlights();
     }
 
-    // Updates the 3 shop slots
     private void RefreshShop()
     {
+        int active = ShopManager.Instance.ShopSize;
         for (int i = 0; i < shopSlots.Length; i++)
         {
+            bool on = i < active;
+            shopSlots[i].gameObject.SetActive(on);
+            if (!on) continue;
+
             bool isSelected = ShopManager.Instance.CurrentSelection == ShopManager.SelectionSource.Shop
                               && ShopManager.Instance.SelectedIndex == i;
 
             if (ShopManager.Instance.ShopRow[i] != null)
             {
-                shopSlots[i].DisplayShopPokemon(ShopManager.Instance.ShopRow[i]);
+                shopSlots[i].DisplayPokemon(ShopManager.Instance.ShopRow[i]);
                 shopSlots[i].SetHighlight(isSelected);
             }
             else
@@ -103,7 +109,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Updates the 6 bench slots
     private void RefreshBench()
     {
         for (int i = 0; i < benchSlots.Length; i++)
@@ -123,11 +128,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Updates the 3 battle slots
     private void RefreshBattle()
     {
+        int active = ShopManager.Instance.BattleSize;
         for (int i = 0; i < battleSlots.Length; i++)
         {
+            bool on = i < active;
+            battleSlots[i].gameObject.SetActive(on);
+            if (!on) continue;
+
             bool isSelected = ShopManager.Instance.CurrentSelection == ShopManager.SelectionSource.Battle
                               && ShopManager.Instance.SelectedIndex == i;
 
@@ -143,7 +152,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Updates the Pokédollar, round, and HP text
     private void RefreshInfoDisplay()
     {
         pokedollarText.text = $"P${ShopManager.Instance.CurrentPokedollars}";
@@ -151,77 +159,77 @@ public class UIManager : MonoBehaviour
         playerHPText.text   = $"HP: {GameManager.Instance.PlayerHP}/{GameManager.Instance.playerMaxHP}";
     }
 
-    // Shows/hides action buttons based on what is currently selected
     private void RefreshActionButtons()
     {
         var selection = ShopManager.Instance.CurrentSelection;
+        bool hasSelection = selection != ShopManager.SelectionSource.None;
 
-        // Buy: only when a shop slot is selected
-        buyButton.gameObject.SetActive(selection == ShopManager.SelectionSource.Shop);
+        // Release is available when bench or battle pokemon is selected
+        bool canRelease = selection == ShopManager.SelectionSource.Bench
+                       || selection == ShopManager.SelectionSource.Battle;
+        releaseButton.gameObject.SetActive(canRelease);
 
-        // Sell + Move to Battle: only when a bench slot is selected
-        sellButton.gameObject.SetActive(selection == ShopManager.SelectionSource.Bench);
-        moveToBattleButton.gameObject.SetActive(selection == ShopManager.SelectionSource.Bench);
-
-        // Disable Move to Battle if battle row is full
-        if (selection == ShopManager.SelectionSource.Bench)
-        {
-            bool battleFull = IsBattleRowFull();
-            moveToBattleButton.interactable = !battleFull;
-        }
-
-        // Move to Bench: only when a battle slot is selected
-        moveToBenchButton.gameObject.SetActive(selection == ShopManager.SelectionSource.Battle);
-
-        // Start Battle: always visible, disabled if no Pokemon in battle row
         startBattleButton.interactable = ShopManager.Instance.CanStartBattle();
     }
 
-    // Returns true if all battle row slots are filled
-    private bool IsBattleRowFull()
+    // -------------------------------------------------------
+    // HIGHLIGHT VALID TARGETS
+    // Called when a selection is made (click or drag start).
+    // Lights up slots where the selected pokemon can be placed.
+    // -------------------------------------------------------
+
+    public void HighlightValidTargets(ShopManager.SelectionSource fromSource)
     {
-        foreach (var p in ShopManager.Instance.BattleRow)
-            if (p == null) return false;
-        return true;
+        ClearTargetHighlights();
+
+        switch (fromSource)
+        {
+            case ShopManager.SelectionSource.Shop:
+                // Can go to any battle slot or bench slot
+                foreach (var slot in battleSlots)
+                    if (slot.gameObject.activeSelf) slot.SetValidTarget(true);
+                foreach (var slot in benchSlots)
+                    slot.SetValidTarget(true);
+                break;
+
+            case ShopManager.SelectionSource.Bench:
+                // Can go to any battle slot
+                foreach (var slot in battleSlots)
+                    if (slot.gameObject.activeSelf) slot.SetValidTarget(true);
+                break;
+
+            case ShopManager.SelectionSource.Battle:
+                // Can go to bench or any other battle slot
+                foreach (var slot in benchSlots)
+                    slot.SetValidTarget(true);
+                int selectedIdx = ShopManager.Instance.SelectedIndex;
+                for (int i = 0; i < battleSlots.Length; i++)
+                {
+                    if (!battleSlots[i].gameObject.activeSelf) continue;
+                    if (i == selectedIdx) continue; // don't highlight source
+                    battleSlots[i].SetValidTarget(true);
+                }
+                break;
+        }
+    }
+
+    public void ClearTargetHighlights()
+    {
+        foreach (var slot in shopSlots)   slot.SetValidTarget(false);
+        foreach (var slot in battleSlots) slot.SetValidTarget(false);
+        foreach (var slot in benchSlots)  slot.SetValidTarget(false);
     }
 
     // -------------------------------------------------------
     // BUTTON CALLBACKS
     // -------------------------------------------------------
 
-    private void OnBuyClicked()
+    private void OnReleaseClicked()
     {
-        ShopManager.Instance.BuySelected();
+        ShopManager.Instance.ReleaseSelected();
         RefreshAll();
     }
 
-    private void OnSellClicked()
-    {
-        ShopManager.Instance.SellSelected();
-        RefreshAll();
-    }
-
-    private void OnMoveToBattleClicked()
-    {
-        ShopManager.Instance.MoveToBattle();
-        RefreshAll();
-    }
-
-    private void OnMoveToBenchClicked()
-    {
-        ShopManager.Instance.MoveToBench();
-        RefreshAll();
-    }
-
-    private void OnRerollClicked()
-    {
-        ShopManager.Instance.Reroll();
-        RefreshAll();
-    }
-
-    private void OnStartBattleClicked()
-    {
-        // Capture the player's battle team and load the battle scene
-        GameManager.Instance.StartBattle();
-    }
+    private void OnRerollClicked()   { ShopManager.Instance.Reroll();       RefreshAll(); }
+    private void OnStartBattleClicked() { GameManager.Instance.StartBattle(); }
 }

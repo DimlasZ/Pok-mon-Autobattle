@@ -16,8 +16,8 @@ MonoBehaviour:
   pokemonName: Chinchou
   attack: 38
   hp: 63
-  type1: Water
+  type1: Electric
   speed: 67
-  tier: 0
+  tier: 3
   ability: {fileID: 0}
   sprite: {fileID: 5004555770955460192, guid: cb65620d6dd9f1144b7a3168d1680f80, type: 3}

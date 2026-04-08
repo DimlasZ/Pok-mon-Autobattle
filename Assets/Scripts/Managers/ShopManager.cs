@@ -25,33 +25,27 @@ public class ShopManager : MonoBehaviour
     [Tooltip("How much a reroll costs")]
     public int rerollCost = 1;
 
-    [Tooltip("How many Pokemon are shown in the shop")]
-    public int shopSize = 3;
+    // --- Array capacities (never change at runtime) ---
+    public const int MaxShopSize   = 5;
+    public const int MaxBattleSize = 6;
+    public const int BenchSize     = 1;
 
-    [Tooltip("How many slots in the battle row (will increase later)")]
-    public int battleRowSize = 3;
-
-    [Tooltip("How many slots in the bench")]
-    public int benchSize = 6;
+    // --- Active sizes (computed from current round) ---
+    public int ShopSize   => GetShopSizeForRound(GameManager.Instance.CurrentRound);
+    public int BattleSize => GetBattleSizeForRound(GameManager.Instance.CurrentRound);
 
     // --- Pokédollars ---
     public int CurrentPokedollars { get; private set; }
 
     // --- Rows ---
-    // Shop row: PokemonData (not owned yet, just available to buy)
-    public PokemonData[] ShopRow { get; private set; }
-
-    // Bench row: owned Pokemon in reserve (null = empty slot)
-    public PokemonInstance[] BenchRow { get; private set; }
-
-    // Battle row: owned Pokemon that will fight (null = empty slot)
+    public PokemonInstance[] ShopRow   { get; private set; }
+    public PokemonInstance[] BenchRow  { get; private set; }
     public PokemonInstance[] BattleRow { get; private set; }
 
     // --- Selection ---
-    // Where the currently selected Pokemon is
     public enum SelectionSource { None, Shop, Bench, Battle }
     public SelectionSource CurrentSelection { get; private set; } = SelectionSource.None;
-    public int SelectedIndex { get; private set; } = -1; // Which slot is selected
+    public int SelectedIndex { get; private set; } = -1;
 
     // -------------------------------------------------------
 
@@ -59,22 +53,20 @@ public class ShopManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Persists across scenes so team is kept between rounds
+        DontDestroyOnLoad(gameObject);
 
-        // Initialize arrays in Awake so GameManager.Start() can call StartRound() safely
-        ShopRow   = new PokemonData[shopSize];
-        BenchRow  = new PokemonInstance[benchSize];
-        BattleRow = new PokemonInstance[battleRowSize];
+        ShopRow   = new PokemonInstance[MaxShopSize];
+        BenchRow  = new PokemonInstance[BenchSize];
+        BattleRow = new PokemonInstance[MaxBattleSize];
     }
 
     private void Start()
     {
-        // StartRound() is called by GameManager.EnterBuyPhase() — not here
+        // StartRound() is called by GameManager.EnterBuyPhase()
     }
 
     // -------------------------------------------------------
     // ROUND START
-    // Called by GameManager at the beginning of each Buy Phase
     // -------------------------------------------------------
 
     public void StartRound()
@@ -83,7 +75,7 @@ public class ShopManager : MonoBehaviour
         ClearSelection();
         PopulateShop();
 
-        Debug.Log($"Round started — Pokédollars: {CurrentPokedollars}");
+        Debug.Log($"Round {GameManager.Instance.CurrentRound} — Shop: {ShopSize} slots, Battle: {BattleSize} slots");
 
         if (UIManager.Instance != null)
             UIManager.Instance.RefreshAll();
@@ -91,200 +83,263 @@ public class ShopManager : MonoBehaviour
 
     // -------------------------------------------------------
     // SHOP POPULATION
-    // Fills the shop with random Pokemon based on current tier
     // -------------------------------------------------------
 
     private void PopulateShop()
     {
-        int maxTier = GetMaxTierForRound(GameManager.Instance.CurrentRound);
+        int tier   = GetTierForRound(GameManager.Instance.CurrentRound);
+        int active = ShopSize;
 
-        // Filter to only Pokemon available at this tier level
         List<PokemonData> available = allPokemon
-            .Where(p => p.tier > 0 && p.tier <= maxTier)
+            .Where(p => p.tier > 0 && p.tier <= tier)
             .ToList();
 
         if (available.Count == 0)
         {
-            Debug.LogWarning("No Pokemon available for this tier!");
+            Debug.LogWarning($"No Pokemon available up to tier {tier}!");
             return;
         }
 
-        // Fill each shop slot with a random pick
-        for (int i = 0; i < shopSize; i++)
+        for (int i = 0; i < MaxShopSize; i++)
         {
-            ShopRow[i] = available[Random.Range(0, available.Count)];
+            ShopRow[i] = i < active
+                ? new PokemonInstance(available[Random.Range(0, available.Count)])
+                : null;
         }
 
-        Debug.Log($"Shop populated (max tier: {maxTier})");
-
-        // TODO: Tell UIManager to refresh shop display
+        Debug.Log($"Shop populated — up to Tier {tier}, {active} slots");
     }
 
-    // Returns the highest tier available based on the current round
-    // Round 1-2 = Tier 1, Round 3-4 = Tier 2, Round 5-6 = Tier 3, Round 7+ = Tier 4
-    private int GetMaxTierForRound(int round)
+    // -------------------------------------------------------
+    // ROUND SCALING
+    // -------------------------------------------------------
+
+    public int GetTierForRound(int round)
     {
-        if (round <= 2) return 1;
-        if (round <= 4) return 2;
-        if (round <= 6) return 3;
-        return 4;
+        if (round <= 2)  return 1;
+        if (round <= 4)  return 2;
+        if (round <= 6)  return 3;
+        if (round <= 8)  return 4;
+        if (round <= 10) return 5;
+        return 6;
+    }
+
+    private int GetShopSizeForRound(int round)
+    {
+        if (round < 5) return 3;
+        if (round < 7) return 4;
+        return 5;
+    }
+
+    private int GetBattleSizeForRound(int round)
+    {
+        if (round < 3) return 3;
+        if (round < 5) return 4;
+        if (round < 7) return 5;
+        return 6;
     }
 
     // -------------------------------------------------------
     // SELECTION
-    // Clicking a Pokemon sets it as selected so buttons know what to act on
     // -------------------------------------------------------
 
-    // Call this when the player clicks a Pokemon in the shop
     public void SelectShopPokemon(int index)
     {
-        if (index < 0 || index >= shopSize || ShopRow[index] == null) return;
-
-        SelectedIndex     = index;
-        CurrentSelection  = SelectionSource.Shop;
-
-        Debug.Log($"Selected shop slot {index}: {ShopRow[index].pokemonName}");
-
-        // TODO: Tell UIManager to show the Buy button
+        if (index < 0 || index >= ShopSize || ShopRow[index] == null) return;
+        SelectedIndex    = index;
+        CurrentSelection = SelectionSource.Shop;
+        Debug.Log($"Selected shop slot {index}: {ShopRow[index].baseData.pokemonName}");
     }
 
-    // Call this when the player clicks a Pokemon on the bench
     public void SelectBenchPokemon(int index)
     {
-        if (index < 0 || index >= benchSize || BenchRow[index] == null) return;
-
+        if (index < 0 || index >= BenchSize || BenchRow[index] == null) return;
         SelectedIndex    = index;
         CurrentSelection = SelectionSource.Bench;
-
         Debug.Log($"Selected bench slot {index}: {BenchRow[index].baseData.pokemonName}");
-
-        // TODO: Tell UIManager to show Sell and Move to Battle buttons
-        // TODO: Disable Move to Battle if battle row is full
     }
 
-    // Call this when the player clicks a Pokemon in the battle row
     public void SelectBattlePokemon(int index)
     {
-        if (index < 0 || index >= battleRowSize || BattleRow[index] == null) return;
-
+        if (index < 0 || index >= BattleSize || BattleRow[index] == null) return;
         SelectedIndex    = index;
         CurrentSelection = SelectionSource.Battle;
-
         Debug.Log($"Selected battle slot {index}: {BattleRow[index].baseData.pokemonName}");
-
-        // TODO: Tell UIManager to show the Move to Bench button
     }
 
-    // Deselects everything
     public void ClearSelection()
     {
         SelectedIndex    = -1;
         CurrentSelection = SelectionSource.None;
-
-        // TODO: Tell UIManager to hide all action buttons
     }
 
     // -------------------------------------------------------
-    // ACTIONS
-    // These are called by UI buttons
+    // UNIFIED PLACEMENT
+    // Called by both click-to-place and drag-and-drop.
+    // Handles buy, move, and insert depending on source/target.
     // -------------------------------------------------------
 
-    // Buy the currently selected shop Pokemon — moves it to the first empty bench slot
-    public void BuySelected()
+    // Insert pokemon at targetIndex in the battle row.
+    // Shifts entries from targetIndex rightward until the first null absorbs the shift.
+    // Returns false if there is no empty slot at or after targetIndex.
+    private bool InsertIntoBattleRow(PokemonInstance pokemon, int targetIndex)
     {
-        if (CurrentSelection != SelectionSource.Shop) return;
+        if (targetIndex < 0 || targetIndex >= BattleSize) return false;
 
-        PokemonData data = ShopRow[SelectedIndex];
-        if (data == null) return;
-
-        if (CurrentPokedollars < 1)
+        // Find the first null at or after targetIndex to absorb the shift
+        int emptySlot = -1;
+        for (int i = targetIndex; i < BattleSize; i++)
         {
-            Debug.Log("Not enough Pokédollars!");
-            return;
+            if (BattleRow[i] == null) { emptySlot = i; break; }
         }
+        if (emptySlot == -1) return false; // Battle row is full from targetIndex onwards
 
-        int emptyBench = GetFirstEmptySlot(BenchRow);
-        if (emptyBench == -1)
-        {
-            Debug.Log("Bench is full!");
-            return;
-        }
+        // Shift everything between targetIndex and emptySlot one step right
+        for (int i = emptySlot; i > targetIndex; i--)
+            BattleRow[i] = BattleRow[i - 1];
 
-        // Deduct Pokédollars, create instance, place on bench, remove from shop
-        CurrentPokedollars--;
-        BenchRow[emptyBench] = new PokemonInstance(data);
-        ShopRow[SelectedIndex] = null;
-
-        Debug.Log($"Bought {data.pokemonName} — Pokédollars remaining: {CurrentPokedollars}");
-
-        ClearSelection();
-
-        // TODO: Tell UIManager to refresh bench and Pokédollars display
+        BattleRow[targetIndex] = pokemon;
+        return true;
     }
 
-    // Sell the currently selected bench Pokemon — no Pokédollars returned
-    public void SellSelected()
+    // Unified action: place whatever is selected at (targetSource, targetIndex).
+    // Returns true if the placement succeeded.
+    public bool PlaceSelected(SelectionSource targetSource, int targetIndex)
     {
-        if (CurrentSelection != SelectionSource.Bench) return;
-        if (BenchRow[SelectedIndex] == null) return;
+        if (CurrentSelection == SelectionSource.None) return false;
 
-        string name = BenchRow[SelectedIndex].baseData.pokemonName;
-        BenchRow[SelectedIndex] = null;
+        bool success = false;
 
-        Debug.Log($"Released {name}");
-
-        ClearSelection();
-
-        // TODO: Tell UIManager to refresh bench display
-    }
-
-    // Move the selected bench Pokemon to the first empty battle slot
-    public void MoveToBattle()
-    {
-        if (CurrentSelection != SelectionSource.Bench) return;
-        if (BenchRow[SelectedIndex] == null) return;
-
-        int emptyBattle = GetFirstEmptySlot(BattleRow);
-        if (emptyBattle == -1)
+        switch (CurrentSelection)
         {
-            Debug.Log("Battle row is full!");
-            return;
+            case SelectionSource.Shop:
+            {
+                var p = ShopRow[SelectedIndex];
+                if (p == null || CurrentPokedollars < 1)
+                {
+                    Debug.Log(CurrentPokedollars < 1 ? "Not enough Pokédollars!" : "Empty shop slot.");
+                    return false;
+                }
+
+                if (targetSource == SelectionSource.Battle)
+                {
+                    if (InsertIntoBattleRow(p, targetIndex))
+                    {
+                        ShopRow[SelectedIndex] = null;
+                        CurrentPokedollars--;
+                        Debug.Log($"Bought {p.baseData.pokemonName} to battle slot {targetIndex} — P$ remaining: {CurrentPokedollars}");
+                        success = true;
+                    }
+                    else Debug.Log("Battle row is full at that position!");
+                }
+                else if (targetSource == SelectionSource.Bench)
+                {
+                    if (BenchRow[targetIndex] != null) { Debug.Log("Bench slot is occupied!"); return false; }
+                    BenchRow[targetIndex]  = p;
+                    ShopRow[SelectedIndex] = null;
+                    CurrentPokedollars--;
+                    Debug.Log($"Bought {p.baseData.pokemonName} to bench — P$ remaining: {CurrentPokedollars}");
+                    success = true;
+                }
+                break;
+            }
+
+            case SelectionSource.Bench:
+            {
+                var p = BenchRow[SelectedIndex];
+                if (p == null) return false;
+
+                if (targetSource == SelectionSource.Battle)
+                {
+                    if (InsertIntoBattleRow(p, targetIndex))
+                    {
+                        BenchRow[SelectedIndex] = null;
+                        Debug.Log($"Moved {p.baseData.pokemonName} to battle slot {targetIndex}");
+                        success = true;
+                    }
+                    else Debug.Log("Battle row is full at that position!");
+                }
+                else if (targetSource == SelectionSource.Bench && targetIndex != SelectedIndex)
+                {
+                    if (BenchRow[targetIndex] != null) { Debug.Log("Bench slot is occupied!"); return false; }
+                    BenchRow[targetIndex]   = p;
+                    BenchRow[SelectedIndex] = null;
+                    Debug.Log($"Moved {p.baseData.pokemonName} to bench slot {targetIndex}");
+                    success = true;
+                }
+                break;
+            }
+
+            case SelectionSource.Battle:
+            {
+                var p = BattleRow[SelectedIndex];
+                if (p == null) return false;
+
+                if (targetSource == SelectionSource.Battle && targetIndex != SelectedIndex)
+                {
+                    int from = SelectedIndex;
+                    int to   = targetIndex;
+
+                    if (to > from)
+                    {
+                        // Moving right: shift entries from from+1..to one step left
+                        for (int i = from; i < to; i++)
+                            BattleRow[i] = BattleRow[i + 1];
+                    }
+                    else
+                    {
+                        // Moving left: shift entries from to..from-1 one step right
+                        for (int i = from; i > to; i--)
+                            BattleRow[i] = BattleRow[i - 1];
+                    }
+
+                    BattleRow[to] = p;
+                    Debug.Log($"Moved {p.baseData.pokemonName} to battle slot {to}");
+                    success = true;
+                }
+                else if (targetSource == SelectionSource.Bench)
+                {
+                    if (BenchRow[targetIndex] != null) { Debug.Log("Bench slot is occupied!"); return false; }
+                    BenchRow[targetIndex]    = p;
+                    BattleRow[SelectedIndex] = null;
+                    Debug.Log($"Moved {p.baseData.pokemonName} to bench");
+                    success = true;
+                }
+                break;
+            }
         }
 
-        BattleRow[emptyBattle] = BenchRow[SelectedIndex];
-        BenchRow[SelectedIndex] = null;
-
-        Debug.Log($"Moved {BattleRow[emptyBattle].baseData.pokemonName} to battle row");
-
-        ClearSelection();
-
-        // TODO: Tell UIManager to refresh bench and battle row display
+        if (success) ClearSelection();
+        return success;
     }
 
-    // Move the selected battle Pokemon back to the first empty bench slot
-    public void MoveToBench()
-    {
-        if (CurrentSelection != SelectionSource.Battle) return;
-        if (BattleRow[SelectedIndex] == null) return;
+    // -------------------------------------------------------
+    // RELEASE (bench or battle → gone)
+    // -------------------------------------------------------
 
-        int emptyBench = GetFirstEmptySlot(BenchRow);
-        if (emptyBench == -1)
+    public void ReleaseSelected()
+    {
+        string name = null;
+
+        if (CurrentSelection == SelectionSource.Bench && BenchRow[SelectedIndex] != null)
         {
-            Debug.Log("Bench is full!");
-            return;
+            name = BenchRow[SelectedIndex].baseData.pokemonName;
+            BenchRow[SelectedIndex] = null;
+        }
+        else if (CurrentSelection == SelectionSource.Battle && BattleRow[SelectedIndex] != null)
+        {
+            name = BattleRow[SelectedIndex].baseData.pokemonName;
+            BattleRow[SelectedIndex] = null;
         }
 
-        BenchRow[emptyBench] = BattleRow[SelectedIndex];
-        BattleRow[SelectedIndex] = null;
-
-        Debug.Log($"Moved {BenchRow[emptyBench].baseData.pokemonName} to bench");
-
+        if (name != null) Debug.Log($"Released {name}");
         ClearSelection();
-
-        // TODO: Tell UIManager to refresh bench and battle row display
     }
 
-    // Reroll the shop — costs 1 Pokédollars
+    // -------------------------------------------------------
+    // REROLL
+    // -------------------------------------------------------
+
     public void Reroll()
     {
         if (CurrentPokedollars < rerollCost)
@@ -296,28 +351,17 @@ public class ShopManager : MonoBehaviour
         CurrentPokedollars -= rerollCost;
         PopulateShop();
 
-        Debug.Log($"Rerolled shop — Pokédollars remaining: {CurrentPokedollars}");
-
-        // TODO: Tell UIManager to refresh Pokédollars display
+        Debug.Log($"Rerolled shop — P$ remaining: {CurrentPokedollars}");
     }
 
     // -------------------------------------------------------
     // HELPERS
     // -------------------------------------------------------
 
-    // Returns the index of the first null (empty) slot in an array, or -1 if full
-    private int GetFirstEmptySlot<T>(T[] row) where T : class
-    {
-        for (int i = 0; i < row.Length; i++)
-            if (row[i] == null) return i;
-        return -1;
-    }
-
-    // Returns true if the battle row has at least one Pokemon (needed before starting battle)
     public bool CanStartBattle()
     {
-        foreach (var p in BattleRow)
-            if (p != null) return true;
+        for (int i = 0; i < BattleSize; i++)
+            if (BattleRow[i] != null) return true;
         return false;
     }
 }

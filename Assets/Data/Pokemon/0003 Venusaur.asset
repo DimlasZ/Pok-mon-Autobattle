@@ -19,5 +19,5 @@ MonoBehaviour:
   type1: Grass
   speed: 80
   tier: 6
-  ability: {fileID: 11400000, guid: f1cbd93f8b2318d44879c7fb575780dd, type: 2}
+  ability: {fileID: 0}
   sprite: {fileID: 5388043245988455146, guid: feee6f25bea6a254dbb8b2a11c12c9e7, type: 3}

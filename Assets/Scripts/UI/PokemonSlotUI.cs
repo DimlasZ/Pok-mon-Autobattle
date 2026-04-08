@@ -6,7 +6,8 @@ using TMPro;
 // PokemonSlotUI is attached to every slot button in the game (shop, bench, battle).
 // It handles displaying the Pokemon inside it and notifying ShopManager when clicked.
 
-public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
+                                              IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [Header("UI References")]
     public Image pokemonSprite;             // The sprite image inside the slot
@@ -25,8 +26,11 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public int slotIndex;
 
     // Colors for the highlight border
-    private readonly Color selectedColor   = new Color(1f, 0.9f, 0f, 1f);  // Yellow
+    private readonly Color selectedColor   = new Color(1f, 0.9f, 0f, 1f);  // Yellow — this slot is selected
+    private readonly Color targetColor     = new Color(0f, 0.8f, 1f, 1f);  // Cyan  — valid drop target
     private readonly Color unselectedColor = new Color(1f, 1f, 1f, 0f);    // Transparent
+
+    private bool _isValidTarget = false;
 
     // -------------------------------------------------------
 
@@ -54,26 +58,6 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         else                    healthBarFill.color = new Color(0.85f, 0.15f, 0.15f);
     }
 
-    // Called by ShopManager/UIManager to display a shop Pokemon (PokemonData)
-    public void DisplayShopPokemon(PokemonData data)
-    {
-        gameObject.SetActive(true);
-
-        pokemonSprite.sprite = data.sprite;
-        pokemonSprite.gameObject.SetActive(data.sprite != null);
-
-        hpText.text     = data.hp.ToString();
-        attackText.text = data.attack.ToString();
-        speedText.text  = data.speed.ToString();
-
-        _currentAbility = data.ability;
-
-        if (hpBarBox != null) hpBarBox.gameObject.SetActive(true);
-        RefreshHealthBar(data.hp, data.hp);
-
-        SetHighlight(false);
-    }
-
     // Called by UIManager to display an owned Pokemon (PokemonInstance)
     public void DisplayPokemon(PokemonInstance instance)
     {
@@ -82,7 +66,7 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         pokemonSprite.sprite = instance.baseData.sprite;
         pokemonSprite.gameObject.SetActive(instance.baseData.sprite != null);
 
-        hpText.text     = instance.currentHP.ToString();
+        hpText.text     = $"{instance.currentHP}/{instance.maxHP}";
         attackText.text = instance.attack.ToString();
         speedText.text  = instance.speed.ToString();
 
@@ -107,11 +91,20 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         SetHighlight(false);
     }
 
-    // Turns the highlight border on or off
+    // Turns the selected highlight on or off
     public void SetHighlight(bool on)
     {
+        if (highlight == null) return;
+        if (!on && _isValidTarget) return; // keep target color
+        highlight.color = on ? selectedColor : unselectedColor;
+    }
+
+    // Marks this slot as a valid drop target (cyan border)
+    public void SetValidTarget(bool on)
+    {
+        _isValidTarget = on;
         if (highlight != null)
-            highlight.color = on ? selectedColor : unselectedColor;
+            highlight.color = on ? targetColor : unselectedColor;
     }
 
     // The ability of the Pokemon currently displayed in this slot (null if empty)
@@ -140,23 +133,66 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             TooltipUI.Instance.Hide();
     }
 
+    // -------------------------------------------------------
+    // DRAG AND DROP
+    // Unity separates clicks from drags via the drag threshold (~10px movement).
+    // Clicking still fires OnClicked() normally.
+    // -------------------------------------------------------
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (DragDropManager.Instance == null) return;
+        if (pokemonSprite.sprite == null) return; // Empty slot — nothing to drag
+        DragDropManager.Instance.BeginDrag(this, pokemonSprite.sprite);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (DragDropManager.Instance == null) return;
+        DragDropManager.Instance.UpdatePosition(eventData.position);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        // Fires on the SOURCE after every drag (even after a successful drop).
+        // DragDropManager.Drop() already cleared state on a successful drop, so this is a safe no-op then.
+        if (DragDropManager.Instance == null) return;
+        DragDropManager.Instance.CancelDrag();
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (DragDropManager.Instance == null) return;
+        DragDropManager.Instance.Drop(this);
+    }
+
     // Called when the player clicks this slot
     public void OnClicked()
     {
+        var sm = ShopManager.Instance;
+
+        // If something is already selected and this is a valid target → place it here
+        if (_isValidTarget && sm.CurrentSelection != ShopManager.SelectionSource.None)
+        {
+            sm.PlaceSelected(source, slotIndex);
+            UIManager.Instance.RefreshAll();
+            return;
+        }
+
+        // Otherwise select this slot (only if it has a Pokemon)
         switch (source)
         {
             case ShopManager.SelectionSource.Shop:
-                ShopManager.Instance.SelectShopPokemon(slotIndex);
+                sm.SelectShopPokemon(slotIndex);
                 break;
             case ShopManager.SelectionSource.Bench:
-                ShopManager.Instance.SelectBenchPokemon(slotIndex);
+                sm.SelectBenchPokemon(slotIndex);
                 break;
             case ShopManager.SelectionSource.Battle:
-                ShopManager.Instance.SelectBattlePokemon(slotIndex);
+                sm.SelectBattlePokemon(slotIndex);
                 break;
         }
 
-        // Tell UIManager to update highlights and buttons
         UIManager.Instance.RefreshAll();
     }
 }

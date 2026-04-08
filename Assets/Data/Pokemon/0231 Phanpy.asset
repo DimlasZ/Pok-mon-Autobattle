@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 231
   pokemonName: Phanpy
-  attack: 69
-  hp: 79
+  attack: 24
+  hp: 69
   type1: Ground
-  speed: 40
-  tier: 0
+  speed: 26
+  tier: 2
   ability: {fileID: 0}
   sprite: {fileID: 6460285150747077988, guid: adcee773bfe598a409edf84dc1bddda5, type: 3}

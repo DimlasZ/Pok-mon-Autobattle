@@ -16,8 +16,8 @@ MonoBehaviour:
   pokemonName: Mantine
   attack: 83
   hp: 198
-  type1: Water
+  type1: Flying
   speed: 70
-  tier: 0
+  tier: 3
   ability: {fileID: 0}
   sprite: {fileID: 891938632619441127, guid: c2b2af87ef07c344eab737349b186fed, type: 3}

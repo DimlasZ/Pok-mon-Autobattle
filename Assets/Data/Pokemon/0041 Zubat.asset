@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 41
   pokemonName: Zubat
-  attack: 42
-  hp: 33
+  attack: 19
+  hp: 48
   type1: Flying
-  speed: 55
+  speed: 35
   tier: 2
   ability: {fileID: 0}
   sprite: {fileID: 7050023313240748592, guid: 977945198ba0dfb4c8b7f5a27a658547, type: 3}

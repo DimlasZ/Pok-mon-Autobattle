@@ -18,6 +18,6 @@ MonoBehaviour:
   hp: 277
   type1: Normal
   speed: 30
-  tier: 0
+  tier: 6
   ability: {fileID: 0}
   sprite: {fileID: 9043133829643452496, guid: c73410c4a3bad074dab7053c00f21453, type: 3}

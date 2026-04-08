@@ -16,7 +16,7 @@ MonoBehaviour:
   pokemonName: Pelipper
   attack: 129
   hp: 109
-  type1: Flying
+  type1: Water
   speed: 65
   tier: 4
   ability: {fileID: 0}

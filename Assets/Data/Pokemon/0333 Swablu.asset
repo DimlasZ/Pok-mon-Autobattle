@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 333
   pokemonName: Swablu
-  attack: 51
-  hp: 65
+  attack: 26
+  hp: 47
   type1: Flying
-  speed: 50
-  tier: 3
+  speed: 30
+  tier: 2
   ability: {fileID: 0}
   sprite: {fileID: 2613854478260203349, guid: ab49f05ff0c0dd04ca7af2fed66384dd, type: 3}

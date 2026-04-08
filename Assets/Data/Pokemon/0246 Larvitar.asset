@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 246
   pokemonName: Larvitar
-  attack: 63
-  hp: 50
+  attack: 28
+  hp: 52
   type1: Ground
-  speed: 41
-  tier: 0
+  speed: 22
+  tier: 2
   ability: {fileID: 0}
   sprite: {fileID: -1249659157374166741, guid: 3af6741489db42d47873c465c1cfff26, type: 3}

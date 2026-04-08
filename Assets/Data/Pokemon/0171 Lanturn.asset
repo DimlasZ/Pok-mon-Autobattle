@@ -16,8 +16,8 @@ MonoBehaviour:
   pokemonName: Lanturn
   attack: 107
   hp: 152
-  type1: Water
+  type1: Electric
   speed: 67
-  tier: 0
+  tier: 5
   ability: {fileID: 0}
   sprite: {fileID: 2395771689596875249, guid: 9cb9daf7e177cdf4a9db3df38cb9de23, type: 3}

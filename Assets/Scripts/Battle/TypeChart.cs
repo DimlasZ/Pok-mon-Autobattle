@@ -3,7 +3,7 @@ using System.Collections.Generic;
 // TypeChart handles Pokemon type effectiveness.
 // Returns a damage multiplier given an attacking type and a defending type.
 // Dual-type defenders multiply both type matchups together.
-// Multipliers: 2 = super effective, 0.5 = not very effective, 0 = immune, 1 = neutral
+// Multipliers: 1.5 = super effective, 0.75 = not very effective, 0 = immune, 1 = neutral
 
 public static class TypeChart
 {
@@ -14,130 +14,130 @@ public static class TypeChart
     {
         ["Normal"] = new Dictionary<string, float>
         {
-            ["Rock"]  = 0.5f,
+            ["Rock"]  = 0.75f,
             ["Ghost"] = 0f
         },
         ["Fire"] = new Dictionary<string, float>
         {
-            ["Fire"]   = 0.5f,
-            ["Water"]  = 0.5f,
-            ["Grass"]  = 2f,
-            ["Ice"]    = 2f,
-            ["Bug"]    = 2f,
-            ["Rock"]   = 0.5f,
-            ["Dragon"] = 0.5f
+            ["Fire"]   = 0.75f,
+            ["Water"]  = 0.75f,
+            ["Grass"]  = 1.5f,
+            ["Ice"]    = 1.5f,
+            ["Bug"]    = 1.5f,
+            ["Rock"]   = 0.75f,
+            ["Dragon"] = 0.75f
         },
         ["Water"] = new Dictionary<string, float>
         {
-            ["Fire"]   = 2f,
-            ["Water"]  = 0.5f,
-            ["Grass"]  = 0.5f,
-            ["Ground"] = 2f,
-            ["Rock"]   = 2f,
-            ["Dragon"] = 0.5f
+            ["Fire"]   = 1.5f,
+            ["Water"]  = 0.75f,
+            ["Grass"]  = 0.75f,
+            ["Ground"] = 1.5f,
+            ["Rock"]   = 1.5f,
+            ["Dragon"] = 0.75f
         },
         ["Grass"] = new Dictionary<string, float>
         {
-            ["Fire"]   = 0.5f,
-            ["Water"]  = 2f,
-            ["Grass"]  = 0.5f,
-            ["Poison"] = 0.5f,
-            ["Ground"] = 2f,
-            ["Flying"] = 0.5f,
-            ["Bug"]    = 0.5f,
-            ["Rock"]   = 2f,
-            ["Dragon"] = 0.5f
+            ["Fire"]   = 0.75f,
+            ["Water"]  = 1.5f,
+            ["Grass"]  = 0.75f,
+            ["Poison"] = 0.75f,
+            ["Ground"] = 1.5f,
+            ["Flying"] = 0.75f,
+            ["Bug"]    = 0.75f,
+            ["Rock"]   = 1.5f,
+            ["Dragon"] = 0.75f
         },
         ["Electric"] = new Dictionary<string, float>
         {
-            ["Water"]    = 2f,
-            ["Electric"] = 0.5f,
-            ["Grass"]    = 0.5f,
+            ["Water"]    = 1.5f,
+            ["Electric"] = 0.75f,
+            ["Grass"]    = 0.75f,
             ["Ground"]   = 0f,
-            ["Flying"]   = 2f,
-            ["Dragon"]   = 0.5f
+            ["Flying"]   = 1.5f,
+            ["Dragon"]   = 0.75f
         },
         ["Ice"] = new Dictionary<string, float>
         {
-            ["Water"]  = 0.5f,
-            ["Grass"]  = 2f,
-            ["Ice"]    = 0.5f,
-            ["Ground"] = 2f,
-            ["Flying"] = 2f,
-            ["Dragon"] = 2f
+            ["Water"]  = 0.75f,
+            ["Grass"]  = 1.5f,
+            ["Ice"]    = 0.75f,
+            ["Ground"] = 1.5f,
+            ["Flying"] = 1.5f,
+            ["Dragon"] = 1.5f
         },
         ["Fighting"] = new Dictionary<string, float>
         {
-            ["Normal"]  = 2f,
-            ["Ice"]     = 2f,
-            ["Poison"]  = 0.5f,
-            ["Flying"]  = 0.5f,
-            ["Psychic"] = 0.5f,
-            ["Bug"]     = 0.5f,
-            ["Rock"]    = 2f,
+            ["Normal"]  = 1.5f,
+            ["Ice"]     = 1.5f,
+            ["Poison"]  = 0.75f,
+            ["Flying"]  = 0.75f,
+            ["Psychic"] = 0.75f,
+            ["Bug"]     = 0.75f,
+            ["Rock"]    = 1.5f,
             ["Ghost"]   = 0f
         },
         ["Poison"] = new Dictionary<string, float>
         {
-            ["Grass"]  = 2f,
-            ["Poison"] = 0.5f,
-            ["Ground"] = 0.5f,
-            ["Bug"]    = 2f,
-            ["Rock"]   = 0.5f,
-            ["Ghost"]  = 0.5f
+            ["Grass"]  = 1.5f,
+            ["Poison"] = 0.75f,
+            ["Ground"] = 0.75f,
+            ["Bug"]    = 1.5f,
+            ["Rock"]   = 0.75f,
+            ["Ghost"]  = 0.75f
         },
         ["Ground"] = new Dictionary<string, float>
         {
-            ["Fire"]     = 2f,
-            ["Electric"] = 2f,
-            ["Grass"]    = 0.5f,
-            ["Poison"]   = 2f,
+            ["Fire"]     = 1.5f,
+            ["Electric"] = 1.5f,
+            ["Grass"]    = 0.75f,
+            ["Poison"]   = 1.5f,
             ["Flying"]   = 0f,
-            ["Bug"]      = 0.5f,
-            ["Rock"]     = 2f
+            ["Bug"]      = 0.75f,
+            ["Rock"]     = 1.5f
         },
         ["Flying"] = new Dictionary<string, float>
         {
-            ["Electric"] = 0.5f,
-            ["Grass"]    = 2f,
-            ["Fighting"] = 2f,
-            ["Bug"]      = 2f,
-            ["Rock"]     = 0.5f
+            ["Electric"] = 0.75f,
+            ["Grass"]    = 1.5f,
+            ["Fighting"] = 1.5f,
+            ["Bug"]      = 1.5f,
+            ["Rock"]     = 0.75f
         },
         ["Psychic"] = new Dictionary<string, float>
         {
-            ["Fighting"] = 2f,
-            ["Poison"]   = 2f,
-            ["Psychic"]  = 0.5f,
+            ["Fighting"] = 1.5f,
+            ["Poison"]   = 1.5f,
+            ["Psychic"]  = 0.75f,
             ["Ghost"]    = 0f    // Gen 1: Ghost is immune to Psychic
         },
         ["Bug"] = new Dictionary<string, float>
         {
-            ["Fire"]     = 0.5f,
-            ["Grass"]    = 2f,
-            ["Fighting"] = 0.5f,
-            ["Flying"]   = 0.5f,
-            ["Psychic"]  = 2f,
-            ["Ghost"]    = 0.5f
+            ["Fire"]     = 0.75f,
+            ["Grass"]    = 1.5f,
+            ["Fighting"] = 0.75f,
+            ["Flying"]   = 0.75f,
+            ["Psychic"]  = 1.5f,
+            ["Ghost"]    = 0.75f
         },
         ["Rock"] = new Dictionary<string, float>
         {
-            ["Fire"]     = 2f,
-            ["Ice"]      = 2f,
-            ["Fighting"] = 0.5f,
-            ["Ground"]   = 0.5f,
-            ["Flying"]   = 2f,
-            ["Bug"]      = 2f
+            ["Fire"]     = 1.5f,
+            ["Ice"]      = 1.5f,
+            ["Fighting"] = 0.75f,
+            ["Ground"]   = 0.75f,
+            ["Flying"]   = 1.5f,
+            ["Bug"]      = 1.5f
         },
         ["Ghost"] = new Dictionary<string, float>
         {
             ["Normal"]  = 0f,
             ["Psychic"] = 0f,   // Gen 1 bug: Ghost should be 2x vs Psychic but was coded as immune
-            ["Ghost"]   = 2f
+            ["Ghost"]   = 1.5f
         },
         ["Dragon"] = new Dictionary<string, float>
         {
-            ["Dragon"] = 2f
+            ["Dragon"] = 1.5f
         }
     };
 

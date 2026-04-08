@@ -18,6 +18,6 @@ MonoBehaviour:
   hp: 57
   type1: Grass
   speed: 30
-  tier: 2
+  tier: 4
   ability: {fileID: 0}
   sprite: {fileID: -9176146143294722519, guid: 9de533fefba2c5b4c8999570ea97a6b3, type: 3}

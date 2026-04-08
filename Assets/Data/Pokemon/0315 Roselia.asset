@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 315
   pokemonName: Roselia
-  attack: 105
-  hp: 64
+  attack: 34
+  hp: 47
   type1: Grass
-  speed: 65
-  tier: 2
+  speed: 45
+  tier: 0
   ability: {fileID: 0}
   sprite: {fileID: -2984404232744547214, guid: 64c5b4432ec2c7f46a4c5426ea4f617c, type: 3}

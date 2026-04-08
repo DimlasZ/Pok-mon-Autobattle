@@ -16,8 +16,8 @@ MonoBehaviour:
   pokemonName: Celebi
   attack: 95
   hp: 215
-  type1: Psychic
+  type1: Grass
   speed: 100
-  tier: 0
+  tier: 6
   ability: {fileID: 0}
   sprite: {fileID: -878318580675279039, guid: b11ade1f92ff29b4786294513a260640, type: 3}

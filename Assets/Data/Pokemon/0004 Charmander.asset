@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 4
   pokemonName: Charmander
-  attack: 39
+  attack: 25
   hp: 40
   type1: Fire
-  speed: 65
+  speed: 43
   tier: 1
-  ability: {fileID: 11400000, guid: bf1830cd7671f2048bdfd1bdb5a755d4, type: 2}
+  ability: {fileID: 11400000, guid: cb497047a5fa26e419c216342aa583fe, type: 2}
   sprite: {fileID: -9098726288936878590, guid: ca4fe953c38cd1b4fa7f99692d6acf76, type: 3}

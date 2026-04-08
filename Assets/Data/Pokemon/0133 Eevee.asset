@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 133
   pokemonName: Eevee
-  attack: 81
-  hp: 63
+  attack: 24
+  hp: 51
   type1: Normal
-  speed: 55
-  tier: 0
+  speed: 48
+  tier: 2
   ability: {fileID: 0}
   sprite: {fileID: -6100051605333517002, guid: 07888b1b311278844a2bf6ec406e5da1, type: 3}

@@ -18,6 +18,6 @@ MonoBehaviour:
   hp: 39
   type1: Flying
   speed: 70
-  tier: 2
+  tier: 3
   ability: {fileID: 0}
   sprite: {fileID: 805010211572889633, guid: 5e4fb6162add696409922baaa53d3b3b, type: 3}

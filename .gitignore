@@ -26,6 +26,10 @@
 # Auto-generated meta files (only if assets exist)
 # *.meta  <- keep these, Unity needs them for asset tracking
 
+# Large binary assets — not tracked in git (add manually on each machine)
+Assets/Sprites/
+Assets/Audio/
+
 # Google Drive temp files
 ~$*
 

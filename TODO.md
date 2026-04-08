@@ -27,9 +27,7 @@
 
 - [x] Team slots UI (6 slots)
 - [x] Shop slots UI (5-6 Pokemon offered)
-- [ ] Shop tier upgrade button and logic (unlocks stronger Pokemon per run)
 - [x] Pokédollar display
-- [ ] Pokédollar interest and Pokédollar cap system
 - [x] Buy button logic
 - [x] Sell button logic
 - [x] Reroll button logic (costs Pokédollar)
@@ -49,8 +47,8 @@
 - [x] BattleManager script
 - [x] Attack order logic (based on Speed)
 - [x] Damage calculation
-- [ ] Type effectiveness (decide early if included)
-- [ ] Ability/passive trigger system (on attack, on faint, on round start)
+- [x] Type effectiveness (decide early if included)
+- [x] Ability/passive trigger system (on attack, on faint, on round start)
 - [ ] Win/loss condition per battle
 - [ ] Player HP loss on defeat
 - [ ] Health bars in battle UI
@@ -58,6 +56,27 @@
 - [ ] Basic battle animations (attack, hurt, faint)
 - [x] Battle log / text feedback
 - [ ] Sample teams need to better
+- [ ] Flatdamage battle calc, is wrong
+- [ ] fix the damage calc sccipt
+
+
+## Ability System – Known Issues
+
+### Code fixes needed
+- [ ] Friend Guard (ID 37, 76): `GetAllyDamageReduction` checks for `boost_defense_allies` but CSV uses `damage_reduction` with `target=ally_all` — ally damage reduction never triggers
+- [ ] Flower Gift (ID 82): `GetPassiveAttackMultiplier` only handles `target=self` — passive ally attack boost not applied
+- [ ] Levitate (ID 11): `IsImmuneToGround` checks `effect == "immune_to_ground"` but CSV has `effect=immune` — Ground immunity never fires
+- [ ] Cloud Nine (ID 4): `negate_weather` effect not handled anywhere in code
+- [ ] Emergency Exit (ID 29): `move_to_last` effect not handled anywhere in code
+- [ ] Mold Breaker (ID 33): `ignore_abilities` effect not handled anywhere in code
+- [ ] Aqua Jet (ID 44): `priority` effect not handled anywhere in code
+
+### Excel/CSV fixes needed
+- [ ] Levitate (ID 11): `Ground` is in the Chance column — move to Condition column and set effect to `immune_to_ground`
+- [ ] Water Sport (ID 53): Missing `custom=water_sport` — currently reduces ALL damage 50% instead of Fire only
+- [ ] Sand Veil (ID 83): Missing `condition=weather_sandstorm` — reduces damage 25% always, not just in sandstorm
+- [ ] Technician (ID 21): Effect still `damage_multiplier` — either remove row or replace with correct effect
+- [ ] Bone Club (ID 64): Effect is `overflow_damage` but code expects `overflow_damage_next`
 
 
 ## Results Screen
@@ -112,3 +131,4 @@
 - [ ] better enemy poketeams
 - [x] only one type, fix logic and excel
 - [ ] 8 wins and then top 4 + champ?
+- [ ] weighted tier teams for enemy or database teams

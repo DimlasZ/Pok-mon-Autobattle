@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 278
   pokemonName: Wingull
-  attack: 48
-  hp: 28
-  type1: Flying
-  speed: 85
+  attack: 19
+  hp: 42
+  type1: Water
+  speed: 49
   tier: 2
   ability: {fileID: 0}
   sprite: {fileID: -2117163079365069966, guid: 3bf0b2f32c4f8304980bbbb1ad96e315, type: 3}
