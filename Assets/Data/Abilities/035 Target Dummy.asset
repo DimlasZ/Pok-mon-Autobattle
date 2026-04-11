@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Target Dummy
   trigger: on_hit
   target: ally_all
+  count: 0
   effect: boost_attack
-  value: 1.2
-  condition: survived_hit
+  value: 1.1
+  condition: 
   chance: 0
   custom: 
-  description: When hit and surviving, raises all allies' Attack by 20%.
+  description: 'On Hit: Raises all allies'' Attack by 10%.'

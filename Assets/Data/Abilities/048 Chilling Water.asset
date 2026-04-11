@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Chilling Water
   trigger: on_attack
   target: enemy_front
+  count: 1
   effect: reduce_attack
   value: 0.8
   condition: 
   chance: 0
   custom: 
-  description: Lowers the target's Attack by 20%.
+  description: 'On Attack: Lowers the target''s Attack by 20%.'

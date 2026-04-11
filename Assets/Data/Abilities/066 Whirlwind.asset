@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Whirlwind
   trigger: on_battle_start
   target: enemy_all
+  count: 0
   effect: swap_enemies
   value: 
   condition: first_last
   chance: 0
   custom: 
-  description: Shuffles enemy positions at battle start.
+  description: 'On Battle Start: Shuffles all enemy positions.'

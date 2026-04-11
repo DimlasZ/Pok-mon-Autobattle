@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Mega Drain
   trigger: after_attack
   target: self
-  effect: heal
+  count: 0
+  effect: heal_flat
   value: 25
   condition: 
   chance: 0
   custom: 
-  description: User recovers 25 HP after attacking.
+  description: 'After Attack: Recovers 25 HP.'

@@ -16,6 +16,7 @@ MonoBehaviour:
   abilityName: Mold Breaker
   trigger: passive
   target: self
+  count: 0
   effect: ignore_abilities
   value: 
   condition: 

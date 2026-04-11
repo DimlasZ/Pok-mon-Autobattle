@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Bubble Beam
   trigger: on_attack
   target: enemy_front
+  count: 1
   effect: reduce_speed
   value: 0.8
   condition: 
   chance: 0
   custom: 
-  description: Lowers the target's Speed by 20%.
+  description: 'On Attack: Lowers the enemy''s Speed by 20%.'

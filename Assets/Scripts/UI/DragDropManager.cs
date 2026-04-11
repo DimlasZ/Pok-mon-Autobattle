@@ -37,8 +37,10 @@ public class DragDropManager : MonoBehaviour
         ghostImage.sprite = sprite;
         ghostImage.gameObject.SetActive(true);
 
-        // Highlight valid drop targets based on what is being dragged
+        // Register selection so release button and highlights react immediately
+        SelectSource(source);
         UIManager.Instance.HighlightValidTargets(source.source);
+        UIManager.Instance.RefreshActionButtons();
     }
 
     public void UpdatePosition(Vector2 screenPosition)
@@ -69,9 +71,7 @@ public class DragDropManager : MonoBehaviour
         _dragSource = null;
         ghostImage.gameObject.SetActive(false);
         UIManager.Instance.ClearTargetHighlights();
-
-        if (success)
-            UIManager.Instance.RefreshAll();
+        UIManager.Instance.RefreshAll();
     }
 
     // Called by the Release drop zone

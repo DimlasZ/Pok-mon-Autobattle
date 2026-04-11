@@ -15,10 +15,11 @@ MonoBehaviour:
   abilityID: 49
   abilityName: Hydro Pump
   trigger: on_attack
-  target: enemy_all
+  target: enemy_last
+  count: 1
   effect: deal_damage
-  value: 
+  value: 1
   condition: 
   chance: 0
   custom: 
-  description: "Strikes all adjacent Pok\xE9mon."
+  description: 'On Attack: Hits the last enemy.'

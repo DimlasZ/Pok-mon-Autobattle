@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Leaf Storm
   trigger: after_attack
   target: self
+  count: 0
   effect: reduce_attack
   value: 0.5
   condition: 
   chance: 0
   custom: 
-  description: After attacking, the user loses 50% of its Attack.
+  description: 'After Attack: The user loses 50% of its Attack.'

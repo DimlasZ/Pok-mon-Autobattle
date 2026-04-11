@@ -15,10 +15,11 @@ MonoBehaviour:
   abilityID: 60
   abilityName: Hydro Cannon
   trigger: on_attack
-  target: enemy_all
-  effect: deal_damage
-  value: 
+  target: enemy_last
+  count: 1
+  effect: deal_damage_flat
+  value: 20
   condition: 
   chance: 0
   custom: 
-  description: Blasts all enemies with a powerful surge on attack.
+  description: 'On Attack: Deals 20 damage to the last enemy.'

@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 
 // BattleSceneManager lives only in the BattleScene.
 // It reads the player's team from GameManager, generates the enemy team,
@@ -21,6 +22,9 @@ public class BattleSceneManager : MonoBehaviour
 
     [Header("Enemy Team (right side)")]
     public PokemonSlotUI[] enemySlots;  // 6 slots (same layout)
+
+    [Header("Player HP")]
+    public TextMeshProUGUI playerHPLabel; // TopBar HP display
 
     [Header("Battle Log")]
     public TextMeshProUGUI battleLogText; // Shows what just happened
@@ -40,8 +44,8 @@ public class BattleSceneManager : MonoBehaviour
     public enum PlaybackMode { Step, Auto, SpeedUp }
     private PlaybackMode currentMode = PlaybackMode.Auto;
 
-    private const float autoDelay    = 1.0f;  // seconds between actions in Auto mode
-    private const float speedUpDelay = 0.15f; // seconds between actions in SpeedUp mode
+    private const float autoDelay    = 2f;  // seconds between actions in Auto mode
+    private const float speedUpDelay = 1f; // seconds between actions in SpeedUp mode
 
     private bool stepRequested = false; // set to true when Step button is clicked
 
@@ -86,8 +90,16 @@ public class BattleSceneManager : MonoBehaviour
         activeSlots = Mathf.Max(playerTeam.Count, enemyTeam.Count);
         activeSlots = Mathf.Min(activeSlots, ShopManager.MaxBattleSize);
 
+        // Register teams with AbilitySystem so it can resolve them without passing everywhere
+        AbilitySystem.InitBattle(playerTeam, enemyTeam);
+
         // Show both teams on screen
         DisplayTeams();
+
+        if (playerHPLabel != null)
+            playerHPLabel.text = $"HP: {GameManager.Instance.PlayerHP}/{GameManager.Instance.playerMaxHP}";
+
+        AudioManager.Instance?.PlayMusic("Trainerbattle");
 
         // Start the battle coroutine
         StartCoroutine(RunBattleCoroutine());
@@ -151,9 +163,6 @@ public class BattleSceneManager : MonoBehaviour
             AbilitySystem.FireRoundStart(playerTeam, enemyTeam);
             AbilitySystem.FireRoundStart(enemyTeam, playerTeam);
 
-            Log($"— Turn {turn} —");
-            yield return WaitForPlayback();
-
             // Determine attack order based on Speed (tie = random)
             bool playerGoesFirst;
             if (playerFront.speed != enemyFront.speed)
@@ -164,34 +173,29 @@ public class BattleSceneManager : MonoBehaviour
             PokemonInstance first  = playerGoesFirst ? playerFront : enemyFront;
             PokemonInstance second = playerGoesFirst ? enemyFront  : playerFront;
 
-            Log($"{first.DisplayName} (Spd {first.speed}) goes before {second.DisplayName}");
-            yield return WaitForPlayback();
-
             // First Pokemon attacks
             string attackLog = GetAttackLog(first, second);
-            DamageCalculator.Attack(first, second, playerGoesFirst ? playerTeam : enemyTeam, playerGoesFirst ? enemyTeam : playerTeam);
+            yield return PlayAttackAnim(first);
             Log(attackLog);
+            DamageCalculator.Attack(first, second, playerGoesFirst ? playerTeam : enemyTeam, playerGoesFirst ? enemyTeam : playerTeam);
             RefreshHP();
             yield return WaitForPlayback();
 
             if (second.currentHP <= 0)
             {
-                Log($"{second.DisplayName} fainted!");
-                yield return WaitForPlayback();
             }
             else
             {
                 // Second Pokemon attacks back
                 string counterLog = GetAttackLog(second, first);
-                DamageCalculator.Attack(second, first, playerGoesFirst ? enemyTeam : playerTeam, playerGoesFirst ? playerTeam : enemyTeam);
+                yield return PlayAttackAnim(second);
                 Log(counterLog);
+                DamageCalculator.Attack(second, first, playerGoesFirst ? enemyTeam : playerTeam, playerGoesFirst ? playerTeam : enemyTeam);
                 RefreshHP();
                 yield return WaitForPlayback();
 
                 if (first.currentHP <= 0)
                 {
-                    Log($"{first.DisplayName} fainted!");
-                    yield return WaitForPlayback();
                 }
             }
 
@@ -238,6 +242,9 @@ public class BattleSceneManager : MonoBehaviour
         resultText.color = color;
         resultText.gameObject.SetActive(true);
 
+        if (result == BattleResult.PlayerWin)
+            AudioManager.Instance?.PlayMusic("Victory");
+
         // Tell GameManager the result
         GameManager.Instance.OnBattleComplete(result);
 
@@ -275,26 +282,34 @@ public class BattleSceneManager : MonoBehaviour
     // PLAYBACK CONTROL
     // -------------------------------------------------------
 
-    // Returns a coroutine that waits based on the current mode
+    // Returns a coroutine that waits based on the current mode.
+    // Uses a polling loop in Auto/SpeedUp so a mid-wait switch to Step mode
+    // doesn't cause the next WaitForPlayback to auto-consume the pending step request.
     private IEnumerator WaitForPlayback()
     {
         if (currentMode == PlaybackMode.Step)
         {
-            // Wait until the player clicks Step (keep button enabled so it can be clicked)
-            if (!stepRequested)
+            while (!stepRequested)
+                yield return null;
+            stepRequested = false;
+        }
+        else
+        {
+            float delay = currentMode == PlaybackMode.Auto ? autoDelay : speedUpDelay;
+            float timer = 0f;
+            while (timer < delay)
             {
-                while (!stepRequested)
-                    yield return null;
+                // If the player switches to Step mid-wait, honour the click immediately
+                if (currentMode == PlaybackMode.Step)
+                {
+                    while (!stepRequested)
+                        yield return null;
+                    stepRequested = false;
+                    yield break;
+                }
+                timer += Time.deltaTime;
+                yield return null;
             }
-            stepRequested = false; // consume the request
-        }
-        else if (currentMode == PlaybackMode.Auto)
-        {
-            yield return new WaitForSeconds(autoDelay);
-        }
-        else // SpeedUp
-        {
-            yield return new WaitForSeconds(speedUpDelay);
         }
     }
 
@@ -328,11 +343,46 @@ public class BattleSceneManager : MonoBehaviour
     private void OnAutoClicked()    => SetMode(PlaybackMode.Auto);
     private void OnSpeedUpClicked() => SetMode(PlaybackMode.SpeedUp);
 
-    private void OnContinueClicked() => GameManager.Instance.ReturnToShop();
+    private void OnContinueClicked()
+    {
+        AudioManager.Instance?.PlayMusic("Pokémon Center");
+        GameManager.Instance.ReturnToShop();
+    }
 
     // -------------------------------------------------------
     // HELPERS
     // -------------------------------------------------------
+
+    // -------------------------------------------------------
+    // ATTACK ANIMATION
+    // -------------------------------------------------------
+
+    private IEnumerator PlayAttackAnim(PokemonInstance attacker)
+    {
+        var slot = GetSlotFor(attacker);
+        if (slot == null) yield break;
+
+        float dir = playerTeam.Contains(attacker) ? 1f : -1f;
+        Vector3 origin  = slot.transform.localPosition;
+        Vector3 windUp  = origin + new Vector3(-dir * 10f,  0, 0); // pull back
+        Vector3 lunge   = origin + new Vector3( dir * 50f, 0, 0); // lunge forward
+
+        var seq = DOTween.Sequence();
+        seq.Append(slot.transform.DOLocalMove(windUp,  0.08f).SetEase(Ease.OutQuad));
+        seq.Append(slot.transform.DOLocalMove(lunge,   0.12f).SetEase(Ease.OutQuad));
+        seq.AppendCallback(() => AudioManager.Instance?.PlaySound("Audio/Combat/hit_sound"));
+        seq.Append(slot.transform.DOLocalMove(origin,  0.10f).SetEase(Ease.InQuad));
+        yield return seq.WaitForCompletion();
+    }
+
+    private PokemonSlotUI GetSlotFor(PokemonInstance p)
+    {
+        int idx = playerTeam.IndexOf(p);
+        if (idx >= 0 && idx < playerSlots.Length) return playerSlots[idx];
+        idx = enemyTeam.IndexOf(p);
+        if (idx >= 0 && idx < enemySlots.Length) return enemySlots[idx];
+        return null;
+    }
 
     private PokemonInstance GetFront(List<PokemonInstance> team)
         => team.FirstOrDefault(p => p.currentHP > 0);

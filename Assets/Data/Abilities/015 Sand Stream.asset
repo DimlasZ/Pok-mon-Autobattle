@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Sand Stream
   trigger: on_battle_start
   target: self
+  count: 0
   effect: summon_weather
   value: sandstorm
   condition: 
   chance: 0
   custom: 
-  description: Summons a sandstorm on entry.
+  description: 'On Battle Start: Summons a sandstorm on entry.'

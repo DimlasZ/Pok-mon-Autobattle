@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Inferno
   trigger: on_attack
   target: enemy_last
+  count: 1
   effect: deal_damage
-  value: 
+  value: 1
   condition: 
   chance: 0
   custom: 
-  description: "Damages the last Pok\xE9mon in line on attack."
+  description: "On Attack: Damages the last Pok\xE9mon in line."

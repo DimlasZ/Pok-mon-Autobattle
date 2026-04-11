@@ -31,6 +31,7 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private readonly Color unselectedColor = new Color(1f, 1f, 1f, 0f);    // Transparent
 
     private bool _isValidTarget = false;
+    private bool _isLocked      = false;
 
     // -------------------------------------------------------
 
@@ -70,12 +71,26 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         attackText.text = instance.attack.ToString();
         speedText.text  = instance.speed.ToString();
 
-        _currentAbility = instance.baseData.ability;
+        _currentAbility     = instance.baseData.ability;
+        _currentPokemonName = instance.baseData.pokemonName;
 
         if (hpBarBox != null) hpBarBox.gameObject.SetActive(true);
         RefreshHealthBar(instance.currentHP, instance.maxHP);
 
         SetHighlight(false);
+    }
+
+    // Greys out the slot when the pre-evolution requirement is not met
+    public void SetLocked(bool locked)
+    {
+        _isLocked = locked;
+        pokemonSprite.color = locked ? new Color(0.35f, 0.35f, 0.35f, 0.6f) : Color.white;
+        if (locked)
+        {
+            hpText.text     = "?";
+            attackText.text = "?";
+            speedText.text  = "?";
+        }
     }
 
     // Called when this slot is empty — shows a blank slot
@@ -107,13 +122,14 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             highlight.color = on ? targetColor : unselectedColor;
     }
 
-    // The ability of the Pokemon currently displayed in this slot (null if empty)
+    // Data of the Pokemon currently displayed in this slot
     private AbilityData _currentAbility;
+    private string      _currentPokemonName = "";
 
     // Show tooltip on hover — anchored to the top of the slot, not the cursor
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (_currentAbility == null || TooltipUI.Instance == null) return;
+        if (TooltipUI.Instance == null || string.IsNullOrEmpty(_currentPokemonName)) return;
 
         // Use the top-center of this slot as the anchor point
         var rect = GetComponent<RectTransform>();
@@ -123,7 +139,7 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         Vector2 topCenter = (corners[1] + corners[2]) / 2f;
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(null, topCenter);
 
-        TooltipUI.Instance.Show(_currentAbility, screenPos);
+        TooltipUI.Instance.Show(_currentAbility, screenPos, _currentPokemonName);
     }
 
     // Hide tooltip when cursor leaves
@@ -143,6 +159,7 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (DragDropManager.Instance == null) return;
         if (pokemonSprite.sprite == null) return; // Empty slot — nothing to drag
+        if (_isLocked) return; // Can't drag a locked (evolution-gated) shop slot
         DragDropManager.Instance.BeginDrag(this, pokemonSprite.sprite);
     }
 

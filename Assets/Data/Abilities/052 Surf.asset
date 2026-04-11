@@ -15,10 +15,11 @@ MonoBehaviour:
   abilityID: 52
   abilityName: Surf
   trigger: on_attack
-  target: enemy_all
+  target: all_others
+  count: 0
   effect: deal_damage
-  value: 
+  value: 0.2
   condition: 
   chance: 0
   custom: 
-  description: "Strikes all adjacent Pok\xE9mon."
+  description: "On Attack: Deals 20% damage to all other Pok\xE9mon."

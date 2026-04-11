@@ -103,8 +103,18 @@ public static class UIGeneratorHelpers
     // TOOLTIP — shared between Shop and Battle scene generators
     // -------------------------------------------------------
 
+    // Creates the Tooltip only if one doesn't already exist in the scene.
+    // This lets you design it manually in Unity without it being overwritten by the generator.
     public static void CreateTooltip(Transform root)
     {
+        // If a Tooltip already exists, leave it alone
+        if (root.Find("Tooltip") != null)
+        {
+            Debug.Log("Tooltip already exists in scene — skipping creation so your manual layout is preserved.");
+            return;
+        }
+
+        // First-time creation with sensible defaults — customize visually in Unity after this runs once
         var tooltipGO   = new GameObject("Tooltip");
         var tooltipRect = tooltipGO.AddComponent<RectTransform>();
         var tooltipImg  = tooltipGO.AddComponent<Image>();
@@ -119,17 +129,26 @@ public static class UIGeneratorHelpers
 
         var tooltipUI = tooltipGO.AddComponent<TooltipUI>();
 
-        tooltipUI.abilityNameText = CreateTMPText(tooltipGO.transform, "AbilityNameText", "Ability", 25,
+        // Pokemon name
+        tooltipUI.pokemonNameText = CreateTMPText(tooltipGO.transform, "PokémonNameText", "Name", 25,
             new Vector2(0, 25), new Vector2(280, 35));
-        tooltipUI.abilityNameText.fontStyle = FontStyles.Bold;
-        tooltipUI.abilityNameText.alignment = TextAlignmentOptions.Center;
+        tooltipUI.pokemonNameText.fontStyle        = FontStyles.Bold;
+        tooltipUI.pokemonNameText.alignment        = TextAlignmentOptions.Center;
+        tooltipUI.pokemonNameText.characterSpacing = -5;
+        tooltipUI.pokemonNameText.textWrappingMode = TMPro.TextWrappingModes.Normal;
 
-        tooltipUI.abilityDescText = CreateTMPText(tooltipGO.transform, "AbilityDescText", "Description", 20,
-            new Vector2(0, -15), new Vector2(280, 55));
-        tooltipUI.abilityDescText.alignment          = TextAlignmentOptions.Center;
-        tooltipUI.abilityDescText.enableWordWrapping = true;
+        // Ability name + description combined (rich text: <b>Name</b>\nDescription)
+        tooltipUI.abilityText = CreateTMPText(tooltipGO.transform, "AbilityText", "<b>Ability</b>\nDescription", 20,
+            new Vector2(0, -10), new Vector2(280, 35));
+        tooltipUI.abilityText.alignment        = TextAlignmentOptions.TopLeft;
+        tooltipUI.abilityText.characterSpacing = -5;
+        tooltipUI.abilityText.wordSpacing      = -12;
+        tooltipUI.abilityText.lineSpacing      = -12;
+        tooltipUI.abilityText.textWrappingMode = TMPro.TextWrappingModes.Normal;
+        tooltipUI.abilityText.overflowMode     = TMPro.TextOverflowModes.Overflow;
 
         tooltipGO.transform.SetAsLastSibling();
+        Debug.Log("Tooltip created. Edit it visually in Unity, then send me the values to make them the new default.");
     }
 
     // -------------------------------------------------------

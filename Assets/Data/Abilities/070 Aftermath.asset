@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Aftermath
   trigger: on_faint
   target: all
-  effect: deal_damage
-  value: 
+  count: 0
+  effect: deal_damage_flat
+  value: 25
   condition: 
   chance: 0
   custom: 
-  description: Damages all units upon fainting.
+  description: "On Faint: Deal 25 Damage to all Pok\xE9mon."

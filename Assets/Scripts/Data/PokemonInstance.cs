@@ -15,6 +15,12 @@ public class PokemonInstance
 
     public int starLevel = 1;
 
+    // Permanent incoming-damage multiplier — set by Cursed Aura and similar lasting effects
+    public float damageTakenMultiplier = 1f;
+
+    // One-shot incoming-damage multiplier — set by Screech/Leer, consumed on the next hit
+    public float nextHitDamageMultiplier = 1f;
+
     // Optional override for log display (e.g. "Enemy Bulbasaur"). Falls back to baseData name.
     public string displayName;
     public string DisplayName => string.IsNullOrEmpty(displayName) ? baseData.pokemonName : displayName;

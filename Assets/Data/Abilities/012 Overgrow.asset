@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Overgrow
   trigger: on_hit
   target: self
+  count: 0
   effect: boost_attack_once
   value: 1.25
   condition: hp_below_40
   chance: 0
   custom: 
-  description: Boosts attacks by 25% when below 40% HP.
+  description: 'On Hit: Boosts attacks by 25% when below 40% HP.'

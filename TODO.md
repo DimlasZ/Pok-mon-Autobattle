@@ -107,6 +107,7 @@
 - [ ] Background music per phase
 - [ ] Main Menu screen
 - [ ] pokedollar icon
+- [ ] Overlay screen after battle.
 
 
 
@@ -123,12 +124,21 @@
 
 - [ ] Start with more HP as a player and lose more life based on surviving enmey pokemon.
 - [ ] How to evolve a pokemon, 3x1 = level 2 or buy the level 2 pokemon?
-- [ ] After how many rounds there is a draw?
-- [ ] Make Bench smaller, to 3 Poke? otherwise to many pokeslots
+- [ ] After how many rounds there is a draw? prolly non, no draw should be possible. Careful healing outscales damage maybe.
+- [x] Make Bench smaller, to 3 Poke? otherwise to many pokeslots
 - [x] no max rounds
-- [ ] fix Tierlist
-- [ ] fix HP and attack
-- [ ] better enemy poketeams
+- [x] fix Tierlist
+- [x] fix HP and attack
+- [x] better enemy poketeams
 - [x] only one type, fix logic and excel
 - [ ] 8 wins and then top 4 + champ?
 - [ ] weighted tier teams for enemy or database teams
+- [ ] Coop Multiplayer? May need a server, or at least a relay. 
+
+## Testing & Balancing
+
+- [ ] Wingull should be flying instead of watter, change excel, add a new water poke for wingull.
+- [ ] Bench and battlerown should be switchable as well with drag and drop.
+- [ ] Music needs to fade out, after win for exmaple.
+- [ ] on hit effects: poke needs to be hit with atleast one damage (no ground vs fyling stacking)
+- [ ] Entry Hazard are not stackable.

@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Water Pulse
   trigger: on_attack
   target: enemy_next
-  effect: deal_damage
-  value: 
+  count: 0
+  effect: deal_damage_flat
+  value: 20
   condition: 
   chance: 0
   custom: 
-  description: Damages the next enemy in line on attack.
+  description: 'On Attack: Deals 20 damage to the next enemy.'

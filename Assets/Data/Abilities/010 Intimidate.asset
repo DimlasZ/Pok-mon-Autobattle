@@ -16,9 +16,11 @@ MonoBehaviour:
   abilityName: Intimidate
   trigger: on_battle_start
   target: enemy_front
+  count: 1
   effect: reduce_attack
   value: 0.7
   condition: 
   chance: 0
   custom: 
-  description: "Lowers the attack damage of the first enemy Pok\xE9mon by 30%."
+  description: "On Battle Start: Lowers the attack damage of the first enemy Pok\xE9mon
+    by 30%."

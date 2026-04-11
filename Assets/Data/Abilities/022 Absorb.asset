@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Absorb
   trigger: after_attack
   target: self
-  effect: heal
-  value: 5
+  count: 0
+  effect: heal_flat
+  value: 8
   condition: 
   chance: 0
   custom: 
-  description: User recovers 5 HP after attacking.
+  description: 'After Attack: Recovers 8 HP.'

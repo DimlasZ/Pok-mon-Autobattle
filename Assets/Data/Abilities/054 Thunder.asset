@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Thunder
   trigger: on_attack
   target: enemy_all
+  count: 0
   effect: deal_damage
-  value: 
-  condition: 
+  value: 0.2
+  condition: weather_rain
   chance: 0
   custom: 
-  description: "Strikes all adjacent Pok\xE9mon."
+  description: 'On Attack: Deals 20% damage to all enemies (only in rain).'

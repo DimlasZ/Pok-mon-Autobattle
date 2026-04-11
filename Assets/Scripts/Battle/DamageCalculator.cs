@@ -9,28 +9,31 @@ public static class DamageCalculator
     public static void Attack(PokemonInstance attacker, PokemonInstance defender,
         List<PokemonInstance> attackerTeam, List<PokemonInstance> defenderTeam)
     {
+        // Mold Breaker — attacker's ability bypasses all defender passives
+        bool hasMoldBreaker = attacker.baseData.ability?.effect == "ignore_abilities";
+        AbilitySystem.SetMoldBreaker(hasMoldBreaker);
+
         // Type effectiveness
         float typeMultiplier = TypeChart.GetMultiplier(
             attacker.baseData.type1,
             defender.baseData.type1
         );
 
-        // Before-attack ability multiplier (e.g. Blaze at low HP)
+        // Before-attack ability multiplier
         float abilityMultiplier = AbilitySystem.FireBeforeAttack(attacker, attackerTeam, defenderTeam);
 
-        // Passive attack multiplier (e.g. Guts, Huge Power — checked live each attack)
+        // Passive attack multiplier (Huge Power, Flower Gift, etc. — checked live each attack)
         float passiveMultiplier = AbilitySystem.GetPassiveAttackMultiplier(attacker);
 
-        // Flat attack bonus (e.g. Chlorophyll +20 in sun)
-        int flatBonus = AbilitySystem.GetFlatAttackBonus(attacker);
-
         // Calculate raw damage
-        int effectiveAttack = attacker.attack + flatBonus;
-        int damage = Mathf.CeilToInt(effectiveAttack * typeMultiplier * abilityMultiplier * passiveMultiplier);
+        int damage = Mathf.CeilToInt(attacker.attack * typeMultiplier * abilityMultiplier * passiveMultiplier);
 
-        // Before-hit check — may fully negate the hit (Shell Armor, immune_to_ability_damage)
+        // Before-hit check — may fully negate the hit (Shell Armor, Protect)
         if (AbilitySystem.FireBeforeHit(defender, attacker, false))
+        {
+            AbilitySystem.SetMoldBreaker(false);
             return;
+        }
 
         // Apply damage reduction unless the attacker ignores it (Aerial Ace)
         if (!AbilitySystem.IgnoresDamageReduction(attacker))
@@ -43,7 +46,14 @@ public static class DamageCalculator
             damage = Mathf.Max(1, damage);
         }
 
-        // on_hit — may modify damage (Sturdy, Rough Skin recoil)
+        // damageTakenMultiplier — permanent (Cursed Aura etc.)
+        damage = Mathf.CeilToInt(damage * defender.damageTakenMultiplier);
+
+        // nextHitDamageMultiplier — one-shot (Screech, Leer); consumed on this hit
+        damage = Mathf.CeilToInt(damage * defender.nextHitDamageMultiplier);
+        defender.nextHitDamageMultiplier = 1f;
+
+        // on_hit — may modify damage (Sturdy, Rough Skin, Iron Barbs)
         damage = AbilitySystem.FireOnHit(defender, attacker, damage, defenderTeam, attackerTeam);
 
         // Apply damage, track excess (for Bone Club overflow)
@@ -73,6 +83,8 @@ public static class DamageCalculator
             AbilitySystem.FireOnFaint(defender, defenderTeam, attackerTeam);
             AbilitySystem.FireOnKill(attacker, attackerTeam, defenderTeam);
         }
+
+        AbilitySystem.SetMoldBreaker(false);
     }
 
     public static string GetEffectivenessText(float multiplier)

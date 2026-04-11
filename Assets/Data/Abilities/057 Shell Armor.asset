@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Shell Armor
   trigger: before_hit
   target: self
+  count: 0
   effect: negate_damage
   value: 
   condition: first_hit
   chance: 0
   custom: 
-  description: Can fully negate one incoming hit.
+  description: 'Before Hit: Fully negate the first incoming hit.'

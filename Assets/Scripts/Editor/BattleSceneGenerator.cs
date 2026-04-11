@@ -57,17 +57,16 @@ public class BattleSceneGenerator
         // --- Top Bar: round and HP ---
         var topBar = CreatePanel(root, "TopBar", new Vector2(1920, 70), new Vector2(0, 475));
         SetColor(topBar, new Color(0.08f, 0.08f, 0.08f, 0.95f));
-        CreateLabel(topBar.transform, "HPLabel", "HP: 3/3", 28, new Vector2(700, 0));
+        var hpLabel = CreateTMPLabel(topBar.transform, "HPLabel", "HP: 3/3", 28, new Vector2(700, 0), new Vector2(300, 50));
 
         // Slot size for 2x3 grid (3 per row, 2 rows per side)
         var slotSize = new Vector2(190, 175);
         float rowW   = 3 * slotSize.x + 2 * 10;  // 590
-        float frontOffset = 22f; // front row shifts this many px toward the center gap
+        float frontOffset = 120f; // front row shifts this many px toward the center gap
 
         // --- Player Team Panel (LEFT side) ---
         var playerPanel = CreatePanel(root, "PlayerPanel", new Vector2(920, 400), new Vector2(-490, 20));
         SetColor(playerPanel, new Color(0.05f, 0.15f, 0.25f, 0.8f));
-        CreateLabel(playerPanel.transform, "PlayerLabel", "YOUR TEAM", 22, new Vector2(-350, 170));
 
         // Front row — slightly offset right (toward enemy center)
         var playerFrontRow = CreatePanel(playerPanel.transform, "PlayerFrontRow", new Vector2(rowW, slotSize.y), new Vector2(frontOffset, 85));
@@ -75,7 +74,7 @@ public class BattleSceneGenerator
         AddHorizontalLayout(playerFrontRow, 10);
 
         // Back row — centered
-        var playerBackRow = CreatePanel(playerPanel.transform, "PlayerBackRow", new Vector2(rowW, slotSize.y), new Vector2(0, -100));
+        var playerBackRow = CreatePanel(playerPanel.transform, "PlayerBackRow", new Vector2(rowW, slotSize.y), new Vector2(100f, -100));
         SetColor(playerBackRow, Color.clear);
         AddHorizontalLayout(playerBackRow, 10);
 
@@ -90,7 +89,6 @@ public class BattleSceneGenerator
         // --- Enemy Team Panel (RIGHT side) ---
         var enemyPanel = CreatePanel(root, "EnemyPanel", new Vector2(920, 400), new Vector2(490, 20));
         SetColor(enemyPanel, new Color(0.25f, 0.05f, 0.05f, 0.8f));
-        CreateLabel(enemyPanel.transform, "EnemyLabel", "ENEMY TEAM", 22, new Vector2(-350, 170));
 
         // Front row — slightly offset left (toward player center)
         var enemyFrontRow = CreatePanel(enemyPanel.transform, "EnemyFrontRow", new Vector2(rowW, slotSize.y), new Vector2(-frontOffset, 85));
@@ -98,7 +96,7 @@ public class BattleSceneGenerator
         AddHorizontalLayout(enemyFrontRow, 10);
 
         // Back row — centered
-        var enemyBackRow = CreatePanel(enemyPanel.transform, "EnemyBackRow", new Vector2(rowW, slotSize.y), new Vector2(0, -100));
+        var enemyBackRow = CreatePanel(enemyPanel.transform, "EnemyBackRow", new Vector2(rowW, slotSize.y), new Vector2(-100f, -100));
         SetColor(enemyBackRow, Color.clear);
         AddHorizontalLayout(enemyBackRow, 10);
 
@@ -144,8 +142,9 @@ public class BattleSceneGenerator
 
         var bsm = bsmGO.GetComponent<BattleSceneManager>() ?? bsmGO.AddComponent<BattleSceneManager>();
 
-        bsm.playerSlots = playerSlots;
-        bsm.enemySlots  = enemySlots;
+        bsm.playerSlots    = playerSlots;
+        bsm.enemySlots     = enemySlots;
+        bsm.playerHPLabel  = hpLabel;
         bsm.battleLogText  = battleLogText;
         bsm.resultText     = resultText;
         bsm.stepButton     = stepBtn;

@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Light Screen
   trigger: on_battle_start
   target: self
+  count: 0
   effect: summon_screen
   value: light_screen
   condition: 
   chance: 0
   custom: 
-  description: Deploys a protective screen at battle start.
+  description: 'On Battle Start: Summons light screen.'

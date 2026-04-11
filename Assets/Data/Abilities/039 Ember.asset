@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Ember
   trigger: on_attack
   target: enemy_next
-  effect: deal_damage
+  count: 0
+  effect: deal_damage_flat
   value: 10
   condition: 
   chance: 0
   custom: 
-  description: Deals 10 Damage to the next enemy.
+  description: 'On Attack: Deals 10 Damage to the next enemy.'

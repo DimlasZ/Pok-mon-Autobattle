@@ -19,5 +19,6 @@ MonoBehaviour:
   type1: Ground
   speed: 75
   tier: 2
-  ability: {fileID: 0}
+  preEvolutionId: 0
+  ability: {fileID: 11400000, guid: e4791d03c0509094ca09b42a9f581481, type: 2}
   sprite: {fileID: 9167512925853175917, guid: 47a31ced93b33124e8769f7b324a52f4, type: 3}

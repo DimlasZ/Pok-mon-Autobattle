@@ -15,10 +15,11 @@ MonoBehaviour:
   abilityID: 68
   abilityName: Hurricane
   trigger: on_attack
-  target: enemy_all
+  target: enemy_last
+  count: 1
   effect: deal_damage
-  value: 
+  value: 1
   condition: weather_rain
   chance: 0
   custom: 
-  description: "In rain, also damages adjacent Pok\xE9mon."
+  description: 'On Attack: Hits last enemy during rain.'

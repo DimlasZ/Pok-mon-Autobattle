@@ -45,6 +45,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log($"Battle start! Player: {playerTeam.Count} Pokemon | Enemy: {enemyTeam.Count} Pokemon");
 
         AbilitySystem.ResetBattleState();
+        AbilitySystem.InitBattle(playerTeam, enemyTeam);
         AbilitySystem.FireBattleStart(playerTeam, enemyTeam);
         AbilitySystem.FireBattleStart(enemyTeam, playerTeam);
 

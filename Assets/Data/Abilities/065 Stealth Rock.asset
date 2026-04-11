@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Stealth Rock
   trigger: on_battle_start
   target: enemy_all
-  effect: deal_damage
-  value: 
+  count: 0
+  effect: deal_damage_percent
+  value: 0.25
   condition: 
   chance: 0
   custom: 
-  description: Damages all enemies at the start of battle.
+  description: 'On Battle Start: Deals 25% damage to all enemies.'

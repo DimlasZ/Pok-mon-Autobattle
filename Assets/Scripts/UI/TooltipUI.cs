@@ -10,8 +10,8 @@ public class TooltipUI : MonoBehaviour
     public static TooltipUI Instance { get; private set; }
 
     [Header("References")]
-    public TextMeshProUGUI abilityNameText;
-    public TextMeshProUGUI abilityDescText;
+    public TextMeshProUGUI pokemonNameText;
+    public TextMeshProUGUI abilityText;      // Shows "<b>AbilityName</b>\nDescription" combined
 
     private RectTransform _rect;
     private Canvas        _canvas;
@@ -31,12 +31,13 @@ public class TooltipUI : MonoBehaviour
 
     // -------------------------------------------------------
 
-    public void Show(AbilityData ability, Vector2 screenPosition)
+    public void Show(AbilityData ability, Vector2 screenPosition, string pokemonName = "")
     {
-        if (ability == null) { Hide(); return; }
-
-        abilityNameText.text = ability.abilityName;
-        abilityDescText.text = ability.description;
+        if (pokemonNameText != null) pokemonNameText.text = pokemonName;
+        if (abilityText != null)
+            abilityText.text = ability != null
+                ? $"<b>{ability.abilityName}</b> - {ability.description}"
+                : "";
 
         gameObject.SetActive(true);
         RepositionTooltip(screenPosition);

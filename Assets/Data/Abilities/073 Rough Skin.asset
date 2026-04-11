@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Rough Skin
   trigger: on_hit
   target: attacker
+  count: 0
   effect: recoil_damage
-  value: 0.1
-  condition: on_contact
+  value: 0.15
+  condition: 
   chance: 0
   custom: 
-  description: Deals 10% of max HP back to any attacker on contact.
+  description: 'On Hit: Deals 15% of max HP back to attacker.'

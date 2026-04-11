@@ -15,10 +15,11 @@ MonoBehaviour:
   abilityID: 74
   abilityName: Thunder Wave
   trigger: on_battle_start
-  target: enemy_front
+  target: enemy_last
+  count: 1
   effect: reduce_speed
   value: 0.5
   condition: 
   chance: 0
   custom: 
-  description: Reduces an enemy's Speed by 50% at battle start.
+  description: 'On Battle Start: Reduces last enemy''s Speed by 50%.'

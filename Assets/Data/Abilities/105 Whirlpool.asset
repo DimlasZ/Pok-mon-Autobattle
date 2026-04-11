@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d5fe0272ba41940a14853929658c3e, type: 3}
+  m_Name: 105 Whirlpool
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityData
+  abilityID: 105
+  abilityName: Whirlpool
+  trigger: on_attack
+  target: enemy_next
+  count: 1
+  effect: deal_damage
+  value: 0.2
+  condition: weather_rain
+  chance: 0
+  custom: 
+  description: 'On Attack: Deals 20% damage to the next enemy (only in rain).'

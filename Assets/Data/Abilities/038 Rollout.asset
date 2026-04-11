@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Rollout
   trigger: after_attack
   target: self
+  count: 0
   effect: boost_attack
   value: 1.2
   condition: 
   chance: 0
   custom: 
-  description: Raises Attack by 20% after each attack.
+  description: 'After Attack: Raises Attack by 20%.'

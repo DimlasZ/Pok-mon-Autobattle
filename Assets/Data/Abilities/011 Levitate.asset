@@ -16,6 +16,7 @@ MonoBehaviour:
   abilityName: Levitate
   trigger: passive
   target: self
+  count: 0
   effect: immune
   value: 
   condition: Ground

@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Weak Armor
   trigger: on_hit
   target: self
+  count: 0
   effect: boost_speed
   value: 2
   condition: super_effective
   chance: 0
   custom: 
-  description: Speed doubles when hit by a super-effective attack.
+  description: 'On Hit: Speed doubles when hit by a super-effective attack.'

@@ -19,5 +19,6 @@ MonoBehaviour:
   type1: Normal
   speed: 26
   tier: 2
-  ability: {fileID: 0}
+  preEvolutionId: 0
+  ability: {fileID: 11400000, guid: ef097cc499fc59e4bb33b32e21875e76, type: 2}
   sprite: {fileID: -3694201731105352905, guid: f847b0d904e699c4c839b1ba13d1c6bb, type: 3}

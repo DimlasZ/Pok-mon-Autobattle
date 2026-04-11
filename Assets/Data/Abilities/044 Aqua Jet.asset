@@ -16,7 +16,8 @@ MonoBehaviour:
   abilityName: Aqua Jet
   trigger: passive
   target: self
-  effect: priority
+  count: 0
+  effect: 
   value: 
   condition: 
   chance: 0

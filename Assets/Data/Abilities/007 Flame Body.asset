@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Flame Body
   trigger: on_hit
   target: attacker
+  count: 0
   effect: reduce_attack
   value: 0.8
-  condition: on_contact
+  condition: 
   chance: 0
   custom: 
-  description: Attacker loses 20% of attack damage after hitting the user.
+  description: 'On Hit: Attacker loses 20% of attack damage after hitting the user.'

@@ -15,10 +15,11 @@ MonoBehaviour:
   abilityID: 71
   abilityName: Heat Wave
   trigger: on_attack
-  target: enemy_all
+  target: enemy_last
+  count: 2
   effect: deal_damage
-  value: 
+  value: 0.5
   condition: 
   chance: 0
   custom: 
-  description: Scorches all enemies on attack.
+  description: 'On Attack: Deals 50% damage to the last two enemies.'

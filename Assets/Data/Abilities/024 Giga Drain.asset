@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Giga Drain
   trigger: after_attack
   target: self
-  effect: heal
+  count: 0
+  effect: heal_flat
   value: 50
   condition: 
   chance: 0
   custom: 
-  description: User recovers 50 HP after attacking.
+  description: 'After Attack: Recovers 50 HP.'

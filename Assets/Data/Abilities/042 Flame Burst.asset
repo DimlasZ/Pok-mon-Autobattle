@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Flame Burst
   trigger: on_attack
   target: enemy_all
-  effect: deal_damage
-  value: 
+  count: 0
+  effect: deal_damage_flat
+  value: 10
   condition: 
   chance: 0
   custom: 
-  description: Deals damage; splashes to adjacent enemies.
+  description: 'On Attack: Deals 10 damage to all enemies.'

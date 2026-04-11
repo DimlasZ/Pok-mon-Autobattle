@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityID: 80
   abilityName: Guts
-  trigger: passive
+  trigger: on_hit
   target: self
+  count: 0
   effect: boost_attack
-  value: 1.5
-  condition: hp_below_40
+  value: 1.4
+  condition: 
   chance: 0
   custom: 
-  description: Increases Attack by 50% when the user is hurt.
+  description: 'On Hit: Increases Attack by 40%.'

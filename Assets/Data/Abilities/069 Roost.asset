@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Roost
   trigger: after_attack
   target: self
+  count: 0
   effect: heal
-  value: 0.2
+  value: 0.3
   condition: 
   chance: 0
   custom: 
-  description: Heals 20% of max HP after each attack.
+  description: 'After Attack: Heals 30% of max HP.'

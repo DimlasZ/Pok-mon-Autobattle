@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Sturdy
   trigger: on_hit
   target: self
+  count: 0
   effect: survive_ko
   value: 
   condition: 
   chance: 0
   custom: 
-  description: Survives any one-hit KO with 1 HP remaining.
+  description: 'On Hit: Survives any one-hit KO with 1 HP remaining.'

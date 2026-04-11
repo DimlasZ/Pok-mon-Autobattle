@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Rain Dish
   trigger: on_round_start
   target: self
+  count: 0
   effect: heal
   value: 0.3
   condition: weather_rain
   chance: 0
   custom: 
-  description: Restores 30% of HP after each turn in rain.
+  description: 'On Round Start: Restores 30% of HP after each turn in rain.'

@@ -19,5 +19,6 @@ MonoBehaviour:
   type1: Grass
   speed: 25
   tier: 2
-  ability: {fileID: 0}
+  preEvolutionId: 0
+  ability: {fileID: 11400000, guid: cad89a4e8e898fd459fa50dca1befb06, type: 2}
   sprite: {fileID: 7766442053390731690, guid: 6e610c32f175b34449a402d7b7745b23, type: 3}

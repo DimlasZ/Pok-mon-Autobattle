@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Solar Power
   trigger: on_round_start
   target: self
+  count: 0
   effect: boost_attack
   value: 1.5
   condition: weather_sun
   chance: 0
   custom: 
-  description: 
+  description: 'On Round Start: Boosts Attack by 50% during sunlight.'

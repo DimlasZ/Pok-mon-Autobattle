@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Chlorophyll
   trigger: passive
   target: self
+  count: 0
   effect: boost_speed
   value: 2
   condition: weather_sun
   chance: 0
   custom: 
-  description: Doubles Speedin harsh sunlight.
+  description: Doubles Speed in harsh sunlight.

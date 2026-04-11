@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Earthquake
   trigger: on_attack
   target: all_others
+  count: 0
   effect: deal_damage
-  value: 
+  value: 1
   condition: 
   chance: 0
   custom: 
-  description: "Damages all other Pok\xE9mon on attack."
+  description: "On Attack: Damages all other Pok\xE9mon on attack."

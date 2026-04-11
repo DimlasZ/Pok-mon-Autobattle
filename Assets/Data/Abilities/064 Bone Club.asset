@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Bone Club
   trigger: on_attack
   target: enemy_front
+  count: 1
   effect: overflow_damage
   value: 
   condition: 
   chance: 0
   custom: 
-  description: Excess damage carries over to the next enemy.
+  description: 'On Attack: Excess damage carries over to the next enemy.'

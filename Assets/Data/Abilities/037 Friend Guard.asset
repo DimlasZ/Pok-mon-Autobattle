@@ -16,6 +16,7 @@ MonoBehaviour:
   abilityName: Friend Guard
   trigger: passive
   target: ally_all
+  count: 0
   effect: damage_reduction
   value: 0.9
   condition: 

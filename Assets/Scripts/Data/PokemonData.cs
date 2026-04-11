@@ -10,6 +10,7 @@ public class PokemonData : ScriptableObject
     public string type1;
     public int speed;
     public int tier;
+    public int preEvolutionId; // 0 = no pre-evolution required
     public AbilityData ability;
     public Sprite sprite;
 }

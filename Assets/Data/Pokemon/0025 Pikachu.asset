@@ -19,5 +19,6 @@ MonoBehaviour:
   type1: Electric
   speed: 55
   tier: 2
-  ability: {fileID: 0}
+  preEvolutionId: 0
+  ability: {fileID: 11400000, guid: 4baac443cbe3af840b63b77051198188, type: 2}
   sprite: {fileID: -8168109919182025848, guid: 515c01cf93dc91a47a68714f23c459a8, type: 3}

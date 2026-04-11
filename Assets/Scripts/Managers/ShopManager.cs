@@ -62,6 +62,7 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance?.PlayMusic("Pokémon Center");
         // StartRound() is called by GameManager.EnterBuyPhase()
     }
 
@@ -146,6 +147,12 @@ public class ShopManager : MonoBehaviour
     public void SelectShopPokemon(int index)
     {
         if (index < 0 || index >= ShopSize || ShopRow[index] == null) return;
+        var p = ShopRow[index];
+        if (p.baseData.preEvolutionId > 0 && !PlayerOwnsPreEvolution(p.baseData.preEvolutionId))
+        {
+            Debug.Log($"Can't select {p.baseData.pokemonName} — need its pre-evolution first!");
+            return;
+        }
         SelectedIndex    = index;
         CurrentSelection = SelectionSource.Shop;
         Debug.Log($"Selected shop slot {index}: {ShopRow[index].baseData.pokemonName}");
@@ -221,12 +228,32 @@ public class ShopManager : MonoBehaviour
                     return false;
                 }
 
+                // Evolution buy — target slot must contain the pre-evolution
+                if (p.baseData.preEvolutionId > 0)
+                {
+                    var targetPokemon = GetSlotPokemon(targetSource, targetIndex);
+                    if (targetPokemon == null || targetPokemon.baseData.id != p.baseData.preEvolutionId)
+                    {
+                        Debug.Log($"{p.baseData.pokemonName} must be placed on its pre-evolution!");
+                        return false;
+                    }
+                    SetSlotPokemon(targetSource, targetIndex, p);
+                    ShopRow[SelectedIndex] = null;
+                    CurrentPokedollars--;
+                    AudioManager.Instance?.PlayCry(p.baseData.id);
+                    Debug.Log($"Evolved to {p.baseData.pokemonName} — P$ remaining: {CurrentPokedollars}");
+                    success = true;
+                    break;
+                }
+
+                // Normal buy
                 if (targetSource == SelectionSource.Battle)
                 {
                     if (InsertIntoBattleRow(p, targetIndex))
                     {
                         ShopRow[SelectedIndex] = null;
                         CurrentPokedollars--;
+                        AudioManager.Instance?.PlayCry(p.baseData.id);
                         Debug.Log($"Bought {p.baseData.pokemonName} to battle slot {targetIndex} — P$ remaining: {CurrentPokedollars}");
                         success = true;
                     }
@@ -238,6 +265,7 @@ public class ShopManager : MonoBehaviour
                     BenchRow[targetIndex]  = p;
                     ShopRow[SelectedIndex] = null;
                     CurrentPokedollars--;
+                    AudioManager.Instance?.PlayCry(p.baseData.id);
                     Debug.Log($"Bought {p.baseData.pokemonName} to bench — P$ remaining: {CurrentPokedollars}");
                     success = true;
                 }
@@ -357,6 +385,37 @@ public class ShopManager : MonoBehaviour
     // -------------------------------------------------------
     // HELPERS
     // -------------------------------------------------------
+
+    // Returns true if the player owns any Pokémon with the given ID (bench or battle)
+    public bool PlayerOwnsPreEvolution(int preEvoId)
+    {
+        foreach (var p in BattleRow) if (p != null && p.baseData.id == preEvoId) return true;
+        foreach (var p in BenchRow)  if (p != null && p.baseData.id == preEvoId) return true;
+        return false;
+    }
+
+    // Returns the currently selected shop Pokémon (or null)
+    public PokemonInstance GetSelectedShopPokemon()
+    {
+        if (CurrentSelection != SelectionSource.Shop || SelectedIndex < 0) return null;
+        return ShopRow[SelectedIndex];
+    }
+
+    private PokemonInstance GetSlotPokemon(SelectionSource source, int index)
+    {
+        return source switch
+        {
+            SelectionSource.Battle => index >= 0 && index < BattleSize ? BattleRow[index] : null,
+            SelectionSource.Bench  => index >= 0 && index < BenchSize  ? BenchRow[index]  : null,
+            _ => null
+        };
+    }
+
+    private void SetSlotPokemon(SelectionSource source, int index, PokemonInstance pokemon)
+    {
+        if (source == SelectionSource.Battle) BattleRow[index] = pokemon;
+        else if (source == SelectionSource.Bench) BenchRow[index] = pokemon;
+    }
 
     public bool CanStartBattle()
     {

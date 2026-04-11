@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Eruption
   trigger: before_attack
   target: self
+  count: 0
   effect: 
   value: 
   condition: 
   chance: 0
   custom: eruption
-  description: Power scales with user's remaining HP.
+  description: 'Before Attack: Power scales with user''s remaining HP.'

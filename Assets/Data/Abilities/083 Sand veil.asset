@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: 083 Sand veil
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityID: 83
-  abilityName: Sand veil
+  abilityName: Sand Veil
   trigger: passive
   target: self
+  count: 0
   effect: damage_reduction
-  value: 0.75
-  condition: 
+  value: 0.6
+  condition: weather_sandstorm
   chance: 0
   custom: 
-  description: Reduces all incoming damage by 25% during a sandstorm.
+  description: Reduces all incoming damage by 40% during a sandstorm.

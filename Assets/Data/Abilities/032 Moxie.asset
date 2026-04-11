@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Moxie
   trigger: on_kill
   target: self
+  count: 0
   effect: boost_attack
   value: 1.5
   condition: 
   chance: 0
   custom: 
-  description: Raises Attack by 50% after knocking out an enemy.
+  description: 'On Kill: Raises Attack by 50%.'

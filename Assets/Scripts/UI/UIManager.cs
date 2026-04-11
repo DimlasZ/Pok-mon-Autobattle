@@ -99,7 +99,11 @@ public class UIManager : MonoBehaviour
 
             if (ShopManager.Instance.ShopRow[i] != null)
             {
-                shopSlots[i].DisplayPokemon(ShopManager.Instance.ShopRow[i]);
+                var pokemon = ShopManager.Instance.ShopRow[i];
+                shopSlots[i].DisplayPokemon(pokemon);
+                bool locked = pokemon.baseData.preEvolutionId > 0
+                              && !ShopManager.Instance.PlayerOwnsPreEvolution(pokemon.baseData.preEvolutionId);
+                shopSlots[i].SetLocked(locked);
                 shopSlots[i].SetHighlight(isSelected);
             }
             else
@@ -159,7 +163,7 @@ public class UIManager : MonoBehaviour
         playerHPText.text   = $"HP: {GameManager.Instance.PlayerHP}/{GameManager.Instance.playerMaxHP}";
     }
 
-    private void RefreshActionButtons()
+    public void RefreshActionButtons()
     {
         var selection = ShopManager.Instance.CurrentSelection;
         bool hasSelection = selection != ShopManager.SelectionSource.None;
@@ -185,11 +189,31 @@ public class UIManager : MonoBehaviour
         switch (fromSource)
         {
             case ShopManager.SelectionSource.Shop:
-                // Can go to any battle slot or bench slot
-                foreach (var slot in battleSlots)
-                    if (slot.gameObject.activeSelf) slot.SetValidTarget(true);
-                foreach (var slot in benchSlots)
-                    slot.SetValidTarget(true);
+                var selectedPokemon = ShopManager.Instance.GetSelectedShopPokemon();
+                if (selectedPokemon != null && selectedPokemon.baseData.preEvolutionId > 0)
+                {
+                    // Evolution buy — only highlight slots containing the pre-evolution
+                    int preEvoId = selectedPokemon.baseData.preEvolutionId;
+                    foreach (var slot in battleSlots)
+                    {
+                        if (!slot.gameObject.activeSelf) continue;
+                        var p = ShopManager.Instance.BattleRow[slot.slotIndex];
+                        if (p != null && p.baseData.id == preEvoId) slot.SetValidTarget(true);
+                    }
+                    foreach (var slot in benchSlots)
+                    {
+                        var p = ShopManager.Instance.BenchRow[slot.slotIndex];
+                        if (p != null && p.baseData.id == preEvoId) slot.SetValidTarget(true);
+                    }
+                }
+                else
+                {
+                    // Normal buy — highlight all bench and battle slots
+                    foreach (var slot in battleSlots)
+                        if (slot.gameObject.activeSelf) slot.SetValidTarget(true);
+                    foreach (var slot in benchSlots)
+                        slot.SetValidTarget(true);
+                }
                 break;
 
             case ShopManager.SelectionSource.Bench:

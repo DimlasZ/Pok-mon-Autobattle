@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Speed Boost
   trigger: on_round_start
   target: self
+  count: 0
   effect: boost_speed
   value: 1.05
   condition: 
   chance: 0
   custom: 
-  description: Increases Speed by 5% after each round.
+  description: 'On Round Start: Increases Speed by 5%.'

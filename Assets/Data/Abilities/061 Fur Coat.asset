@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Fur Coat
   trigger: passive
   target: self
+  count: 0
   effect: immune_to_ability_damage
   value: 
   condition: 
   chance: 0
   custom: 
-  description: Immune to damage caused by abilities.
+  description: Immune to ability damage.

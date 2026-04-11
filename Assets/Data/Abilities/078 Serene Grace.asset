@@ -15,10 +15,11 @@ MonoBehaviour:
   abilityID: 78
   abilityName: Serene Grace
   trigger: passive
-  target: self
+  target: ally_all
+  count: 0
   effect: boost_healing
   value: 1.5
   condition: 
   chance: 0
   custom: serene_grace
-  description: Increases all healing received by 50%.
+  description: All allies receive increased healing by 50%.

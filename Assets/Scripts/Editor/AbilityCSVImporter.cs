@@ -6,8 +6,8 @@ using System.Collections.Generic;
 public class AbilityCSVImporter
 {
     // CSV column order:
-    // 0=ID, 1=Name, 2=Trigger, 3=Target, 4=Effect, 5=Value, 6=Condition,
-    // 7=Chance, 8=Custom, 9=Description
+    // 0=ID, 1=Name, 2=Trigger, 3=Target, 4=Count, 5=Effect, 6=Value,
+    // 7=Condition, 8=Chance, 9=Custom, 10=Description
 
     [MenuItem("Pokemon/Import Abilities from CSV")]
     public static void ImportFromCSV()
@@ -46,12 +46,15 @@ public class AbilityCSVImporter
             string abilityName = Get(col, 1);
             string trigger     = Get(col, 2);
             string target      = Get(col, 3);
-            string effect      = Get(col, 4);
-            string value       = Get(col, 5);
-            string condition   = Get(col, 6);
-            string chanceStr   = Get(col, 7);
-            string custom      = Get(col, 8);
-            string description = Get(col, 9);
+            string countStr    = Get(col, 4);
+            string effect      = Get(col, 5);
+            string value       = Get(col, 6);
+            string condition   = Get(col, 7);
+            string chanceStr   = Get(col, 8);
+            string custom      = Get(col, 9);
+            string description = Get(col, 10);
+
+            int.TryParse(countStr, out int count);
 
             float.TryParse(chanceStr,
                 System.Globalization.NumberStyles.Any,
@@ -72,6 +75,7 @@ public class AbilityCSVImporter
             data.abilityName = abilityName;
             data.trigger     = trigger;
             data.target      = target;
+            data.count       = count;
             data.effect      = effect;
             data.value       = value;
             data.condition   = condition;

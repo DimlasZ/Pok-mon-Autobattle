@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Swift Swim
   trigger: passive
   target: self
+  count: 0
   effect: boost_speed
   value: 2
   condition: weather_rain
   chance: 0
   custom: 
-  description: Doubles Speedin rain.
+  description: Doubles Speed in rain.

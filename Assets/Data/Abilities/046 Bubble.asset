@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Bubble
   trigger: on_attack
   target: enemy_front
+  count: 1
   effect: reduce_speed
   value: 0.9
   condition: 
   chance: 0
   custom: 
-  description: May lower the opponent's Speed.
+  description: 'On Attack: Lowers the enemy''s Speed 10%.'

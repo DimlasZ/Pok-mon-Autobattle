@@ -19,5 +19,6 @@ MonoBehaviour:
   type1: Fire
   speed: 45
   tier: 2
-  ability: {fileID: 0}
+  preEvolutionId: 0
+  ability: {fileID: 11400000, guid: c258b2982106825468f19cb1a47f0494, type: 2}
   sprite: {fileID: 3936495470526350596, guid: 084e5a344ac50e4418efc8b68e720017, type: 3}

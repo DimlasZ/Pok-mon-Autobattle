@@ -55,9 +55,10 @@ public class PokemonCSVImporter
             int    hp        = int.Parse(col[3]);
             int    speed     = col.Length > 4  && !string.IsNullOrEmpty(col[4])  ? int.Parse(col[4])  : 0;
             string type1     = col.Length > 5  ? col[5].Trim() : "";
-            int    tier      = col.Length > 14 && !string.IsNullOrEmpty(col[14]) ? int.Parse(col[14]) : 0;
-            string abilityID = col.Length > 15 ? col[15].Trim() : "";
-            string spriteName = col.Length > 16 ? col[16].Trim() : "";
+            int    tier          = col.Length > 14 && !string.IsNullOrEmpty(col[14]) ? int.Parse(col[14]) : 0;
+            string abilityID     = col.Length > 15 ? col[15].Trim() : "";
+            string spriteName    = col.Length > 16 ? col[16].Trim() : "";
+            int    preEvolutionId = col.Length > 20 && !string.IsNullOrEmpty(col[20]) ? int.Parse(col[20]) : 0;
 
             string safeName  = string.Concat(pName.Split(System.IO.Path.GetInvalidFileNameChars()));
             string assetPath = $"{outputFolder}/{id:0000} {safeName}.asset";
@@ -69,13 +70,14 @@ public class PokemonCSVImporter
                 AssetDatabase.CreateAsset(data, assetPath);
             }
 
-            data.id          = id;
-            data.pokemonName = pName;
-            data.attack      = attack;
-            data.hp          = hp;
-            data.type1       = type1;
-            data.speed       = speed;
-            data.tier        = tier;
+            data.id             = id;
+            data.pokemonName    = pName;
+            data.attack         = attack;
+            data.hp             = hp;
+            data.type1          = type1;
+            data.speed          = speed;
+            data.tier           = tier;
+            data.preEvolutionId = preEvolutionId;
 
             // Link ability asset by ID
             if (int.TryParse(abilityID, out int abilityIDInt) && abilityLookup.TryGetValue(abilityIDInt, out AbilityData ab))

@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Flower Gift
   trigger: passive
   target: ally_all
+  count: 0
   effect: boost_attack
-  value: 1.5
+  value: 1.2
   condition: weather_sun
   chance: 0
   custom: 
-  description: Boosts all allies' Attack by 50% in sunlight.
+  description: Boosts all allies' Attack by 20% in sunlight.

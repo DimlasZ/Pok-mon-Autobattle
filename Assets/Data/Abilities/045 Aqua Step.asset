@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Aqua Step
   trigger: after_attack
   target: self
+  count: 0
   effect: boost_speed
   value: 1.1
   condition: 
   chance: 0
   custom: 
-  description: Increases the user's Speed by 10% after attacking.
+  description: 'After Attack: Increases the user''s Speed by 10%.'

@@ -19,5 +19,6 @@ MonoBehaviour:
   type1: Flying
   speed: 36
   tier: 2
-  ability: {fileID: 0}
+  preEvolutionId: 0
+  ability: {fileID: 11400000, guid: 9a389ca7a8fd61e4ca9d7c34020ee4ec, type: 2}
   sprite: {fileID: -530719906995331806, guid: 293b71dac370ef7419f01eb59fba5556, type: 3}

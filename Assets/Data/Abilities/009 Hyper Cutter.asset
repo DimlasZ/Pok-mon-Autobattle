@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Hyper Cutter
   trigger: passive
   target: self
+  count: 0
   effect: immune_to_debuff
   value: 
   condition: 
   chance: 0
   custom: 
-  description: Attack cannot be lowered by opponents.
+  description: Attack cannot be lowered.

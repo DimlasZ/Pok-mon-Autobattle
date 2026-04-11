@@ -16,6 +16,7 @@ MonoBehaviour:
   abilityName: Huge Power
   trigger: passive
   target: self
+  count: 0
   effect: boost_attack
   value: 2
   condition: 

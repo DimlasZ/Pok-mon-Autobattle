@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityName: Power Up
   trigger: on_ally_faint
   target: self
+  count: 0
   effect: boost_speed
-  value: 1.1
+  value: 1.2
   condition: 
   chance: 0
   custom: 
-  description: Raises Speed by 10% for each ally that fainted this combat.
+  description: 'On Ally Faint: Raises Speed by 20% for each ally that has fainted.'
