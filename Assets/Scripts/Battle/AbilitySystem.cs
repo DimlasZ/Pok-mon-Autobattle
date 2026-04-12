@@ -502,7 +502,7 @@ public static class AbilitySystem
                 {
                     if (t.currentHP <= 0) continue;
                     List<PokemonInstance> tTeam = enemyTeam.Contains(t) ? enemyTeam : sourceTeam;
-                    DealAbilityDamage(source, t, tTeam, sourceTeam, ab, dmg, false);
+                    DealAbilityDamage(source, t, tTeam, sourceTeam, ab, dmg, true);
                 }
                 break;
             }
@@ -993,7 +993,12 @@ public static class AbilitySystem
                 break;
 
             case "enemy_front":
-                result.AddRange(GetFirstNAlive(enemyTeam, n));
+                // If called from an on_attack context, prefer the actual defender (contextTarget)
+                // even if it just died — avoids spilling debuffs onto the next alive enemy.
+                if (contextTarget != null && enemyTeam.Contains(contextTarget))
+                    result.Add(contextTarget);
+                else
+                    result.AddRange(GetFirstNAlive(enemyTeam, n));
                 break;
 
             case "enemy_second":

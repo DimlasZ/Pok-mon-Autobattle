@@ -23,3 +23,5 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: 'On Attack: Hits the last enemy.'
+  vfxSheet: blast
+  vfxRow: 1

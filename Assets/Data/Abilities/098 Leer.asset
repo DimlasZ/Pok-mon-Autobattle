@@ -24,3 +24,5 @@ MonoBehaviour:
   custom: 
   description: "On Battle Start: All enemy Pok\xE9mon take 10% more damage from the
     next hit they receive."
+  vfxSheet: blast
+  vfxRow: 0

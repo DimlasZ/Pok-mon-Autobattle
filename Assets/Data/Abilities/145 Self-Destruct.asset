@@ -24,3 +24,5 @@ MonoBehaviour:
   custom: 
   description: "On Faint: Deals 80% of this Pok\xE9mon's max HP as damage to the
     front enemy."
+  vfxSheet: blast
+  vfxRow: 0

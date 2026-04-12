@@ -24,3 +24,5 @@ MonoBehaviour:
   custom: 
   description: 'On Attack: Deals 20% damage to all allies but boosts their Attack
     by 30%.'
+  vfxSheet: blast
+  vfxRow: 0

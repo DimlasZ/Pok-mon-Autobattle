@@ -23,3 +23,5 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: Effective attacks only hit the user as normal attacks.
+  vfxSheet: blast
+  vfxRow: 1

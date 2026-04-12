@@ -7,7 +7,7 @@ public class AbilityCSVImporter
 {
     // CSV column order:
     // 0=ID, 1=Name, 2=Trigger, 3=Target, 4=Count, 5=Effect, 6=Value,
-    // 7=Condition, 8=Chance, 9=Custom, 10=Description
+    // 7=Condition, 8=Chance, 9=Custom, 10=VFXSheet, 11=VFXRow, 12=Description
 
     [MenuItem("Pokemon/Import Abilities from CSV")]
     public static void ImportFromCSV()
@@ -52,9 +52,12 @@ public class AbilityCSVImporter
             string condition   = Get(col, 7);
             string chanceStr   = Get(col, 8);
             string custom      = Get(col, 9);
-            string description = Get(col, 10);
+            string vfxSheet    = Get(col, 10);
+            string vfxRowStr   = Get(col, 11);
+            string description = Get(col, 12);
 
             int.TryParse(countStr, out int count);
+            int.TryParse(vfxRowStr, out int vfxRow);
 
             float.TryParse(chanceStr,
                 System.Globalization.NumberStyles.Any,
@@ -81,6 +84,8 @@ public class AbilityCSVImporter
             data.condition   = condition;
             data.chance      = chance;
             data.custom      = custom;
+            data.vfxSheet    = vfxSheet;
+            data.vfxRow      = vfxRow;
             data.description = description;
 
             EditorUtility.SetDirty(data);

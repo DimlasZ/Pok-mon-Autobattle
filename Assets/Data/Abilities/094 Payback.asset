@@ -24,3 +24,5 @@ MonoBehaviour:
   custom: 
   description: 'On Attack: Deals double damage if the user attacks after the target
     this round.'
+  vfxSheet: blast
+  vfxRow: 0

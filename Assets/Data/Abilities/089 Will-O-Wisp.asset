@@ -24,3 +24,5 @@ MonoBehaviour:
   custom: 
   description: "On Battle Start: The last two enemy Pok\xE9mon get their attack reduced
     by 25%."
+  vfxSheet: blast
+  vfxRow: 0

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0025 Pikachu
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 25
+  pokemonName: Pikachu
+  attack: 24
+  hp: 40
+  type1: Electric
+  speed: 55
+  tier: 2
+  preEvolutionId: 0
+  ability: {fileID: 11400000, guid: 4baac443cbe3af840b63b77051198188, type: 2}
+  sprite: {fileID: -8168109919182025848, guid: 515c01cf93dc91a47a68714f23c459a8, type: 3}

@@ -18,8 +18,10 @@ MonoBehaviour:
   target: self
   count: 0
   effect: boost_speed
-  value: 1.5
+  value: 1.2
   condition: 
   chance: 0
   custom: 
-  description: 'On Hit: Incresases speed by 50%.'
+  description: 'On Hit: Incresases speed by 20%.'
+  vfxSheet: blast
+  vfxRow: 0

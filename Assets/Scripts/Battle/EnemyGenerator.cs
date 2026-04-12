@@ -14,8 +14,8 @@ public static class EnemyGenerator
         int maxTier  = ShopManager.Instance.GetTierForRound(round);
         int teamSize = ShopManager.Instance.BattleSize;
 
-        List<PokemonData> available = ShopManager.Instance.allPokemon
-            .Where(p => p.tier > 0 && p.tier <= maxTier)
+        List<PokemonData> available = ShopManager.Instance.AllPokemon
+            .Where(p => p != null && p.tier > 0 && p.tier <= maxTier)
             .ToList();
 
         List<PokemonInstance> enemyTeam = new List<PokemonInstance>();

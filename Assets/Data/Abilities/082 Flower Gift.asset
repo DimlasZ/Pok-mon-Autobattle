@@ -23,3 +23,5 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: Boosts all allies' Attack by 20% in sunlight.
+  vfxSheet: blast
+  vfxRow: 0

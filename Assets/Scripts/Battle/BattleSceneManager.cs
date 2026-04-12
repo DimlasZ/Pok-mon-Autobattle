@@ -17,6 +17,10 @@ using DG.Tweening;
 
 public class BattleSceneManager : MonoBehaviour
 {
+    [Header("VFX")]
+    public GameObject vfxPrefab;        // Assign the VFXPlayer prefab here
+    public float      vfxFps = 15f;     // Playback speed for all VFX
+
     [Header("Player Team (left side)")]
     public PokemonSlotUI[] playerSlots; // 6 slots (2x3 grid, slots 0-2 = front row, 3-5 = back row)
 
@@ -175,8 +179,9 @@ public class BattleSceneManager : MonoBehaviour
 
             // First Pokemon attacks
             string attackLog = GetAttackLog(first, second);
-            yield return PlayAttackAnim(first);
             Log(attackLog);
+            yield return PlayAttackAnim(first);
+            SpawnVFX(first, second, GetVFXSheet(first), GetVFXRow(first));
             DamageCalculator.Attack(first, second, playerGoesFirst ? playerTeam : enemyTeam, playerGoesFirst ? enemyTeam : playerTeam);
             RefreshHP();
             yield return WaitForPlayback();
@@ -188,8 +193,9 @@ public class BattleSceneManager : MonoBehaviour
             {
                 // Second Pokemon attacks back
                 string counterLog = GetAttackLog(second, first);
-                yield return PlayAttackAnim(second);
                 Log(counterLog);
+                yield return PlayAttackAnim(second);
+                SpawnVFX(second, first, GetVFXSheet(second), GetVFXRow(second));
                 DamageCalculator.Attack(second, first, playerGoesFirst ? enemyTeam : playerTeam, playerGoesFirst ? playerTeam : enemyTeam);
                 RefreshHP();
                 yield return WaitForPlayback();
@@ -283,33 +289,44 @@ public class BattleSceneManager : MonoBehaviour
     // -------------------------------------------------------
 
     // Returns a coroutine that waits based on the current mode.
-    // Uses a polling loop in Auto/SpeedUp so a mid-wait switch to Step mode
-    // doesn't cause the next WaitForPlayback to auto-consume the pending step request.
+    // Polls every frame so any mode switch (Step ↔ Auto ↔ SpeedUp) takes effect immediately.
+    // Timer resets whenever the mode changes, giving the new mode a clean start.
     private IEnumerator WaitForPlayback()
     {
-        if (currentMode == PlaybackMode.Step)
+        float timer = 0f;
+        PlaybackMode lastMode = currentMode;
+
+        while (true)
         {
-            while (!stepRequested)
-                yield return null;
-            stepRequested = false;
-        }
-        else
-        {
-            float delay = currentMode == PlaybackMode.Auto ? autoDelay : speedUpDelay;
-            float timer = 0f;
-            while (timer < delay)
+            // Mode changed — reset the timer so the new mode gets a clean delay
+            if (currentMode != lastMode)
             {
-                // If the player switches to Step mid-wait, honour the click immediately
-                if (currentMode == PlaybackMode.Step)
-                {
-                    while (!stepRequested)
-                        yield return null;
-                    stepRequested = false;
-                    yield break;
-                }
-                timer += Time.deltaTime;
-                yield return null;
+                timer    = 0f;
+                lastMode = currentMode;
             }
+
+            switch (currentMode)
+            {
+                case PlaybackMode.Step:
+                    if (stepRequested)
+                    {
+                        stepRequested = false;
+                        yield break;
+                    }
+                    break;
+
+                case PlaybackMode.Auto:
+                    timer += Time.deltaTime;
+                    if (timer >= autoDelay) yield break;
+                    break;
+
+                case PlaybackMode.SpeedUp:
+                    timer += Time.deltaTime;
+                    if (timer >= speedUpDelay) yield break;
+                    break;
+            }
+
+            yield return null;
         }
     }
 
@@ -391,5 +408,62 @@ public class BattleSceneManager : MonoBehaviour
     {
         battleLogText.text = message;
         Debug.Log("[Battle] " + message);
+    }
+
+    // -------------------------------------------------------
+    // VFX
+    // -------------------------------------------------------
+
+    // Returns the VFX sheet name for an attacker: ability sheet if set, otherwise type name.
+    private string GetVFXSheet(PokemonInstance attacker)
+    {
+        if (attacker.baseData.ability != null && !string.IsNullOrEmpty(attacker.baseData.ability.vfxSheet))
+            return attacker.baseData.ability.vfxSheet;
+        return attacker.baseData.type1.ToString().ToLower();
+    }
+
+    private int GetVFXRow(PokemonInstance attacker)
+        => attacker.baseData.ability?.vfxRow ?? 0;
+
+    // Spawn a VFX animation that travels from the source slot to the target slot.
+    // sheetName must match the PNG filename in Resources/VFX/Sprites/ (without extension).
+    // row: which color row to play (0 = first row). cols: frames per row (default 13).
+    public void SpawnVFX(PokemonInstance source, PokemonInstance target, string sheetName, int row = 0, int cols = 13)
+    {
+        if (vfxPrefab == null) return;
+
+        var sourceSlot = GetSlotFor(source);
+        var targetSlot = GetSlotFor(target);
+        if (sourceSlot == null || targetSlot == null) return;
+
+        // Load all sliced sprites from the sheet (must be in a Resources/ folder)
+        Sprite[] all = Resources.LoadAll<Sprite>("VFX/Sprites/" + sheetName);
+        if (all == null || all.Length == 0)
+        {
+            Debug.LogWarning($"[VFX] No sprites found for sheet '{sheetName}'");
+            return;
+        }
+
+        // Slice out the requested row
+        int start = row * cols;
+        int end   = Mathf.Min(start + cols, all.Length);
+        if (start >= all.Length)
+        {
+            Debug.LogWarning($"[VFX] Row {row} out of range for sheet '{sheetName}' ({all.Length} frames)");
+            return;
+        }
+        Sprite[] frames = all[start..end];
+
+        // Instantiate at the source slot, as a child of the Canvas so it renders in UI space
+        var canvas = GetComponentInParent<Canvas>() ?? FindFirstObjectByType<Canvas>();
+        var go     = Instantiate(vfxPrefab, canvas.transform);
+        go.transform.position = sourceSlot.transform.position;
+
+        // Travel to the target slot — animation plays during the flight
+        float travelTime = Vector3.Distance(sourceSlot.transform.position, targetSlot.transform.position) / 800f;
+        travelTime = Mathf.Clamp(travelTime, 0.15f, 0.5f);
+        go.transform.DOMove(targetSlot.transform.position, travelTime).SetEase(Ease.InQuad);
+
+        go.GetComponent<VFXPlayer>().Play(frames, vfxFps);
     }
 }

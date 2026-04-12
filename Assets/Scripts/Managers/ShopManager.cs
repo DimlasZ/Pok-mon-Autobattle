@@ -15,9 +15,8 @@ public class ShopManager : MonoBehaviour
     public static ShopManager Instance { get; private set; }
 
     // --- Settings ---
-    [Header("Settings")]
-    [Tooltip("All PokemonData assets in the game. Assign these in the Inspector.")]
-    public PokemonData[] allPokemon;
+    // Loaded automatically from Resources/Data/Pokemon/ — no manual assignment needed
+    public PokemonData[] AllPokemon { get; private set; }
 
     [Tooltip("How much Pokédollars the player starts with each round")]
     public int startingPokedollars = 5;
@@ -58,6 +57,9 @@ public class ShopManager : MonoBehaviour
         ShopRow   = new PokemonInstance[MaxShopSize];
         BenchRow  = new PokemonInstance[BenchSize];
         BattleRow = new PokemonInstance[MaxBattleSize];
+
+        AllPokemon = Resources.LoadAll<PokemonData>("Data/Pokemon");
+        Debug.Log($"[ShopManager] Loaded {AllPokemon.Length} Pokémon from Resources.");
     }
 
     private void Start()
@@ -91,7 +93,7 @@ public class ShopManager : MonoBehaviour
         int tier   = GetTierForRound(GameManager.Instance.CurrentRound);
         int active = ShopSize;
 
-        List<PokemonData> available = allPokemon
+        List<PokemonData> available = AllPokemon
             .Where(p => p.tier > 0 && p.tier <= tier)
             .ToList();
 
@@ -285,7 +287,16 @@ public class ShopManager : MonoBehaviour
                         Debug.Log($"Moved {p.baseData.pokemonName} to battle slot {targetIndex}");
                         success = true;
                     }
-                    else Debug.Log("Battle row is full at that position!");
+                    else if (targetIndex >= 0 && targetIndex < BattleSize)
+                    {
+                        // Battle row is full — swap bench ↔ battle slot directly
+                        var displaced = BattleRow[targetIndex];
+                        BattleRow[targetIndex]  = p;
+                        BenchRow[SelectedIndex] = displaced;
+                        Debug.Log($"Swapped {p.baseData.pokemonName} ↔ {displaced?.baseData.pokemonName}");
+                        success = true;
+                    }
+                    else Debug.Log("Invalid battle slot!");
                 }
                 else if (targetSource == SelectionSource.Bench && targetIndex != SelectedIndex)
                 {
@@ -327,10 +338,13 @@ public class ShopManager : MonoBehaviour
                 }
                 else if (targetSource == SelectionSource.Bench)
                 {
-                    if (BenchRow[targetIndex] != null) { Debug.Log("Bench slot is occupied!"); return false; }
+                    var displaced = BenchRow[targetIndex];
                     BenchRow[targetIndex]    = p;
-                    BattleRow[SelectedIndex] = null;
-                    Debug.Log($"Moved {p.baseData.pokemonName} to bench");
+                    BattleRow[SelectedIndex] = displaced;
+                    if (displaced != null)
+                        Debug.Log($"Swapped {p.baseData.pokemonName} ↔ {displaced.baseData.pokemonName}");
+                    else
+                        Debug.Log($"Moved {p.baseData.pokemonName} to bench");
                     success = true;
                 }
                 break;

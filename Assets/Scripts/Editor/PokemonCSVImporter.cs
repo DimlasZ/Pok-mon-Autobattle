@@ -9,7 +9,7 @@ public class PokemonCSVImporter
     public static void ImportFromCSV()
     {
         string csvPath     = "Assets/Data/Pokémon_data.csv";
-        string outputFolder = "Assets/Data/Pokemon";
+        string outputFolder = "Assets/Resources/Data/Pokemon";
 
         if (!File.Exists(csvPath))
         {
@@ -17,8 +17,12 @@ public class PokemonCSVImporter
             return;
         }
 
+        if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+            AssetDatabase.CreateFolder("Assets", "Resources");
+        if (!AssetDatabase.IsValidFolder("Assets/Resources/Data"))
+            AssetDatabase.CreateFolder("Assets/Resources", "Data");
         if (!AssetDatabase.IsValidFolder(outputFolder))
-            AssetDatabase.CreateFolder("Assets/Data", "Pokemon");
+            AssetDatabase.CreateFolder("Assets/Resources/Data", "Pokemon");
 
         // Build ability lookup dictionary (ID → AbilityData asset)
         var abilityLookup = new Dictionary<int, AbilityData>();

@@ -23,3 +23,5 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: Negates all weather effects.
+  vfxSheet: blast
+  vfxRow: 1

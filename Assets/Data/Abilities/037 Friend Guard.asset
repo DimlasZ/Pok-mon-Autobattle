@@ -23,3 +23,5 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: Reduces all allies' damage taken by 10% while active.
+  vfxSheet: blast
+  vfxRow: 1

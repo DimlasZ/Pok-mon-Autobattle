@@ -14,6 +14,8 @@ public class AbilityData : ScriptableObject
     public float  chance;       // 0 = always trigger, 0.3 = 30% chance
     public string custom;       // flags special handling: eruption | serene_grace
     public string description;
+    public string vfxSheet;    // PNG name in Resources/VFX/Sprites/ (without extension), e.g. "fireblast"
+    public int    vfxRow;      // which color row to play (0 = first row)
 
     public float FloatValue
     {

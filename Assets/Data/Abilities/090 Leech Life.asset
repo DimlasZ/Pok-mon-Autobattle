@@ -23,3 +23,5 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: 'After Attack: Heals self for 30% of max HP.'
+  vfxSheet: blast
+  vfxRow: 0

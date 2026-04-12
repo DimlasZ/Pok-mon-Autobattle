@@ -24,3 +24,5 @@ MonoBehaviour:
   custom: 
   description: 'On Battle Start: Gains 10% to all stats per unique type on the enemy
     team.'
+  vfxSheet: blast
+  vfxRow: 0

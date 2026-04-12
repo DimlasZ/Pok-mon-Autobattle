@@ -24,3 +24,5 @@ MonoBehaviour:
   custom: 
   description: 'On Battle Start: Halves the effectiveness of all enemies'' next incoming
     stat buff.'
+  vfxSheet: blast
+  vfxRow: 0

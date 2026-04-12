@@ -23,3 +23,5 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: Doubles Speed in rain.
+  vfxSheet: blast
+  vfxRow: 1

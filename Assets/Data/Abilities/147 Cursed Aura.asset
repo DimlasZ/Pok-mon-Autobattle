@@ -23,3 +23,5 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: 'On Faint: All enemies take 20% increased damage for the rest of combat.'
+  vfxSheet: blast
+  vfxRow: 0

@@ -22,4 +22,6 @@ MonoBehaviour:
   condition: 
   chance: 0
   custom: 
-  description: 'On Hit: add 1 Pokedollar to your Pocket'
+  description: 'On Kill: add 1 Pokedollar to your Pocket'
+  vfxSheet: blast
+  vfxRow: 0

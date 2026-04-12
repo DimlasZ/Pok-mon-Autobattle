@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40d5fe0272ba41940a14853929658c3e, type: 3}
-  m_Name: 083 Sand veil
+  m_Name: 083 Sand Veil
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityID: 83
   abilityName: Sand Veil
@@ -23,3 +23,5 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: Reduces all incoming damage by 40% during a sandstorm.
+  vfxSheet: blast
+  vfxRow: 0

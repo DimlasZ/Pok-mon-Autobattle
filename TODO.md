@@ -32,11 +32,11 @@
 - [x] Sell button logic
 - [x] Reroll button logic (costs Pokédollar)
 - [ ] Freeze/lock shop slot dont think i want that
-- [ ] Drag & drop Pokemon from shop to team slots
-- [ ] Team reordering (drag & drop within team slots)
-- [ ] Pokemon evolving
+- [x] Drag & drop Pokemon from shop to team slots
+- [x] Team reordering (drag & drop within team slots)
+- [x] Pokemon evolving
 - [ ] Pokemon evolution and preevolution on hover
-- [ ] Ability on hover
+- [x] Ability on hover
 - [ ] Item shop and held item logic
 - [x] ShopManager script
 - [ ] Round start Pokédollar income
@@ -51,13 +51,16 @@
 - [x] Ability/passive trigger system (on attack, on faint, on round start)
 - [ ] Win/loss condition per battle
 - [ ] Player HP loss on defeat
-- [ ] Health bars in battle UI
-- [ ] Enemy team display during battle phase
+- [x] Health bars in battle UI
+- [x] Enemy team display during battle phase
 - [ ] Basic battle animations (attack, hurt, faint)
 - [x] Battle log / text feedback
-- [ ] Sample teams need to better
-- [ ] Flatdamage battle calc, is wrong
-- [ ] fix the damage calc sccipt
+- [x] Sample teams need to better
+- [x] Flatdamage battle calc, is wrong
+- [x] fix the damage calc sccipt
+- [ ] on hit effects: poke needs to be hit with atleast one damage (no ground vs fyling stacking)
+- [ ] Entry Hazard are not stackable.
+- [ ] weather effects visual and with buffs / debuffs
 
 
 ## Ability System – Known Issues
@@ -108,6 +111,7 @@
 - [ ] Main Menu screen
 - [ ] pokedollar icon
 - [ ] Overlay screen after battle.
+- [ ] Music needs to fade out, after win for exmaple.
 
 
 
@@ -135,10 +139,6 @@
 - [ ] weighted tier teams for enemy or database teams
 - [ ] Coop Multiplayer? May need a server, or at least a relay. 
 
-## Testing & Balancing
+## Continue
 
-- [ ] Wingull should be flying instead of watter, change excel, add a new water poke for wingull.
-- [ ] Bench and battlerown should be switchable as well with drag and drop.
-- [ ] Music needs to fade out, after win for exmaple.
-- [ ] on hit effects: poke needs to be hit with atleast one damage (no ground vs fyling stacking)
-- [ ] Entry Hazard are not stackable.
+-[ ] decide if attack and ability should be diffrent
