@@ -5,17 +5,18 @@ public class AbilityData : ScriptableObject
 {
     public int    abilityID;
     public string abilityName;
-    public string trigger;      // on_battle_start | on_round_start | before_attack | on_attack | after_attack | before_hit | on_hit | on_kill | on_faint | on_ally_faint | on_debuff | on_heal | passive
+    public string trigger;      // on_battle_start | on_round_start | before_attack | on_attack | after_attack | before_hit | on_hit | on_kill | on_faint | on_ally_faint | on_debuff | on_heal | on_ally_heal | passive
     public string target;       // self | enemy_front | enemy_second | enemy_next | enemy_last | enemy_all | enemy_random | all_others | all | attacker | ally_all | ally_random | ally_last | ally_behind
     public int    count;        // how many targets from front/back (0 = unset, treated as 1)
-    public string effect;       // heal | heal_flat | leech | deal_damage | deal_damage_flat | deal_damage_percent | boost_attack | boost_attack_once | boost_speed | boost_all_stats | boost_speed_and_attack | boost_hp | boost_damage_taken | boost_healing | boost_ability_damage | reduce_attack | reduce_speed | reduce_healing | summon_weather | summon_screen | survive_ko | negate_damage | recoil_damage | damage_reduction | damage_reduction_flat | immune_to_ability_damage | immune_to_debuff | immune | ignore_damage_reduction | ignore_abilities | negate_weather | swap_enemies | move_ally_to_front | cure_status | solar_power | moody
+    public string effect;       // heal | heal_flat | leech | deal_damage | deal_damage_flat | deal_damage_percent (target maxHP%) | deal_damage_source_hp (source maxHP%) | boost_attack | boost_attack_once | boost_attack_flat | boost_speed | boost_speed_flat | boost_all_stats | boost_all_stats_per_enemy_type | boost_all_stats_per_ally_type | boost_speed_and_attack | boost_hp | boost_hp_flat | boost_damage_taken | boost_healing | boost_ability_damage | reduce_attack | reduce_speed | reduce_healing | summon_weather | summon_screen | survive_ko | negate_damage | recoil_damage | damage_reduction | damage_reduction_flat | immune_to_ability_damage | immune_to_debuff | immune | ignore_damage_reduction | ignore_abilities | negate_weather | swap_enemies | swap_enemies_random | priority_move | move_ally_to_front | cure_status | solar_power | moody
     public string value;        // numeric ("1.5", "20") or keyword ("rain", "sun", "sandstorm", "light_screen")
-    public string condition;    // hp_below_N | full_hp | weather_sun | weather_rain | weather_sandstorm | super_effective | first_hit | first_last
+    public string condition;    // hp_below_N | full_hp | weather_sun | weather_rain | weather_sandstorm | super_effective | first_hit | first_last | ally_is_minus | ally_is_plus
     public float  chance;       // 0 = always trigger, 0.3 = 30% chance
     public string custom;       // flags special handling: eruption | serene_grace
     public string description;
     public string vfxSheet;    // PNG name in Resources/VFX/Sprites/ (without extension), e.g. "fireblast"
     public int    vfxRow;      // which color row to play (0 = first row)
+    public string sound;       // filename in Resources/Audio/Sounds/ (without extension), e.g. "heal"
 
     public float FloatValue
     {

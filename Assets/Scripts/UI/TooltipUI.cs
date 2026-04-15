@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 // TooltipUI shows a floating panel with ability info when hovering over a Pokemon slot.
 // Attach this to a UI panel GameObject in your Canvas. Assign the text fields in the Inspector.
@@ -12,6 +13,9 @@ public class TooltipUI : MonoBehaviour
     [Header("References")]
     public TextMeshProUGUI pokemonNameText;
     public TextMeshProUGUI abilityText;      // Shows "<b>AbilityName</b>\nDescription" combined
+    public Image           typeIcon;         // Small type symbol next to the Pokemon name
+    public Image           preEvoImage;      // Sprite of the pre-evolution (hidden if none)
+    public Image           evoImage;         // Sprite of the evolution (hidden if none)
 
     private RectTransform _rect;
     private Canvas        _canvas;
@@ -31,13 +35,52 @@ public class TooltipUI : MonoBehaviour
 
     // -------------------------------------------------------
 
-    public void Show(AbilityData ability, Vector2 screenPosition, string pokemonName = "")
+    public void Show(PokemonData pokemon, Vector2 screenPosition)
     {
+        string pokemonName = pokemon != null ? pokemon.pokemonName : "";
+        string type        = pokemon != null ? pokemon.type1 : "";
+        AbilityData ability = pokemon != null ? pokemon.ability : null;
+
         if (pokemonNameText != null) pokemonNameText.text = pokemonName;
         if (abilityText != null)
             abilityText.text = ability != null
                 ? $"<b>{ability.abilityName}</b> - {ability.description}"
                 : "";
+
+        if (typeIcon != null)
+        {
+            if (!string.IsNullOrEmpty(type))
+            {
+                var sprite = Resources.Load<Sprite>("Icons/" + type.ToLower());
+                typeIcon.sprite = sprite;
+                typeIcon.gameObject.SetActive(sprite != null);
+            }
+            else
+            {
+                typeIcon.gameObject.SetActive(false);
+            }
+        }
+
+        // Evo chain sprites — look up from ShopManager's full Pokémon roster
+        var allPokemon = ShopManager.Instance != null ? ShopManager.Instance.AllPokemon : null;
+
+        if (preEvoImage != null)
+        {
+            PokemonData preEvo = pokemon != null && allPokemon != null && pokemon.preEvolutionId > 0
+                ? allPokemon.FirstOrDefault(p => p.id == pokemon.preEvolutionId)
+                : null;
+            preEvoImage.sprite = preEvo?.sprite;
+            preEvoImage.gameObject.SetActive(preEvo != null);
+        }
+
+        if (evoImage != null)
+        {
+            PokemonData evo = pokemon != null && allPokemon != null
+                ? allPokemon.FirstOrDefault(p => p.preEvolutionId == pokemon.id)
+                : null;
+            evoImage.sprite = evo?.sprite;
+            evoImage.gameObject.SetActive(evo != null);
+        }
 
         gameObject.SetActive(true);
         RepositionTooltip(screenPosition);

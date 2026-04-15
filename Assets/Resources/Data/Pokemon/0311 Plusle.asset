@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0311 Plusle
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 311
+  pokemonName: Plusle
+  attack: 43
+  hp: 57
+  type1: Electric
+  speed: 77
+  tier: 3
+  preEvolutionId: 0
+  ability: {fileID: 11400000, guid: 82fdcae61f6635047be4fcb21473ac1d, type: 2}
+  sprite: {fileID: 3780237590136885954, guid: 0b0c579dff1d46c4bb8577fef6fe2631, type: 3}

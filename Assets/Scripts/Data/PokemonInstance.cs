@@ -13,6 +13,10 @@ public class PokemonInstance
     public int attack;
     public int speed;
 
+    // Rolled values at spawn — used to detect buffs (green) and debuffs (red) in the UI
+    public int baseAttack;
+    public int baseSpeed;
+
     public int starLevel = 1;
 
     // Permanent incoming-damage multiplier — set by Cursed Aura and similar lasting effects
@@ -32,11 +36,13 @@ public class PokemonInstance
     public PokemonInstance(PokemonData data)
     {
         baseData  = data;
-        maxHP     = Spread(data.hp);
-        currentHP = maxHP;
-        attack    = Spread(data.attack);
-        speed     = Spread(data.speed);
-        starLevel = 1;
+        maxHP      = Spread(data.hp);
+        currentHP  = maxHP;
+        attack     = Spread(data.attack);
+        speed      = Spread(data.speed);
+        baseAttack = attack;
+        baseSpeed  = speed;
+        starLevel  = 1;
     }
 
     private static int Spread(int baseStat)

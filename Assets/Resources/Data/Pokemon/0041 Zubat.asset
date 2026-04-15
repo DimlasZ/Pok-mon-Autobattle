@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 41
   pokemonName: Zubat
-  attack: 19
+  attack: 23
   hp: 48
   type1: Flying
   speed: 35

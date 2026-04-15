@@ -19,9 +19,10 @@ MonoBehaviour:
   count: 0
   effect: boost_speed
   value: 2
-  condition: ally_has_plus
+  condition: ally_is_plus
   chance: 0
   custom: 
   description: 'On Battle Start: Doubles own Speed if a Plus ally is in the team.'
-  vfxSheet: blast
-  vfxRow: 0
+  vfxSheet: buff8
+  vfxRow: 4
+  sound: stats_raised

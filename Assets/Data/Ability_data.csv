@@ -1,384 +1,384 @@
-﻿ID,Name,Trigger,Target,Count,Effect,Value,Condition,Chance,Custom,VFXSheet,VFXRow,Description
-1,Battle Armor,passive,self,,damage_reduction,0.67,super_effective,,,blast,1,Effective attacks only hit the user as normal attacks.
-2,Blaze,on_hit,self,,boost_attack_once,1.25,hp_below_40,,,blast,1,On Hit: Boosts attacks by 25% when below 40% HP.
-3,Chlorophyll,passive,self,,boost_speed,2,weather_sun,,,blast,1,Doubles Speed in harsh sunlight.
-4,Cloud Nine,passive,self,,negate_weather,,,,,blast,1,Negates all weather effects.
-5,Drizzle,on_battle_start,self,,summon_weather,rain,,,,blast,1,On Battle Start: Summons rain.
-6,Sunny Day,on_battle_start,self,,summon_weather,sun,,,,blast,1,On Battle Start: Summons harsh sunlight.
-7,Flame Body,on_hit,attacker,,reduce_attack,0.8,,,,blast,1,On Hit: Attacker loses 20% of attack damage after hitting the user.
-8,Huge Power,passive,self,,boost_attack,2,,,,blast,1,Doubles the Pokémon's Attack stat.
-9,Hyper Cutter,passive,self,,immune_to_debuff,,,,,blast,1,Attack cannot be lowered.
-10,Intimidate,on_battle_start,enemy_front,1,reduce_attack,0.7,,,,blast,1,On Battle Start: Lowers the attack damage of the first enemy Pokémon by 30%.
-11,Levitate,passive,self,,immune,,Ground,,,blast,1,Immune to Ground-type moves.
-12,Overgrow,on_hit,self,,boost_attack_once,1.25,hp_below_40,,,blast,1,On Hit: Boosts attacks by 25% when below 40% HP.
-13,Rain Dish,on_round_start,self,,heal,0.3,weather_rain,,,blast,1,On Round Start: Restores 30% of HP after each turn in rain.
-14,Rock Head,passive,self,,immune_to_ability_damage,,,,,blast,1,Immune to ability damage.
-15,Sand Stream,on_battle_start,self,,summon_weather,sandstorm,,,,blast,1,On Battle Start: Summons a sandstorm on entry.
-16,Speed Boost,on_round_start,self,,boost_speed,1.05,,,,blast,1,On Round Start: Increases Speed by 5%.
-17,Swift Swim,passive,self,,boost_speed,2,weather_rain,,,blast,1,Doubles Speed in rain.
-18,Torrent,on_hit,self,,boost_attack_once,1.25,hp_below_40,,,blast,1,On Hit: Boosts attacks by 25% when below 40% HP.
-19,Solid Rock,passive,self,,damage_reduction,0.75,super_effective,,,blast,1,Reduces super-effective damage by 25%.
-20,Sturdy,on_hit,self,,survive_ko,,,,,blast,1,On Hit: Survives any one-hit KO with 1 HP remaining.
-21,,,,,,,,,,blast,1,
-22,Absorb,after_attack,self,,heal_flat,8,,,,blast,1,After Attack: Recovers 8 HP.
-23,Overheat,after_attack,self,,reduce_attack,0.5,,,,blast,1,After Attack: Loses 50% Attack.
-24,Giga Drain,after_attack,self,,heal_flat,50,,,,blast,1,After Attack: Recovers 50 HP.
-25,Leaf Storm,after_attack,self,,reduce_attack,0.5,,,,blast,1,After Attack: The user loses 50% of its Attack.
-26,Leech Seed,after_attack,enemy_front,1,leech,0.2,,,,blast,1,After Attack: Leeches 20% of the target's max HP.
-27,Mega Drain,after_attack,self,,heal_flat,25,,,,blast,1,After Attack: Recovers 25 HP.
-28,Solar Power,on_round_start,self,,boost_attack,1.5,weather_sun,,,blast,1,On Round Start: Boosts Attack by 50% during sunlight.
-29,Power Up,on_battle_start,ally_random,,boost_all_stats,1.08,,,,blast,1,On Battle Start: A random ally increases all stats by 8%.
-30,Sand Force,passive,self,,boost_attack,1.5,weather_sandstorm,,,blast,1,Boosts Attack by 50% during a sandstorm.
-31,Power Up,on_ally_faint,self,,boost_speed,1.2,,,,blast,1,On Ally Faint: Raises Speed by 20% for each ally that has fainted.
-32,Moxie,on_kill,self,,boost_attack,1.5,,,,blast,1,On Kill: Raises Attack by 50%.
-33,Mold Breaker,passive,self,,ignore_abilities,,,,,blast,1,
-34,Magic Guard,passive,self,,immune_to_ability_damage,,,,,blast,1,Cannot be damaged by ability effects.
-35,Target Dummy,on_hit,ally_all,,boost_attack,1.1,,,,blast,1,On Hit: Raises all allies' Attack by 10%.
-36,Gooey,on_hit,attacker,,reduce_speed,0.8,,,,blast,1,On Hit: Reduces the attacker's Speed by 20%.
-37,Friend Guard,passive,ally_all,,damage_reduction,0.9,,,,blast,1,Reduces all allies' damage taken by 10% while active.
-38,Rollout,after_attack,self,,boost_attack,1.2,,,,blast,1,After Attack: Raises Attack by 20%.
-39,Ember,on_attack,enemy_next,,deal_damage_flat,10,,,,blast,1,On Attack: Deals 10 Damage to the next enemy.
-40,Eruption,before_attack,self,,,,,,eruption,blast,1,Before Attack: Power scales with user's remaining HP.
-41,Flame Charge,after_attack,self,,boost_speed,1.1,,,,blast,1,After Attack: Increases the user's Speed by 10%.
-42,Flame Burst,on_attack,enemy_all,,deal_damage_flat,10,,,,blast,1,On Attack: Deals 10 damage to all enemies.
-43,,,,,,,,,,blast,1,
-44,Aqua Jet,passive,self,,,,,,,blast,1,
-45,Aqua Step,after_attack,self,,boost_speed,1.1,,,,blast,1,After Attack: Increases the user's Speed by 10%.
-46,Bubble,on_attack,enemy_front,1,reduce_speed,0.9,,,,blast,1,On Attack: Lowers the enemy's Speed 10%.
-47,Bubble Beam,on_attack,enemy_front,1,reduce_speed,0.8,,,,blast,1,On Attack: Lowers the enemy's Speed by 20%.
-48,Chilling Water,on_attack,enemy_front,1,reduce_attack,0.8,,,,blast,1,On Attack: Lowers the target's Attack by 20%.
-49,Hydro Pump,on_attack,enemy_last,1,deal_damage,1,,,,blast,1,On Attack: Hits the last enemy.
-50,,,,,,,,,,blast,1,
-51,Scald,on_attack,enemy_front,1,reduce_attack,0.8,,,,blast,1,On Attack: Lowers the target's Attack by 20%.
-52,Surf,on_attack,all_others,,deal_damage,0.2,,,,blast,1,On Attack: Deals 20% damage to all other Pokémon.
-53,,,,,,,,,,blast,1,
-54,Thunder,on_attack,enemy_all,,deal_damage,0.2,weather_rain,,,blast,1,On Attack: Deals 20% damage to all enemies (only in rain).
-55,Weak Armor,on_hit,self,,boost_speed,2,super_effective,,,blast,1,On Hit: Speed doubles when hit by a super-effective attack.
-56,Bubble Shield,passive,self,,damage_reduction_flat,5,,,,blast,1,Reduces all incoming damage by 5.
-57,Shell Armor,before_hit,self,,negate_damage,,first_hit,,,blast,1,Before Hit: Fully negate the first incoming hit.
-58,,,,,,,,,,blast,0,
-59,Water Pulse,on_attack,enemy_next,,deal_damage_flat,20,,,,blast,0,On Attack: Deals 20 damage to the next enemy.
-60,Hydro Cannon,on_attack,enemy_last,1,deal_damage_flat,20,,,,blast,0,On Attack: Deals 20 damage to the last enemy.
-61,Fur Coat,passive,self,,immune_to_ability_damage,,,,,blast,0,Immune to ability damage.
-62,Light Screen,on_battle_start,self,,summon_screen,light_screen,,,,blast,0,On Battle Start: Summons light screen.
-63,Earthquake,on_attack,all_others,,deal_damage,1,,,,blast,0,On Attack: Damages all other Pokémon on attack.
-64,Bone Club,on_attack,enemy_front,1,overflow_damage,,,,,blast,0,On Attack: Excess damage carries over to the next enemy.
-65,Stealth Pebbels,on_battle_start,enemy_all,,deal_damage_percent,0.1,,,,blast,0,On Battle Start: Deals 10% damage to all enemies.
-66,Whirlwind,on_battle_start,enemy_all,,swap_enemies,,first_last,,,blast,0,On Battle Start: Shuffles all enemy positions.
-67,Aerial Ace,passive,self,,ignore_damage_reduction,,,,,blast,0,Attacks always ignore damage reduction.
-68,Hurricane,on_attack,enemy_last,1,deal_damage,1,weather_rain,,,blast,0,On Attack: Hits last enemy during rain.
-69,Roost,after_attack,self,,heal,0.3,,,,blast,0,After Attack: Heals 30% of max HP.
-70,Aftermath,on_faint,all,,deal_damage_flat,25,,,,blast,0,On Faint: Deal 25 Damage to all Pokémon.
-71,Heat Wave,on_attack,enemy_last,2,deal_damage,0.5,,,,blast,0,On Attack: Deals 50% damage to the last two enemies.
-72,Inferno,on_attack,enemy_last,1,deal_damage,1,,,,blast,0,On Attack: Damages the last Pokémon in line.
-73,Rough Skin,on_hit,attacker,,recoil_damage,0.15,,,,blast,0,On Hit: Deals 15% of max HP back to attacker.
-74,Thunder Wave,on_battle_start,enemy_last,1,reduce_speed,0.5,,,,blast,0,On Battle Start: Reduces last enemy's Speed by 50%.
-75,Thick Fat,passive,self,,damage_reduction,0.8,,,,blast,0,Reduces all incoming damage by 20%.
-76,Splash,passive,self,,,,,,,blast,0,Splashes around.
-77,Stealth Rock,on_battle_start,enemy_all,,deal_damage_percent,0.2,,,,blast,0,On Battle Start: Deals 20% damage to all enemies.
-78,Serene Grace,passive,ally_all,,boost_healing,1.5,,,serene_grace,blast,0,All allies receive increased healing by 50%.
-79,,,,,,,,,,blast,0,
-80,Guts,on_hit,self,,boost_attack,1.4,,,,blast,0,On Hit: Increases Attack by 40%.
-81,Sand Rush,passive,self,,boost_speed,1.5,weather_sandstorm,,,blast,0,Boosts Speed by 50% during a sandstorm.
-82,Flower Gift,passive,ally_all,,boost_attack,1.2,weather_sun,,,blast,0,Boosts all allies' Attack by 20% in sunlight.
-83,Sand Veil,passive,self,,damage_reduction,0.6,weather_sandstorm,,,blast,0,Reduces all incoming damage by 40% during a sandstorm.
-84,,,,,,,,,,blast,0,
-85,,,,,,,,,,blast,0,
-86,,,,,,,,,,blast,0,
-87,,,,,,,,,,blast,0,
-88,,,,,,,,,,blast,0,
-89,Will-O-Wisp,on_battle_start,enemy_last,2,reduce_attack,0.25,,,,blast,0,On Battle Start: The last two enemy Pokémon get their attack reduced by 25%.
-90,Leech Life,after_attack,self,,heal,0.3,,,,blast,0,After Attack: Heals self for 30% of max HP.
-91,Competitive,on_debuff,self,,boost_attack,1.5,,,,blast,0,On Debuff: Boosts own Attack by 50% when any stat is lowered.
-92,Memento,on_faint,enemy_all,,reduce_attack,0.15,,,,blast,0,On Faint: Reduces all enemies' Attack by 15%.
-93,Seismic Toss,on_attack,enemy_front,1,deal_damage_percent,0.35,,,,blast,0,On Attack: Deals damage equal to 35% of the user's max HP.
-94,Payback,on_attack,enemy_front,1,deal_damage_bonus,2,attacked_after,,,blast,0,On Attack: Deals double damage if the user attacks after the target this round.
-95,Punishment,on_attack,enemy_front,1,deal_damage_per_buff,1.3,target_buffed,,,blast,0,On Attack: Increases Attack by 30% for each active buff on the target.
-96,Knock Off,on_attack,enemy_front,1,reduce_attack,0.7,,,,blast,0,On Attack: Knocks off the held item of the target.
-97,Screech,on_battle_start,enemy_second,,boost_damage_taken_once,1.2,,,,blast,0,On Battle Start: Second enemy Pokémon takes 20% more damage from the next hit they receive.
-98,Leer,on_battle_start,enemy_all,,boost_damage_taken_once,1.1,,,,blast,0,On Battle Start: All enemy Pokémon take 10% more damage from the next hit they receive.
-99,Growl,on_attack,enemy_all,,reduce_attack,0.85,,,,blast,0,On Attack: All enemies' Attack reduced by 15% until end of round.
-100,Fake Out,on_battle_start,enemy_random,,reduce_attack,0.5,,,,blast,0,On Battle Start: Reduces attack of a random enemy by 50%.
-101,Encore,on_battle_start,enemy_last,1,reduce_speed,0.5,,,,blast,0,On Battle Start: Reduces the last enemy's Speed by half.
-102,Simple Beam,on_battle_start,enemy_all,,halve_buff_value,0.5,,,,blast,0,On Battle Start: Halves the effectiveness of all enemies' next incoming stat buff.
-103,Toxic Spikes,on_round_start,enemy_all,,deal_damage_percent,0.05,,,,blast,0,"On Round Start: Poisons all enemies, dealing 5% max HP per round."
-104,Spikes,on_battle_start,enemy_all,,deal_damage_percent,0.2,,,,blast,0,On Battle Start: Deals 20% damage to all enemies.
-105,Whirlpool,on_attack,enemy_next,1,deal_damage,0.2,weather_rain,,,blast,0,On Attack: Deals 20% damage to the next enemy (only in rain).
-106,Rallying cry,on_battle_start,ally_random,,boost_speed_and_attack,1.05,,,,blast,0,On Battle Start: A random ally increases its speed and attack by 5%.
-107,Vital Strike,on_heal,enemy_random,,deal_damage,0.5,,,,blast,0,On Heal: Deals 50% of Attack as damage to a random enemy.
-108,Guardian's Call,on_battle_start,ally_random,,boost_all_stats,1.4,,,,blast,0,On Battle Start: A random ally increases all stats by 40%.
-109,Frenzy Call,on_battle_start,ally_random,,boost_speed_and_attack,1.2,,,,blast,0,On Battle Start: A random ally increases its speed and attack by 20%.
-110,Vitalize,on_battle_start,ally_random,,boost_hp,1.2,,,,blast,0,On Battle Start: A random ally increases its HP by 20%.
-111,Swift Wind,on_battle_start,ally_random,,boost_speed,1.2,,,,blast,0,On Battle Start: A random ally increases its Speed by 20%.
-112,Tailwind,on_battle_start,ally_all,,boost_speed,1.1,,,,blast,0,On Battle Start: The whole team gets +Speed by 10%.
-113,Inspiring Cry,on_battle_start,ally_last,2,boost_all_stats,1.2,,,,blast,0,On Battle Start: The last two allies increase all stats by 20%.
-114,Rear Guard,on_battle_start,ally_behind,,boost_hp,1.5,,,,blast,0,On Battle Start: The Pokémon behind increases its HP by 50%.
-115,Scout,on_battle_start,self,,boost_all_stats,1.1,,,,blast,0,On Battle Start: Gains 10% to all stats per unique type on the enemy team.
-116,Rainbow Aura,on_battle_start,self,,boost_all_stats,1.15,,,,blast,0,On Battle Start: Gains 15% to all stats per unique type on your team.
-117,Dash,on_faint,ally_random,,boost_speed,1.2,,,,blast,0,On Faint: A random ally increases its Speed by 20%.
-118,Final Charge,on_faint,ally_random,,boost_hp,1.2,,,,blast,0,On Faint: A random ally increases its HP by 20%.
-119,Regenerator,on_round_start,self,,heal,0.3,,,,blast,0,On Round Start: Heals self for 30% of max HP.
-120,Multiscale,passive,self,,damage_reduction,0.3,full_hp,,,blast,0,Reduces all incoming damage by 30% while at full HP.
-121,Stamina,on_hit,self,,damage_reduction_stack,0.1,,,,blast,0,On Hit: Gains 10% damage reduction per hit received (max 50%).
-122,Protect,before_hit,self,,negate_damage,,first_hit,,,blast,0,Before Hit: Completely negates the very first hit received.
-123,Unburden,on_hit,self,,boost_speed,1.2,,,,blast,0,On Hit: Incresases speed by 20%.
-124,Defiant,on_debuff,self,,boost_speed,1.5,,,,blast,0,On Debuff: Boosts Speed by 50% whenever any stat is lowered.
-125,Competitive,on_debuff,self,,boost_attack,1.5,,,,blast,0,On Debuff: Boosts Attack by 50% whenever any stat is lowered.
-126,Baton Pass,on_faint,ally_next,,transfer_buffs,,,,,blast,0,On Faint: Transfers all active stat buffs to the next ally in line.
-127,Natural Cure,on_faint,self,,cure_status,,,,,blast,0,On Faint: Removes all debuffs and status effects.
-128,Healer,on_round_start,ally_random,,heal,0.15,,,,blast,0,On Round Start: Heals one random ally for 15% of their max HP.
-129,Harvest,on_round_start,ally_all,,heal,0.1,weather_sun,,,blast,0,On Round Start: Heals all allies by  10% of their max HP during sunlight.
-130,Cheek Pouch,on_battle_start,ally_all,,boost_healing,1.33,,,,blast,0,On Battle Start: Increases all healing on your team by 33%.
-131,Wish,passive,self,,boost_healing,1.5,,,,blast,0,All healing effects on this Pokémon are boosted by 50%.
-132,Power Construct,on_hit,self,,boost_attack,1.5,hp_below_50,,,blast,0,On Hit: Boosts Attack by 50% when falling below 50% HP.
-133,Wimp Out,on_hit,ally_all,,boost_attack,1.3,hp_below_25,,,blast,0,"On Hit: When dropping below 25% HP, boosts all allies' Attack by 30%."
-134,Unnerve,passive,enemy_all,,reduce_healing,0.5,,,,blast,0,Reduces all healing received by enemies by 50%.
-135,Battery,passive,ally_all,,boost_ability_damage,1.3,,,,blast,0,Boosts all allies' ability-based damage by 30%.
-136,Plus,on_battle_start,self,,boost_attack,2,ally_has_minus,,,blast,0,On Battle Start: Doubles own Attack if a Minus ally is in the team.
-137,Minus,on_battle_start,self,,boost_speed,2,ally_has_plus,,,blast,0,On Battle Start: Doubles own Speed if a Plus ally is in the team.
-138,Aroma Veil,passive,ally_all,,immune_to_debuff,,,,,blast,0,All allies are immune to speed-lowering effects while this is active.
-139,Flower Veil,passive,ally_all,,immune_to_debuff,,,,,blast,0,All allies are immune to stat-lowering effects while this is active.
-140,Sprinter,on_battle_start,ally_random,,boost_speed,1.2,,,,blast,0,On Battle Start: A random ally increases its Speed by 20%.
-141,War Cry,on_attack,ally_all,,deal_damage_percent,,,,,blast,0,On Attack: Deals 20% damage to all allies but boosts their Attack by 30%.
-142,Perish Song,on_battle_start,enemy_all,,deal_damage_percent,0.1,,,,blast,0,On Battle Start: All enemies lose 10% of their max HP.
-143,Shock Wave,on_attack,enemy_random,,deal_damage_flat,20,,,,blast,0,On Attack: Deals 20 damage to a random enemy.
-144,Shockwave,on_battle_start,enemy_random,,deal_damage_flat,30,,,,blast,0,On Battle Start: Deals 30 damage to an random enemy.
-145,Self-Destruct,on_faint,enemy_front,,deal_damage_percent,0.8,,,,blast,0,On Faint: Deals 80% of this Pokémon's max HP as damage to the front enemy.
-146,Final Flare,on_faint,enemy_random,,deal_damage_flat,40,,,,blast,0,On Faint: Deals 40 damage to a random enemy.
-147,Cursed Aura,on_faint,enemy_all,,boost_damage_taken,1.2,,,,blast,0,On Faint: All enemies take 20% increased damage for the rest of combat.
-148,Pulse Bomb,on_heal,enemy_all,,deal_damage_flat,20,,,,blast,0,On Heal: Deals 20 damage to all enemies whenever an ally gets healed.
-149,Life Drain,on_heal,enemy_random,,deal_damage_flat,30,,,,blast,0,On Heal: Deals 30 damage to a random enemy.
-150,Vengeful Pulse,on_heal,enemy_random,,deal_damage_percent,0.25,,,,blast,0,On Heal: Deals damage equal to 25% of the HP healed to a random enemy.
-151,Anger Lash,on_debuff,enemy_all,,deal_damage_flat,15,,,,blast,0,On Debuff: Deals 15 damage to all enemies whenever this Pokémon is debuffed.
-152,Vengeance,on_debuff,enemy_last,1,deal_damage_percent,0.2,,,,blast,0,On Debuff: Deals 20% of own max HP as damage to the last enemy.
-153,Backlash,on_debuff,enemy_random,,deal_damage_flat,20,,,,blast,0,On Debuff: Deals 20 damage to a random enemy whenever a stat is reduced.
-154,Bitter End,on_debuff,enemy_all,,deal_damage_flat,100,third_debuff,,,blast,0,"On Debuff: After 3 debuffs received, deals 100 damage to all enemies."
-155,Iron Barbs,on_hit,attacker,,deal_damage_flat,20,,,,blast,0,On Hit: Deals 20 damage back to attacker.
-156,Pick Up,on_kill,player,,increase_pokedollar,1,,,,blast,0,On Kill: add 1 Pokedollar to your Pocket
-157,Charge up,on_hit,self,,boost_speed,1.2,,,,blast,0,On Hit: Increases Speed by 20%.
-158,,,,,,,,,,blast,0,
-159,,,,,,,,,,blast,0,
-160,,,,,,,,,,blast,0,
-161,,,,,,,,,,blast,0,
-162,,,,,,,,,,blast,0,
-163,,,,,,,,,,blast,0,
-164,,,,,,,,,,blast,0,
-165,,,,,,,,,,blast,0,
-166,,,,,,,,,,blast,0,
-167,,,,,,,,,,blast,0,
-168,,,,,,,,,,blast,0,
-169,,,,,,,,,,blast,0,
-170,,,,,,,,,,blast,0,
-171,,,,,,,,,,blast,0,
-172,,,,,,,,,,blast,0,
-173,,,,,,,,,,blast,0,
-174,,,,,,,,,,blast,0,
-175,,,,,,,,,,blast,0,
-176,,,,,,,,,,blast,0,
-177,,,,,,,,,,blast,0,
-178,,,,,,,,,,blast,0,
-179,,,,,,,,,,blast,0,
-180,,,,,,,,,,blast,0,
-181,,,,,,,,,,blast,0,
-182,,,,,,,,,,blast,0,
-183,,,,,,,,,,blast,0,
-184,,,,,,,,,,blast,0,
-185,,,,,,,,,,blast,0,
-186,,,,,,,,,,blast,0,
-187,,,,,,,,,,blast,0,
-188,,,,,,,,,,blast,0,
-189,,,,,,,,,,blast,0,
-190,,,,,,,,,,blast,0,
-191,,,,,,,,,,blast,0,
-192,,,,,,,,,,blast,0,
-193,,,,,,,,,,blast,0,
-194,,,,,,,,,,blast,0,
-195,,,,,,,,,,blast,0,
-196,,,,,,,,,,blast,0,
-197,,,,,,,,,,blast,0,
-198,,,,,,,,,,blast,0,
-199,,,,,,,,,,blast,0,
-200,,,,,,,,,,blast,0,
-201,,,,,,,,,,blast,0,
-202,,,,,,,,,,blast,0,
-203,,,,,,,,,,blast,0,
-204,,,,,,,,,,blast,0,
-205,,,,,,,,,,blast,0,
-206,,,,,,,,,,blast,0,
-207,,,,,,,,,,blast,0,
-208,,,,,,,,,,blast,0,
-209,,,,,,,,,,blast,0,
-210,,,,,,,,,,blast,0,
-211,,,,,,,,,,blast,0,
-212,,,,,,,,,,blast,0,
-213,,,,,,,,,,blast,0,
-214,,,,,,,,,,blast,0,
-215,,,,,,,,,,blast,0,
-216,,,,,,,,,,blast,0,
-217,,,,,,,,,,blast,0,
-218,,,,,,,,,,blast,0,
-219,,,,,,,,,,blast,0,
-220,,,,,,,,,,blast,0,
-221,,,,,,,,,,blast,0,
-222,,,,,,,,,,blast,0,
-223,,,,,,,,,,blast,0,
-224,,,,,,,,,,blast,0,
-225,,,,,,,,,,blast,0,
-226,,,,,,,,,,blast,0,
-227,,,,,,,,,,blast,0,
-228,,,,,,,,,,blast,0,
-229,,,,,,,,,,blast,0,
-230,,,,,,,,,,blast,0,
-231,,,,,,,,,,blast,0,
-232,,,,,,,,,,blast,0,
-233,,,,,,,,,,blast,0,
-234,,,,,,,,,,blast,0,
-235,,,,,,,,,,blast,0,
-236,,,,,,,,,,blast,0,
-237,,,,,,,,,,blast,0,
-238,,,,,,,,,,blast,0,
-239,,,,,,,,,,blast,0,
-240,,,,,,,,,,blast,0,
-241,,,,,,,,,,blast,0,
-242,,,,,,,,,,blast,0,
-243,,,,,,,,,,blast,0,
-244,,,,,,,,,,blast,0,
-245,,,,,,,,,,blast,0,
-246,,,,,,,,,,blast,0,
-247,,,,,,,,,,blast,0,
-248,,,,,,,,,,blast,0,
-249,,,,,,,,,,blast,0,
-250,,,,,,,,,,blast,0,
-251,,,,,,,,,,blast,0,
-252,,,,,,,,,,blast,0,
-253,,,,,,,,,,blast,0,
-254,,,,,,,,,,blast,0,
-255,,,,,,,,,,blast,0,
-256,,,,,,,,,,blast,0,
-257,,,,,,,,,,blast,0,
-258,,,,,,,,,,blast,0,
-259,,,,,,,,,,blast,0,
-260,,,,,,,,,,blast,0,
-261,,,,,,,,,,blast,0,
-262,,,,,,,,,,blast,0,
-263,,,,,,,,,,blast,0,
-264,,,,,,,,,,blast,0,
-265,,,,,,,,,,blast,0,
-266,,,,,,,,,,blast,0,
-267,,,,,,,,,,blast,0,
-268,,,,,,,,,,blast,0,
-269,,,,,,,,,,blast,0,
-270,,,,,,,,,,blast,0,
-271,,,,,,,,,,blast,0,
-272,,,,,,,,,,blast,0,
-273,,,,,,,,,,blast,0,
-274,,,,,,,,,,blast,0,
-275,,,,,,,,,,blast,0,
-276,,,,,,,,,,blast,0,
-277,,,,,,,,,,blast,0,
-278,,,,,,,,,,blast,0,
-279,,,,,,,,,,blast,0,
-280,,,,,,,,,,blast,0,
-281,,,,,,,,,,blast,0,
-282,,,,,,,,,,blast,0,
-283,,,,,,,,,,blast,0,
-284,,,,,,,,,,blast,0,
-285,,,,,,,,,,blast,0,
-286,,,,,,,,,,blast,0,
-287,,,,,,,,,,blast,0,
-288,,,,,,,,,,blast,0,
-289,,,,,,,,,,blast,0,
-290,,,,,,,,,,blast,0,
-291,,,,,,,,,,blast,0,
-292,,,,,,,,,,blast,0,
-293,,,,,,,,,,blast,0,
-294,,,,,,,,,,blast,0,
-295,,,,,,,,,,blast,0,
-296,,,,,,,,,,blast,0,
-297,,,,,,,,,,blast,0,
-298,,,,,,,,,,blast,0,
-299,,,,,,,,,,blast,0,
-300,,,,,,,,,,blast,0,
-301,,,,,,,,,,blast,0,
-302,,,,,,,,,,blast,0,
-303,,,,,,,,,,blast,0,
-304,,,,,,,,,,blast,0,
-305,,,,,,,,,,blast,0,
-306,,,,,,,,,,blast,0,
-307,,,,,,,,,,blast,0,
-308,,,,,,,,,,blast,0,
-309,,,,,,,,,,blast,0,
-310,,,,,,,,,,blast,0,
-311,,,,,,,,,,blast,0,
-312,,,,,,,,,,blast,0,
-313,,,,,,,,,,blast,0,
-314,,,,,,,,,,blast,0,
-315,,,,,,,,,,blast,0,
-316,,,,,,,,,,blast,0,
-317,,,,,,,,,,blast,0,
-318,,,,,,,,,,blast,0,
-319,,,,,,,,,,blast,0,
-320,,,,,,,,,,blast,0,
-321,,,,,,,,,,blast,0,
-322,,,,,,,,,,blast,0,
-323,,,,,,,,,,blast,0,
-324,,,,,,,,,,blast,0,
-325,,,,,,,,,,blast,0,
-326,,,,,,,,,,blast,0,
-327,,,,,,,,,,blast,0,
-328,,,,,,,,,,blast,0,
-329,,,,,,,,,,blast,0,
-330,,,,,,,,,,blast,0,
-331,,,,,,,,,,blast,0,
-332,,,,,,,,,,blast,0,
-333,,,,,,,,,,blast,0,
-334,,,,,,,,,,blast,0,
-335,,,,,,,,,,blast,0,
-336,,,,,,,,,,blast,0,
-337,,,,,,,,,,blast,0,
-338,,,,,,,,,,blast,0,
-339,,,,,,,,,,blast,0,
-340,,,,,,,,,,blast,0,
-341,,,,,,,,,,blast,0,
-342,,,,,,,,,,blast,0,
-343,,,,,,,,,,blast,0,
-344,,,,,,,,,,blast,0,
-345,,,,,,,,,,blast,0,
-346,,,,,,,,,,blast,0,
-347,,,,,,,,,,blast,0,
-348,,,,,,,,,,blast,0,
-349,,,,,,,,,,blast,0,
-350,,,,,,,,,,blast,0,
-351,,,,,,,,,,blast,0,
-352,,,,,,,,,,blast,0,
-353,,,,,,,,,,blast,0,
-354,,,,,,,,,,blast,0,
-355,,,,,,,,,,blast,0,
-356,,,,,,,,,,blast,0,
-357,,,,,,,,,,blast,0,
-358,,,,,,,,,,blast,0,
-359,,,,,,,,,,blast,0,
-360,,,,,,,,,,blast,0,
-361,,,,,,,,,,blast,0,
-362,,,,,,,,,,blast,0,
-363,,,,,,,,,,blast,0,
-364,,,,,,,,,,blast,0,
-365,,,,,,,,,,blast,0,
-366,,,,,,,,,,blast,0,
-367,,,,,,,,,,blast,0,
-368,,,,,,,,,,blast,0,
-369,,,,,,,,,,blast,0,
-370,,,,,,,,,,blast,0,
-371,,,,,,,,,,blast,0,
-372,,,,,,,,,,blast,0,
-373,,,,,,,,,,blast,0,
-374,,,,,,,,,,blast,0,
-375,,,,,,,,,,blast,0,
-376,,,,,,,,,,blast,0,
-377,,,,,,,,,,blast,0,
-378,,,,,,,,,,blast,0,
-379,,,,,,,,,,blast,0,
-380,,,,,,,,,,blast,0,
-381,,,,,,,,,,blast,0,
-382,,,,,,,,,,blast,0,
-383,,,,,,,,,,blast,0,
+﻿ID,Name,Trigger,Target,Count,Effect,Value,Condition,Chance,Custom,VFXSheet,VFXRow,sound,Description
+1,Battle Armor,passive,self,,damage_reduction,0.67,super_effective,,,,,,Effective attacks only hit the user as normal attacks.
+2,Blaze,on_hit,self,,boost_attack_once,1.25,hp_below_40,,,buff8,0,stats_raised,On Hit: Boosts attacks by 25% when below 40% HP.
+3,Chlorophyll,passive,self,,boost_speed,2,weather_sun,,,buff8,3,stats_raised,Doubles Speed in harsh sunlight.
+4,Cloud Nine,passive,self,,negate_weather,,,,,,,,Negates all weather effects.
+5,Drizzle,on_battle_start,self,,summon_weather,rain,,,,buff4,2,,On Battle Start: Summons rain.
+6,Sunny Day,on_battle_start,self,,summon_weather,sun,,,,buff4,0,,On Battle Start: Summons harsh sunlight.
+7,Flame Body,on_hit,attacker,,reduce_attack,0.8,,,,debuff3,0,stats_lowered,On Hit: Attacker loses 20% of attack damage after hitting the user.
+8,Huge Power,passive,self,,boost_attack,2,,,,buff8,2,stats_raised,Doubles the Pokémon's Attack stat.
+9,Hyper Cutter,passive,self,,immune_to_debuff,,,,,,,,Attack cannot be lowered.
+10,Intimidate,on_battle_start,enemy_front,1,reduce_attack,0.7,,,,debuff3,,,On Battle Start: Lowers the attack damage of the first enemy Pokémon by 30%.
+11,Levitate,passive,self,,immune,,Ground,,,,,,Immune to Ground-type moves.
+12,Overgrow,on_hit,self,,boost_attack_once,1.25,hp_below_40,,,buff8,3,stats_raised,On Hit: Boosts attacks by 25% when below 40% HP.
+13,Rain Dish,on_round_start,self,,heal,0.3,weather_rain&not_full_hp,,,buff7,2,heal,On Round Start: Restores 30% of HP after each turn in rain.
+14,Rock Head,passive,self,,immune_to_ability_damage,,,,,,,,Immune to ability damage.
+15,Sand Stream,on_battle_start,self,,summon_weather,sandstorm,,,,buff4,4,,On Battle Start: Summons a sandstorm on entry.
+16,Speed Boost,on_round_start,self,,boost_speed,1.05,,,,buff8,0,stats_raised,On Round Start: Increases Speed by 5%.
+17,Swift Swim,passive,self,,boost_speed,2,weather_rain,,,buff8,2,stats_raised,Doubles Speed in rain.
+18,Torrent,on_hit,self,,boost_attack_once,1.25,hp_below_40,,,buff8,2,stats_raised,On Hit: Boosts attacks by 25% when below 40% HP.
+19,Solid Rock,passive,self,,damage_reduction,0.75,super_effective,,,,,,Reduces super-effective damage by 25%.
+20,Sturdy,on_hit,self,,survive_ko,,,,,,,,On Hit: Survives any one-hit KO with 1 HP remaining.
+21,,,,,,,,,,,,,
+22,Absorb,after_attack,self,,heal_flat,7,hp_below_100,,,buff7,3,heal,After Attack: Recovers 7 HP.
+23,Overheat,after_attack,self,,reduce_attack,0.5,,,,,,,After Attack: Loses 50% Attack.
+24,Giga Drain,after_attack,self,,heal_flat,50,,,,,,,After Attack: Recovers 50 HP.
+25,Leaf Storm,after_attack,self,,reduce_attack,0.5,,,,,,,After Attack: The user loses 50% of its Attack.
+26,Leech Seed,after_attack,enemy_front,1,leech,0.3,,,,spark3,3,heal,After Attack: Leeches 30% of the target's max HP.
+27,Mega Drain,after_attack,self,,heal_flat,25,hp_below_100,,,buff7,3,heal,After Attack: Recovers 25 HP.
+28,Flower Gift,passive,self,,boost_attack,1.5,weather_sun,,,buff8,3,stats_raised,Boosts Attack by 50% during sunlight.
+29,Power Up,on_battle_start,ally_random,,boost_all_stats,1.05,,,,buff8,4,stats_raised,On Battle Start: A random ally increases all stats by 5%.
+30,Sand Force,passive,self,,boost_attack,1.5,weather_sandstorm,,,buff8,,,Boosts Attack by 50% during a sandstorm.
+31,Power Up,on_ally_faint,self,,boost_speed,1.2,,,,buff8,,,On Ally Faint: Raises Speed by 20% for each ally that has fainted.
+32,Moxie,on_kill,self,,boost_attack,1.5,,,,buff8,,,On Kill: Raises Attack by 50%.
+33,Mold Breaker,passive,self,,ignore_abilities,,,,,,,,
+34,Magic Guard,passive,self,,immune_to_ability_damage,,,,,,,,Cannot be damaged by ability effects.
+35,Target Dummy,on_hit,ally_all,,boost_attack,1.1,,,,buff8,,,On Hit: Raises all allies' Attack by 10%.
+36,Gooey,on_hit,attacker,,reduce_speed,0.8,,,,debuff3,,,On Hit: Reduces the attacker's Speed by 20%.
+37,Friend Guard,passive,ally_all,,damage_reduction,0.9,,,,,,,Reduces all allies' damage taken by 10% while active.
+38,Rollout,after_attack,self,,boost_attack,2,,,,buff8,4,stats_raised,After Attack: Doubles Attack.
+39,Ember,on_attack,enemy_next,,deal_damage_flat,10,,,,ember,0,,On Attack: Deals 10 Damage to the next enemy.
+40,Eruption,before_attack,self,,,,,,eruption,,,,Before Attack: Power scales with user's remaining HP.
+41,Flame Charge,after_attack,self,,boost_speed,1.1,,,,buff8,,,After Attack: Increases the user's Speed by 10%.
+42,Flame Burst,on_attack,enemy_all,,deal_damage_flat,10,,,,fire,0,fire,On Attack: Deals 10 damage to all enemies.
+43,Aqua Run,after_attack,self,,boost_speed,1.2,,,,buff8,2,stats_raised,After Attack: Increases the user's Speed by 20%.
+44,Aqua Jet,passive,self,,priority_move,,,,,,,,
+45,Aqua Step,after_attack,self,,boost_speed,1.1,,,,buff8,2,stats_raised,After Attack: Increases the user's Speed by 10%.
+46,Bubble,on_attack,enemy_front,1,reduce_speed,0.9,,,,debuff3,2,stats_lowered,On Attack: Lowers the enemy's Speed 10%.
+47,Bubble Beam,on_attack,enemy_front,1,reduce_speed,0.8,,,,debuff3,2,stats_lowered,On Attack: Lowers the enemy's Speed by 20%.
+48,Chilling Water,on_attack,enemy_front,1,reduce_attack,0.8,,,,debuff3,,,On Attack: Lowers the target's Attack by 20%.
+49,Hydro Pump,on_attack,enemy_last,1,deal_damage,1,,,,,,,On Attack: Hits the last enemy.
+50,Sticky Web,on_battle_start,enemy_all,,reduce_speed,0.8,,,,debuff3,6,stats_lowered,On Battle Start: Slows all enemies by 20%.
+51,Scald,on_attack,enemy_front,1,reduce_attack,0.8,,,,debuff3,,,On Attack: Lowers the target's Attack by 20%.
+52,Surf,on_attack,all_others,,deal_damage,0.2,,,,,,,On Attack: Deals 20% damage to all other Pokémon.
+53,Muddy Water,on_attack,enemy_front,1,reduce_speed,0.7,,,,debuff3,2,stats_lowered,On Attack: Lowers the enemy's Speed by 30%.
+54,Thunder,on_attack,enemy_all,,deal_damage,0.2,weather_rain,,,thunder,4,ability_damage,On Attack: In Rain deals 20% damage to all enemies.
+55,Weak Armor,on_hit,self,,boost_speed,2,super_effective,,,buff8,4,stats_raised,On Hit: Speed doubles when hit by a super-effective attack.
+56,Bubble Shield,passive,self,,damage_reduction_flat,5,,,,,,,Reduces all incoming damage by 5.
+57,Shell Armor,before_hit,self,,negate_damage,,first_hit,,,,,,Before Hit: Fully negate the first incoming hit.
+58,,,,,,,,,,,,,
+59,Water Pulse,on_attack,enemy_next,,deal_damage_flat,20,,,,blast,2,ability_damage,On Attack: Deals 20 damage to the next enemy.
+60,Hydro Cannon,on_attack,enemy_last,1,deal_damage_flat,20,,,,,,,On Attack: Deals 20 damage to the last enemy.
+61,Fur Coat,passive,self,,immune_to_ability_damage,,,,,,,,Immune to ability damage.
+62,Light Screen,on_battle_start,self,,summon_screen,light_screen,,,,,,,On Battle Start: Summons light screen.
+63,Earthquake,on_attack,all_others,,deal_damage,0.3,,,,swipe,6,ability_damage,On Attack: Damages all other Pokémon on attack for 30% of its attack.
+64,Bone Club,on_attack,enemy_front,1,overflow_damage,,,,,,,,On Attack: Excess damage carries over to the next enemy.
+65,Stealth Pebbels,on_battle_start,enemy_all,,deal_damage_percent,0.1,,,,swipe,6,ability_damage,On Battle Start: Deals 10% damage to all enemies.
+66,Whirlwind,on_battle_start,enemy_all,,swap_enemies_random,,first_last,,,,,,On Battle Start: Shuffles all enemy positions.
+67,Aerial Ace,passive,self,,ignore_damage_reduction,,,,,,,,Attacks always ignore damage reduction.
+68,Hurricane,on_attack,enemy_last,1,deal_damage,1,weather_rain,,,,,,On Attack: Hits last enemy during rain.
+69,Roost,after_attack,self,,heal,0.3,,,,buff7,5,heal,After Attack: Heals 30% of max HP.
+70,Aftermath,on_faint,all,,deal_damage_flat,25,,,,spark3,4,thunder,On Faint: Deal 25 Damage to all Pokémon.
+71,Heat Wave,on_attack,enemy_last,2,deal_damage,0.15,,,,fire,0,fire,On Attack: Deals 15% damage to the last two enemies.
+72,Inferno,on_attack,enemy_last,1,deal_damage,1,,,,,,,On Attack: Damages the last Pokémon in line.
+73,Rough Skin,on_hit,attacker,,recoil_damage,0.15,,,,flame3,0,ability_damage,On Hit: Deals 15% of max HP back to attacker.
+74,Thunder Wave,on_battle_start,enemy_last,1,reduce_speed,0.5,,,,debuff3,4,stats_lowered,On Battle Start: Reduces last enemy's Speed by 50%.
+75,Thick Fat,passive,self,,damage_reduction,0.8,,,,,,,Reduces all incoming damage by 20%.
+76,Splash,passive,self,,,,,,,,,,Splashes around.
+77,Stealth Rock,on_battle_start,enemy_all,,deal_damage_percent,0.2,,,,,,,On Battle Start: Deals 20% damage to all enemies.
+78,Serene Grace,passive,ally_all,,boost_healing,1.5,,,serene_grace,buff8,,,All allies receive increased healing by 50%.
+79,,,,,,,,,,,,,
+80,Guts,on_hit,self,,boost_attack,1.4,,,,buff8,5,stats_raised,On Hit: Increases Attack by 40%.
+81,Sand Rush,passive,self,,boost_speed,1.5,weather_sandstorm,,,buff8,,,Boosts Speed by 50% during a sandstorm.
+82,Solar Power,passive,ally_all,,boost_attack,1.2,weather_sun,,,buff8,,,Boosts all allies' Attack by 20% in sunlight.
+83,Sand Veil,passive,self,,damage_reduction,0.6,weather_sandstorm,,,buff8,4,stats_raised,Reduces all incoming damage by 40% during a sandstorm.
+84,Thunder Shock,on_battle_start,enemy_last,2,reduce_speed,0.5,,,,debuff3,4,stats_lowered,On Battle Start: Reduces last two enemy's Speed by 50%.
+85,,,,,,,,,,,,,
+86,,,,,,,,,,,,,
+87,Battle Drum,on_hit,ally_random,2,boost_speed_and_attack,1.2,,,,buff8,5,stats_raised,On Hit: Increases Speed and Attack of two random allies by 20%.
+88,Battle Call,on_hit,ally_random,2,boost_speed_flat,20,,,,buff8,5,stats_raised,On Hit: Increases Speed of two random allies by 20.
+89,Will-O-Wisp,on_battle_start,enemy_last,2,reduce_attack,0.75,,,,debuff3,0,fire,On Battle Start: The last two enemy Pokémon get their attack reduced by 25%.
+90,Leech Life,after_attack,self,,heal_damage_dealt,0.5,,,,buff7,5,heal,After Attack: Heals self for 50% of damage done.
+91,Competitive,on_debuff,self,,boost_attack,1.1,,,,buff8,,,On Debuff: Boosts own Attack by 10% when any stat is lowered.
+92,Memento,on_faint,enemy_all,,reduce_attack,0.15,,,,debuff3,,,On Faint: Reduces all enemies' Attack by 15%.
+93,Seismic Toss,on_attack,enemy_front,1,deal_damage_source_hp,0.35,,,,,,,On Attack: Deals damage equal to 35% of the user's max HP.
+94,Payback,on_attack,enemy_front,1,deal_damage_bonus,2,attacked_after,,,,,,On Attack: Deals double damage if the user attacks after the target this round.
+95,Punishment,on_attack,enemy_front,1,deal_damage_per_buff,1.3,target_buffed,,,,,,On Attack: Increases Attack by 30% for each active buff on the target.
+96,Knock Off,on_attack,enemy_front,1,reduce_attack,0.7,,,,debuff3,,,On Attack: Knocks off the held item of the target.
+97,Screech,on_battle_start,enemy_second,,boost_damage_taken_once,1.2,,,,debuff3,3,stats_lowered,On Battle Start: Second enemy Pokémon takes 20% more damage from the next hit they receive.
+98,Leer,on_battle_start,enemy_all,,boost_damage_taken_once,1.1,,,,debuff3,3,stats_lowered,On Battle Start: All enemy Pokémon take 10% more damage from the next hit they receive.
+99,Growl,on_attack,enemy_all,,reduce_attack,0.85,,,,debuff3,,,On Attack: All enemies' Attack reduced by 15% until end of round.
+100,Fake Out,on_battle_start,enemy_random,,reduce_attack,0.5,,,,debuff3,,,On Battle Start: Reduces attack of a random enemy by 50%.
+101,Encore,on_battle_start,enemy_last,1,reduce_speed,0.5,,,,debuff3,,,On Battle Start: Reduces the last enemy's Speed by half.
+102,Simple Beam,on_battle_start,enemy_all,,halve_buff_value,0.5,,,,,,,On Battle Start: Halves the effectiveness of all enemies' next incoming stat buff.
+103,Toxic Spikes,on_round_start,enemy_all,,deal_damage_percent,0.05,,,,,,,"On Round Start: Poisons all enemies, dealing 5% max HP per round."
+104,Spikes,on_battle_start,enemy_all,,deal_damage_percent,0.2,,,,swipe,6,ability_damage,On Battle Start: Deals 20% damage to all enemies.
+105,Whirlpool,on_attack,enemy_next,1,deal_damage,0.2,weather_rain,,,,,,On Attack: Deals 20% damage to the next enemy (only in rain).
+106,Rallying Cry,on_battle_start,ally_random,,boost_speed_and_attack,1.1,,,,buff8,5,stats_raised,On Battle Start: A random ally increases its speed and attack by 10%.
+107,Vital Strike,on_ally_heal,enemy_random,,deal_damage,1,,,,thunder,5,ability_damage,On Ally Heal: Deals 100% of Attack as damage to a random enemy.
+108,Guardian's Call,on_battle_start,ally_random,,boost_all_stats,1.4,,,,buff8,,,On Battle Start: A random ally increases all stats by 40%.
+109,Frenzy Call,on_battle_start,ally_random,,boost_speed_and_attack,1.2,,,,buff8,5,stats_raised,On Battle Start: A random ally increases its speed and attack by 20%.
+110,Vitalize,on_battle_start,ally_random,,boost_hp,1.2,,,,buff8,5,stats_raised,On Battle Start: A random ally increases its HP by 20%.
+111,Swift Wind,on_battle_start,ally_random,,boost_speed,1.4,,,,buff8,5,stats_raised,On Battle Start: A random ally increases its Speed by 40%.
+112,Tailwind,on_battle_start,ally_all,,boost_speed,1.2,,,,buff8,,,On Battle Start: The whole team increases its Speed by 20%.
+113,Power Up System,on_battle_start,ally_last,2,boost_all_stats,1.15,,,,buff8,4,stats_raised,On Battle Start: The last two allies increase all stats by 15%.
+114,Rear Guard,on_battle_start,ally_behind,,boost_hp,1.3,,,,buff8,2,stats_raised,On Battle Start: The Pokémon behind increases its HP by 30%.
+115,Scout,on_battle_start,self,,boost_all_stats_per_enemy_type,1.1,,,,buff8,5,stats_raised,On Battle Start: Gains 10% to all stats per unique type on the enemy team.
+116,Rainbow Aura,on_battle_start,self,,boost_all_stats_per_ally_type,1.15,,,,buff8,5,stats_raised,On Battle Start: Gains 15% to all stats per unique type on your team.
+117,Dash,on_faint,ally_random,,boost_speed,1.2,,,,buff8,0,stats_raised,On Faint: A random ally increases its Speed by 20%.
+118,Final Charge,on_faint,ally_random,,boost_hp,1.2,,,,buff8,,,On Faint: A random ally increases its HP by 20%.
+119,Regenerator,on_round_start,self,,heal,0.2,hp_below_100,,,buff7,2,heal,On Round Start: Heals self for 20% of max HP.
+120,Multiscale,passive,self,,damage_reduction,0.3,full_hp,,,,,,Reduces all incoming damage by 30% while at full HP.
+121,Stamina,on_hit,self,,damage_reduction_stack,0.1,,,,,,,On Hit: Gains 10% damage reduction per hit received (max 50%).
+122,Protect,before_hit,self,,negate_damage,,first_hit,,,,,,Before Hit: Completely negates the very first hit received.
+123,Unburden,on_hit,self,,boost_speed,1.2,,,,buff8,5,stats_raised,On Hit: Incresases speed by 20%.
+124,Defiant,on_debuff,self,,boost_speed,1.8,,,,buff8,5,stats_raised,On Debuff: Boosts Speed by 80% whenever any stat is lowered.
+125,Competitive,on_debuff,self,,boost_attack,1.5,,,,buff8,,,On Debuff: Boosts Attack by 50% whenever any stat is lowered.
+126,Baton Pass,on_faint,ally_next,,transfer_buffs,,,,,,,,On Faint: Transfers all active stat buffs to the next ally in line.
+127,Natural Cure,on_faint,self,,cure_status,,,,,,,,On Faint: Removes all debuffs and status effects.
+128,Wish,on_round_start,ally_random,,heal,0.15,,,,,,,On Round Start: Heals one random ally for 15% of their max HP.
+129,Harvest,on_round_start,ally_all,,heal,0.1,weather_sun,,,,,,On Round Start: Heals all allies by  10% of their max HP during sunlight.
+130,Cheek Pouch,on_battle_start,ally_all,,boost_healing,1.33,,,,buff8,,,On Battle Start: Increases all healing on your team by 33%.
+131,Healer,passive,self,,boost_healing,1.5,,,,buff8,,,All healing effects on this Pokémon are boosted by 50%.
+132,Power Construct,on_hit,self,,boost_attack,1.5,hp_below_50,,,buff8,,,On Hit: Boosts Attack by 50% when falling below 50% HP.
+133,Wimp Out,on_hit,ally_all,,boost_attack,1.3,hp_below_25,,,buff8,0,stats_raised,"On Hit: When dropping below 25% HP, boosts all allies' Attack by 30%."
+134,Unnerve,passive,enemy_all,,reduce_healing,0.5,,,,,,,Reduces all healing received by enemies by 50%.
+135,Battery,passive,ally_all,,boost_ability_damage,1.3,,,,,,,Boosts all allies' ability-based damage by 30%.
+136,Plus,on_battle_start,self,,boost_attack,2,ally_is_minus,,,buff8,4,stats_raised,On Battle Start: Doubles own Attack if a Minus ally is in the team.
+137,Minus,on_battle_start,self,,boost_speed,2,ally_is_plus,,,buff8,4,stats_raised,On Battle Start: Doubles own Speed if a Plus ally is in the team.
+138,Aroma Veil,passive,ally_all,,immune_to_debuff,,,,,,,,All allies are immune to speed-lowering effects while this is active.
+139,Flower Veil,passive,ally_all,,immune_to_debuff,,,,,,,,All allies are immune to stat-lowering effects while this is active.
+140,Sprinter,on_battle_start,ally_random,,boost_speed,1.3,,,,buff8,4,stats_raised,On Battle Start: A random ally increases its Speed by 30%.
+141,War Cry,on_attack,ally_all,,deal_damage_percent,,,,,,,,On Attack: Deals 20% damage to all allies but boosts their Attack by 30%.
+142,Perish Song,on_battle_start,enemy_all,,deal_damage_percent,0.1,,,,,,,On Battle Start: All enemies lose 10% of their max HP.
+143,Shock Wave,on_attack,enemy_random,,deal_damage_flat,20,,,,,,,On Attack: Deals 20 damage to a random enemy.
+144,Shockwave,on_battle_start,enemy_random,,deal_damage_flat,30,,,,,,,On Battle Start: Deals 30 damage to an random enemy.
+145,Self-Destruct,on_faint,enemy_front,,deal_damage_source_hp,0.8,,,,,,,On Faint: Deals 80% of this Pokémon's max HP as damage to the front enemy.
+146,Final Flare,on_faint,enemy_random,,deal_damage_flat,40,,,,swipe,4,ability_damage,On Faint: Deals 40 damage to a random enemy.
+147,Cursed Aura,on_faint,enemy_all,,boost_damage_taken,1.2,,,,,,,On Faint: All enemies take 20% increased damage for the rest of combat.
+148,Pulse Bomb,on_ally_heal,enemy_all,,deal_damage_flat,10,,,,thunder,5,ability_damage,Deals 10 damage to all enemies whenever an ally gets healed.
+149,Life Drain,on_heal,enemy_random,,deal_damage_flat,30,,,,,,,On Heal: Deals 30 damage to a random enemy.
+150,Vengeful Pulse,on_heal,enemy_random,,deal_damage_source_hp,0.25,,,,,,,On Heal: Deals damage equal to 25% of the HP healed to a random enemy.
+151,Anger Lash,on_debuff,enemy_all,,deal_damage_flat,15,,,,,,,On Debuff: Deals 15 damage to all enemies whenever this Pokémon is debuffed.
+152,Vengeance,on_debuff,enemy_last,1,deal_damage_source_hp,0.2,,,,,,,On Debuff: Deals 20% of own max HP as damage to the last enemy.
+153,Backlash,on_debuff,enemy_random,,deal_damage_flat,20,,,,,,,On Debuff: Deals 20 damage to a random enemy whenever a stat is reduced.
+154,Bitter End,on_debuff,enemy_all,,deal_damage_flat,100,third_debuff,,,,,,"On Debuff: After 3 debuffs received, deals 100 damage to all enemies."
+155,Iron Barbs,on_hit,attacker,,deal_damage_flat,20,,,,,,,On Hit: Deals 20 damage back to attacker.
+156,Pick Up,on_kill,player,,increase_pokedollar,1,,,,,,,On Kill: add 1 Pokedollar to your Pocket
+157,Battle Cry,on_hit,ally_random,,boost_speed_flat,15,,,,buff8,5,stats_raised,On Hit: Increases Speed of a random ally by 15.
+158,Sniper,on_battle_start,enemy_random,,deal_damage_flat,30,,,,swipe,6,ability_damage,On Battle Start: Deals 30 damage to a random enemy.
+159,,,,,,,,,,,,,
+160,,,,,,,,,,,,,
+161,,,,,,,,,,,,,
+162,,,,,,,,,,,,,
+163,,,,,,,,,,,,,
+164,,,,,,,,,,,,,
+165,,,,,,,,,,,,,
+166,,,,,,,,,,,,,
+167,,,,,,,,,,,,,
+168,,,,,,,,,,,,,
+169,,,,,,,,,,,,,
+170,,,,,,,,,,,,,
+171,,,,,,,,,,,,,
+172,,,,,,,,,,,,,
+173,,,,,,,,,,,,,
+174,,,,,,,,,,,,,
+175,,,,,,,,,,,,,
+176,,,,,,,,,,,,,
+177,,,,,,,,,,,,,
+178,,,,,,,,,,,,,
+179,,,,,,,,,,,,,
+180,,,,,,,,,,,,,
+181,,,,,,,,,,,,,
+182,,,,,,,,,,,,,
+183,,,,,,,,,,,,,
+184,,,,,,,,,,,,,
+185,,,,,,,,,,,,,
+186,,,,,,,,,,,,,
+187,,,,,,,,,,,,,
+188,,,,,,,,,,,,,
+189,,,,,,,,,,,,,
+190,,,,,,,,,,,,,
+191,,,,,,,,,,,,,
+192,,,,,,,,,,,,,
+193,,,,,,,,,,,,,
+194,,,,,,,,,,,,,
+195,,,,,,,,,,,,,
+196,,,,,,,,,,,,,
+197,,,,,,,,,,,,,
+198,,,,,,,,,,,,,
+199,,,,,,,,,,,,,
+200,,,,,,,,,,,,,
+201,,,,,,,,,,,,,
+202,,,,,,,,,,,,,
+203,,,,,,,,,,,,,
+204,,,,,,,,,,,,,
+205,,,,,,,,,,,,,
+206,,,,,,,,,,,,,
+207,,,,,,,,,,,,,
+208,,,,,,,,,,,,,
+209,,,,,,,,,,,,,
+210,,,,,,,,,,,,,
+211,,,,,,,,,,,,,
+212,,,,,,,,,,,,,
+213,,,,,,,,,,,,,
+214,,,,,,,,,,,,,
+215,,,,,,,,,,,,,
+216,,,,,,,,,,,,,
+217,,,,,,,,,,,,,
+218,,,,,,,,,,,,,
+219,,,,,,,,,,,,,
+220,,,,,,,,,,,,,
+221,,,,,,,,,,,,,
+222,,,,,,,,,,,,,
+223,,,,,,,,,,,,,
+224,,,,,,,,,,,,,
+225,,,,,,,,,,,,,
+226,,,,,,,,,,,,,
+227,,,,,,,,,,,,,
+228,,,,,,,,,,,,,
+229,,,,,,,,,,,,,
+230,,,,,,,,,,,,,
+231,,,,,,,,,,,,,
+232,,,,,,,,,,,,,
+233,,,,,,,,,,,,,
+234,,,,,,,,,,,,,
+235,,,,,,,,,,,,,
+236,,,,,,,,,,,,,
+237,,,,,,,,,,,,,
+238,,,,,,,,,,,,,
+239,,,,,,,,,,,,,
+240,,,,,,,,,,,,,
+241,,,,,,,,,,,,,
+242,,,,,,,,,,,,,
+243,,,,,,,,,,,,,
+244,,,,,,,,,,,,,
+245,,,,,,,,,,,,,
+246,,,,,,,,,,,,,
+247,,,,,,,,,,,,,
+248,,,,,,,,,,,,,
+249,,,,,,,,,,,,,
+250,,,,,,,,,,,,,
+251,,,,,,,,,,,,,
+252,,,,,,,,,,,,,
+253,,,,,,,,,,,,,
+254,,,,,,,,,,,,,
+255,,,,,,,,,,,,,
+256,,,,,,,,,,,,,
+257,,,,,,,,,,,,,
+258,,,,,,,,,,,,,
+259,,,,,,,,,,,,,
+260,,,,,,,,,,,,,
+261,,,,,,,,,,,,,
+262,,,,,,,,,,,,,
+263,,,,,,,,,,,,,
+264,,,,,,,,,,,,,
+265,,,,,,,,,,,,,
+266,,,,,,,,,,,,,
+267,,,,,,,,,,,,,
+268,,,,,,,,,,,,,
+269,,,,,,,,,,,,,
+270,,,,,,,,,,,,,
+271,,,,,,,,,,,,,
+272,,,,,,,,,,,,,
+273,,,,,,,,,,,,,
+274,,,,,,,,,,,,,
+275,,,,,,,,,,,,,
+276,,,,,,,,,,,,,
+277,,,,,,,,,,,,,
+278,,,,,,,,,,,,,
+279,,,,,,,,,,,,,
+280,,,,,,,,,,,,,
+281,,,,,,,,,,,,,
+282,,,,,,,,,,,,,
+283,,,,,,,,,,,,,
+284,,,,,,,,,,,,,
+285,,,,,,,,,,,,,
+286,,,,,,,,,,,,,
+287,,,,,,,,,,,,,
+288,,,,,,,,,,,,,
+289,,,,,,,,,,,,,
+290,,,,,,,,,,,,,
+291,,,,,,,,,,,,,
+292,,,,,,,,,,,,,
+293,,,,,,,,,,,,,
+294,,,,,,,,,,,,,
+295,,,,,,,,,,,,,
+296,,,,,,,,,,,,,
+297,,,,,,,,,,,,,
+298,,,,,,,,,,,,,
+299,,,,,,,,,,,,,
+300,,,,,,,,,,,,,
+301,,,,,,,,,,,,,
+302,,,,,,,,,,,,,
+303,,,,,,,,,,,,,
+304,,,,,,,,,,,,,
+305,,,,,,,,,,,,,
+306,,,,,,,,,,,,,
+307,,,,,,,,,,,,,
+308,,,,,,,,,,,,,
+309,,,,,,,,,,,,,
+310,,,,,,,,,,,,,
+311,,,,,,,,,,,,,
+312,,,,,,,,,,,,,
+313,,,,,,,,,,,,,
+314,,,,,,,,,,,,,
+315,,,,,,,,,,,,,
+316,,,,,,,,,,,,,
+317,,,,,,,,,,,,,
+318,,,,,,,,,,,,,
+319,,,,,,,,,,,,,
+320,,,,,,,,,,,,,
+321,,,,,,,,,,,,,
+322,,,,,,,,,,,,,
+323,,,,,,,,,,,,,
+324,,,,,,,,,,,,,
+325,,,,,,,,,,,,,
+326,,,,,,,,,,,,,
+327,,,,,,,,,,,,,
+328,,,,,,,,,,,,,
+329,,,,,,,,,,,,,
+330,,,,,,,,,,,,,
+331,,,,,,,,,,,,,
+332,,,,,,,,,,,,,
+333,,,,,,,,,,,,,
+334,,,,,,,,,,,,,
+335,,,,,,,,,,,,,
+336,,,,,,,,,,,,,
+337,,,,,,,,,,,,,
+338,,,,,,,,,,,,,
+339,,,,,,,,,,,,,
+340,,,,,,,,,,,,,
+341,,,,,,,,,,,,,
+342,,,,,,,,,,,,,
+343,,,,,,,,,,,,,
+344,,,,,,,,,,,,,
+345,,,,,,,,,,,,,
+346,,,,,,,,,,,,,
+347,,,,,,,,,,,,,
+348,,,,,,,,,,,,,
+349,,,,,,,,,,,,,
+350,,,,,,,,,,,,,
+351,,,,,,,,,,,,,
+352,,,,,,,,,,,,,
+353,,,,,,,,,,,,,
+354,,,,,,,,,,,,,
+355,,,,,,,,,,,,,
+356,,,,,,,,,,,,,
+357,,,,,,,,,,,,,
+358,,,,,,,,,,,,,
+359,,,,,,,,,,,,,
+360,,,,,,,,,,,,,
+361,,,,,,,,,,,,,
+362,,,,,,,,,,,,,
+363,,,,,,,,,,,,,
+364,,,,,,,,,,,,,
+365,,,,,,,,,,,,,
+366,,,,,,,,,,,,,
+367,,,,,,,,,,,,,
+368,,,,,,,,,,,,,
+369,,,,,,,,,,,,,
+370,,,,,,,,,,,,,
+371,,,,,,,,,,,,,
+372,,,,,,,,,,,,,
+373,,,,,,,,,,,,,
+374,,,,,,,,,,,,,
+375,,,,,,,,,,,,,
+376,,,,,,,,,,,,,
+377,,,,,,,,,,,,,
+378,,,,,,,,,,,,,
+379,,,,,,,,,,,,,
+380,,,,,,,,,,,,,
+381,,,,,,,,,,,,,
+382,,,,,,,,,,,,,
+383,,,,,,,,,,,,,

@@ -17,11 +17,12 @@ MonoBehaviour:
   trigger: after_attack
   target: self
   count: 0
-  effect: heal
-  value: 0.3
+  effect: heal_damage_dealt
+  value: 0.5
   condition: 
   chance: 0
   custom: 
-  description: 'After Attack: Heals self for 30% of max HP.'
-  vfxSheet: blast
-  vfxRow: 0
+  description: 'After Attack: Heals self for 50% of damage done.'
+  vfxSheet: buff7
+  vfxRow: 5
+  sound: heal

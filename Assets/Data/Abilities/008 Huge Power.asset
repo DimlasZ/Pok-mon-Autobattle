@@ -23,5 +23,6 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: "Doubles the Pok\xE9mon's Attack stat."
-  vfxSheet: blast
-  vfxRow: 1
+  vfxSheet: buff8
+  vfxRow: 2
+  sound: stats_raised

@@ -18,10 +18,11 @@ MonoBehaviour:
   target: enemy_front
   count: 1
   effect: leech
-  value: 0.2
+  value: 0.3
   condition: 
   chance: 0
   custom: 
-  description: 'After Attack: Leeches 20% of the target''s max HP.'
-  vfxSheet: blast
-  vfxRow: 1
+  description: 'After Attack: Leeches 30% of the target''s max HP.'
+  vfxSheet: spark3
+  vfxRow: 3
+  sound: heal

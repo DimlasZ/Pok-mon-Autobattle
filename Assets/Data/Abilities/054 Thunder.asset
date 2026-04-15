@@ -22,6 +22,7 @@ MonoBehaviour:
   condition: weather_rain
   chance: 0
   custom: 
-  description: 'On Attack: Deals 20% damage to all enemies (only in rain).'
-  vfxSheet: blast
-  vfxRow: 1
+  description: 'On Attack: In Rain deals 20% damage to all enemies.'
+  vfxSheet: thunder
+  vfxRow: 4
+  sound: ability_damage

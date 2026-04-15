@@ -103,7 +103,9 @@ public class UIManager : MonoBehaviour
                 shopSlots[i].DisplayPokemon(pokemon);
                 bool locked = pokemon.baseData.preEvolutionId > 0
                               && !ShopManager.Instance.PlayerOwnsPreEvolution(pokemon.baseData.preEvolutionId);
+                bool evoAvailable = pokemon.baseData.preEvolutionId > 0 && !locked;
                 shopSlots[i].SetLocked(locked);
+                shopSlots[i].SetEvolutionAvailable(evoAvailable);
                 shopSlots[i].SetHighlight(isSelected);
             }
             else
@@ -115,8 +117,13 @@ public class UIManager : MonoBehaviour
 
     private void RefreshBench()
     {
+        int activeSize = ShopManager.Instance.BenchSize;
         for (int i = 0; i < benchSlots.Length; i++)
         {
+            bool active = i < activeSize;
+            benchSlots[i].gameObject.SetActive(active);
+            if (!active) continue;
+
             bool isSelected = ShopManager.Instance.CurrentSelection == ShopManager.SelectionSource.Bench
                               && ShopManager.Instance.SelectedIndex == i;
 
@@ -250,10 +257,32 @@ public class UIManager : MonoBehaviour
 
     private void OnReleaseClicked()
     {
+        AudioManager.Instance?.PlayButtonSound();
         ShopManager.Instance.ReleaseSelected();
         RefreshAll();
     }
 
-    private void OnRerollClicked()   { ShopManager.Instance.Reroll();       RefreshAll(); }
-    private void OnStartBattleClicked() { GameManager.Instance.StartBattle(); }
+    private void OnRerollClicked()
+    {
+        AudioManager.Instance?.PlayButtonSound();
+        ShopManager.Instance.Reroll();
+        StartCoroutine(RefreshShopDelayed());
+    }
+
+    public void RefreshShopWithDelay()
+    {
+        StartCoroutine(RefreshShopDelayed());
+    }
+
+    private System.Collections.IEnumerator RefreshShopDelayed()
+    {
+        yield return new WaitForSeconds(0.2f);
+        RefreshAll();
+    }
+
+    private void OnStartBattleClicked()
+    {
+        AudioManager.Instance?.PlayButtonSound();
+        GameManager.Instance.StartBattle();
+    }
 }

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0005 Charmeleon
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 5
+  pokemonName: Charmeleon
+  attack: 45
+  hp: 63
+  type1: Fire
+  speed: 64
+  tier: 3
+  preEvolutionId: 4
+  ability: {fileID: 11400000, guid: fefc6a6b9779389498343ad72e6934be, type: 2}
+  sprite: {fileID: -5481333576836855463, guid: ecae1cab35eecef4e9f415a30ca47d8f, type: 3}

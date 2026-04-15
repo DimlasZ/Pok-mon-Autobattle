@@ -25,13 +25,14 @@ public class ShopManager : MonoBehaviour
     public int rerollCost = 1;
 
     // --- Array capacities (never change at runtime) ---
-    public const int MaxShopSize   = 5;
+    public const int MaxShopSize   = 6;
     public const int MaxBattleSize = 6;
-    public const int BenchSize     = 1;
+    public const int MaxBenchSize  = 4;
 
     // --- Active sizes (computed from current round) ---
     public int ShopSize   => GetShopSizeForRound(GameManager.Instance.CurrentRound);
     public int BattleSize => GetBattleSizeForRound(GameManager.Instance.CurrentRound);
+    public int BenchSize  => GetBenchSizeForTier(GetTierForRound(GameManager.Instance.CurrentRound));
 
     // --- Pokédollars ---
     public int CurrentPokedollars { get; private set; }
@@ -55,7 +56,7 @@ public class ShopManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         ShopRow   = new PokemonInstance[MaxShopSize];
-        BenchRow  = new PokemonInstance[BenchSize];
+        BenchRow  = new PokemonInstance[MaxBenchSize];
         BattleRow = new PokemonInstance[MaxBattleSize];
 
         AllPokemon = Resources.LoadAll<PokemonData>("Data/Pokemon");
@@ -64,8 +65,11 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.Instance?.PlayMusic("Pokémon Center");
-        // StartRound() is called by GameManager.EnterBuyPhase()
+        AudioManager.Instance?.PlayRandomMusic("Shop");
+        // First load from main menu: GameManager.EnterBuyPhase() ran before ShopManager existed,
+        // so StartRound() was skipped. Call it now. On subsequent rounds ShopManager persists and
+        // Start() never runs again — GameManager.ReturnToShop() → EnterBuyPhase() handles those.
+        StartRound();
     }
 
     // -------------------------------------------------------
@@ -81,7 +85,7 @@ public class ShopManager : MonoBehaviour
         Debug.Log($"Round {GameManager.Instance.CurrentRound} — Shop: {ShopSize} slots, Battle: {BattleSize} slots");
 
         if (UIManager.Instance != null)
-            UIManager.Instance.RefreshAll();
+            UIManager.Instance.RefreshShopWithDelay();
     }
 
     // -------------------------------------------------------
@@ -129,9 +133,17 @@ public class ShopManager : MonoBehaviour
 
     private int GetShopSizeForRound(int round)
     {
-        if (round < 5) return 3;
-        if (round < 7) return 4;
-        return 5;
+        if (round <= 2) return 3;
+        if (round <= 4) return 4;
+        if (round <= 6) return 5;
+        return 6;
+    }
+
+    private int GetBenchSizeForTier(int tier)
+    {
+        if (tier <= 1) return 2;
+        if (tier == 2) return 3;
+        return 4;
     }
 
     private int GetBattleSizeForRound(int round)

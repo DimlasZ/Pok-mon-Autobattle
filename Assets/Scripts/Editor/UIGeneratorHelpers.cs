@@ -107,19 +107,17 @@ public static class UIGeneratorHelpers
     // This lets you design it manually in Unity without it being overwritten by the generator.
     public static void CreateTooltip(Transform root)
     {
-        // If a Tooltip already exists, leave it alone
-        if (root.Find("Tooltip") != null)
-        {
-            Debug.Log("Tooltip already exists in scene — skipping creation so your manual layout is preserved.");
-            return;
-        }
+        // Destroy any existing Tooltip so it's always recreated with the latest layout
+        var existingTooltip = root.Find("Tooltip");
+        if (existingTooltip != null)
+            Object.DestroyImmediate(existingTooltip.gameObject);
 
-        // First-time creation with sensible defaults — customize visually in Unity after this runs once
+        // Recreate with latest defaults
         var tooltipGO   = new GameObject("Tooltip");
         var tooltipRect = tooltipGO.AddComponent<RectTransform>();
         var tooltipImg  = tooltipGO.AddComponent<Image>();
         tooltipGO.transform.SetParent(root, false);
-        tooltipRect.sizeDelta = new Vector2(300, 100);
+        tooltipRect.sizeDelta = new Vector2(400, 110);
         tooltipRect.pivot     = new Vector2(0f, 0f);
         tooltipImg.color      = new Color(0.05f, 0.05f, 0.05f, 0.95f);
 
@@ -129,17 +127,52 @@ public static class UIGeneratorHelpers
 
         var tooltipUI = tooltipGO.AddComponent<TooltipUI>();
 
-        // Pokemon name
+        // Type icon (top-left of tooltip)
+        var typeIconGO   = new GameObject("TypeIcon");
+        var typeIconRect = typeIconGO.AddComponent<RectTransform>();
+        var typeIconImg  = typeIconGO.AddComponent<Image>();
+        typeIconGO.transform.SetParent(tooltipGO.transform, false);
+        typeIconRect.anchoredPosition = new Vector2(-168f, 30f);
+        typeIconRect.sizeDelta        = new Vector2(24f, 24f);
+        typeIconImg.preserveAspect    = true;
+        typeIconImg.color             = Color.white;
+        tooltipUI.typeIcon            = typeIconImg;
+
+        // Pokemon name (left side of top row, room left for evo sprites on the right)
         tooltipUI.pokemonNameText = CreateTMPText(tooltipGO.transform, "PokémonNameText", "Name", 25,
-            new Vector2(0, 25), new Vector2(280, 35));
+            new Vector2(-30f, 30f), new Vector2(200, 35));
         tooltipUI.pokemonNameText.fontStyle        = FontStyles.Bold;
-        tooltipUI.pokemonNameText.alignment        = TextAlignmentOptions.Center;
+        tooltipUI.pokemonNameText.alignment        = TextAlignmentOptions.Left;
         tooltipUI.pokemonNameText.characterSpacing = -5;
         tooltipUI.pokemonNameText.textWrappingMode = TMPro.TextWrappingModes.Normal;
 
+        // Pre-evolution sprite (right of name, hidden when no pre-evo)
+        var preEvoGO   = new GameObject("PreEvoSprite");
+        var preEvoRect = preEvoGO.AddComponent<RectTransform>();
+        var preEvoImg  = preEvoGO.AddComponent<Image>();
+        preEvoGO.transform.SetParent(tooltipGO.transform, false);
+        preEvoRect.anchoredPosition = new Vector2(100f, 30f);
+        preEvoRect.sizeDelta        = new Vector2(40f, 40f);
+        preEvoImg.preserveAspect    = true;
+        preEvoImg.color             = Color.white;
+        preEvoGO.SetActive(false);
+        tooltipUI.preEvoImage       = preEvoImg;
+
+        // Evolution sprite (right of pre-evo, hidden when no evolution)
+        var evoGO   = new GameObject("EvoSprite");
+        var evoRect = evoGO.AddComponent<RectTransform>();
+        var evoImg  = evoGO.AddComponent<Image>();
+        evoGO.transform.SetParent(tooltipGO.transform, false);
+        evoRect.anchoredPosition = new Vector2(148f, 30f);
+        evoRect.sizeDelta        = new Vector2(40f, 40f);
+        evoImg.preserveAspect    = true;
+        evoImg.color             = Color.white;
+        evoGO.SetActive(false);
+        tooltipUI.evoImage       = evoImg;
+
         // Ability name + description combined (rich text: <b>Name</b>\nDescription)
         tooltipUI.abilityText = CreateTMPText(tooltipGO.transform, "AbilityText", "<b>Ability</b>\nDescription", 20,
-            new Vector2(0, -10), new Vector2(280, 35));
+            new Vector2(0, -10), new Vector2(380, 35));
         tooltipUI.abilityText.alignment        = TextAlignmentOptions.TopLeft;
         tooltipUI.abilityText.characterSpacing = -5;
         tooltipUI.abilityText.wordSpacing      = -12;

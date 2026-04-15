@@ -24,5 +24,6 @@ MonoBehaviour:
   custom: 
   description: "On Battle Start: Second enemy Pok\xE9mon takes 20% more damage from
     the next hit they receive."
-  vfxSheet: blast
-  vfxRow: 0
+  vfxSheet: debuff3
+  vfxRow: 3
+  sound: stats_lowered

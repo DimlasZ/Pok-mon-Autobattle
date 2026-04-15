@@ -23,5 +23,6 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: 'On Debuff: After 3 debuffs received, deals 100 damage to all enemies.'
-  vfxSheet: blast
+  vfxSheet: 
   vfxRow: 0
+  sound: 

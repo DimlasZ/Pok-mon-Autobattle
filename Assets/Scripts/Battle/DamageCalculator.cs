@@ -25,8 +25,11 @@ public static class DamageCalculator
         // Passive attack multiplier (Huge Power, Flower Gift, etc. — checked live each attack)
         float passiveMultiplier = AbilitySystem.GetPassiveAttackMultiplier(attacker);
 
+        // Weather bonus/penalty for the attacker's type
+        float weatherMultiplier = AbilitySystem.GetWeatherDamageMultiplier(attacker);
+
         // Calculate raw damage
-        int damage = Mathf.CeilToInt(attacker.attack * typeMultiplier * abilityMultiplier * passiveMultiplier);
+        int damage = Mathf.CeilToInt(attacker.attack * typeMultiplier * abilityMultiplier * passiveMultiplier * weatherMultiplier);
 
         // Before-hit check — may fully negate the hit (Shell Armor, Protect)
         if (AbilitySystem.FireBeforeHit(defender, attacker, false))
@@ -40,7 +43,8 @@ public static class DamageCalculator
         {
             float reduction = AbilitySystem.GetDamageReduction(defender)
                             * AbilitySystem.GetTypeBasedDamageReduction(defender, attacker.baseData.type1)
-                            * AbilitySystem.GetAllyDamageReduction(defender, defenderTeam);
+                            * AbilitySystem.GetAllyDamageReduction(defender, defenderTeam)
+                            * AbilitySystem.GetWeatherDamageReduction(defender);
             damage = Mathf.CeilToInt(damage * reduction);
             damage -= AbilitySystem.GetFlatDamageReduction(defender);
             damage = Mathf.Max(1, damage);

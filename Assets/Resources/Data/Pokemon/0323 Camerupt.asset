@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0323 Camerupt
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 323
+  pokemonName: Camerupt
+  attack: 53
+  hp: 89
+  type1: Fire
+  speed: 38
+  tier: 4
+  preEvolutionId: 322
+  ability: {fileID: 11400000, guid: 90aa8709b2bb5454d82161676d34d384, type: 2}
+  sprite: {fileID: 4281448370569767400, guid: 752313f94999b2645b92166d91b2a91e, type: 3}

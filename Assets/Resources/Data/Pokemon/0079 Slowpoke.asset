@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 79
   pokemonName: Slowpoke
-  attack: 19
+  attack: 22
   hp: 68
   type1: Water
   speed: 5

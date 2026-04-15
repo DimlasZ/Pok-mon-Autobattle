@@ -19,8 +19,10 @@
 
 ## Main Menu
 
-- [ ] Main Menu scene (Play, Quit button)
-- [ ] Basic UI layout
+- [x] Main Menu scene (Play, Quit button)
+- [x] Basic UI layout
+- [ ] finalize resolution tests
+- [x] quitbutton
 
 
 ## Buy Phase
@@ -35,11 +37,11 @@
 - [x] Drag & drop Pokemon from shop to team slots
 - [x] Team reordering (drag & drop within team slots)
 - [x] Pokemon evolving
-- [ ] Pokemon evolution and preevolution on hover
+- [x] Pokemon evolution and preevolution on hover
 - [x] Ability on hover
 - [ ] Item shop and held item logic
 - [x] ShopManager script
-- [ ] Round start Pokédollar income
+
 
 
 ## Battle Phase
@@ -49,18 +51,19 @@
 - [x] Damage calculation
 - [x] Type effectiveness (decide early if included)
 - [x] Ability/passive trigger system (on attack, on faint, on round start)
-- [ ] Win/loss condition per battle
-- [ ] Player HP loss on defeat
+- [x] Win/loss condition per battle
+- [x] Player HP loss on defeat
 - [x] Health bars in battle UI
 - [x] Enemy team display during battle phase
-- [ ] Basic battle animations (attack, hurt, faint)
+- [x] Basic battle animations (attack, hurt, faint)
 - [x] Battle log / text feedback
 - [x] Sample teams need to better
 - [x] Flatdamage battle calc, is wrong
 - [x] fix the damage calc sccipt
 - [ ] on hit effects: poke needs to be hit with atleast one damage (no ground vs fyling stacking)
 - [ ] Entry Hazard are not stackable.
-- [ ] weather effects visual and with buffs / debuffs
+- [x] weather effects visual and with buffs / debuffs
+- [x] sound effects
 
 
 ## Ability System – Known Issues
@@ -92,9 +95,9 @@
 
 ## Game Loop
 
-- [ ] GameManager script (phase transitions)
-- [ ] Round counter system
-- [ ] Enemy team generation (scales with round)
+- [x] GameManager script (phase transitions)
+- [x] Round counter system
+- [x] Enemy team generation (scales with round)
 - [ ] Game Over screen (when player HP = 0)
 - [ ] Victory screen (survived all rounds)
 
@@ -105,30 +108,33 @@
 - [ ] Screen transitions (fade in/out)
 - [x] Round indicator (Round 3 of 8)
 - [x] Player HP display
-- [ ] Pause/settings menu
-- [ ] Sound effects (buy, sell, attack, faint)
-- [ ] Background music per phase
-- [ ] Main Menu screen
+- [x] Pause/settings menu
+- [x] Sound effects (buy, sell, attack, faint)
+- [x] Background music per phase
+- [x] Main Menu screen
+- [x] type icon
 - [ ] pokedollar icon
 - [ ] Overlay screen after battle.
 - [ ] Music needs to fade out, after win for exmaple.
+- [ ] stat green and red , need to be a bit darker
+- [ ] Polish UI - Tooltip, bigger and on the right side
 
 
 
 ## Testing & Balancing
 
-- [ ] Test battle logic with 10 starter Pokemon
-- [ ] Balance Pokédollar economy
-- [ ] Balance Pokemon stats
-- [ ] Test ability triggers
+- [x] Test battle logic with 10 starter Pokemon
+- [x] Balance Pokédollar economy
+- [x] Balance Pokemon stats
+- [x] Test ability triggers
 - [x] Add remaining Pokemon once systems are stable
 
 
 ## Things that might change, i need to think about it
 
 - [ ] Start with more HP as a player and lose more life based on surviving enmey pokemon.
-- [ ] How to evolve a pokemon, 3x1 = level 2 or buy the level 2 pokemon?
-- [ ] After how many rounds there is a draw? prolly non, no draw should be possible. Careful healing outscales damage maybe.
+- [x] How to evolve a pokemon, 3x1 = level 2 or buy the level 2 pokemon?
+- [x] After how many rounds there is a draw? prolly non, no draw should be possible. Careful healing outscales damage maybe.
 - [x] Make Bench smaller, to 3 Poke? otherwise to many pokeslots
 - [x] no max rounds
 - [x] fix Tierlist
@@ -139,6 +145,20 @@
 - [ ] weighted tier teams for enemy or database teams
 - [ ] Coop Multiplayer? May need a server, or at least a relay. 
 
-## Continue
+## Continue/ bugs 
 
--[ ] decide if attack and ability should be diffrent
+pokedex ui reihenfolge hp attack speed tier überlgen
+pokedex serch funciton
+pokdex type and tier serach
+
+only 1 of each entry hazzard. 
+
+eve all evolutions shown in the tooltip
+same for bloom
+
+batonpass fix
+
+harder enemy teams
+
+
+gitignore meta files and delete meta files on github.

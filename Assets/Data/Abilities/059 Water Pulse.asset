@@ -24,4 +24,5 @@ MonoBehaviour:
   custom: 
   description: 'On Attack: Deals 20 damage to the next enemy.'
   vfxSheet: blast
-  vfxRow: 0
+  vfxRow: 2
+  sound: ability_damage

@@ -30,13 +30,29 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private readonly Color targetColor     = new Color(0f, 0.8f, 1f, 1f);  // Cyan  — valid drop target
     private readonly Color unselectedColor = new Color(1f, 1f, 1f, 0f);    // Transparent
 
-    private bool _isValidTarget = false;
-    private bool _isLocked      = false;
+    private bool  _isValidTarget    = false;
+    private bool  _isLocked         = false;
+    private bool  _isEvoAvailable   = false;
+    private Image _backgroundImage;
+    private Color _defaultBackgroundColor;
+    private Color _defaultAttackColor;
+    private Color _defaultSpeedColor;
 
     // -------------------------------------------------------
 
     void Awake()
     {
+        _backgroundImage        = GetComponent<Image>();
+        _defaultBackgroundColor = _backgroundImage != null ? _backgroundImage.color : Color.clear;
+        _defaultAttackColor     = attackText  != null ? attackText.color  : Color.white;
+        _defaultSpeedColor      = speedText   != null ? speedText.color   : Color.white;
+    }
+
+    private Color StatColor(int current, int baseVal, Color defaultColor)
+    {
+        if (current > baseVal) return new Color(0.2f, 0.9f, 0.2f); // green — buffed
+        if (current < baseVal) return new Color(1f,   0.2f, 0.2f); // red   — debuffed
+        return defaultColor;
     }
 
     // Updates the health bar width and color based on current/max HP
@@ -71,8 +87,13 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         attackText.text = instance.attack.ToString();
         speedText.text  = instance.speed.ToString();
 
+        attackText.color = StatColor(instance.attack, instance.baseAttack, _defaultAttackColor);
+        speedText.color  = StatColor(instance.speed,  instance.baseSpeed,  _defaultSpeedColor);
+
+        _currentPokemonData = instance.baseData;
         _currentAbility     = instance.baseData.ability;
         _currentPokemonName = instance.baseData.pokemonName;
+        _currentType        = instance.baseData.type1;
 
         if (hpBarBox != null) hpBarBox.gameObject.SetActive(true);
         RefreshHealthBar(instance.currentHP, instance.maxHP);
@@ -91,6 +112,22 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             attackText.text = "?";
             speedText.text  = "?";
         }
+        RefreshBackground();
+    }
+
+    // Tints the slot background green when the player owns the pre-evolution and can buy this evolution
+    public void SetEvolutionAvailable(bool available)
+    {
+        _isEvoAvailable = available;
+        RefreshBackground();
+    }
+
+    private void RefreshBackground()
+    {
+        if (_backgroundImage == null) return;
+        _backgroundImage.color = _isEvoAvailable && !_isLocked
+            ? new Color(0.6f, 1f, 0.6f, 1f)  // light green
+            : _defaultBackgroundColor;         // restore original (transparent)
     }
 
     // Called when this slot is empty — shows a blank slot
@@ -98,10 +135,15 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         pokemonSprite.sprite = null;
         pokemonSprite.gameObject.SetActive(false);
-        hpText.text     = "";
-        attackText.text = "";
-        speedText.text  = "";
-        _currentAbility = null;
+        hpText.text         = "";
+        attackText.text     = "";
+        speedText.text      = "";
+        attackText.color    = _defaultAttackColor;
+        speedText.color     = _defaultSpeedColor;
+        _isEvoAvailable     = false;
+        RefreshBackground();
+        _currentPokemonData = null;
+        _currentAbility     = null;
         if (hpBarBox != null) hpBarBox.gameObject.SetActive(false);
         SetHighlight(false);
     }
@@ -123,13 +165,15 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
 
     // Data of the Pokemon currently displayed in this slot
+    private PokemonData _currentPokemonData;
     private AbilityData _currentAbility;
     private string      _currentPokemonName = "";
+    private string      _currentType        = "";
 
     // Show tooltip on hover — anchored to the top of the slot, not the cursor
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (TooltipUI.Instance == null || string.IsNullOrEmpty(_currentPokemonName)) return;
+        if (TooltipUI.Instance == null || _currentPokemonData == null) return;
 
         // Use the top-center of this slot as the anchor point
         var rect = GetComponent<RectTransform>();
@@ -139,7 +183,7 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         Vector2 topCenter = (corners[1] + corners[2]) / 2f;
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(null, topCenter);
 
-        TooltipUI.Instance.Show(_currentAbility, screenPos, _currentPokemonName);
+        TooltipUI.Instance.Show(_currentPokemonData, screenPos);
     }
 
     // Hide tooltip when cursor leaves
@@ -186,6 +230,7 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     // Called when the player clicks this slot
     public void OnClicked()
     {
+        AudioManager.Instance?.PlayButtonSound();
         var sm = ShopManager.Instance;
 
         // If something is already selected and this is a valid target → place it here
@@ -196,17 +241,27 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             return;
         }
 
-        // Otherwise select this slot (only if it has a Pokemon)
+        // Otherwise select this slot (only if it has a Pokemon).
+        // Clicking the already-selected slot deselects it.
         switch (source)
         {
             case ShopManager.SelectionSource.Shop:
-                sm.SelectShopPokemon(slotIndex);
+                if (sm.CurrentSelection == ShopManager.SelectionSource.Shop && sm.SelectedIndex == slotIndex)
+                    sm.ClearSelection();
+                else
+                    sm.SelectShopPokemon(slotIndex);
                 break;
             case ShopManager.SelectionSource.Bench:
-                sm.SelectBenchPokemon(slotIndex);
+                if (sm.CurrentSelection == ShopManager.SelectionSource.Bench && sm.SelectedIndex == slotIndex)
+                    sm.ClearSelection();
+                else
+                    sm.SelectBenchPokemon(slotIndex);
                 break;
             case ShopManager.SelectionSource.Battle:
-                sm.SelectBattlePokemon(slotIndex);
+                if (sm.CurrentSelection == ShopManager.SelectionSource.Battle && sm.SelectedIndex == slotIndex)
+                    sm.ClearSelection();
+                else
+                    sm.SelectBattlePokemon(slotIndex);
                 break;
         }
 

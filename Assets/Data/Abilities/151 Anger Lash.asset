@@ -24,5 +24,6 @@ MonoBehaviour:
   custom: 
   description: "On Debuff: Deals 15 damage to all enemies whenever this Pok\xE9mon
     is debuffed."
-  vfxSheet: blast
+  vfxSheet: 
   vfxRow: 0
+  sound: 

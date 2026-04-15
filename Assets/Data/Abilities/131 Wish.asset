@@ -23,5 +23,6 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: "All healing effects on this Pok\xE9mon are boosted by 50%."
-  vfxSheet: blast
+  vfxSheet: buff8
   vfxRow: 0
+  sound: 

@@ -24,5 +24,6 @@ MonoBehaviour:
   custom: 
   description: 'On Hit: When dropping below 25% HP, boosts all allies'' Attack by
     30%.'
-  vfxSheet: blast
+  vfxSheet: buff8
   vfxRow: 0
+  sound: stats_raised

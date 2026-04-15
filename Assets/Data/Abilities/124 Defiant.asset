@@ -18,10 +18,11 @@ MonoBehaviour:
   target: self
   count: 0
   effect: boost_speed
-  value: 1.5
+  value: 1.8
   condition: 
   chance: 0
   custom: 
-  description: 'On Debuff: Boosts Speed by 50% whenever any stat is lowered.'
-  vfxSheet: blast
-  vfxRow: 0
+  description: 'On Debuff: Boosts Speed by 80% whenever any stat is lowered.'
+  vfxSheet: buff8
+  vfxRow: 5
+  sound: stats_raised

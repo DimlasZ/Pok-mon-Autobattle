@@ -24,5 +24,6 @@ MonoBehaviour:
   custom: 
   description: 'On Battle Start: A random ally increases its speed and attack by
     20%.'
-  vfxSheet: blast
-  vfxRow: 0
+  vfxSheet: buff8
+  vfxRow: 5
+  sound: stats_raised

@@ -23,5 +23,6 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: All allies are immune to speed-lowering effects while this is active.
-  vfxSheet: blast
+  vfxSheet: 
   vfxRow: 0
+  sound: 

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0257 Blaziken
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 257
+  pokemonName: Blaziken
+  attack: 48
+  hp: 80
+  type1: Fire
+  speed: 50
+  tier: 3
+  preEvolutionId: 256
+  ability: {fileID: 11400000, guid: 7c0a08b4290d55f41997cab329f509a0, type: 2}
+  sprite: {fileID: 6548313362805230033, guid: a4867fff73456d14b93bc6b3127cd732, type: 3}

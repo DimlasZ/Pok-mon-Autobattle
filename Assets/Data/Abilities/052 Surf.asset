@@ -23,5 +23,6 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: "On Attack: Deals 20% damage to all other Pok\xE9mon."
-  vfxSheet: blast
-  vfxRow: 1
+  vfxSheet: 
+  vfxRow: 0
+  sound: 

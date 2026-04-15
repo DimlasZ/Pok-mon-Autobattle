@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0002 Ivysaur
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 2
+  pokemonName: Ivysaur
+  attack: 45
+  hp: 66
+  type1: Grass
+  speed: 48
+  tier: 3
+  preEvolutionId: 1
+  ability: {fileID: 11400000, guid: 6d10647b5cf298e44bd8790d4279d309, type: 2}
+  sprite: {fileID: -71258589894030068, guid: cbc3b237d1681964c81c31a96620a7f6, type: 3}

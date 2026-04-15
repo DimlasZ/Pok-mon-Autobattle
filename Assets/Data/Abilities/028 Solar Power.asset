@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityID: 28
   abilityName: Solar Power
-  trigger: on_round_start
+  trigger: passive
   target: self
   count: 0
   effect: boost_attack
@@ -22,6 +22,7 @@ MonoBehaviour:
   condition: weather_sun
   chance: 0
   custom: 
-  description: 'On Round Start: Boosts Attack by 50% during sunlight.'
-  vfxSheet: blast
-  vfxRow: 1
+  description: Boosts Attack by 50% during sunlight.
+  vfxSheet: buff8
+  vfxRow: 3
+  sound: stats_raised

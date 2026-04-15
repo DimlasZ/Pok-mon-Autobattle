@@ -103,10 +103,31 @@ public class BattleSceneManager : MonoBehaviour
         if (playerHPLabel != null)
             playerHPLabel.text = $"HP: {GameManager.Instance.PlayerHP}/{GameManager.Instance.playerMaxHP}";
 
-        AudioManager.Instance?.PlayMusic("Trainerbattle");
+        AudioManager.Instance?.PlayRandomMusic("Trainerbattle");
+
+        // Subscribe to the ability VFX event and weather changes
+        AbilitySystem.OnAbilityFired   += OnAbilityFiredHandler;
+        AbilitySystem.OnWeatherChanged += OnWeatherChangedHandler;
 
         // Start the battle coroutine
         StartCoroutine(RunBattleCoroutine());
+    }
+
+    private void OnDestroy()
+    {
+        AbilitySystem.OnAbilityFired   -= OnAbilityFiredHandler;
+        AbilitySystem.OnWeatherChanged -= OnWeatherChangedHandler;
+    }
+
+    // Called by AbilitySystem whenever an ability resolves its targets.
+    // Spawns a VFX that travels from the ability user to each resolved target.
+    private void OnAbilityFiredHandler(PokemonInstance source, AbilityData ab, System.Collections.Generic.List<PokemonInstance> targets)
+    {
+        foreach (var target in targets)
+        {
+            if (target == null || target.currentHP <= 0) continue;
+            SpawnVFX(source, target, ab.vfxSheet, ab.vfxRow);
+        }
     }
 
     // -------------------------------------------------------
@@ -151,8 +172,22 @@ public class BattleSceneManager : MonoBehaviour
         Log("Battle start!");
         yield return WaitForPlayback();
 
-        AbilitySystem.FireBattleStart(playerTeam, enemyTeam);
-        AbilitySystem.FireBattleStart(enemyTeam, playerTeam);
+        // Fire on_battle_start abilities — same speed fires simultaneously.
+        // Only log and pause for abilities that actually did something.
+        foreach (var group in AbilitySystem.GetSpeedOrder("on_battle_start", playerTeam, enemyTeam)
+                     .GroupBy(e => e.Item1.speed).OrderByDescending(g => g.Key))
+        {
+            var fired = new List<PokemonInstance>();
+            foreach (var (p, own, opp) in group)
+                if (AbilitySystem.FireSingle("on_battle_start", p, own, opp))
+                    fired.Add(p);
+            if (fired.Count > 0)
+            {
+                Log(string.Join(" + ", fired.Select(p => $"{p.DisplayName}'s {p.baseData.ability.abilityName}")) + "!");
+                RefreshHP();
+                yield return WaitForPlayback();
+            }
+        }
 
         BattleResult result = BattleResult.Draw;
 
@@ -164,8 +199,22 @@ public class BattleSceneManager : MonoBehaviour
 
             if (playerFront == null || enemyFront == null) break;
 
-            AbilitySystem.FireRoundStart(playerTeam, enemyTeam);
-            AbilitySystem.FireRoundStart(enemyTeam, playerTeam);
+            // Fire on_round_start abilities — same speed fires simultaneously.
+            // Only log and pause for abilities that actually did something.
+            foreach (var group in AbilitySystem.GetSpeedOrder("on_round_start", playerTeam, enemyTeam)
+                         .GroupBy(e => e.Item1.speed).OrderByDescending(g => g.Key))
+            {
+                var fired = new List<PokemonInstance>();
+                foreach (var (p, own, opp) in group)
+                    if (AbilitySystem.FireSingle("on_round_start", p, own, opp))
+                        fired.Add(p);
+                if (fired.Count > 0)
+                {
+                    Log(string.Join(" + ", fired.Select(p => $"{p.DisplayName}'s {p.baseData.ability.abilityName}")) + "!");
+                    RefreshHP();
+                    yield return WaitForPlayback();
+                }
+            }
 
             // Determine attack order based on Speed (tie = random)
             bool playerGoesFirst;
@@ -181,7 +230,6 @@ public class BattleSceneManager : MonoBehaviour
             string attackLog = GetAttackLog(first, second);
             Log(attackLog);
             yield return PlayAttackAnim(first);
-            SpawnVFX(first, second, GetVFXSheet(first), GetVFXRow(first));
             DamageCalculator.Attack(first, second, playerGoesFirst ? playerTeam : enemyTeam, playerGoesFirst ? enemyTeam : playerTeam);
             RefreshHP();
             yield return WaitForPlayback();
@@ -195,7 +243,6 @@ public class BattleSceneManager : MonoBehaviour
                 string counterLog = GetAttackLog(second, first);
                 Log(counterLog);
                 yield return PlayAttackAnim(second);
-                SpawnVFX(second, first, GetVFXSheet(second), GetVFXRow(second));
                 DamageCalculator.Attack(second, first, playerGoesFirst ? enemyTeam : playerTeam, playerGoesFirst ? playerTeam : enemyTeam);
                 RefreshHP();
                 yield return WaitForPlayback();
@@ -203,6 +250,24 @@ public class BattleSceneManager : MonoBehaviour
                 if (first.currentHP <= 0)
                 {
                 }
+            }
+
+            // End-of-round weather tick (sandstorm chip damage)
+            var weatherTicks = AbilitySystem.GetWeatherTick(playerTeam, enemyTeam);
+            if (weatherTicks.Count > 0)
+            {
+                AudioManager.Instance?.PlaySound("Audio/Sounds/ability_damage");
+                foreach (var (p, dmg) in weatherTicks)
+                {
+                    SpawnVFX(p, p, "claw", 6);
+                    p.currentHP = Mathf.Max(0, p.currentHP - dmg);
+                    Debug.Log($"[Sandstorm] {p.DisplayName} takes {dmg} chip damage ({p.currentHP}/{p.maxHP})");
+                    var team = playerTeam.Contains(p) ? playerTeam : enemyTeam;
+                    AbilitySystem.FireAfterHit(p, team);
+                }
+                Log("The sandstorm rages!");
+                RefreshHP();
+                yield return WaitForPlayback();
             }
 
             // Remove fainted Pokemon
@@ -248,6 +313,9 @@ public class BattleSceneManager : MonoBehaviour
         resultText.color = color;
         resultText.gameObject.SetActive(true);
 
+        // Stop weather effects when combat ends
+        OnWeatherChangedHandler("");
+
         if (result == BattleResult.PlayerWin)
             AudioManager.Instance?.PlayMusic("Victory");
 
@@ -271,7 +339,11 @@ public class BattleSceneManager : MonoBehaviour
             defender.baseData.type1
         );
 
-        int damage = Mathf.CeilToInt(attacker.attack * multiplier);
+        float abilityMultiplier  = AbilitySystem.FireBeforeAttack(attacker, null, null);
+        float passiveMultiplier  = AbilitySystem.GetPassiveAttackMultiplier(attacker);
+        float weatherMultiplier  = AbilitySystem.GetWeatherDamageMultiplier(attacker);
+
+        int damage = Mathf.CeilToInt(attacker.attack * multiplier * abilityMultiplier * passiveMultiplier * weatherMultiplier);
 
         string effectiveness = multiplier switch
         {
@@ -362,7 +434,7 @@ public class BattleSceneManager : MonoBehaviour
 
     private void OnContinueClicked()
     {
-        AudioManager.Instance?.PlayMusic("Pokémon Center");
+        AudioManager.Instance?.PlayRandomMusic("Shop");
         GameManager.Instance.ReturnToShop();
     }
 
@@ -414,21 +486,11 @@ public class BattleSceneManager : MonoBehaviour
     // VFX
     // -------------------------------------------------------
 
-    // Returns the VFX sheet name for an attacker: ability sheet if set, otherwise type name.
-    private string GetVFXSheet(PokemonInstance attacker)
-    {
-        if (attacker.baseData.ability != null && !string.IsNullOrEmpty(attacker.baseData.ability.vfxSheet))
-            return attacker.baseData.ability.vfxSheet;
-        return attacker.baseData.type1.ToString().ToLower();
-    }
-
-    private int GetVFXRow(PokemonInstance attacker)
-        => attacker.baseData.ability?.vfxRow ?? 0;
-
     // Spawn a VFX animation that travels from the source slot to the target slot.
     // sheetName must match the PNG filename in Resources/VFX/Sprites/ (without extension).
-    // row: which color row to play (0 = first row). cols: frames per row (default 13).
-    public void SpawnVFX(PokemonInstance source, PokemonInstance target, string sheetName, int row = 0, int cols = 13)
+    // row: which color row to play (0 = first row).
+    // cols is calculated automatically from the texture width ÷ frame width (64 px).
+    public void SpawnVFX(PokemonInstance source, PokemonInstance target, string sheetName, int row = 0)
     {
         if (vfxPrefab == null) return;
 
@@ -444,18 +506,22 @@ public class BattleSceneManager : MonoBehaviour
             return;
         }
 
+        // Derive column count from the actual texture dimensions (frame width is always 64 px)
+        int frameWidth = Mathf.Max(1, (int)all[0].rect.width);
+        int cols       = all[0].texture.width / frameWidth;
+
         // Slice out the requested row
         int start = row * cols;
         int end   = Mathf.Min(start + cols, all.Length);
         if (start >= all.Length)
         {
-            Debug.LogWarning($"[VFX] Row {row} out of range for sheet '{sheetName}' ({all.Length} frames)");
+            Debug.LogWarning($"[VFX] Row {row} out of range for sheet '{sheetName}' ({all.Length} frames, {cols} cols)");
             return;
         }
         Sprite[] frames = all[start..end];
 
         // Instantiate at the source slot, as a child of the Canvas so it renders in UI space
-        var canvas = GetComponentInParent<Canvas>() ?? FindFirstObjectByType<Canvas>();
+        var canvas = GetComponentInParent<Canvas>() ?? FindAnyObjectByType<Canvas>();
         var go     = Instantiate(vfxPrefab, canvas.transform);
         go.transform.position = sourceSlot.transform.position;
 
@@ -465,5 +531,74 @@ public class BattleSceneManager : MonoBehaviour
         go.transform.DOMove(targetSlot.transform.position, travelTime).SetEase(Ease.InQuad);
 
         go.GetComponent<VFXPlayer>().Play(frames, vfxFps);
+    }
+
+    // -------------------------------------------------------
+    // WEATHER BACKGROUND
+    // -------------------------------------------------------
+
+    private Coroutine _weatherCoroutine;
+    private GameObject _weatherOverlay;
+
+    private void OnWeatherChangedHandler(string weather)
+    {
+        // Stop any running weather loop
+        if (_weatherCoroutine != null)
+        {
+            StopCoroutine(_weatherCoroutine);
+            _weatherCoroutine = null;
+        }
+        if (_weatherOverlay != null)
+        {
+            Destroy(_weatherOverlay);
+            _weatherOverlay = null;
+        }
+
+        AudioManager.Instance?.PlayWeatherSound(weather); // plays looping ambient; stops if weather == ""
+
+        if (string.IsNullOrEmpty(weather)) return;
+
+        // Load the sprite sheet for this weather (e.g. "rain" → Resources/VFX/Sprites/rain.png)
+        Sprite[] frames = Resources.LoadAll<Sprite>("VFX/Sprites/" + weather);
+
+        var canvas = GetComponentInParent<Canvas>() ?? FindAnyObjectByType<Canvas>();
+
+        if (frames == null || frames.Length == 0)
+        {
+            // No sprite sheet — use procedural particle effect instead
+            _weatherOverlay = WeatherParticleController.Create(canvas, weather).gameObject;
+            return;
+        }
+
+        // Create a full-canvas overlay rendered on top of the battle field
+        _weatherOverlay = new GameObject("WeatherOverlay_" + weather);
+        _weatherOverlay.transform.SetParent(canvas.transform, false);
+        _weatherOverlay.transform.SetAsLastSibling(); // render on top
+
+        var rt = _weatherOverlay.AddComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.offsetMin = Vector2.zero;
+        rt.offsetMax = Vector2.zero;
+
+        var img = _weatherOverlay.AddComponent<Image>();
+        img.color = new Color(1f, 1f, 1f, 0.35f); // semi-transparent overlay
+        img.raycastTarget = false;                  // don't block button clicks
+        img.type = Image.Type.Tiled;
+        img.sprite = frames[0];
+
+        _weatherCoroutine = StartCoroutine(LoopWeatherAnimation(img, frames));
+    }
+
+    private IEnumerator LoopWeatherAnimation(Image img, Sprite[] frames)
+    {
+        float interval = 1f / vfxFps;
+        int i = 0;
+        while (true)
+        {
+            img.sprite = frames[i];
+            i = (i + 1) % frames.Length;
+            yield return new WaitForSeconds(interval);
+        }
     }
 }

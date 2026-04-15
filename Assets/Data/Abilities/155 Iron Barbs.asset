@@ -23,5 +23,6 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: 'On Hit: Deals 20 damage back to attacker.'
-  vfxSheet: blast
+  vfxSheet: 
   vfxRow: 0
+  sound: 

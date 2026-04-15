@@ -17,7 +17,7 @@ MonoBehaviour:
   attack: 37
   hp: 60
   type1: Fire
-  speed: 35
+  speed: 45
   tier: 2
   preEvolutionId: 255
   ability: {fileID: 11400000, guid: 7c0a08b4290d55f41997cab329f509a0, type: 2}

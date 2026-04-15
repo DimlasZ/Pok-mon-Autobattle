@@ -17,10 +17,11 @@ public class GameManager : MonoBehaviour
     public int CurrentRound { get; private set; } = 1;
 
     [Header("Player Health")]
-    public int playerMaxHP = 3;
+    public int playerMaxHP = 6;
     public int PlayerHP { get; private set; }
 
     [Header("Scene Names")]
+    public string mainMenuSceneName = "MainMenuScene";
     [Tooltip("Name of the shop/buy phase scene")]
     public string shopSceneName = "SampleScene";
     [Tooltip("Name of the battle scene — swap this later for tier-based arenas")]
@@ -41,7 +42,9 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         PlayerHP = playerMaxHP;
-        EnterBuyPhase();
+        // Skip buy phase when starting from the main menu — StartGame() handles that transition.
+        if (SceneManager.GetActiveScene().name != mainMenuSceneName)
+            EnterBuyPhase();
     }
 
     // -------------------------------------------------------
@@ -57,6 +60,16 @@ public class GameManager : MonoBehaviour
         // ShopManager persists, so this works even when called before scene loads
         if (ShopManager.Instance != null)
             ShopManager.Instance.StartRound();
+    }
+
+    // Called by MainMenuController's Play Now button — starts the game from scratch.
+    public void StartGame()
+    {
+        PlayerHP   = playerMaxHP;
+        PlayerWins = 0;
+        CurrentRound = 1;
+        EnterBuyPhase();
+        SceneManager.LoadScene(shopSceneName);
     }
 
     // Called when player clicks START BATTLE

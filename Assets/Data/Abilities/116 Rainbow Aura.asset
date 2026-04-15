@@ -17,11 +17,12 @@ MonoBehaviour:
   trigger: on_battle_start
   target: self
   count: 0
-  effect: boost_all_stats
+  effect: boost_all_stats_per_ally_type
   value: 1.15
   condition: 
   chance: 0
   custom: 
   description: 'On Battle Start: Gains 15% to all stats per unique type on your team.'
-  vfxSheet: blast
-  vfxRow: 0
+  vfxSheet: buff8
+  vfxRow: 5
+  sound: stats_raised

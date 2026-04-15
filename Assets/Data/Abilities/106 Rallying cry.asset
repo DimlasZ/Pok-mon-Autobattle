@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: 106 Rallying cry
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityID: 106
-  abilityName: Rallying cry
+  abilityName: Rallying Cry
   trigger: on_battle_start
   target: ally_random
   count: 0
   effect: boost_speed_and_attack
-  value: 1.05
+  value: 1.1
   condition: 
   chance: 0
   custom: 
   description: 'On Battle Start: A random ally increases its speed and attack by
-    5%.'
-  vfxSheet: blast
-  vfxRow: 0
+    10%.'
+  vfxSheet: buff8
+  vfxRow: 5
+  sound: stats_raised

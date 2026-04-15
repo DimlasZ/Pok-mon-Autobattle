@@ -23,5 +23,6 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: Cannot be damaged by ability effects.
-  vfxSheet: blast
-  vfxRow: 1
+  vfxSheet: 
+  vfxRow: 0
+  sound: 

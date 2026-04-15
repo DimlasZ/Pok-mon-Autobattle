@@ -96,7 +96,12 @@ public class BattleManager : MonoBehaviour
     {
         bool playerGoesFirst;
 
-        if (playerFront.speed != enemyFront.speed)
+        bool playerPriority = AbilitySystem.HasPriorityMove(playerFront);
+        bool enemyPriority  = AbilitySystem.HasPriorityMove(enemyFront);
+
+        if (playerPriority != enemyPriority)
+            playerGoesFirst = playerPriority;
+        else if (playerFront.speed != enemyFront.speed)
             playerGoesFirst = playerFront.speed > enemyFront.speed;
         else
             playerGoesFirst = Random.value > 0.5f;

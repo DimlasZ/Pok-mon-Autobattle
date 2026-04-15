@@ -35,6 +35,7 @@ public class UILayoutGenerator
 
         // --- Destroy existing panels so re-running doesn't stack duplicates ---
         string[] managedNames = { "TopBar", "ShopPanel", "BattlePanel", "BenchPanel", "ActionPanel", "StartBattleButton", "Tooltip", "DragGhost", "DragDropManager" };
+        // Note: SettingsOverlayBtn and PokedexOverlayBtn are children of TopBar, so they're destroyed with it.
         foreach (string n in managedNames)
         {
             // Destroy ALL children with this name (handles accidental duplicates)
@@ -52,15 +53,27 @@ public class UILayoutGenerator
         var pokedollarText = CreateText(topBar.transform, "PokedollarText", "P$5",       36, new Vector2(0, 0));
         var hpText         = CreateText(topBar.transform, "HPText",         "HP: 3/3",   28, new Vector2(700, 0));
 
+        // Small overlay buttons — top-right of TopBar. Icons assigned later.
+        var pokedexOverlayBtn  = CreateButton(topBar.transform, "PokedexOverlayBtn",  "DEX", new Vector2(58, 50), new Vector2(860, 0));
+        var settingsOverlayBtn = CreateButton(topBar.transform, "SettingsOverlayBtn", "SET", new Vector2(58, 50), new Vector2(928, 0));
+        SetButtonColor(pokedexOverlayBtn,  new Color(0.18f, 0.28f, 0.58f));
+        SetButtonColor(settingsOverlayBtn, new Color(0.25f, 0.25f, 0.35f));
+        // Scale button label text down to fit
+        pokedexOverlayBtn.GetComponentInChildren<TextMeshProUGUI>().fontSize  = 16;
+        settingsOverlayBtn.GetComponentInChildren<TextMeshProUGUI>().fontSize = 16;
+        // Wire at runtime via GlobalOverlayToggle — no direct scene reference needed
+        pokedexOverlayBtn.gameObject.AddComponent<GlobalOverlayToggle>().target  = GlobalOverlayToggle.Target.Pokedex;
+        settingsOverlayBtn.gameObject.AddComponent<GlobalOverlayToggle>().target = GlobalOverlayToggle.Target.Settings;
+
         // --- Shop Panel ---
         var shopPanel = CreatePanel(root, "ShopPanel", new Vector2(1920, 220), new Vector2(0, 265));
         SetColor(shopPanel, new Color(0.1f, 0.1f, 0.25f, 0.95f));
         CreateLabel(shopPanel.transform, "ShopLabel", "SHOP", new Vector2(-820, 75));
 
-        // Shop row: max 5 slots (UIManager shows/hides based on round)
-        var shopRow = CreatePanel(shopPanel.transform, "ShopSlotsRow", new Vector2(1050, 190), new Vector2(-200, -5));
+        // Shop row: max 6 slots — same width/position as battle row so columns align
+        var shopRow = CreatePanel(shopPanel.transform, "ShopSlotsRow", new Vector2(1250, 190), new Vector2(-50, -5));
         SetColor(shopRow, Color.clear);
-        AddHorizontalLayout(shopRow, 10);
+        AddHorizontalLayout(shopRow, 10, TextAnchor.MiddleLeft);
         var shopSlots = new PokemonSlotUI[ShopManager.MaxShopSize];
         for (int i = 0; i < ShopManager.MaxShopSize; i++)
             shopSlots[i] = UIGeneratorHelpers.CreateSlot(shopRow.transform, $"ShopSlot_{i}", new Vector2(200, 185));
@@ -73,9 +86,9 @@ public class UILayoutGenerator
         CreateLabel(battlePanel.transform, "BattleLabel", "BATTLE TEAM", new Vector2(-820, 75));
 
         // Battle row: max 6 slots (1x6 horizontal, UIManager shows/hides based on round)
-        var battleRow = CreatePanel(battlePanel.transform, "BattleSlotsRow", new Vector2(1260, 190), new Vector2(-50, -5));
+        var battleRow = CreatePanel(battlePanel.transform, "BattleSlotsRow", new Vector2(1250, 190), new Vector2(-50, -5));
         SetColor(battleRow, Color.clear);
-        AddHorizontalLayout(battleRow, 10);
+        AddHorizontalLayout(battleRow, 10, TextAnchor.MiddleLeft);
         var battleSlots = new PokemonSlotUI[ShopManager.MaxBattleSize];
         for (int i = 0; i < ShopManager.MaxBattleSize; i++)
             battleSlots[i] = UIGeneratorHelpers.CreateSlot(battleRow.transform, $"BattleSlot_{i}", new Vector2(200, 185));
@@ -85,12 +98,12 @@ public class UILayoutGenerator
         SetColor(benchPanel, new Color(0.08f, 0.18f, 0.08f, 0.95f));
         CreateLabel(benchPanel.transform, "BenchLabel", "BENCH", new Vector2(-820, 75));
 
-        // Bench: always 1 slot
-        var benchRow = CreatePanel(benchPanel.transform, "BenchSlotsRow", new Vector2(210, 190), new Vector2(-350, -5));
+        // Bench: up to 4 slots — same width/position as battle row so columns align
+        var benchRow = CreatePanel(benchPanel.transform, "BenchSlotsRow", new Vector2(1250, 190), new Vector2(-50, -5));
         SetColor(benchRow, Color.clear);
-        AddHorizontalLayout(benchRow, 10);
-        var benchSlots = new PokemonSlotUI[ShopManager.BenchSize];
-        for (int i = 0; i < ShopManager.BenchSize; i++)
+        AddHorizontalLayout(benchRow, 10, TextAnchor.MiddleLeft);
+        var benchSlots = new PokemonSlotUI[ShopManager.MaxBenchSize];
+        for (int i = 0; i < ShopManager.MaxBenchSize; i++)
             benchSlots[i] = UIGeneratorHelpers.CreateSlot(benchRow.transform, $"BenchSlot_{i}", new Vector2(200, 185));
 
         // --- Action Buttons Panel ---
@@ -297,11 +310,11 @@ public class UILayoutGenerator
         if (image != null) image.color = color;
     }
 
-    static void AddHorizontalLayout(GameObject go, float spacing)
+    static void AddHorizontalLayout(GameObject go, float spacing, TextAnchor alignment = TextAnchor.MiddleLeft)
     {
         var layout          = go.AddComponent<HorizontalLayoutGroup>();
         layout.spacing      = spacing;
-        layout.childAlignment         = TextAnchor.MiddleCenter;
+        layout.childAlignment         = alignment;
         layout.childForceExpandWidth  = false;
         layout.childForceExpandHeight = false;
         layout.childControlWidth      = false;

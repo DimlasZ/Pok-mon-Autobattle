@@ -18,10 +18,11 @@ MonoBehaviour:
   target: self
   count: 0
   effect: heal_flat
-  value: 8
-  condition: 
+  value: 7
+  condition: hp_below_100
   chance: 0
   custom: 
-  description: 'After Attack: Recovers 8 HP.'
-  vfxSheet: blast
-  vfxRow: 1
+  description: 'After Attack: Recovers 7 HP.'
+  vfxSheet: buff7
+  vfxRow: 3
+  sound: heal

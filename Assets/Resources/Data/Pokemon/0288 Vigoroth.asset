@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0288 Vigoroth
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 288
+  pokemonName: Vigoroth
+  attack: 40
+  hp: 77
+  type1: Normal
+  speed: 20
+  tier: 3
+  preEvolutionId: 287
+  ability: {fileID: 11400000, guid: f9b4b7bd38524bd4d87dd3b6bb72fe93, type: 2}
+  sprite: {fileID: 966941575272249932, guid: ed67516258526264781f767e2355d4cc, type: 3}

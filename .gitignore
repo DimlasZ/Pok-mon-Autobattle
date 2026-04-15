@@ -23,8 +23,8 @@
 *.opendb
 *.VC.db
 
-# Auto-generated meta files (only if assets exist)
-# *.meta  <- keep these, Unity needs them for asset tracking
+# Auto-generated meta files
+*.meta
 
 # Large binary assets — not tracked in git (add manually on each machine)
 Assets/Sprites/

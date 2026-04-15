@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityID: 107
   abilityName: Vital Strike
-  trigger: on_heal
+  trigger: on_ally_heal
   target: enemy_random
   count: 0
   effect: deal_damage
-  value: 0.5
+  value: 1
   condition: 
   chance: 0
   custom: 
-  description: 'On Heal: Deals 50% of Attack as damage to a random enemy.'
-  vfxSheet: blast
-  vfxRow: 0
+  description: 'On Ally Heal: Deals 100% of Attack as damage to a random enemy.'
+  vfxSheet: thunder
+  vfxRow: 5
+  sound: ability_damage

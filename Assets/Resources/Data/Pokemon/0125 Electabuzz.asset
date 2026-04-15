@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0125 Electabuzz
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 125
+  pokemonName: Electabuzz
+  attack: 53
+  hp: 68
+  type1: Electric
+  speed: 88
+  tier: 4
+  preEvolutionId: 239
+  ability: {fileID: 11400000, guid: ca5e78ea58048354587c42e952b33ba4, type: 2}
+  sprite: {fileID: 672783555438849485, guid: 22e565406a4430a4eb84375363ecf367, type: 3}
