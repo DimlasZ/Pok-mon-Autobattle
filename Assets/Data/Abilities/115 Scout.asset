@@ -18,11 +18,11 @@ MonoBehaviour:
   target: self
   count: 0
   effect: boost_all_stats_per_enemy_type
-  value: 1.1
+  value: 1.08
   condition: 
   chance: 0
   custom: 
-  description: 'On Battle Start: Gains 10% to all stats per unique type on the enemy
+  description: 'On Battle Start: Gains 8% to all stats per unique type on the enemy
     team.'
   vfxSheet: buff8
   vfxRow: 5

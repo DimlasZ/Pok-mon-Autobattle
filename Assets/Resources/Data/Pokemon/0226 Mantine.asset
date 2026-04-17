@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 226
   pokemonName: Mantine
-  attack: 38
-  hp: 73
+  attack: 35
+  hp: 58
   type1: Flying
-  speed: 46
+  speed: 37
   tier: 3
   preEvolutionId: 0
   ability: {fileID: 11400000, guid: a154acbb68e87e1418275a7ff1ee0b9d, type: 2}

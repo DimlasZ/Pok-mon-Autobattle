@@ -15,10 +15,10 @@ MonoBehaviour:
   id: 191
   pokemonName: Sunkern
   attack: 28
-  hp: 50
+  hp: 51
   type1: Grass
-  speed: 24
+  speed: 34
   tier: 2
   preEvolutionId: 0
-  ability: {fileID: 11400000, guid: eadaaa3b3829f12469591524b825f5e7, type: 2}
+  ability: {fileID: 11400000, guid: cafd15f857f37e64fa5038842d71a8d2, type: 2}
   sprite: {fileID: 8014240616972179008, guid: 003600b55c609d24fb186d9209602fd0, type: 3}

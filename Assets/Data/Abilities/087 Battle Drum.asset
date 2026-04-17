@@ -18,11 +18,11 @@ MonoBehaviour:
   target: ally_random
   count: 2
   effect: boost_speed_and_attack
-  value: 1.2
+  value: 1.1
   condition: 
   chance: 0
   custom: 
-  description: 'On Hit: Increases Speed and Attack of two random allies by 20%.'
+  description: 'On Hit: Increases Speed and Attack of two random allies by 10%.'
   vfxSheet: buff8
   vfxRow: 5
   sound: stats_raised

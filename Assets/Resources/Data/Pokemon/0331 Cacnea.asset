@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 331
   pokemonName: Cacnea
   attack: 38
-  hp: 53
+  hp: 47
   type1: Grass
   speed: 25
   tier: 2

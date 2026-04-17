@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0082 Magneton
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 82
+  pokemonName: Magneton
+  attack: 92
+  hp: 59
+  type1: Electric
+  speed: 58
+  tier: 5
+  preEvolutionId: 81
+  ability: {fileID: 11400000, guid: 7fbd9e7917bbc7d4ba0d49f671bab898, type: 2}
+  sprite: {fileID: -7650161172141944494, guid: 7bb8034a5fd34884b9b3296e026930fe, type: 3}

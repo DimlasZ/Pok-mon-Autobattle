@@ -18,7 +18,7 @@ MonoBehaviour:
   target: self
   count: 0
   effect: damage_reduction
-  value: 0.3
+  value: 0.7
   condition: full_hp
   chance: 0
   custom: 

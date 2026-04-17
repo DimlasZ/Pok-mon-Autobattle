@@ -17,7 +17,7 @@ MonoBehaviour:
   attack: 33
   hp: 66
   type1: Grass
-  speed: 32
+  speed: 38
   tier: 3
   preEvolutionId: 0
   ability: {fileID: 11400000, guid: 6729171a335650640961823b5595c95a, type: 2}

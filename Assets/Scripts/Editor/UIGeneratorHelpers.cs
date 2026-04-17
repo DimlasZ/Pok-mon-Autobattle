@@ -133,7 +133,7 @@ public static class UIGeneratorHelpers
         var typeIconImg  = typeIconGO.AddComponent<Image>();
         typeIconGO.transform.SetParent(tooltipGO.transform, false);
         typeIconRect.anchoredPosition = new Vector2(-168f, 30f);
-        typeIconRect.sizeDelta        = new Vector2(24f, 24f);
+        typeIconRect.sizeDelta        = new Vector2(15f, 15f);
         typeIconImg.preserveAspect    = true;
         typeIconImg.color             = Color.white;
         tooltipUI.typeIcon            = typeIconImg;
@@ -170,7 +170,7 @@ public static class UIGeneratorHelpers
         evoGO.SetActive(false);
         tooltipUI.evoImage       = evoImg;
 
-        // Ability name + description combined (rich text: <b>Name</b>\nDescription)
+        // Ability name + description combined (rich text: <b>Name</b> - Description)
         tooltipUI.abilityText = CreateTMPText(tooltipGO.transform, "AbilityText", "<b>Ability</b>\nDescription", 20,
             new Vector2(0, -10), new Vector2(380, 35));
         tooltipUI.abilityText.alignment        = TextAlignmentOptions.TopLeft;

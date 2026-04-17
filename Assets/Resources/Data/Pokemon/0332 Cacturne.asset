@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 332
   pokemonName: Cacturne
-  attack: 72
+  attack: 58
   hp: 76
   type1: Grass
   speed: 55

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 2
   pokemonName: Ivysaur
-  attack: 45
+  attack: 42
   hp: 66
   type1: Grass
-  speed: 48
+  speed: 42
   tier: 3
   preEvolutionId: 1
   ability: {fileID: 11400000, guid: 6d10647b5cf298e44bd8790d4279d309, type: 2}

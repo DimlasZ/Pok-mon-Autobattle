@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 113
   pokemonName: Chansey
-  attack: 18
+  attack: 10
   hp: 153
   type1: Normal
   speed: 40

@@ -18,11 +18,11 @@ MonoBehaviour:
   target: enemy_all
   count: 0
   effect: deal_damage_flat
-  value: 10
+  value: 3
   condition: 
   chance: 0
   custom: 
-  description: Deals 10 damage to all enemies whenever an ally gets healed.
+  description: Deals 3 damage to all enemies whenever an ally gets healed.
   vfxSheet: thunder
   vfxRow: 5
   sound: ability_damage

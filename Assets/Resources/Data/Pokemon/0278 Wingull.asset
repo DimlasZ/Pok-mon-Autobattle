@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 278
   pokemonName: Wingull
-  attack: 19
+  attack: 25
   hp: 42
   type1: Flying
   speed: 49

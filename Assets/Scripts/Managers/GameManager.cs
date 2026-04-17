@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public GamePhase CurrentPhase { get; private set; }
 
     [Header("Win Settings")]
-    public int winsToVictory = 10;
+    public int winsToVictory = 13;
     public int PlayerWins { get; private set; } = 0;
     public int CurrentRound { get; private set; } = 1;
 
@@ -83,27 +83,37 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < size; i++)
             PlayerBattleTeam[i] = row[size - 1 - i];
 
+        int tier = ShopManager.Instance.GetTierForRound(CurrentRound);
+        PlayerTeamSaver.SaveTeam(CurrentRound, tier, PlayerBattleTeam);
+
         CurrentPhase = GamePhase.Battle;
-        SceneManager.LoadScene(battleSceneName);
+        if (SceneTransitionManager.Instance != null)
+            SceneTransitionManager.Instance.BattleIntroToScene(battleSceneName);
+        else
+            SceneManager.LoadScene(battleSceneName);
     }
 
     // Called by BattleSceneManager when the battle finishes
     public void OnBattleComplete(BattleResult result)
     {
-        bool playerWon = result == BattleResult.PlayerWin;
-        CurrentPhase   = GamePhase.Results;
+        CurrentPhase = GamePhase.Results;
 
-        if (playerWon)
+        if (result == BattleResult.PlayerWin)
             PlayerWins++;
-        else
+        else if (result == BattleResult.PlayerLoss)
             TakeDamage(1);
 
-        Debug.Log($"Round {CurrentRound} — {(playerWon ? $"Victory! ({PlayerWins}/{winsToVictory} wins)" : "Defeat")}");
+        string resultLabel = result == BattleResult.PlayerWin ? $"Victory! ({PlayerWins}/{winsToVictory} wins)" : result == BattleResult.Draw ? "Draw" : "Defeat";
+        Debug.Log($"Round {CurrentRound} — {resultLabel}");
+
+        GlobalOverlayManager.Instance?.progressOverlay?.Show(result);
     }
 
     // Called when player clicks Continue after the battle
     public void ReturnToShop()
     {
+        GlobalOverlayManager.Instance?.progressOverlay?.Hide();
+
         if (PlayerHP <= 0)               { EnterGameOver(); return; }
         if (PlayerWins >= winsToVictory) { EnterVictory();  return; }
 
@@ -113,7 +123,10 @@ public class GameManager : MonoBehaviour
         // UIManager doesn't exist yet (it lives in the shop scene), so RefreshAll() is skipped.
         // UIManager.Start() calls RefreshAll() once the shop scene finishes loading.
         EnterBuyPhase();
-        SceneManager.LoadScene(shopSceneName);
+        if (SceneTransitionManager.Instance != null)
+            SceneTransitionManager.Instance.FadeToScene(shopSceneName);
+        else
+            SceneManager.LoadScene(shopSceneName);
     }
 
     // -------------------------------------------------------

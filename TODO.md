@@ -60,37 +60,21 @@
 - [x] Sample teams need to better
 - [x] Flatdamage battle calc, is wrong
 - [x] fix the damage calc sccipt
-- [ ] on hit effects: poke needs to be hit with atleast one damage (no ground vs fyling stacking)
+
 - [ ] Entry Hazard are not stackable.
 - [x] weather effects visual and with buffs / debuffs
 - [x] sound effects
 
 
-## Ability System – Known Issues
-
-### Code fixes needed
-- [ ] Friend Guard (ID 37, 76): `GetAllyDamageReduction` checks for `boost_defense_allies` but CSV uses `damage_reduction` with `target=ally_all` — ally damage reduction never triggers
-- [ ] Flower Gift (ID 82): `GetPassiveAttackMultiplier` only handles `target=self` — passive ally attack boost not applied
-- [ ] Levitate (ID 11): `IsImmuneToGround` checks `effect == "immune_to_ground"` but CSV has `effect=immune` — Ground immunity never fires
-- [ ] Cloud Nine (ID 4): `negate_weather` effect not handled anywhere in code
-- [ ] Emergency Exit (ID 29): `move_to_last` effect not handled anywhere in code
-- [ ] Mold Breaker (ID 33): `ignore_abilities` effect not handled anywhere in code
-- [ ] Aqua Jet (ID 44): `priority` effect not handled anywhere in code
-
-### Excel/CSV fixes needed
-- [ ] Levitate (ID 11): `Ground` is in the Chance column — move to Condition column and set effect to `immune_to_ground`
-- [ ] Water Sport (ID 53): Missing `custom=water_sport` — currently reduces ALL damage 50% instead of Fire only
-- [ ] Sand Veil (ID 83): Missing `condition=weather_sandstorm` — reduces damage 25% always, not just in sandstorm
-- [ ] Technician (ID 21): Effect still `damage_multiplier` — either remove row or replace with correct effect
-- [ ] Bone Club (ID 64): Effect is `overflow_damage` but code expects `overflow_damage_next`
-
+## Ability Issues
+- [x] on hit effects: poke needs to be hit with atleast one damage (no ground vs fyling stacking)
 
 ## Results Screen
 
-- [ ] Show win/loss/draw
-- [ ] Show damage taken
-- [ ] Show remaining team
-- [ ] Continue button back to Buy Phase
+- [x] Show win/loss/draw
+- [x] Show damage taken
+- [x] Show remaining team
+- [x] Continue button back to Buy Phase
 
 
 ## Game Loop
@@ -105,7 +89,7 @@
 ## UI & Polish
 
 - [x] UIManager script
-- [ ] Screen transitions (fade in/out)
+- [x] Screen transitions (fade in/out)
 - [x] Round indicator (Round 3 of 8)
 - [x] Player HP display
 - [x] Pause/settings menu
@@ -113,11 +97,24 @@
 - [x] Background music per phase
 - [x] Main Menu screen
 - [x] type icon
-- [ ] pokedollar icon
-- [ ] Overlay screen after battle.
+- [x] pokedollar icon
+- [x] Overlay screen after battle.
 - [ ] Music needs to fade out, after win for exmaple.
-- [ ] stat green and red , need to be a bit darker
-- [ ] Polish UI - Tooltip, bigger and on the right side
+- [x] stat green and red , need to be a bit darker
+- [x] Polish UI - Tooltip, bigger and on the right side
+- [x] eve all evolutions shown in the tooltip of the pokedex same for bloom
+- [ ] tool tip for Wearther effects
+- [ ] better loss sound
+- [ ] all poke looking to the right
+- [ ] sandstorm damage another sound more like swoosh
+- [ ] shop background
+- [ ] Battle background
+- [ ] back to mainmenu button. to left, with confirmation
+- [ ] warning if continue with money in the bank.
+- [ ] show which Tier we are
+- [ ] show which unlocked this round
+- [ ] Desktop Icon
+
 
 
 
@@ -133,6 +130,8 @@
 ## Things that might change, i need to think about it
 
 - [ ] Start with more HP as a player and lose more life based on surviving enmey pokemon.
+- [ ] max 1 legendary / legendary extremly rare in the shop
+- [ ] 6 bench slots as well.
 - [x] How to evolve a pokemon, 3x1 = level 2 or buy the level 2 pokemon?
 - [x] After how many rounds there is a draw? prolly non, no draw should be possible. Careful healing outscales damage maybe.
 - [x] Make Bench smaller, to 3 Poke? otherwise to many pokeslots
@@ -141,24 +140,40 @@
 - [x] fix HP and attack
 - [x] better enemy poketeams
 - [x] only one type, fix logic and excel
-- [ ] 8 wins and then top 4 + champ?
-- [ ] weighted tier teams for enemy or database teams
+- [x] 8 wins and then top 4 + champ?
+- [x] weighted tier teams for enemy or database teams / LLM teams / harder enemy teams
+- [x] always have a team size of 6.
 - [ ] Coop Multiplayer? May need a server, or at least a relay. 
 
 ## Continue/ bugs 
 
-pokedex ui reihenfolge hp attack speed tier überlgen
-pokedex serch funciton
-pokdex type and tier serach
+- [ ] leech doesnt heal after attack. check if true for leech seed, should be fixed
+- [ ] weather after each other viusal and stats bug to high attack stays, not sure need checking
+- [ ] tool tip for Wearther effects
+- [ ] new ability for maunzi
+- [ ] batonpass fix
+- [ ] run sim again take top 5000 as input or top 3000. or weighted.
 
-only 1 of each entry hazzard. 
+investigate late teams, loading strange pokemon, tier 1 etc. 
 
-eve all evolutions shown in the tooltip
-same for bloom
-
-batonpass fix
-
-harder enemy teams
+on hit effects dont trigger on death
 
 
-gitignore meta files and delete meta files on github.
+
+ 
+HP remove bvattlescreen top bar
+cubone ability bugged, trigger on hit not on conditon
+glurak worng dexcption , word missing
+draw shoudnt cost a life
+
+
+
+claude.md file learning
+
+
+
+
+
+
+
+

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40d5fe0272ba41940a14853929658c3e, type: 3}
-  m_Name: 106 Rallying cry
+  m_Name: 106 Rallying Cry
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityID: 106
   abilityName: Rallying Cry

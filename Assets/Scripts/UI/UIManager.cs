@@ -26,6 +26,12 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI roundText;
     public TextMeshProUGUI playerHPText;
 
+    [Header("Progress Icons (TopBar)")]
+    public Image[] badgeImages;   // 8 gym badges — grey until won
+    public Image[] starImages;    // 4 Elite 4 stars — grey until won
+    public Image   champImage;    // Champion — grey until won
+    public Image[] heartImages;   // Player HP — white by default, grey when lost
+
     [Header("Action Buttons")]
     public Button releaseButton;
     public Button rerollButton;
@@ -104,8 +110,11 @@ public class UIManager : MonoBehaviour
                 bool locked = pokemon.baseData.preEvolutionId > 0
                               && !ShopManager.Instance.PlayerOwnsPreEvolution(pokemon.baseData.preEvolutionId);
                 bool evoAvailable = pokemon.baseData.preEvolutionId > 0 && !locked;
+                bool duplicate = pokemon.baseData.preEvolutionId == 0
+                              && ShopManager.Instance.IsAlreadyOnTeam(pokemon.baseData.id);
                 shopSlots[i].SetLocked(locked);
                 shopSlots[i].SetEvolutionAvailable(evoAvailable);
+                shopSlots[i].SetDuplicate(duplicate);
                 shopSlots[i].SetHighlight(isSelected);
             }
             else
@@ -163,11 +172,36 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private static readonly Color IconLocked   = new Color(0.2f, 0.2f, 0.2f, 0.7f);
+    private static readonly Color IconUnlocked = Color.white;
+
     private void RefreshInfoDisplay()
     {
-        pokedollarText.text = $"P${ShopManager.Instance.CurrentPokedollars}";
+        pokedollarText.text = $"{ShopManager.Instance.CurrentPokedollars}";
         roundText.text      = $"Wins {GameManager.Instance.PlayerWins}/{GameManager.Instance.winsToVictory}";
         playerHPText.text   = $"HP: {GameManager.Instance.PlayerHP}/{GameManager.Instance.playerMaxHP}";
+        RefreshProgressIcons();
+    }
+
+    private void RefreshProgressIcons()
+    {
+        int wins = GameManager.Instance.PlayerWins;
+        int hp   = GameManager.Instance.PlayerHP;
+
+        for (int i = 0; i < badgeImages.Length; i++)
+            if (badgeImages[i] != null)
+                badgeImages[i].color = wins > i ? IconUnlocked : IconLocked;
+
+        for (int i = 0; i < starImages.Length; i++)
+            if (starImages[i] != null)
+                starImages[i].color = wins > 8 + i ? IconUnlocked : IconLocked;
+
+        if (champImage != null)
+            champImage.color = wins >= GameManager.Instance.winsToVictory ? IconUnlocked : IconLocked;
+
+        for (int i = 0; i < heartImages.Length; i++)
+            if (heartImages[i] != null)
+                heartImages[i].color = i < hp ? IconUnlocked : IconLocked;
     }
 
     public void RefreshActionButtons()

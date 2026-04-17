@@ -18,11 +18,11 @@ MonoBehaviour:
   target: ally_all
   count: 0
   effect: heal
-  value: 0.1
+  value: 0.2
   condition: weather_sun
   chance: 0
   custom: 
-  description: 'On Round Start: Heals all allies by  10% of their max HP during sunlight.'
+  description: 'On Round Start: Heals all allies by  20% of their max HP during sunlight.'
   vfxSheet: 
   vfxRow: 0
   sound: 

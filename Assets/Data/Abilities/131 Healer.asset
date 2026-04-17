@@ -15,14 +15,14 @@ MonoBehaviour:
   abilityID: 131
   abilityName: Healer
   trigger: passive
-  target: self
+  target: ally_all
   count: 0
   effect: boost_healing
-  value: 1.5
+  value: 2
   condition: 
   chance: 0
   custom: 
-  description: "All healing effects on this Pok\xE9mon are boosted by 50%."
-  vfxSheet: buff8
+  description: "All healing effects on this Pok\xE9mon are boosted by 100%."
+  vfxSheet: 
   vfxRow: 0
   sound: 

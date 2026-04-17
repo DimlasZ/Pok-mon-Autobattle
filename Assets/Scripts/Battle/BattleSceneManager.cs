@@ -33,16 +33,10 @@ public class BattleSceneManager : MonoBehaviour
     [Header("Battle Log")]
     public TextMeshProUGUI battleLogText; // Shows what just happened
 
-    [Header("Result Banner")]
-    public TextMeshProUGUI resultText;    // Shows WIN / LOSS / DRAW at the end
-
     [Header("Playback Buttons")]
     public Button stepButton;
     public Button autoButton;
     public Button speedUpButton;
-
-    [Header("Continue Button")]
-    public Button continueButton; // Hidden until battle is over
 
     // --- Playback ---
     public enum PlaybackMode { Step, Auto, SpeedUp }
@@ -68,11 +62,6 @@ public class BattleSceneManager : MonoBehaviour
         stepButton.onClick.AddListener(OnStepClicked);
         autoButton.onClick.AddListener(OnAutoClicked);
         speedUpButton.onClick.AddListener(OnSpeedUpClicked);
-        continueButton.onClick.AddListener(OnContinueClicked);
-
-        // Hide Continue and result until the battle ends
-        continueButton.gameObject.SetActive(false);
-        resultText.gameObject.SetActive(false);
 
         // Set default mode
         SetMode(PlaybackMode.Auto);
@@ -103,7 +92,7 @@ public class BattleSceneManager : MonoBehaviour
         if (playerHPLabel != null)
             playerHPLabel.text = $"HP: {GameManager.Instance.PlayerHP}/{GameManager.Instance.playerMaxHP}";
 
-        AudioManager.Instance?.PlayRandomMusic("Trainerbattle");
+        // Music is started by SceneTransitionManager at the beginning of the battle intro transition
 
         // Subscribe to the ability VFX event and weather changes
         AbilitySystem.OnAbilityFired   += OnAbilityFiredHandler;
@@ -294,37 +283,19 @@ public class BattleSceneManager : MonoBehaviour
 
     private IEnumerator ShowResult(BattleResult result)
     {
-        string text  = result switch
-        {
-            BattleResult.PlayerWin  => "VICTORY!",
-            BattleResult.PlayerLoss => "DEFEAT",
-            _                                     => "DRAW"
-        };
-
-        Color color = result switch
-        {
-            BattleResult.PlayerWin  => new Color(0.2f, 1f, 0.2f),
-            BattleResult.PlayerLoss => new Color(1f, 0.2f, 0.2f),
-            _                                     => new Color(1f, 0.8f, 0.2f)
-        };
-
-        Log($"Battle over: {text}");
-        resultText.text  = text;
-        resultText.color = color;
-        resultText.gameObject.SetActive(true);
-
         // Stop weather effects when combat ends
         OnWeatherChangedHandler("");
 
+        AudioManager.Instance?.StopMusic();
         if (result == BattleResult.PlayerWin)
             AudioManager.Instance?.PlayMusic("Victory");
+        else if (result == BattleResult.PlayerLoss)
+            AudioManager.Instance?.PlayMusicOnce("Loss");
 
-        // Tell GameManager the result
+        // Tell GameManager the result — this triggers the progress overlay
         GameManager.Instance.OnBattleComplete(result);
 
-        // Show Continue button
-        yield return new WaitForSeconds(0.5f);
-        continueButton.gameObject.SetActive(true);
+        yield return null;
     }
 
     // -------------------------------------------------------
@@ -431,12 +402,6 @@ public class BattleSceneManager : MonoBehaviour
 
     private void OnAutoClicked()    => SetMode(PlaybackMode.Auto);
     private void OnSpeedUpClicked() => SetMode(PlaybackMode.SpeedUp);
-
-    private void OnContinueClicked()
-    {
-        AudioManager.Instance?.PlayRandomMusic("Shop");
-        GameManager.Instance.ReturnToShop();
-    }
 
     // -------------------------------------------------------
     // HELPERS

@@ -20,5 +20,5 @@ MonoBehaviour:
   speed: 24
   tier: 3
   preEvolutionId: 191
-  ability: {fileID: 11400000, guid: eadaaa3b3829f12469591524b825f5e7, type: 2}
+  ability: {fileID: 11400000, guid: cafd15f857f37e64fa5038842d71a8d2, type: 2}
   sprite: {fileID: 4143616159994567188, guid: 56ba3285fef819c4d92e88cfa8086e40, type: 3}

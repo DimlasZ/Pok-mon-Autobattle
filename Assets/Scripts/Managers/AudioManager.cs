@@ -72,7 +72,9 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning($"AudioManager: No music found at Resources/Audio/Music/{trackName}");
             return;
         }
-        if (_musicSource.clip == clip) return; // already playing this track
+        if (_musicSource == null) return;
+        if (_musicSource.clip == clip && _musicSource.isPlaying) return; // already playing this track
+        _musicSource.loop = true;
         _musicSource.clip = clip;
         _musicSource.Play();
     }
@@ -88,7 +90,9 @@ public class AudioManager : MonoBehaviour
             return;
         }
         var clip = matches[Random.Range(0, matches.Length)];
-        if (_musicSource.clip == clip) return;
+        if (_musicSource == null) return;
+        if (_musicSource.clip == clip && _musicSource.isPlaying) return;
+        _musicSource.loop = true;
         _musicSource.clip = clip;
         _musicSource.Play();
     }
@@ -96,12 +100,14 @@ public class AudioManager : MonoBehaviour
     // Plays the UI button click sound instantly (pre-cached)
     public void PlayButtonSound()
     {
-        if (_buttonClip != null) _sfxSource.PlayOneShot(_buttonClip);
+        if (_sfxSource == null || _buttonClip == null) return;
+        _sfxSource.PlayOneShot(_buttonClip);
     }
 
     // Plays a sound from Resources/Audio/ by path (no extension)
     public void PlaySound(string resourcePath)
     {
+        if (_sfxSource == null) return;
         var clip = Resources.Load<AudioClip>(resourcePath);
         if (clip == null)
         {
@@ -134,6 +140,26 @@ public class AudioManager : MonoBehaviour
         _weatherSource.Play();
     }
 
+    // Plays a music track once (no loop) — used for loss/victory stings.
+    public void PlayMusicOnce(string trackName)
+    {
+        var clip = Resources.Load<AudioClip>($"Audio/Music/{trackName}");
+        if (clip == null)
+        {
+            Debug.LogWarning($"AudioManager: No music found at Resources/Audio/Music/{trackName}");
+            return;
+        }
+        _musicSource.loop = false;
+        _musicSource.clip = clip;
+        _musicSource.Play();
+    }
+
+    public void StopMusic()
+    {
+        _musicSource.Stop();
+        _musicSource.clip = null;
+    }
+
     public void StopWeatherSound()
     {
         _weatherSource.Stop();
@@ -143,6 +169,7 @@ public class AudioManager : MonoBehaviour
     // Plays the cry for the given Pokédex ID (1.ogg, 2.ogg, etc.)
     public void PlayCry(int pokedexId)
     {
+        if (_sfxSource == null) return;
         var clip = Resources.Load<AudioClip>($"Audio/Cries/{pokedexId}");
         if (clip == null)
         {

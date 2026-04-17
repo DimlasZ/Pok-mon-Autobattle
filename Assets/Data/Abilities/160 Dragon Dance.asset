@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40d5fe0272ba41940a14853929658c3e, type: 3}
-  m_Name: 080 Guts
+  m_Name: 160 Dragon Dance
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
-  abilityID: 80
-  abilityName: Guts
-  trigger: on_hit
+  abilityID: 160
+  abilityName: Dragon Dance
+  trigger: on_round_start
   target: self
   count: 0
-  effect: boost_attack
-  value: 1.4
+  effect: boost_speed_and_attack
+  value: 1.05
   condition: 
   chance: 0
   custom: 
-  description: 'On Hit: Increases Attack by 40%.'
+  description: 'On Round Start: Increases Speed & Attack by 5%.'
   vfxSheet: buff8
   vfxRow: 5
   sound: stats_raised

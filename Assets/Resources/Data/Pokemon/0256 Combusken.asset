@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 256
   pokemonName: Combusken
   attack: 37
-  hp: 60
+  hp: 55
   type1: Fire
   speed: 45
   tier: 2

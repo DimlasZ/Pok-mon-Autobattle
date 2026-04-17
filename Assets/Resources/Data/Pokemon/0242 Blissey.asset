@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2ede51103f1634085aef38e50230a9, type: 3}
+  m_Name: 0242 Blissey
+  m_EditorClassIdentifier: Assembly-CSharp::PokemonData
+  id: 242
+  pokemonName: Blissey
+  attack: 0
+  hp: 210
+  type1: Normal
+  speed: 55
+  tier: 5
+  preEvolutionId: 113
+  ability: {fileID: 11400000, guid: c8c8d63e1cd23f74db7abf0e539ce41b, type: 2}
+  sprite: {fileID: 4938865759925138294, guid: 6f5ba3a6d68ffd2459b832f660ae65b4, type: 3}

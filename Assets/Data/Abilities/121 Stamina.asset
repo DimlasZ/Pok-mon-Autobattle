@@ -18,7 +18,7 @@ MonoBehaviour:
   target: self
   count: 0
   effect: damage_reduction_stack
-  value: 0.1
+  value: 0.9
   condition: 
   chance: 0
   custom: 

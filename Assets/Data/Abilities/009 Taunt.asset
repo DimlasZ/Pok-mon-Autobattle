@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40d5fe0272ba41940a14853929658c3e, type: 3}
-  m_Name: 035 Target Dummy
+  m_Name: 009 Taunt
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
-  abilityID: 35
-  abilityName: Target Dummy
-  trigger: on_hit
-  target: ally_all
+  abilityID: 9
+  abilityName: Taunt
+  trigger: passive
+  target: self
   count: 0
-  effect: boost_attack
-  value: 1.1
+  effect: immune_to_debuff
+  value: 
   condition: 
   chance: 0
   custom: 
-  description: 'On Hit: Raises all allies'' Attack by 10%.'
-  vfxSheet: buff8
+  description: Attack cannot be lowered.
+  vfxSheet: 
   vfxRow: 0
   sound: 

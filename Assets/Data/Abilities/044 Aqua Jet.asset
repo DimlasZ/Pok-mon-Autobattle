@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
   abilityID: 44
   abilityName: Aqua Jet
-  trigger: passive
+  trigger: after_attack
   target: self
   count: 0
-  effect: priority_move
-  value: 
+  effect: boost_speed
+  value: 1.5
   condition: 
   chance: 0
   custom: 
-  description: 
-  vfxSheet: 
-  vfxRow: 0
-  sound: 
+  description: 'After Attack: Increases the user''s Speed by 50%.'
+  vfxSheet: buff8
+  vfxRow: 2
+  sound: stats_raised

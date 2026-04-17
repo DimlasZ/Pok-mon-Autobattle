@@ -17,7 +17,7 @@ MonoBehaviour:
   attack: 58
   hp: 74
   type1: Electric
-  speed: 99
+  speed: 63
   tier: 4
   preEvolutionId: 0
   ability: {fileID: 11400000, guid: 39539dd56a3ae1040a52ffda79884237, type: 2}

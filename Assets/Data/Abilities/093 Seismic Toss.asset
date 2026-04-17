@@ -18,11 +18,11 @@ MonoBehaviour:
   target: enemy_front
   count: 1
   effect: deal_damage_source_hp
-  value: 0.35
+  value: 0.25
   condition: 
   chance: 0
   custom: 
-  description: 'On Attack: Deals damage equal to 35% of the user''s max HP.'
+  description: 'On Attack: Deals damage equal to 25% of the user''s max HP.'
   vfxSheet: 
   vfxRow: 0
   sound: 

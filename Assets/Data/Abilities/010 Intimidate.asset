@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityName: Intimidate
   trigger: on_battle_start
   target: enemy_front
-  count: 1
+  count: 2
   effect: reduce_attack
   value: 0.7
   condition: 

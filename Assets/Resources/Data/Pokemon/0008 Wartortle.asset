@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 8
   pokemonName: Wartortle
   attack: 40
-  hp: 71
+  hp: 82
   type1: Water
   speed: 47
   tier: 3

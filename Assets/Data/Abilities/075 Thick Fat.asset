@@ -18,11 +18,11 @@ MonoBehaviour:
   target: self
   count: 0
   effect: damage_reduction
-  value: 0.8
+  value: 0.75
   condition: 
   chance: 0
   custom: 
-  description: Reduces all incoming damage by 20%.
+  description: Reduces all incoming damage by 25%.
   vfxSheet: 
   vfxRow: 0
   sound: 

@@ -17,12 +17,12 @@ MonoBehaviour:
   trigger: on_hit
   target: self
   count: 0
-  effect: boost_speed
-  value: 2
-  condition: super_effective
+  effect: boost_speed_and_attack
+  value: 1.5
+  condition: 
   chance: 0
   custom: 
-  description: 'On Hit: Speed doubles when hit by a super-effective attack.'
+  description: 'On Hit: Speed and Attack increases by 50%.'
   vfxSheet: buff8
   vfxRow: 4
   sound: stats_raised

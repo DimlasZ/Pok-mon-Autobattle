@@ -14,6 +14,9 @@ public class GlobalOverlayManager : MonoBehaviour
     public GameObject settingsPanel;
     public GameObject pokedexPanel;
 
+    [Header("Progress Overlay")]
+    public ProgressOverlayUI progressOverlay;
+
     [Header("Audio Sliders")]
     public Slider musicSlider;
     public Slider sfxSlider;

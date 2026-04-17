@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Linq;
 
 // TooltipUI shows a floating panel with ability info when hovering over a Pokemon slot.
 // Attach this to a UI panel GameObject in your Canvas. Assign the text fields in the Inspector.
@@ -12,7 +11,7 @@ public class TooltipUI : MonoBehaviour
 
     [Header("References")]
     public TextMeshProUGUI pokemonNameText;
-    public TextMeshProUGUI abilityText;      // Shows "<b>AbilityName</b>\nDescription" combined
+    public TextMeshProUGUI abilityText;      // Shows "<b>AbilityName</b> - {ability.description}" combined
     public Image           typeIcon;         // Small type symbol next to the Pokemon name
     public Image           preEvoImage;      // Sprite of the pre-evolution (hidden if none)
     public Image           evoImage;         // Sprite of the evolution (hidden if none)
@@ -61,26 +60,20 @@ public class TooltipUI : MonoBehaviour
             }
         }
 
-        // Evo chain sprites — look up from ShopManager's full Pokémon roster
-        var allPokemon = ShopManager.Instance != null ? ShopManager.Instance.AllPokemon : null;
+        if (preEvoImage != null) preEvoImage.gameObject.SetActive(false);
+        if (evoImage   != null) evoImage.gameObject.SetActive(false);
 
-        if (preEvoImage != null)
-        {
-            PokemonData preEvo = pokemon != null && allPokemon != null && pokemon.preEvolutionId > 0
-                ? allPokemon.FirstOrDefault(p => p.id == pokemon.preEvolutionId)
-                : null;
-            preEvoImage.sprite = preEvo?.sprite;
-            preEvoImage.gameObject.SetActive(preEvo != null);
-        }
+        gameObject.SetActive(true);
+        RepositionTooltip(screenPosition);
+    }
 
-        if (evoImage != null)
-        {
-            PokemonData evo = pokemon != null && allPokemon != null
-                ? allPokemon.FirstOrDefault(p => p.preEvolutionId == pokemon.id)
-                : null;
-            evoImage.sprite = evo?.sprite;
-            evoImage.gameObject.SetActive(evo != null);
-        }
+    public void ShowMessage(string message, Vector2 screenPosition)
+    {
+        if (pokemonNameText != null) pokemonNameText.text = "";
+        if (abilityText     != null) abilityText.text     = message;
+        if (typeIcon        != null) typeIcon.gameObject.SetActive(false);
+        if (preEvoImage     != null) preEvoImage.gameObject.SetActive(false);
+        if (evoImage        != null) evoImage.gameObject.SetActive(false);
 
         gameObject.SetActive(true);
         RepositionTooltip(screenPosition);

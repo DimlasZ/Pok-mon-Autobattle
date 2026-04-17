@@ -53,8 +53,8 @@ public static partial class AbilitySystem
 
             case "enemy_random":
             {
-                var t = GetRandomAlive(enemyTeam, null);
-                if (t != null) result.Add(t);
+                var pool = enemyTeam.Where(p => p.currentHP > 0).OrderBy(_ => Random.value).ToList();
+                result.AddRange(pool.Take(n));
                 break;
             }
 
@@ -64,8 +64,8 @@ public static partial class AbilitySystem
 
             case "ally_random":
             {
-                var t = GetRandomAlive(sourceTeam, source);
-                if (t != null) result.Add(t);
+                var pool = sourceTeam.Where(p => p != source && p.currentHP > 0).OrderBy(_ => Random.value).ToList();
+                result.AddRange(pool.Take(n));
                 break;
             }
 

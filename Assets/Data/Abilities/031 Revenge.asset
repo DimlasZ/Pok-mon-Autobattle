@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40d5fe0272ba41940a14853929658c3e, type: 3}
-  m_Name: 028 Solar Power
+  m_Name: 031 Revenge
   m_EditorClassIdentifier: Assembly-CSharp::AbilityData
-  abilityID: 28
-  abilityName: Solar Power
-  trigger: passive
+  abilityID: 31
+  abilityName: Revenge
+  trigger: on_ally_faint
   target: self
   count: 0
-  effect: boost_attack
-  value: 1.5
-  condition: weather_sun
+  effect: boost_speed_and_attack
+  value: 1.1
+  condition: 
   chance: 0
   custom: 
-  description: Boosts Attack by 50% during sunlight.
+  description: 'On Ally Faint: Raises Speed and Attack by 10% for each ally that
+    has fainted.'
   vfxSheet: buff8
-  vfxRow: 3
-  sound: stats_raised
+  vfxRow: 0
+  sound: 

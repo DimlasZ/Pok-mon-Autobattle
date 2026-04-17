@@ -15,9 +15,9 @@ MonoBehaviour:
   id: 5
   pokemonName: Charmeleon
   attack: 45
-  hp: 63
+  hp: 59
   type1: Fire
-  speed: 64
+  speed: 60
   tier: 3
   preEvolutionId: 4
   ability: {fileID: 11400000, guid: fefc6a6b9779389498343ad72e6934be, type: 2}

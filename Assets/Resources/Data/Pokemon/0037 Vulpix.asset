@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 37
   pokemonName: Vulpix
-  attack: 22
+  attack: 27
   hp: 42
   type1: Fire
   speed: 45

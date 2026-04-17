@@ -33,6 +33,7 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private bool  _isValidTarget    = false;
     private bool  _isLocked         = false;
     private bool  _isEvoAvailable   = false;
+    private bool  _isDuplicate      = false;
     private Image _backgroundImage;
     private Color _defaultBackgroundColor;
     private Color _defaultAttackColor;
@@ -101,6 +102,17 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         SetHighlight(false);
     }
 
+    // Greys out the slot when the player already owns this Pokémon
+    public void SetDuplicate(bool duplicate)
+    {
+        _isDuplicate = duplicate;
+        if (duplicate)
+            pokemonSprite.color = new Color(0.35f, 0.35f, 0.35f, 0.6f);
+        else if (!_isLocked)
+            pokemonSprite.color = Color.white;
+        RefreshBackground();
+    }
+
     // Greys out the slot when the pre-evolution requirement is not met
     public void SetLocked(bool locked)
     {
@@ -141,6 +153,7 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         attackText.color    = _defaultAttackColor;
         speedText.color     = _defaultSpeedColor;
         _isEvoAvailable     = false;
+        _isDuplicate        = false;
         RefreshBackground();
         _currentPokemonData = null;
         _currentAbility     = null;
@@ -175,15 +188,16 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (TooltipUI.Instance == null || _currentPokemonData == null) return;
 
-        // Use the top-center of this slot as the anchor point
         var rect = GetComponent<RectTransform>();
         Vector3[] corners = new Vector3[4];
         rect.GetWorldCorners(corners);
-        // corners: 0=bottom-left, 1=top-left, 2=top-right, 3=bottom-right
         Vector2 topCenter = (corners[1] + corners[2]) / 2f;
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(null, topCenter);
 
-        TooltipUI.Instance.Show(_currentPokemonData, screenPos);
+        if (_isDuplicate)
+            TooltipUI.Instance.ShowMessage("Already on your Team", screenPos);
+        else
+            TooltipUI.Instance.Show(_currentPokemonData, screenPos);
     }
 
     // Hide tooltip when cursor leaves

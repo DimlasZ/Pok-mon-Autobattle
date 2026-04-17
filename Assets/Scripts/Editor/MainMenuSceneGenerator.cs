@@ -161,6 +161,9 @@ public class MainMenuSceneGenerator
             out TextMeshProUGUI detailAbility,
             out RectTransform evolutionContainer,
             out Image         detailTypeIcon,
+            out TMP_InputField pokedexSearch,
+            out TMP_Dropdown   pokedexTypeDropdown,
+            out TMP_Dropdown   pokedexTierDropdown,
             out Button closePokedexBtn);
         pokedexPanelGO.SetActive(false);
 
@@ -192,6 +195,9 @@ public class MainMenuSceneGenerator
         pokedexComp.detailAbility      = detailAbility;
         pokedexComp.evolutionContainer = evolutionContainer;
         pokedexComp.detailTypeIcon     = detailTypeIcon;
+        pokedexComp.searchInput        = pokedexSearch;
+        pokedexComp.typeDropdown       = pokedexTypeDropdown;
+        pokedexComp.tierDropdown       = pokedexTierDropdown;
 
         // ── MainMenuController (play button only) ─────────────────────────
         var controllerGO = new GameObject("MainMenuController");
@@ -199,6 +205,21 @@ public class MainMenuSceneGenerator
         var controller = controllerGO.AddComponent<MainMenuController>();
         controller.playButton = playBtn;
         controller.quitButton = quitBtn;
+
+        // ── Progress Overlay (gym badges / Elite 4 / champ / lives) ──────
+        // Sprites are loaded from Resources at runtime — no assignments needed here.
+        var progressGO = new GameObject("ProgressOverlay");
+        progressGO.transform.SetParent(overlayRoot, false);
+
+        // Fullscreen stretch
+        var progressRT = progressGO.AddComponent<RectTransform>();
+        progressRT.anchorMin        = Vector2.zero;
+        progressRT.anchorMax        = Vector2.one;
+        progressRT.offsetMin        = Vector2.zero;
+        progressRT.offsetMax        = Vector2.zero;
+
+        var progressUI = progressGO.AddComponent<ProgressOverlayUI>();
+        overlayMgr.progressOverlay = progressUI;
 
         // ── GameManager bootstrap ─────────────────────────────────────────
         // Ensure a GameManager exists in the scene so it persists into subsequent scenes.
@@ -208,6 +229,8 @@ public class MainMenuSceneGenerator
         gm.mainMenuSceneName = "MainMenuScene";
         gm.shopSceneName     = "ShopScene";
         gm.battleSceneName   = "BattleScene";
+        gm.winsToVictory     = 13;
+        gmGO.AddComponent<SceneTransitionManager>();
 
         // ── Populate PokemonDatabase ──────────────────────────────────────
         PopulatePokemonDatabase();
@@ -239,8 +262,9 @@ public class MainMenuSceneGenerator
         title.alignment = TextAlignmentOptions.Center;
 
         // Close button
-        closeBtn = CreateButton(panel.transform, "CloseButton", "✕", new Vector2(50, 50), new Vector2(340, 220));
+        closeBtn = CreateButton(panel.transform, "CloseButton", "", new Vector2(50, 50), new Vector2(340, 220));
         SetButtonColor(closeBtn, new Color(0.6f, 0.1f, 0.1f));
+        SetButtonIcon(closeBtn, "Assets/Resources/Icons/X.png");
 
         // Divider
         var divider     = new GameObject("Divider");
@@ -327,6 +351,63 @@ public class MainMenuSceneGenerator
         slider.handleRect    = handleRect;
 
         return slider;
+    }
+
+    static TMP_InputField CreateInputField(Transform parent, string name, string placeholder,
+        Vector2 size, Vector2 pos)
+    {
+        var go    = new GameObject(name);
+        var rect  = go.AddComponent<RectTransform>();
+        var img   = go.AddComponent<Image>();
+        var field = go.AddComponent<TMP_InputField>();
+        go.transform.SetParent(parent, false);
+        rect.sizeDelta        = size;
+        rect.anchoredPosition = pos;
+        img.color = new Color(0.12f, 0.12f, 0.20f, 1f);
+
+        // Text Area — clips the text so it doesn't overflow the field
+        var areaGO   = new GameObject("Text Area");
+        var areaRect = areaGO.AddComponent<RectTransform>();
+        areaGO.AddComponent<RectMask2D>();
+        areaGO.transform.SetParent(go.transform, false);
+        areaRect.anchorMin = Vector2.zero;
+        areaRect.anchorMax = Vector2.one;
+        areaRect.offsetMin = new Vector2(8, 2);
+        areaRect.offsetMax = new Vector2(-8, -2);
+
+        // Placeholder
+        var phGO   = new GameObject("Placeholder");
+        var phRect = phGO.AddComponent<RectTransform>();
+        var phTMP  = phGO.AddComponent<TextMeshProUGUI>();
+        phGO.transform.SetParent(areaGO.transform, false);
+        phRect.anchorMin = Vector2.zero;
+        phRect.anchorMax = Vector2.one;
+        phRect.offsetMin = Vector2.zero;
+        phRect.offsetMax = Vector2.zero;
+        phTMP.text       = placeholder;
+        phTMP.fontSize   = 18;
+        phTMP.color      = new Color(0.6f, 0.6f, 0.6f, 0.7f);
+        phTMP.fontStyle  = FontStyles.Italic;
+        phTMP.alignment  = TextAlignmentOptions.MidlineLeft;
+
+        // Input text
+        var txtGO   = new GameObject("Text");
+        var txtRect = txtGO.AddComponent<RectTransform>();
+        var txtTMP  = txtGO.AddComponent<TextMeshProUGUI>();
+        txtGO.transform.SetParent(areaGO.transform, false);
+        txtRect.anchorMin = Vector2.zero;
+        txtRect.anchorMax = Vector2.one;
+        txtRect.offsetMin = Vector2.zero;
+        txtRect.offsetMax = Vector2.zero;
+        txtTMP.fontSize   = 18;
+        txtTMP.color      = Color.white;
+        txtTMP.alignment  = TextAlignmentOptions.MidlineLeft;
+
+        field.textViewport  = areaRect;
+        field.textComponent = txtTMP;
+        field.placeholder   = phTMP;
+
+        return field;
     }
 
     static TMP_Dropdown CreateDropdown(Transform parent, string name, Vector2 size, Vector2 pos)
@@ -442,34 +523,52 @@ public class MainMenuSceneGenerator
     // ================================================================
 
     static GameObject BuildPokedexPanel(Transform root,
-        out RectTransform cardContainer,
-        out GameObject    detailPanel,
-        out Image         detailSprite,
+        out RectTransform   cardContainer,
+        out GameObject      detailPanel,
+        out Image           detailSprite,
         out TextMeshProUGUI detailName,
         out TextMeshProUGUI detailTypes,
         out TextMeshProUGUI detailStats,
         out TextMeshProUGUI detailAbility,
-        out RectTransform evolutionContainer,
-        out Image         detailTypeIcon,
-        out Button closeBtn)
+        out RectTransform   evolutionContainer,
+        out Image           detailTypeIcon,
+        out TMP_InputField  searchInput,
+        out TMP_Dropdown    typeDropdown,
+        out TMP_Dropdown    tierDropdown,
+        out Button          closeBtn)
     {
         var panel = CreatePanel(root, "PokedexPanel", new Vector2(1660, 880), Vector2.zero);
         SetColor(panel, new Color(0.06f, 0.06f, 0.10f, 0.97f));
         panel.AddComponent<Outline>().effectColor = new Color(0.3f, 0.3f, 0.6f, 0.8f);
 
-        // Title
+        // Title — centered across the full panel width
         var title = CreateTMP(panel.transform, "Title", "Pokédex", 52,
-            new Vector2(-300, 392), new Vector2(500, 80));
+            new Vector2(0, 392), new Vector2(1400, 80));
         title.fontStyle = FontStyles.Bold;
         title.alignment = TextAlignmentOptions.Center;
 
         // Close button
-        closeBtn = CreateButton(panel.transform, "CloseButton", "✕", new Vector2(55, 55), new Vector2(790, 392));
+        closeBtn = CreateButton(panel.transform, "CloseButton", "", new Vector2(55, 55), new Vector2(790, 392));
         SetButtonColor(closeBtn, new Color(0.6f, 0.1f, 0.1f));
+        SetButtonIcon(closeBtn, "Assets/Resources/Icons/X.png");
 
-        // ── Left side: ScrollView with grid ───────────────────────────────
+        // ── Filter bar (above the scroll view) ────────────────────────────
+        // Scroll view spans x: -795 to -45 (width 750, center -420)
+        // Search: 420px, Type: 180px, Tier: 140px — with 5px gaps
+        searchInput  = CreateInputField(panel.transform, "SearchInput",
+            "Search name or ability...", new Vector2(420, 40), new Vector2(-585, 310));
+        typeDropdown = CreateDropdown(panel.transform, "TypeDropdown",
+            new Vector2(180, 40), new Vector2(-280, 310));
+        tierDropdown = CreateDropdown(panel.transform, "TierDropdown",
+            new Vector2(140, 40), new Vector2(-115, 310));
+
+        // Give them placeholder captions so they're recognisable before runtime populates them
+        if (typeDropdown.captionText != null) typeDropdown.captionText.text = "All Types";
+        if (tierDropdown.captionText != null) tierDropdown.captionText.text = "All Tiers";
+
+        // ── Left side: ScrollView with grid (slightly shorter to fit filter bar) ──
         var (_, content) = CreateScrollView(panel.transform, "PokedexScrollView",
-            new Vector2(750, 770), new Vector2(-420, -40));
+            new Vector2(750, 720), new Vector2(-420, -65));
         cardContainer = content;
 
         // ── Right side: Detail panel ──────────────────────────────────────
@@ -704,6 +803,27 @@ public class MainMenuSceneGenerator
         labelTMP.color     = Color.white;
 
         return btn;
+    }
+
+    // Hides the text label on a button and fills it with a sprite icon instead.
+    static void SetButtonIcon(Button button, string spritePath)
+    {
+        var labelTransform = button.transform.Find("Label");
+        if (labelTransform != null)
+            labelTransform.GetComponent<TextMeshProUGUI>().text = "";
+
+        var go   = new GameObject("Icon");
+        var rt   = go.AddComponent<RectTransform>();
+        var img  = go.AddComponent<Image>();
+        go.transform.SetParent(button.transform, false);
+        rt.anchorMin = new Vector2(0.1f, 0.1f);
+        rt.anchorMax = new Vector2(0.9f, 0.9f);
+        rt.offsetMin = Vector2.zero;
+        rt.offsetMax = Vector2.zero;
+        var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+        if (sprite != null) img.sprite = sprite;
+        img.preserveAspect = true;
+        img.raycastTarget  = false;
     }
 
     static void AddOverlayToggle(GameObject go, GlobalOverlayToggle.Target target)

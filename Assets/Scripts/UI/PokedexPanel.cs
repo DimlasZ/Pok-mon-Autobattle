@@ -13,6 +13,11 @@ public class PokedexPanel : MonoBehaviour
     [Header("Grid")]
     public RectTransform cardContainer;   // the Content RectTransform inside the ScrollView
 
+    [Header("Filters")]
+    public TMP_InputField searchInput;    // searches name, ability name, and ability description
+    public TMP_Dropdown   typeDropdown;   // filters by type1
+    public TMP_Dropdown   tierDropdown;   // filters by tier
+
     [Header("Detail Panel")]
     public GameObject      detailPanel;
     public Image           detailSprite;
@@ -27,9 +32,29 @@ public class PokedexPanel : MonoBehaviour
 
     private PokemonData[] _allPokemon;
 
+    private struct CardEntry { public GameObject go; public PokemonData data; }
+    private readonly List<CardEntry> _cards = new List<CardEntry>();
+
     private void OnEnable()
     {
         BuildGrid();
+
+        if (searchInput != null)
+        {
+            searchInput.onValueChanged.RemoveAllListeners();
+            searchInput.onValueChanged.AddListener(_ => ApplyFilters());
+            searchInput.text = "";
+        }
+        if (typeDropdown != null)
+        {
+            typeDropdown.onValueChanged.RemoveAllListeners();
+            typeDropdown.onValueChanged.AddListener(_ => ApplyFilters());
+        }
+        if (tierDropdown != null)
+        {
+            tierDropdown.onValueChanged.RemoveAllListeners();
+            tierDropdown.onValueChanged.AddListener(_ => ApplyFilters());
+        }
     }
 
     // -------------------------------------------------------
@@ -43,6 +68,7 @@ public class PokedexPanel : MonoBehaviour
         // Clear previous cards (handles re-open after runtime changes)
         foreach (Transform child in cardContainer)
             Destroy(child.gameObject);
+        _cards.Clear();
 
         var db = Resources.Load<PokemonDatabase>("PokemonDatabase");
         if (db == null)
@@ -59,12 +85,96 @@ public class PokedexPanel : MonoBehaviour
             .ToArray();
 
         foreach (var pokemon in _allPokemon)
-            CreateCard(pokemon);
+        {
+            var card = CreateCard(pokemon);
+            _cards.Add(new CardEntry { go = card, data = pokemon });
+        }
+
+        PopulateDropdowns();
 
         if (detailPanel != null) detailPanel.SetActive(false);
     }
 
-    void CreateCard(PokemonData pokemon)
+    // -------------------------------------------------------
+    // FILTER / SEARCH
+    // -------------------------------------------------------
+
+    void PopulateDropdowns()
+    {
+        if (typeDropdown != null)
+        {
+            typeDropdown.ClearOptions();
+            var types = new List<string> { "All Types" };
+            types.AddRange(_allPokemon
+                .Where(p => !string.IsNullOrEmpty(p.type1))
+                .Select(p => p.type1)
+                .Distinct()
+                .OrderBy(t => t));
+            typeDropdown.AddOptions(types);
+            typeDropdown.value = 0;
+        }
+
+        if (tierDropdown != null)
+        {
+            tierDropdown.ClearOptions();
+            var tiers = new List<string> { "All Tiers" };
+            tiers.AddRange(_allPokemon
+                .Select(p => p.tier)
+                .Distinct()
+                .OrderBy(t => t)
+                .Select(t => "Tier " + t));
+            tierDropdown.AddOptions(tiers);
+            tierDropdown.value = 0;
+        }
+    }
+
+    void ApplyFilters()
+    {
+        string search = searchInput != null ? searchInput.text.ToLower().Trim() : "";
+
+        string typeFilter = "";
+        if (typeDropdown != null && typeDropdown.value > 0)
+            typeFilter = typeDropdown.options[typeDropdown.value].text;
+
+        int tierFilter = -1;
+        if (tierDropdown != null && tierDropdown.value > 0)
+        {
+            string opt = tierDropdown.options[tierDropdown.value].text; // "Tier X"
+            if (int.TryParse(opt.Replace("Tier ", ""), out int t))
+                tierFilter = t;
+        }
+
+        foreach (var entry in _cards)
+        {
+            bool show = true;
+
+            // Search: name, ability name, or ability description
+            if (!string.IsNullOrEmpty(search))
+            {
+                bool nameMatch    = entry.data.pokemonName.ToLower().Contains(search);
+                bool abilityMatch = entry.data.ability != null && (
+                    entry.data.ability.abilityName.ToLower().Contains(search) ||
+                    entry.data.ability.description.ToLower().Contains(search));
+                show = nameMatch || abilityMatch;
+            }
+
+            // Type filter
+            if (show && !string.IsNullOrEmpty(typeFilter))
+                show = string.Equals(entry.data.type1, typeFilter, System.StringComparison.OrdinalIgnoreCase);
+
+            // Tier filter
+            if (show && tierFilter >= 0)
+                show = entry.data.tier == tierFilter;
+
+            entry.go.SetActive(show);
+        }
+    }
+
+    // -------------------------------------------------------
+    // CARD CREATION
+    // -------------------------------------------------------
+
+    GameObject CreateCard(PokemonData pokemon)
     {
         // Root: button + dark background
         var card    = new GameObject(pokemon.pokemonName);
@@ -116,6 +226,8 @@ public class PokedexPanel : MonoBehaviour
         // Wire click
         var captured = pokemon;
         cardBtn.onClick.AddListener(() => ShowDetail(captured));
+
+        return card;
     }
 
     // -------------------------------------------------------
@@ -126,6 +238,8 @@ public class PokedexPanel : MonoBehaviour
     {
         if (detailPanel == null) return;
         detailPanel.SetActive(true);
+
+        AudioManager.Instance?.PlayCry(p.id);
 
         if (detailSprite != null)
         {

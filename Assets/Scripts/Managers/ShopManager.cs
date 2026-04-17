@@ -167,6 +167,11 @@ public class ShopManager : MonoBehaviour
             Debug.Log($"Can't select {p.baseData.pokemonName} — need its pre-evolution first!");
             return;
         }
+        if (p.baseData.preEvolutionId == 0 && IsAlreadyOnTeam(p.baseData.id))
+        {
+            Debug.Log($"Can't select {p.baseData.pokemonName} — already on the team!");
+            return;
+        }
         SelectedIndex    = index;
         CurrentSelection = SelectionSource.Shop;
         Debug.Log($"Selected shop slot {index}: {ShopRow[index].baseData.pokemonName}");
@@ -223,6 +228,13 @@ public class ShopManager : MonoBehaviour
         return true;
     }
 
+    public bool IsAlreadyOnTeam(int pokemonId)
+    {
+        foreach (var p in BattleRow) if (p != null && p.baseData.id == pokemonId) return true;
+        foreach (var p in BenchRow)  if (p != null && p.baseData.id == pokemonId) return true;
+        return false;
+    }
+
     // Unified action: place whatever is selected at (targetSource, targetIndex).
     // Returns true if the placement succeeded.
     public bool PlaceSelected(SelectionSource targetSource, int targetIndex)
@@ -261,6 +273,12 @@ public class ShopManager : MonoBehaviour
                 }
 
                 // Normal buy
+                if (IsAlreadyOnTeam(p.baseData.id))
+                {
+                    Debug.Log($"You already have a {p.baseData.pokemonName} on your team!");
+                    return false;
+                }
+
                 if (targetSource == SelectionSource.Battle)
                 {
                     if (InsertIntoBattleRow(p, targetIndex))

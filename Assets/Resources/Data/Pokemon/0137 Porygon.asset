@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 137
   pokemonName: Porygon
   attack: 20
-  hp: 45
+  hp: 48
   type1: Normal
   speed: 20
   tier: 1

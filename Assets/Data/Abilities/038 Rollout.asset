@@ -18,11 +18,11 @@ MonoBehaviour:
   target: self
   count: 0
   effect: boost_attack
-  value: 2
+  value: 1.5
   condition: 
   chance: 0
   custom: 
-  description: 'After Attack: Doubles Attack.'
+  description: 'After Attack: Increases Attack by 50%.'
   vfxSheet: buff8
   vfxRow: 4
   sound: stats_raised

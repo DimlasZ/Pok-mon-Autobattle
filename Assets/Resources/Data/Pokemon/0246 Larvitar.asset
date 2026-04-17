@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 246
   pokemonName: Larvitar
   attack: 28
-  hp: 52
+  hp: 47
   type1: Ground
   speed: 22
   tier: 2

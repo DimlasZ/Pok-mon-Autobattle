@@ -35,7 +35,7 @@ public class BattleSceneGenerator
         Transform root = canvas.transform;
 
         // --- Destroy existing panels so re-running doesn't stack duplicates ---
-        string[] managedNames = { "Background", "TopBar", "PlayerPanel", "EnemyPanel", "LogPanel", "ResultText", "PlaybackPanel", "ContinueButton", "Tooltip", "ShopPanel", "BattlePanel", "BenchPanel", "ActionPanel", "StartBattleButton" };
+        string[] managedNames = { "Background", "TopBar", "PlayerPanel", "EnemyPanel", "LogPanel", "PlaybackPanel", "Tooltip", "ShopPanel", "BattlePanel", "BenchPanel", "ActionPanel", "StartBattleButton" };
         foreach (string n in managedNames)
         {
             var found = new System.Collections.Generic.List<Transform>();
@@ -113,11 +113,6 @@ public class BattleSceneGenerator
         SetColor(logPanel, new Color(0.1f, 0.1f, 0.1f, 0.9f));
         var battleLogText = CreateTMPLabel(logPanel.transform, "BattleLogText", "Battle starting...", 22, Vector2.zero, new Vector2(880, 60));
 
-        // --- Result Banner (hidden by default) ---
-        var resultText = CreateTMPLabel(root, "ResultText", "VICTORY!", 72, new Vector2(0, 40), new Vector2(700, 120));
-        resultText.fontStyle = FontStyles.Bold;
-        resultText.gameObject.SetActive(false);
-
         // --- Playback Buttons ---
         var playbackPanel = CreatePanel(root, "PlaybackPanel", new Vector2(560, 60), new Vector2(-330, -440));
         SetColor(playbackPanel, Color.clear);
@@ -126,11 +121,6 @@ public class BattleSceneGenerator
         var stepBtn    = CreateButtonInLayout(playbackPanel.transform, "StepButton",    "Step",     new Vector2(170, 55));
         var autoBtn    = CreateButtonInLayout(playbackPanel.transform, "AutoButton",    "Auto",     new Vector2(170, 55));
         var speedUpBtn = CreateButtonInLayout(playbackPanel.transform, "SpeedUpButton", "Speed Up", new Vector2(170, 55));
-
-        // --- Continue Button (hidden until battle ends) ---
-        var continueBtn = CreateButton(root, "ContinueButton", "Continue", new Vector2(260, 60), new Vector2(600, -440));
-        SetButtonColor(continueBtn, new Color(0.2f, 0.6f, 0.2f));
-        continueBtn.gameObject.SetActive(false);
 
         // --- BattleSceneManager ---
         var bsmGO = GameObject.Find("BattleSceneManager");
@@ -142,15 +132,13 @@ public class BattleSceneGenerator
 
         var bsm = bsmGO.GetComponent<BattleSceneManager>() ?? bsmGO.AddComponent<BattleSceneManager>();
 
-        bsm.playerSlots    = playerSlots;
-        bsm.enemySlots     = enemySlots;
-        bsm.playerHPLabel  = hpLabel;
-        bsm.battleLogText  = battleLogText;
-        bsm.resultText     = resultText;
-        bsm.stepButton     = stepBtn;
-        bsm.autoButton     = autoBtn;
-        bsm.speedUpButton  = speedUpBtn;
-        bsm.continueButton = continueBtn;
+        bsm.playerSlots   = playerSlots;
+        bsm.enemySlots    = enemySlots;
+        bsm.playerHPLabel = hpLabel;
+        bsm.battleLogText = battleLogText;
+        bsm.stepButton    = stepBtn;
+        bsm.autoButton    = autoBtn;
+        bsm.speedUpButton = speedUpBtn;
 
         // Mark slots as non-interactive (battle scene slots are display only)
         SetupDisplaySlots(playerSlots);
