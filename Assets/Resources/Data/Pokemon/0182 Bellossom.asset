@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 182
   pokemonName: Bellossom
-  attack: 61
-  hp: 85
+  attack: 81
+  hp: 105
   type1: Grass
-  speed: 52
+  speed: 72
   tier: 6
   preEvolutionId: 44
+  isLegendary: 0
   ability: {fileID: 11400000, guid: ebbdb8ccf3d458b408fb1a293d09dd33, type: 2}
   sprite: {fileID: 540967335863412136, guid: 186aa1f0c3b49a74a95734c60c89303b, type: 3}

@@ -26,16 +26,15 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public int slotIndex;
 
     // Colors for the highlight border
-    private readonly Color selectedColor   = new Color(1f, 0.9f, 0f, 1f);  // Yellow — this slot is selected
-    private readonly Color targetColor     = new Color(0f, 0.8f, 1f, 1f);  // Cyan  — valid drop target
-    private readonly Color unselectedColor = new Color(1f, 1f, 1f, 0f);    // Transparent
+    private readonly Color selectedColor   = new Color(0.15f, 0.45f, 1f,  0.4f); // Blue overlay — this slot is selected
+    private readonly Color targetColor     = new Color(0.2f,  0.2f,  0.2f, 1f); // Same grey as background — shows outline only
+    private readonly Color unselectedColor = new Color(0f,    0f,    0f,   0f); // Fully transparent
 
     private bool  _isValidTarget    = false;
     private bool  _isLocked         = false;
     private bool  _isEvoAvailable   = false;
     private bool  _isDuplicate      = false;
-    private Image _backgroundImage;
-    private Color _defaultBackgroundColor;
+    private bool  _isBaited         = false;
     private Color _defaultAttackColor;
     private Color _defaultSpeedColor;
 
@@ -43,10 +42,8 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     void Awake()
     {
-        _backgroundImage        = GetComponent<Image>();
-        _defaultBackgroundColor = _backgroundImage != null ? _backgroundImage.color : Color.clear;
-        _defaultAttackColor     = attackText  != null ? attackText.color  : Color.white;
-        _defaultSpeedColor      = speedText   != null ? speedText.color   : Color.white;
+        _defaultAttackColor = attackText != null ? attackText.color : Color.white;
+        _defaultSpeedColor  = speedText  != null ? speedText.color  : Color.white;
     }
 
     private Color StatColor(int current, int baseVal, Color defaultColor)
@@ -134,12 +131,25 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         RefreshBackground();
     }
 
+    // Tints the slot background gold when baited (frozen — survives reroll)
+    public void SetBaited(bool baited)
+    {
+        _isBaited = baited;
+        RefreshBackground();
+    }
+
+    private static readonly Color DefaultSlotColor = new Color(0.2f, 0.2f, 0.2f, 1f);
+
     private void RefreshBackground()
     {
-        if (_backgroundImage == null) return;
-        _backgroundImage.color = _isEvoAvailable && !_isLocked
-            ? new Color(0.6f, 1f, 0.6f, 1f)  // light green
-            : _defaultBackgroundColor;         // restore original (transparent)
+        var bg = GetComponent<Image>();
+        if (bg == null) return;
+        if (_isBaited)
+            bg.color = new Color(1f, 0.85f, 0.2f, 1f); // gold
+        else if (_isEvoAvailable && !_isLocked)
+            bg.color = new Color(0.6f, 1f, 0.6f, 1f);  // light green
+        else
+            bg.color = DefaultSlotColor;
     }
 
     // Called when this slot is empty — shows a blank slot
@@ -154,6 +164,7 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         speedText.color     = _defaultSpeedColor;
         _isEvoAvailable     = false;
         _isDuplicate        = false;
+        _isBaited           = false;
         RefreshBackground();
         _currentPokemonData = null;
         _currentAbility     = null;
@@ -195,7 +206,7 @@ public class PokemonSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(null, topCenter);
 
         if (_isDuplicate)
-            TooltipUI.Instance.ShowMessage("Already on your Team", screenPos);
+            TooltipUI.Instance.ShowAlreadyOwned(_currentPokemonData, screenPos);
         else
             TooltipUI.Instance.Show(_currentPokemonData, screenPos);
     }

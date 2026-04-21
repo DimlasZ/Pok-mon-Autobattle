@@ -68,7 +68,7 @@ public class MainMenuSceneGenerator
         var scaler = canvasGO.AddComponent<CanvasScaler>();
         scaler.uiScaleMode         = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920, 1080);
-        scaler.screenMatchMode     = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        scaler.screenMatchMode     = CanvasScaler.ScreenMatchMode.Expand;
         scaler.matchWidthOrHeight  = 0.5f;
 
         Transform root = canvasGO.transform;
@@ -112,20 +112,26 @@ public class MainMenuSceneGenerator
 
         // ── Title ─────────────────────────────────────────────────────────
         var titleTMP = CreateTMP(root, "TitleText", "Pokémon Auto Battler", 72,
-            new Vector2(0, 260), new Vector2(1200, 120));
+            new Vector2(0, 400), new Vector2(1200, 120));
         titleTMP.fontStyle = FontStyles.Bold;
         titleTMP.alignment = TextAlignmentOptions.Center;
         titleTMP.color     = Color.white;
 
         // ── Main Buttons ──────────────────────────────────────────────────
-        var playBtn     = CreateButton(root, "PlayButton",     "Play Now",  new Vector2(320, 75), new Vector2(0,  150));
-        var pokedexBtn  = CreateButton(root, "PokedexButton",  "Pokédex",   new Vector2(320, 75), new Vector2(0,   50));
-        var settingsBtn = CreateButton(root, "SettingsButton", "Settings",  new Vector2(320, 75), new Vector2(0,  -50));
-        var quitBtn     = CreateButton(root, "QuitButton",     "Quit",      new Vector2(320, 75), new Vector2(0, -150));
+        // Button layout (top → bottom): Continue (if save), Play Now, Pokédex, Hall of Fame, Settings, Quit
+        // Continue is hidden at scene-open; MainMenuController shows it at runtime if a save exists.
+        var continueBtn   = CreateButton(root, "ContinueButton",   "Continue",     new Vector2(320, 75), new Vector2(0,  212));
+        var playBtn       = CreateButton(root, "PlayButton",       "Play Now",     new Vector2(320, 75), new Vector2(0,  125));
+        var pokedexBtn    = CreateButton(root, "PokedexButton",    "Pokédex",      new Vector2(320, 75), new Vector2(0,   38));
+        var hallOfFameBtn = CreateButton(root, "HallOfFameButton", "Hall of Fame", new Vector2(320, 75), new Vector2(0,  -50));
+        var settingsBtn   = CreateButton(root, "SettingsButton",   "Settings",     new Vector2(320, 75), new Vector2(0, -137));
+        var quitBtn       = CreateButton(root, "QuitButton",       "Quit",         new Vector2(320, 75), new Vector2(0, -225));
 
-        SetButtonColor(playBtn,    new Color(0.18f, 0.58f, 0.18f));
-        SetButtonColor(pokedexBtn, new Color(0.18f, 0.28f, 0.68f));
-        SetButtonColor(quitBtn,    new Color(0.58f, 0.12f, 0.12f));
+        SetButtonColor(playBtn,       new Color(0.18f, 0.58f, 0.18f));
+        SetButtonColor(continueBtn,   new Color(0.10f, 0.45f, 0.45f));
+        SetButtonColor(pokedexBtn,    new Color(0.18f, 0.28f, 0.68f));
+        SetButtonColor(hallOfFameBtn, new Color(0.55f, 0.40f, 0.05f));
+        SetButtonColor(quitBtn,       new Color(0.58f, 0.12f, 0.12f));
         // settings keeps default grey
 
         // ── GlobalOverlayCanvas (root-level, persists across scenes via DontDestroyOnLoad) ──
@@ -138,7 +144,7 @@ public class MainMenuSceneGenerator
         var overlayScaler = overlayCanvasGO.AddComponent<CanvasScaler>();
         overlayScaler.uiScaleMode         = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         overlayScaler.referenceResolution  = new Vector2(1920, 1080);
-        overlayScaler.screenMatchMode      = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        overlayScaler.screenMatchMode      = CanvasScaler.ScreenMatchMode.Expand;
         overlayScaler.matchWidthOrHeight   = 0.5f;
 
         Transform overlayRoot = overlayCanvasGO.transform;
@@ -167,10 +173,15 @@ public class MainMenuSceneGenerator
             out Button closePokedexBtn);
         pokedexPanelGO.SetActive(false);
 
+        // ── Helper Panel (overlay, hidden) ────────────────────────────────
+        var helperPanelGO = BuildHelperPanel(overlayRoot, out Button closeHelperBtn);
+        helperPanelGO.SetActive(false);
+
         // ── GlobalOverlayManager (DontDestroyOnLoad singleton) ───────────
         var overlayMgr = overlayCanvasGO.AddComponent<GlobalOverlayManager>();
         overlayMgr.settingsPanel     = settingsPanelGO;
         overlayMgr.pokedexPanel      = pokedexPanelGO;
+        overlayMgr.helperPanel       = helperPanelGO;
         overlayMgr.musicSlider       = musicSlider;
         overlayMgr.sfxSlider         = sfxSlider;
         overlayMgr.weatherSlider     = weatherSlider;
@@ -179,10 +190,12 @@ public class MainMenuSceneGenerator
         // Wire close buttons via GlobalOverlayToggle (toggle = close when panel is open)
         AddOverlayToggle(closeSettingsBtn.gameObject, GlobalOverlayToggle.Target.Settings);
         AddOverlayToggle(closePokedexBtn.gameObject,  GlobalOverlayToggle.Target.Pokedex);
+        AddOverlayToggle(closeHelperBtn.gameObject,   GlobalOverlayToggle.Target.Helper);
 
-        // Wire main-menu settings/pokédex buttons the same way
-        AddOverlayToggle(settingsBtn.gameObject, GlobalOverlayToggle.Target.Settings);
-        AddOverlayToggle(pokedexBtn.gameObject,  GlobalOverlayToggle.Target.Pokedex);
+        // Wire main-menu buttons
+        AddOverlayToggle(settingsBtn.gameObject,   GlobalOverlayToggle.Target.Settings);
+        AddOverlayToggle(pokedexBtn.gameObject,    GlobalOverlayToggle.Target.Pokedex);
+        AddOverlayToggle(hallOfFameBtn.gameObject, GlobalOverlayToggle.Target.HallOfFame);
 
         // ── PokedexPanel component ────────────────────────────────────────
         var pokedexComp = pokedexPanelGO.AddComponent<PokedexPanel>();
@@ -203,8 +216,10 @@ public class MainMenuSceneGenerator
         var controllerGO = new GameObject("MainMenuController");
         controllerGO.transform.SetParent(root, false);
         var controller = controllerGO.AddComponent<MainMenuController>();
-        controller.playButton = playBtn;
-        controller.quitButton = quitBtn;
+        controller.playButton     = playBtn;
+        controller.continueButton = continueBtn;
+        controller.quitButton     = quitBtn;
+        // hallOfFameBtn, pokedexBtn, settingsBtn are wired via GlobalOverlayToggle above
 
         // ── Progress Overlay (gym badges / Elite 4 / champ / lives) ──────
         // Sprites are loaded from Resources at runtime — no assignments needed here.
@@ -220,6 +235,51 @@ public class MainMenuSceneGenerator
 
         var progressUI = progressGO.AddComponent<ProgressOverlayUI>();
         overlayMgr.progressOverlay = progressUI;
+
+        // ── Tier Upgrade Overlay ──────────────────────────────────────────
+        var tierUpgradeGO = new GameObject("TierUpgradeOverlay");
+        tierUpgradeGO.transform.SetParent(overlayRoot, false);
+        var tierUpgradeRT = tierUpgradeGO.AddComponent<RectTransform>();
+        tierUpgradeRT.anchorMin        = Vector2.zero;
+        tierUpgradeRT.anchorMax        = Vector2.one;
+        tierUpgradeRT.offsetMin        = Vector2.zero;
+        tierUpgradeRT.offsetMax        = Vector2.zero;
+        var tierUpgradeUI = tierUpgradeGO.AddComponent<TierUpgradeOverlayUI>();
+        overlayMgr.tierUpgradeOverlay = tierUpgradeUI;
+
+        // ── Game Over Overlay ─────────────────────────────────────────────
+        var gameOverGO = new GameObject("GameOverOverlay");
+        gameOverGO.transform.SetParent(overlayRoot, false);
+        var gameOverRT = gameOverGO.AddComponent<RectTransform>();
+        gameOverRT.anchorMin        = Vector2.zero;
+        gameOverRT.anchorMax        = Vector2.one;
+        gameOverRT.offsetMin        = Vector2.zero;
+        gameOverRT.offsetMax        = Vector2.zero;
+        var gameOverUI = gameOverGO.AddComponent<GameOverOverlayUI>();
+        overlayMgr.gameOverOverlay = gameOverUI;
+
+        // ── Victory Overlay ───────────────────────────────────────────────
+        var victoryGO = new GameObject("VictoryOverlay");
+        victoryGO.transform.SetParent(overlayRoot, false);
+        var victoryRT = victoryGO.AddComponent<RectTransform>();
+        victoryRT.anchorMin        = Vector2.zero;
+        victoryRT.anchorMax        = Vector2.one;
+        victoryRT.offsetMin        = Vector2.zero;
+        victoryRT.offsetMax        = Vector2.zero;
+        var victoryUI = victoryGO.AddComponent<VictoryOverlayUI>();
+        overlayMgr.victoryOverlay = victoryUI;
+
+        // ── Hall of Fame Panel ────────────────────────────────────────────
+        var hofGO = new GameObject("HallOfFamePanel");
+        hofGO.transform.SetParent(overlayRoot, false);
+        var hofRT = hofGO.AddComponent<RectTransform>();
+        hofRT.anchorMin        = new Vector2(0.5f, 0.5f);
+        hofRT.anchorMax        = new Vector2(0.5f, 0.5f);
+        hofRT.pivot            = new Vector2(0.5f, 0.5f);
+        hofRT.anchoredPosition = Vector2.zero;
+        hofRT.sizeDelta        = new Vector2(1100f, 800f);
+        var hofPanel = hofGO.AddComponent<HallOfFamePanel>();
+        overlayMgr.hallOfFamePanel = hofPanel;
 
         // ── GameManager bootstrap ─────────────────────────────────────────
         // Ensure a GameManager exists in the scene so it persists into subsequent scenes.
@@ -849,5 +909,116 @@ public class MainMenuSceneGenerator
     {
         var groups = mixer.FindMatchingGroups(groupName);
         return groups != null && groups.Length > 0 ? groups[0] : null;
+    }
+
+    // ================================================================
+    // HELPER PANEL
+    // ================================================================
+
+    static readonly string[] HelperPageTitles = new[]
+    {
+        "How to Win",
+        "Bait & Release",
+        "Weather"
+    };
+
+    static readonly string[] HelperPageTexts = new[]
+    {
+        // Page 1 — Goal
+        "Your goal is to earn <b>8 Gym Badges</b> by defeating Gym Leaders.\n\n" +
+        "Each badge you collect unlocks a harder opponent and expands the tier of " +
+        "Pokémon available in the shop.\n\n" +
+        "Once all 8 badges are yours, you face the <b>Elite Four</b>. " +
+        "Each Elite Four member is followed by a shop break so you can adjust your team.\n\n" +
+        "Defeat all four and you earn the right to challenge the <b>Champion</b>. " +
+        "Defeat the Champion to complete your run and enter the Hall of Fame.",
+
+        // Page 2 — Bait & Release
+        "<b>Bait</b> — Select a Pokémon in the shop, then click the Bait button to lock that slot. " +
+        "A baited slot is marked and will not be replaced when you reroll — " +
+        "useful when you see a Pokémon you want but can't afford yet.\n\n" +
+        "<b>Release</b> — Select a Pokémon on your battle row or bench, then press the Release button. " +
+        "The Pokémon is gone immediately — no refund is given, so only release when " +
+        "you're sure you no longer need it.",
+
+        // Page 3 — Weather
+        "At the start of certain battles a random <b>weather condition</b> is set. " +
+        "Weather affects all Pokémon on the field for the entire battle.\n\n\n" +
+        "<b>Sun</b> — Fire-type moves deal bonus damage. " +
+        "Water-type moves deal reduced damage.\n\n" +
+        "<b>Rain</b> — Water-type moves deal bonus damage. " +
+        "Fire-type moves deal reduced damage.\n\n" +
+        "<b>Sandstorm</b> — Ground types are unaffected. " +
+        "All others lose HP each round unless they have a protective ability."
+    };
+
+    static GameObject BuildHelperPanel(Transform root, out Button closeBtn)
+    {
+        var panel = CreatePanel(root, "HelperPanel", new Vector2(1200, 780), Vector2.zero);
+        SetColor(panel, new Color(0.06f, 0.08f, 0.06f, 0.97f));
+        panel.AddComponent<Outline>().effectColor = new Color(0.2f, 0.45f, 0.2f, 0.8f);
+
+        // Title
+        var title = CreateTMP(panel.transform, "Title", "How to Play", 46,
+            new Vector2(0, 340), new Vector2(1100, 70));
+        title.fontStyle = FontStyles.Bold;
+        title.alignment = TextAlignmentOptions.Center;
+
+        // Close button
+        closeBtn = CreateButton(panel.transform, "CloseHelperBtn", "X",
+            new Vector2(60, 60), new Vector2(560, 340));
+        SetButtonColor(closeBtn, new Color(0.55f, 0.12f, 0.12f));
+
+        // Page indicator  (e.g. "1 / 3")
+        var pageIndicatorTMP = CreateTMP(panel.transform, "PageIndicator", "1 / 3", 22,
+            new Vector2(0, -320), new Vector2(300, 40));
+        pageIndicatorTMP.alignment = TextAlignmentOptions.Center;
+
+        // Prev / Next buttons
+        var prevBtn = CreateButton(panel.transform, "PrevBtn", "<", new Vector2(80, 60), new Vector2(-560, -320));
+        var nextBtn = CreateButton(panel.transform, "NextBtn", ">", new Vector2(80, 60), new Vector2( 560, -320));
+        SetButtonColor(prevBtn, new Color(0.2f, 0.35f, 0.2f));
+        SetButtonColor(nextBtn, new Color(0.2f, 0.35f, 0.2f));
+
+        // Build one child page GameObject per page
+        var pages = new GameObject[HelperPageTitles.Length];
+        for (int i = 0; i < HelperPageTitles.Length; i++)
+        {
+            var page = CreatePanel(panel.transform, $"Page_{i}", new Vector2(1100, 560), new Vector2(0, -10));
+            page.GetComponent<Image>().color = Color.clear;
+
+            var pageTitleTMP = CreateTMP(page.transform, "PageTitle", HelperPageTitles[i], 32,
+                new Vector2(0, 248), new Vector2(1060, 50));
+            pageTitleTMP.fontStyle = FontStyles.Bold;
+            pageTitleTMP.alignment = TextAlignmentOptions.Center;
+
+            var bodyTMP = CreateTMP(page.transform, "Body", HelperPageTexts[i], 20,
+                new Vector2(0, 80), new Vector2(1020, 280));
+            bodyTMP.alignment          = TextAlignmentOptions.TopLeft;
+            bodyTMP.textWrappingMode = TextWrappingModes.Normal;
+            bodyTMP.wordSpacing        = 0;
+            bodyTMP.lineSpacing        = 0;
+
+            var imgGO   = new GameObject("PageImage");
+            var imgRect = imgGO.AddComponent<RectTransform>();
+            var imgComp = imgGO.AddComponent<Image>();
+            imgGO.transform.SetParent(page.transform, false);
+            imgRect.sizeDelta        = new Vector2(600, 180);
+            imgRect.anchoredPosition = new Vector2(0, -170);
+            var pageSprite = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Resources/Icons/helper{i + 1}.png");
+            if (pageSprite != null) { imgComp.sprite = pageSprite; imgComp.preserveAspect = true; }
+            else imgComp.color = new Color(1, 1, 1, 0);
+
+            pages[i] = page;
+        }
+
+        // Wire HelperPanelUI component
+        var helperUI = panel.AddComponent<HelperPanelUI>();
+        helperUI.pages         = pages;
+        helperUI.pageIndicator = pageIndicatorTMP;
+        helperUI.prevButton    = prevBtn.GetComponent<Button>();
+        helperUI.nextButton    = nextBtn.GetComponent<Button>();
+
+        return panel;
     }
 }

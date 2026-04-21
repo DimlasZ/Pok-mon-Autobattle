@@ -89,9 +89,10 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning($"AudioManager: No music found with prefix '{prefix}'");
             return;
         }
-        var clip = matches[Random.Range(0, matches.Length)];
         if (_musicSource == null) return;
-        if (_musicSource.clip == clip && _musicSource.isPlaying) return;
+        if (matches.Length > 1)
+            matches = System.Array.FindAll(matches, c => c != _musicSource.clip);
+        var clip = matches[Random.Range(0, matches.Length)];
         _musicSource.loop = true;
         _musicSource.clip = clip;
         _musicSource.Play();
@@ -158,6 +159,31 @@ public class AudioManager : MonoBehaviour
     {
         _musicSource.Stop();
         _musicSource.clip = null;
+    }
+
+    // Plays the correct shop or battle music based on the player's current win count.
+    public void PlayShopMusic()
+    {
+        int wins = GameManager.Instance != null ? GameManager.Instance.PlayerWins : 0;
+        if (wins >= 12)      PlayMusic("ChampShop");
+        else if (wins >= 8)  PlayMusic("Elite4Shop");
+        else
+        {
+            // Don't pick a new track if a shop track is already playing (e.g. started by the Continue button before scene load).
+            if (_musicSource != null && _musicSource.isPlaying &&
+                _musicSource.clip != null &&
+                _musicSource.clip.name.StartsWith("Shop", System.StringComparison.OrdinalIgnoreCase))
+                return;
+            PlayRandomMusic("Shop");
+        }
+    }
+
+    public void PlayBattleMusic()
+    {
+        int wins = GameManager.Instance != null ? GameManager.Instance.PlayerWins : 0;
+        if (wins >= 12)      PlayMusic("ChampBattle");
+        else if (wins >= 8)  PlayMusic("Elite4Battle");
+        else                 PlayRandomMusic("Trainerbattle");
     }
 
     public void StopWeatherSound()

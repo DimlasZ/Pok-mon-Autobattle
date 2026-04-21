@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 212
   pokemonName: Scizor
   attack: 88
-  hp: 95
+  hp: 88
   type1: Flying
-  speed: 85
+  speed: 82
   tier: 6
   preEvolutionId: 123
+  isLegendary: 0
   ability: {fileID: 11400000, guid: e6f0754aaa68ed041af5a6eaa8121ffe, type: 2}
   sprite: {fileID: 9159335252060606472, guid: 4c8870c23fb16c04aa03957b9d3e5045, type: 3}

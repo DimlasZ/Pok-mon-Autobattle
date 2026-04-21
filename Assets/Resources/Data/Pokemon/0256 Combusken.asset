@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 256
   pokemonName: Combusken
   attack: 37
-  hp: 55
+  hp: 50
   type1: Fire
   speed: 45
   tier: 2
   preEvolutionId: 255
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 7c0a08b4290d55f41997cab329f509a0, type: 2}
   sprite: {fileID: -3209696852090425940, guid: 43d4ed489be1b3f4eb6d9d8c2eb87ea5, type: 3}

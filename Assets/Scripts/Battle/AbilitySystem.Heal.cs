@@ -36,8 +36,9 @@ public static partial class AbilitySystem
     private static void HandleLeech(EffectContext ctx)
     {
         var targets = GetTargets(ctx);
+        // Leech heals from target's max HP — fires even if the attack just killed the target
         foreach (var t in targets)
-            if (t.currentHP > 0) ApplyHeal(ctx.source, ctx.source, ctx.ab, ctx.sourceTeam, ctx.enemyTeam, t.maxHP);
+            ApplyHeal(ctx.source, ctx.source, ctx.ab, ctx.sourceTeam, ctx.enemyTeam, t.maxHP);
     }
 
     // Percentage heal: v is a fraction of hpPool (0.3 = 30% of max HP)

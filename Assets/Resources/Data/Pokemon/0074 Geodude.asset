@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 74
   pokemonName: Geodude
-  attack: 40
-  hp: 44
+  attack: 52
+  hp: 52
   type1: Ground
   speed: 16
   tier: 3
   preEvolutionId: 0
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 98d37b2517a75114ea672a51b76824c0, type: 2}
   sprite: {fileID: 8868755882841702949, guid: 348feb29499b2dc46bd63a97577471a0, type: 3}

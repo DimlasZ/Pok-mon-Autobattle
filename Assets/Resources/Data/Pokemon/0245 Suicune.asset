@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 245
   pokemonName: Suicune
-  attack: 74
-  hp: 137
+  attack: 70
+  hp: 127
   type1: Water
-  speed: 88
+  speed: 72
   tier: 6
   preEvolutionId: 0
+  isLegendary: 1
   ability: {fileID: 11400000, guid: 53461cd026aa2f0409b39ad5996042b2, type: 2}
   sprite: {fileID: 1714229238690226044, guid: 72b46302bd056be4bacec7112ede95d2, type: 3}

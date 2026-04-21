@@ -39,7 +39,6 @@
 - [x] Pokemon evolving
 - [x] Pokemon evolution and preevolution on hover
 - [x] Ability on hover
-- [ ] Item shop and held item logic
 - [x] ShopManager script
 
 
@@ -60,8 +59,7 @@
 - [x] Sample teams need to better
 - [x] Flatdamage battle calc, is wrong
 - [x] fix the damage calc sccipt
-
-- [ ] Entry Hazard are not stackable.
+- [x] Entry Hazard are not stackable.
 - [x] weather effects visual and with buffs / debuffs
 - [x] sound effects
 
@@ -82,8 +80,8 @@
 - [x] GameManager script (phase transitions)
 - [x] Round counter system
 - [x] Enemy team generation (scales with round)
-- [ ] Game Over screen (when player HP = 0)
-- [ ] Victory screen (survived all rounds)
+- [x] Game Over screen (when player HP = 0)
+- [x] Victory screen (survived all rounds)
 
 
 ## UI & Polish
@@ -104,18 +102,22 @@
 - [x] Polish UI - Tooltip, bigger and on the right side
 - [x] eve all evolutions shown in the tooltip of the pokedex same for bloom
 - [ ] tool tip for Wearther effects
-- [ ] better loss sound
-- [ ] all poke looking to the right
-- [ ] sandstorm damage another sound more like swoosh
-- [ ] shop background
-- [ ] Battle background
-- [ ] back to mainmenu button. to left, with confirmation
-- [ ] warning if continue with money in the bank.
-- [ ] show which Tier we are
-- [ ] show which unlocked this round
+- [x] better loss sound
+- [x] pokexdex correct oder of stats
+- [x] all poke looking to the right
+- [x write Helper and add Pcitures
+- [x] sandstorm damage another sound more like swoosh
+- [x] shop background
+- [x] Battle background
+- [x] back to mainmenu button. to left, with confirmation
+- [x] warning if continue with money in the bank.
+- [x] show which Tier we are
+- [x] show which unlocked this round
 - [ ] Desktop Icon
-
-
+- [x] main menu bug, battle persists but shop row get reloaded, need a save state
+- [x] music for the Elite 4 in the shop (Already added, add to code)
+- [x] music for the Champ (Already added, add to code)
+- [x] music for the Victory Screen
 
 
 ## Testing & Balancing
@@ -125,13 +127,13 @@
 - [x] Balance Pokemon stats
 - [x] Test ability triggers
 - [x] Add remaining Pokemon once systems are stable
+- [x]generate all sim new, for final data
+
 
 
 ## Things that might change, i need to think about it
 
-- [ ] Start with more HP as a player and lose more life based on surviving enmey pokemon.
-- [ ] max 1 legendary / legendary extremly rare in the shop
-- [ ] 6 bench slots as well.
+- [x] Start with more HP as a player and lose more life based on surviving enmey pokemon.
 - [x] How to evolve a pokemon, 3x1 = level 2 or buy the level 2 pokemon?
 - [x] After how many rounds there is a draw? prolly non, no draw should be possible. Careful healing outscales damage maybe.
 - [x] Make Bench smaller, to 3 Poke? otherwise to many pokeslots
@@ -144,36 +146,9 @@
 - [x] weighted tier teams for enemy or database teams / LLM teams / harder enemy teams
 - [x] always have a team size of 6.
 - [ ] Coop Multiplayer? May need a server, or at least a relay. 
+- [ ] Item shop and held item logic
 
 ## Continue/ bugs 
 
-- [ ] leech doesnt heal after attack. check if true for leech seed, should be fixed
-- [ ] weather after each other viusal and stats bug to high attack stays, not sure need checking
-- [ ] tool tip for Wearther effects
-- [ ] new ability for maunzi
-- [ ] batonpass fix
-- [ ] run sim again take top 5000 as input or top 3000. or weighted.
-
-investigate late teams, loading strange pokemon, tier 1 etc. 
-
-on hit effects dont trigger on death
-
-
-
- 
-HP remove bvattlescreen top bar
-cubone ability bugged, trigger on hit not on conditon
-glurak worng dexcption , word missing
-draw shoudnt cost a life
-
-
-
 claude.md file learning
-
-
-
-
-
-
-
 

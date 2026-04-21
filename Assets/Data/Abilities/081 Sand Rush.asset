@@ -18,11 +18,11 @@ MonoBehaviour:
   target: self
   count: 0
   effect: boost_speed
-  value: 1.5
+  value: 2
   condition: weather_sandstorm
   chance: 0
   custom: 
-  description: Boosts Speed by 50% during a sandstorm.
+  description: Boosts Speed by 100% during a sandstorm.
   vfxSheet: buff8
   vfxRow: 0
   sound: 

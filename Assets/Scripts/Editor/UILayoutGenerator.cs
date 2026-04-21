@@ -29,14 +29,14 @@ public class UILayoutGenerator
         var scaler = canvas.GetComponent<CanvasScaler>();
         scaler.uiScaleMode        = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920, 1080);
-        scaler.screenMatchMode    = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        scaler.screenMatchMode    = CanvasScaler.ScreenMatchMode.Expand;
         scaler.matchWidthOrHeight = 0.5f;
 
         Transform root = canvas.transform;
 
         // --- Destroy existing panels so re-running doesn't stack duplicates ---
-        string[] managedNames = { "TopBar", "ShopPanel", "BattlePanel", "BenchPanel", "ActionPanel", "StartBattleButton", "Tooltip", "DragGhost", "DragDropManager" };
-        // Note: SettingsOverlayBtn and PokedexOverlayBtn are children of TopBar, so they're destroyed with it.
+        string[] managedNames = { "TopBar", "ShopPanel", "BattlePanel", "BenchPanel", "ActionPanel", "StartBattleButton", "Tooltip", "DragGhost", "DragDropManager", "ConfirmReturnPanel", "ConfirmBattlePanel" };
+        // Note: all TopBar children (overlay buttons, return button) are destroyed with TopBar.
         foreach (string n in managedNames)
         {
             // Destroy ALL children with this name (handles accidental duplicates)
@@ -55,15 +55,26 @@ public class UILayoutGenerator
         var pokedollarText = CreateCurrencyDisplay(topBar.transform, new Vector2(0, 0));
         var hpText         = CreateHPIconRow(topBar.transform, new Vector2(600, 0), out Image[] heartImages);
 
+        // Top-left: Return to Main Menu button (red background, Return.png icon)
+        // Offset from -960 edge: button is 58px wide, centred at -890 → left edge at -919, ~41px from border
+        var returnBtn = CreateButton(topBar.transform, "ReturnToMainMenuBtn", "", new Vector2(58, 50), new Vector2(-890, 0));
+        SetButtonColor(returnBtn, new Color(0.7f, 0.1f, 0.1f));
+        SetButtonIcon(returnBtn, "Assets/Resources/Icons/Return.png");
+        returnBtn.gameObject.AddComponent<GlobalOverlayToggle>().target = GlobalOverlayToggle.Target.ReturnToMainMenu;
+
         // Small overlay buttons — top-right of TopBar.
         var pokedexOverlayBtn  = CreateButton(topBar.transform, "PokedexOverlayBtn",  "", new Vector2(58, 50), new Vector2(860, 0));
+        var helperOverlayBtn   = CreateButton(topBar.transform, "HelperOverlayBtn",   "", new Vector2(58, 50), new Vector2(792, 0));
         var settingsOverlayBtn = CreateButton(topBar.transform, "SettingsOverlayBtn", "", new Vector2(58, 50), new Vector2(928, 0));
         SetButtonColor(pokedexOverlayBtn,  new Color(0.18f, 0.28f, 0.58f));
+        SetButtonColor(helperOverlayBtn,   new Color(0.6f,  0.5f,  0.0f));
         SetButtonColor(settingsOverlayBtn, new Color(0.25f, 0.25f, 0.35f));
         SetButtonIcon(pokedexOverlayBtn,  "Assets/Resources/Icons/dex.png");
+        SetButtonIcon(helperOverlayBtn, "Assets/Resources/Icons/questionmark.png");
         SetButtonIcon(settingsOverlayBtn, "Assets/Resources/Icons/gear.png");
         // Wire at runtime via GlobalOverlayToggle — no direct scene reference needed
         pokedexOverlayBtn.gameObject.AddComponent<GlobalOverlayToggle>().target  = GlobalOverlayToggle.Target.Pokedex;
+        helperOverlayBtn.gameObject.AddComponent<GlobalOverlayToggle>().target   = GlobalOverlayToggle.Target.Helper;
         settingsOverlayBtn.gameObject.AddComponent<GlobalOverlayToggle>().target = GlobalOverlayToggle.Target.Settings;
 
         // --- Shop Panel ---
@@ -79,11 +90,11 @@ public class UILayoutGenerator
         for (int i = 0; i < ShopManager.MaxShopSize; i++)
             shopSlots[i] = UIGeneratorHelpers.CreateSlot(shopRow.transform, $"ShopSlot_{i}", new Vector2(200, 185));
 
-        var rerollBtn = CreateButton(shopPanel.transform, "RerollButton", "Reroll \u00d7", new Vector2(180, 60), new Vector2(820, 0));
+        var rerollBtn = CreateButton(shopPanel.transform, "RerollButton", "Reroll", new Vector2(180, 60), new Vector2(820, 0));
         // Shift text left to make room for the pokeball cost icon
         var rerollLblTransform = rerollBtn.transform.Find("Label");
-        rerollLblTransform.GetComponent<RectTransform>().sizeDelta        = new Vector2(132, 60);
-        rerollLblTransform.GetComponent<RectTransform>().anchoredPosition = new Vector2(-22, 0);
+        rerollLblTransform.GetComponent<RectTransform>().sizeDelta        = new Vector2(90, 60);
+        rerollLblTransform.GetComponent<RectTransform>().anchoredPosition = new Vector2(-30, 0);
         // Pokeball icon represents the 1-pokedollar cost
         {
             var go   = new GameObject("PokeballIcon");
@@ -91,7 +102,7 @@ public class UILayoutGenerator
             var img  = go.AddComponent<Image>();
             go.transform.SetParent(rerollBtn.transform, false);
             rt.sizeDelta        = new Vector2(36, 36);
-            rt.anchoredPosition = new Vector2(68, 0);
+            rt.anchoredPosition = new Vector2(48, 0);
             var sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Resources/Icons/pokeball.png");
             if (sprite != null) img.sprite = sprite;
             img.preserveAspect = true;
@@ -127,12 +138,13 @@ public class UILayoutGenerator
         // --- Action Buttons Panel ---
         var actionPanel = CreatePanel(root, "ActionPanel", new Vector2(1920, 80), new Vector2(0, -430));
         SetColor(actionPanel, new Color(0.08f, 0.08f, 0.08f, 0.95f));
-        var releaseBtn = CreateButton(actionPanel.transform, "ReleaseButton", "Release", new Vector2(180, 60), new Vector2(-300, 0));
-        // Add ReleaseDropZone so Pokemon can also be dragged onto this button to release them
+        // Align Release and Bait with the slot columns (slot row centre x=-50, width=1250 → left edge=-675, slot width=200+gap=210)
+        var releaseBtn = CreateButton(actionPanel.transform, "ReleaseButton", "Release", new Vector2(190, 60), new Vector2(-575, 0));
         releaseBtn.gameObject.AddComponent<ReleaseDropZone>();
+        var baitBtn = CreateButton(actionPanel.transform, "BaitButton", "Bait", new Vector2(190, 60), new Vector2(-365, 0));
 
-        // --- Start Battle Button ---
-        var startBattleBtn = CreateButton(root, "StartBattleButton", "START BATTLE", new Vector2(260, 70), new Vector2(800, -450));
+        // --- Start Battle Button — same row as action panel ---
+        var startBattleBtn = CreateButton(actionPanel.transform, "StartBattleButton", "START BATTLE", new Vector2(260, 60), new Vector2(575, 0));
         SetButtonColor(startBattleBtn, new Color(0.8f, 0.2f, 0.2f));
 
         // --- UIManager ---
@@ -159,6 +171,7 @@ public class UILayoutGenerator
         uiManager.heartImages = heartImages;
 
         uiManager.releaseButton     = releaseBtn;
+        uiManager.baitButton        = baitBtn;
         uiManager.rerollButton      = rerollBtn;
         uiManager.startBattleButton = startBattleBtn;
         uiManager.releaseDropZone   = releaseBtn.GetComponent<ReleaseDropZone>();
@@ -195,6 +208,101 @@ public class UILayoutGenerator
         Undo.RegisterCreatedObjectUndo(ddmGO, "Create DragDropManager");
         var ddm = ddmGO.AddComponent<DragDropManager>();
         ddm.ghostImage = ghostImg;
+
+        // --- Confirm Return Panel ---
+        // Full-screen dimmer with a dialog in the centre. Rendered on top (last sibling).
+        var confirmRoot = new GameObject("ConfirmReturnPanel");
+        Undo.RegisterCreatedObjectUndo(confirmRoot, "Create ConfirmReturnPanel");
+        var confirmRootRect = confirmRoot.AddComponent<RectTransform>();
+        var confirmRootImg  = confirmRoot.AddComponent<Image>();
+        confirmRoot.transform.SetParent(root, false);
+        confirmRootRect.anchorMin = Vector2.zero;
+        confirmRootRect.anchorMax = Vector2.one;
+        confirmRootRect.offsetMin = Vector2.zero;
+        confirmRootRect.offsetMax = Vector2.zero;
+        confirmRootImg.color      = new Color(0f, 0f, 0f, 0.65f);
+        confirmRoot.transform.SetAsLastSibling();
+
+        // Dialog box
+        var dialog     = new GameObject("Dialog");
+        var dialogRect = dialog.AddComponent<RectTransform>();
+        var dialogImg  = dialog.AddComponent<Image>();
+        dialog.transform.SetParent(confirmRoot.transform, false);
+        dialogRect.sizeDelta        = new Vector2(500, 220);
+        dialogRect.anchoredPosition = Vector2.zero;
+        dialogImg.color             = new Color(0.12f, 0.12f, 0.18f, 1f);
+
+        // Question text
+        var msgGO   = new GameObject("Message");
+        var msgRect = msgGO.AddComponent<RectTransform>();
+        var msgTMP  = msgGO.AddComponent<TextMeshProUGUI>();
+        msgGO.transform.SetParent(dialog.transform, false);
+        msgRect.sizeDelta        = new Vector2(440, 100);
+        msgRect.anchoredPosition = new Vector2(0, 50);
+        msgTMP.text      = "Return to Main Menu?";
+        msgTMP.fontSize  = 28;
+        msgTMP.alignment = TextAlignmentOptions.Center;
+        msgTMP.color     = Color.white;
+
+        // No button — left side
+        var noBtn = CreateButton(dialog.transform, "ConfirmNoButton", "No", new Vector2(160, 55), new Vector2(-100, -60));
+        SetButtonColor(noBtn, new Color(0.55f, 0.15f, 0.15f));
+
+        // Yes button — right side
+        var yesBtn = CreateButton(dialog.transform, "ConfirmYesButton", "Yes", new Vector2(160, 55), new Vector2(100, -60));
+        SetButtonColor(yesBtn, new Color(0.15f, 0.55f, 0.15f));
+
+        // Wire via ConfirmReturnPanel script
+        var confirmScript = confirmRoot.AddComponent<ConfirmReturnPanel>();
+        confirmScript.confirmButton = yesBtn;
+        confirmScript.cancelButton  = noBtn;
+        // Start() sets Active=false; set it here too so it's hidden in editor
+        confirmRoot.SetActive(false);
+
+        // --- Confirm Battle Panel (money warning) ---
+        var battleConfirmRoot = new GameObject("ConfirmBattlePanel");
+        Undo.RegisterCreatedObjectUndo(battleConfirmRoot, "Create ConfirmBattlePanel");
+        var battleConfirmRect = battleConfirmRoot.AddComponent<RectTransform>();
+        var battleConfirmImg  = battleConfirmRoot.AddComponent<Image>();
+        battleConfirmRoot.transform.SetParent(root, false);
+        battleConfirmRect.anchorMin = Vector2.zero;
+        battleConfirmRect.anchorMax = Vector2.one;
+        battleConfirmRect.offsetMin = Vector2.zero;
+        battleConfirmRect.offsetMax = Vector2.zero;
+        battleConfirmImg.color      = new Color(0f, 0f, 0f, 0.65f);
+        battleConfirmRoot.transform.SetAsLastSibling();
+
+        var battleDialog     = new GameObject("Dialog");
+        var battleDialogRect = battleDialog.AddComponent<RectTransform>();
+        var battleDialogImg  = battleDialog.AddComponent<Image>();
+        battleDialog.transform.SetParent(battleConfirmRoot.transform, false);
+        battleDialogRect.sizeDelta        = new Vector2(540, 240);
+        battleDialogRect.anchoredPosition = Vector2.zero;
+        battleDialogImg.color             = new Color(0.12f, 0.12f, 0.18f, 1f);
+
+        var battleMsgGO   = new GameObject("Message");
+        var battleMsgRect = battleMsgGO.AddComponent<RectTransform>();
+        var battleMsgTMP  = battleMsgGO.AddComponent<TextMeshProUGUI>();
+        battleMsgGO.transform.SetParent(battleDialog.transform, false);
+        battleMsgRect.sizeDelta        = new Vector2(480, 120);
+        battleMsgRect.anchoredPosition = new Vector2(0, 55);
+        battleMsgTMP.text      = "You still have Pokéballs left!\nStart battle anyway?";
+        battleMsgTMP.fontSize  = 24;
+        battleMsgTMP.alignment = TextAlignmentOptions.Center;
+        battleMsgTMP.color     = Color.white;
+
+        var battleNoBtn  = CreateButton(battleDialog.transform, "ConfirmNoButton",  "Keep Shopping", new Vector2(200, 55), new Vector2(-130, -75));
+        SetButtonColor(battleNoBtn,  new Color(0.55f, 0.35f, 0.1f));
+        var battleYesBtn = CreateButton(battleDialog.transform, "ConfirmYesButton", "Start Battle",  new Vector2(200, 55), new Vector2(100,  -75));
+        SetButtonColor(battleYesBtn, new Color(0.15f, 0.55f, 0.15f));
+
+        var battleConfirmScript = battleConfirmRoot.AddComponent<ConfirmBattlePanel>();
+        battleConfirmScript.confirmButton = battleYesBtn;
+        battleConfirmScript.cancelButton  = battleNoBtn;
+        battleConfirmScript.messageText   = battleMsgTMP;
+        battleConfirmRoot.SetActive(false);
+
+        uiManager.confirmBattlePanel = battleConfirmScript;
 
         EditorUtility.SetDirty(ddmGO);
         EditorUtility.SetDirty(uiManagerGO);
@@ -375,7 +483,7 @@ public class UILayoutGenerator
         if (image != null) image.color = color;
     }
 
-    // Hides the text label on a button and fills it with a sprite icon instead.
+    // Hides the text label on a button and fills it with a sprite icon instead (anchor-based, ~80% of button).
     static void SetButtonIcon(Button button, string spritePath)
     {
         var labelTransform = button.transform.Find("Label");
@@ -390,6 +498,29 @@ public class UILayoutGenerator
         rt.anchorMax = new Vector2(0.9f, 0.9f);
         rt.offsetMin = Vector2.zero;
         rt.offsetMax = Vector2.zero;
+        var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+        if (sprite != null) img.sprite = sprite;
+        img.preserveAspect = true;
+        img.raycastTarget  = false;
+    }
+
+    // Like SetButtonIcon but uses a fixed pixel size — use this when the sprite has unusual aspect
+    // or bleeds outside the button with the anchor method.
+    static void SetButtonIconFixed(Button button, string spritePath, Vector2 iconSize)
+    {
+        var labelTransform = button.transform.Find("Label");
+        if (labelTransform != null)
+            labelTransform.GetComponent<TextMeshProUGUI>().text = "";
+
+        var go  = new GameObject("Icon");
+        var rt  = go.AddComponent<RectTransform>();
+        var img = go.AddComponent<Image>();
+        go.transform.SetParent(button.transform, false);
+        rt.anchorMin        = new Vector2(0.5f, 0.5f);
+        rt.anchorMax        = new Vector2(0.5f, 0.5f);
+        rt.pivot            = new Vector2(0.5f, 0.5f);
+        rt.sizeDelta        = iconSize;
+        rt.anchoredPosition = Vector2.zero;
         var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
         if (sprite != null) img.sprite = sprite;
         img.preserveAspect = true;
@@ -411,7 +542,7 @@ public class UILayoutGenerator
 
     // 8 Badges (each a different sprite from the sheet) + 4 Stars + 1 Champ, all greyed out by default.
     // Returns a hidden TMP for UIManager and exposes Image arrays via out params.
-    static TextMeshProUGUI CreateProgressIconRow(Transform parent, Vector2 pos,
+    public static TextMeshProUGUI CreateProgressIconRow(Transform parent, Vector2 pos,
         out Image[] badgeImages, out Image[] starImages, out Image champImage)
     {
         var container     = new GameObject("ProgressIconDisplay");
@@ -452,7 +583,7 @@ public class UILayoutGenerator
     }
 
     // 6 Hearts, full (white) by default. Returns a hidden TMP and exposes Image[] via out param.
-    static TextMeshProUGUI CreateHPIconRow(Transform parent, Vector2 pos, out Image[] heartImages)
+    public static TextMeshProUGUI CreateHPIconRow(Transform parent, Vector2 pos, out Image[] heartImages)
     {
         var container     = new GameObject("HPIconDisplay");
         var containerRect = container.AddComponent<RectTransform>();

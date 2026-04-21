@@ -18,11 +18,11 @@ MonoBehaviour:
   target: self
   count: 0
   effect: heal
-  value: 0.3
+  value: 0.4
   condition: 
   chance: 0
   custom: 
-  description: 'After Attack: Heals 30% of max HP.'
+  description: 'After Attack: Heals 40% of max HP.'
   vfxSheet: buff7
   vfxRow: 5
   sound: heal

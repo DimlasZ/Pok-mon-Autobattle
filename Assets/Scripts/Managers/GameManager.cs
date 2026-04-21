@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 // GameManager controls the overall game flow and persists across all scenes.
 // It is the single source of truth for: current phase, round, player HP, and battle teams.
@@ -18,7 +19,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Player Health")]
     public int playerMaxHP = 6;
-    public int PlayerHP { get; private set; }
+    public int  PlayerHP            { get; private set; }
+    public bool PendingHeartRestored { get; private set; }
 
     [Header("Scene Names")]
     public string mainMenuSceneName = "MainMenuScene";
@@ -36,7 +38,16 @@ public class GameManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Persists across all scenes
+        DontDestroyOnLoad(gameObject);
+        Application.quitting += OnApplicationQuitting;
+    }
+
+    private void OnApplicationQuitting()
+    {
+        // Save mid-run state so the player can Continue next session.
+        // Only save during Buy phase — battle state is ephemeral.
+        if (CurrentPhase == GamePhase.Buy && PlayerHP > 0)
+            AutoSaveManager.Save();
     }
 
     private void Start()
@@ -57,19 +68,67 @@ public class GameManager : MonoBehaviour
         CurrentPhase = GamePhase.Buy;
         Debug.Log($"Round {CurrentRound} — Buy Phase started");
 
-        // ShopManager persists, so this works even when called before scene loads
         if (ShopManager.Instance != null)
             ShopManager.Instance.StartRound();
+
+        // Save after the shop is populated so Continue restores a valid buy-phase state.
+        // Skip on round 1 of a fresh game — nothing worth saving yet.
+        if (CurrentRound > 1)
+            AutoSaveManager.Save();
+    }
+
+    // Returns to the main menu. Saves current state so the player can Continue the run.
+    // Only saves during Buy phase — if called from battle/results the run isn't in a clean state.
+    public void ReturnToMainMenu()
+    {
+        if (CurrentPhase == GamePhase.Buy && PlayerHP > 0)
+            AutoSaveManager.Save();
+        else
+            AutoSaveManager.Delete();
+
+        ResetShop();
+        GlobalOverlayManager.Instance?.CloseAll();
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 
     // Called by MainMenuController's Play Now button — starts the game from scratch.
     public void StartGame()
     {
-        PlayerHP   = playerMaxHP;
-        PlayerWins = 0;
+        AutoSaveManager.Delete();
+        PlayerHP     = playerMaxHP;
+        PlayerWins   = 0;
         CurrentRound = 1;
+        ResetShop();
         EnterBuyPhase();
         SceneManager.LoadScene(shopSceneName);
+    }
+
+    // Pending save to be applied by UIManager once the shop scene finishes loading.
+    public GameSaveData PendingSaveLoad { get; private set; }
+
+    // Called by MainMenuController's Continue button — resumes from the autosave.
+    public bool ContinueGame()
+    {
+        var save = AutoSaveManager.Load();
+        if (save == null) return false;
+
+        PlayerHP        = save.playerHP;
+        PlayerWins      = save.playerWins;
+        CurrentRound    = save.currentRound;
+        CurrentPhase    = GamePhase.Buy;
+        PendingSaveLoad = save;   // consumed by UIManager.Start() after scene loads
+
+        SceneManager.LoadScene(shopSceneName);
+        return true;
+    }
+
+    public void ClearPendingSaveLoad() => PendingSaveLoad = null;
+
+    // Wipes all three team rows so the previous run's team doesn't bleed into a new game.
+    private void ResetShop()
+    {
+        if (ShopManager.Instance == null) return;
+        ShopManager.Instance.ClearAllRows();
     }
 
     // Called when player clicks START BATTLE
@@ -99,7 +158,11 @@ public class GameManager : MonoBehaviour
         CurrentPhase = GamePhase.Results;
 
         if (result == BattleResult.PlayerWin)
+        {
             PlayerWins++;
+            if (PlayerWins == 8)
+                PokedexUnlockManager.UnlockElite4(PlayerBattleTeam);
+        }
         else if (result == BattleResult.PlayerLoss)
             TakeDamage(1);
 
@@ -117,7 +180,22 @@ public class GameManager : MonoBehaviour
         if (PlayerHP <= 0)               { EnterGameOver(); return; }
         if (PlayerWins >= winsToVictory) { EnterVictory();  return; }
 
+        int tierBefore = ShopManager.Instance.GetTierForRound(CurrentRound);
         CurrentRound++;
+        int tierAfter = ShopManager.Instance.GetTierForRound(CurrentRound);
+
+        PendingHeartRestored = false;
+        if (tierAfter > tierBefore && (tierAfter == 2 || tierAfter == 4) && PlayerHP < playerMaxHP)
+        {
+            PlayerHP             = Mathf.Min(PlayerHP + 1, playerMaxHP);
+            PendingHeartRestored = true;
+            Debug.Log($"Tier {tierAfter} reached — restored 1 HP. HP: {PlayerHP}/{playerMaxHP}");
+        }
+
+        // Heal all player Pokémon back to full so bench shows correct HP in the shop.
+        if (PlayerBattleTeam != null)
+            foreach (var p in PlayerBattleTeam)
+                if (p != null) p.ResetForBattle();
 
         // Set up the next round now — ShopManager persists so StartRound() runs immediately.
         // UIManager doesn't exist yet (it lives in the shop scene), so RefreshAll() is skipped.
@@ -147,14 +225,19 @@ public class GameManager : MonoBehaviour
     private void EnterGameOver()
     {
         CurrentPhase = GamePhase.GameOver;
+        AutoSaveManager.Delete();
         Debug.Log("Game Over!");
-        // TODO: Load Game Over screen
+        GlobalOverlayManager.Instance?.gameOverOverlay?.Show();
     }
 
     private void EnterVictory()
     {
         CurrentPhase = GamePhase.Victory;
         Debug.Log("You are the Pokémon Champion!");
-        // TODO: Load Victory screen
+
+        AutoSaveManager.Delete();
+        HallOfFameManager.SaveEntry(PlayerBattleTeam);
+        PokedexUnlockManager.UnlockChamp(PlayerBattleTeam);
+        GlobalOverlayManager.Instance?.victoryOverlay?.Show(PlayerBattleTeam);
     }
 }

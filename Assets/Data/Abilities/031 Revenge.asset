@@ -25,5 +25,5 @@ MonoBehaviour:
   description: 'On Ally Faint: Raises Speed and Attack by 10% for each ally that
     has fainted.'
   vfxSheet: buff8
-  vfxRow: 0
-  sound: 
+  vfxRow: 4
+  sound: stats_raised

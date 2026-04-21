@@ -9,14 +9,21 @@ public class MainMenuController : MonoBehaviour
 {
     [Header("Buttons")]
     public Button playButton;
+    public Button continueButton;
     public Button quitButton;
 
     // -------------------------------------------------------
 
     private void Start()
     {
-        if (playButton != null) playButton.onClick.AddListener(OnPlayClicked);
-        if (quitButton != null) quitButton.onClick.AddListener(OnQuitClicked);
+        if (playButton     != null) playButton.onClick.AddListener(OnPlayClicked);
+        if (continueButton != null) continueButton.onClick.AddListener(OnContinueClicked);
+        if (quitButton     != null) quitButton.onClick.AddListener(OnQuitClicked);
+
+        // Show Continue only when a valid save exists
+        if (continueButton != null)
+            continueButton.gameObject.SetActive(AutoSaveManager.SaveExists());
+
         AudioManager.Instance?.PlayMusic("mainmenu");
     }
 
@@ -30,6 +37,14 @@ public class MainMenuController : MonoBehaviour
             GameManager.Instance.StartGame();
         else
             Debug.LogError("MainMenuController: GameManager.Instance is null — make sure GameManager is in the scene.");
+    }
+
+    public void OnContinueClicked()
+    {
+        AudioManager.Instance?.PlayButtonSound();
+        GlobalOverlayManager.Instance?.CloseAll();
+        if (GameManager.Instance != null)
+            GameManager.Instance.ContinueGame();
     }
 
     public void OnQuitClicked()

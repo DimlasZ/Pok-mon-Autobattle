@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 246
   pokemonName: Larvitar
   attack: 28
-  hp: 47
+  hp: 49
   type1: Ground
-  speed: 22
+  speed: 24
   tier: 2
   preEvolutionId: 0
+  isLegendary: 0
   ability: {fileID: 11400000, guid: e63371b074e8e774aae9127efc6d4915, type: 2}
   sprite: {fileID: -1249659157374166741, guid: 3af6741489db42d47873c465c1cfff26, type: 3}

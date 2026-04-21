@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 183
   pokemonName: Marill
-  attack: 15
+  attack: 20
   hp: 76
   type1: Water
   speed: 32
   tier: 3
   preEvolutionId: 0
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 57ca0556e7c5ea344aceb41c9690dacc, type: 2}
   sprite: {fileID: 1727627709101658615, guid: 5400647701063da41b6a3fa7025b84db, type: 3}

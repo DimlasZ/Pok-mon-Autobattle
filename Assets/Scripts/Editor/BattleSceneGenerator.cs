@@ -29,7 +29,7 @@ public class BattleSceneGenerator
         var scaler = canvas.GetComponent<CanvasScaler>();
         scaler.uiScaleMode         = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920, 1080);
-        scaler.screenMatchMode     = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        scaler.screenMatchMode     = CanvasScaler.ScreenMatchMode.Expand;
         scaler.matchWidthOrHeight  = 0.5f;
 
         Transform root = canvas.transform;
@@ -54,10 +54,12 @@ public class BattleSceneGenerator
         var bg = CreatePanel(root, "Background", new Vector2(1920, 1080), Vector2.zero);
         SetColor(bg, new Color(0.05f, 0.05f, 0.15f, 1f));
 
-        // --- Top Bar: round and HP ---
+        // --- Top Bar: badges, hearts, HP ---
         var topBar = CreatePanel(root, "TopBar", new Vector2(1920, 70), new Vector2(0, 475));
         SetColor(topBar, new Color(0.08f, 0.08f, 0.08f, 0.95f));
-        var hpLabel = CreateTMPLabel(topBar.transform, "HPLabel", "HP: 3/3", 28, new Vector2(700, 0), new Vector2(300, 50));
+        UILayoutGenerator.CreateProgressIconRow(topBar.transform, new Vector2(-600, 0),
+            out Image[] badgeImages, out Image[] starImages, out Image champImage);
+        UILayoutGenerator.CreateHPIconRow(topBar.transform, new Vector2(600, 0), out Image[] heartImages);
 
         // Slot size for 2x3 grid (3 per row, 2 rows per side)
         var slotSize = new Vector2(190, 175);
@@ -134,11 +136,15 @@ public class BattleSceneGenerator
 
         bsm.playerSlots   = playerSlots;
         bsm.enemySlots    = enemySlots;
-        bsm.playerHPLabel = hpLabel;
         bsm.battleLogText = battleLogText;
         bsm.stepButton    = stepBtn;
         bsm.autoButton    = autoBtn;
         bsm.speedUpButton = speedUpBtn;
+
+        bsm.badgeImages = badgeImages;
+        bsm.starImages  = starImages;
+        bsm.champImage  = champImage;
+        bsm.heartImages = heartImages;
 
         // Mark slots as non-interactive (battle scene slots are display only)
         SetupDisplaySlots(playerSlots);

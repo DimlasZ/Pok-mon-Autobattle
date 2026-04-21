@@ -27,8 +27,11 @@ public class BattleSceneManager : MonoBehaviour
     [Header("Enemy Team (right side)")]
     public PokemonSlotUI[] enemySlots;  // 6 slots (same layout)
 
-    [Header("Player HP")]
-    public TextMeshProUGUI playerHPLabel; // TopBar HP display
+    [Header("Progress Icons (TopBar)")]
+    public Image[] badgeImages;   // 8 gym badges — grey until won
+    public Image[] starImages;    // 4 Elite 4 stars — grey until won
+    public Image   champImage;    // Champion — grey until won
+    public Image[] heartImages;   // Player HP hearts — white = alive, grey = lost
 
     [Header("Battle Log")]
     public TextMeshProUGUI battleLogText; // Shows what just happened
@@ -66,11 +69,11 @@ public class BattleSceneManager : MonoBehaviour
         // Set default mode
         SetMode(PlaybackMode.Auto);
 
-        // Build player team — create fresh instances so HP is full at battle start
+        // Reuse existing instances (preserving rolled stats) — just reset HP/multipliers
         playerTeam = GameManager.Instance.PlayerBattleTeam
             .Where(p => p != null)
-            .Select(p => new PokemonInstance(p.baseData))
             .ToList();
+        playerTeam.ForEach(p => p.ResetForBattle());
 
         // Generate enemy team
         enemyTeam = EnemyGenerator.GenerateEnemyTeam();
@@ -89,8 +92,7 @@ public class BattleSceneManager : MonoBehaviour
         // Show both teams on screen
         DisplayTeams();
 
-        if (playerHPLabel != null)
-            playerHPLabel.text = $"HP: {GameManager.Instance.PlayerHP}/{GameManager.Instance.playerMaxHP}";
+        RefreshProgressIcons();
 
         // Music is started by SceneTransitionManager at the beginning of the battle intro transition
 
@@ -245,14 +247,20 @@ public class BattleSceneManager : MonoBehaviour
             var weatherTicks = AbilitySystem.GetWeatherTick(playerTeam, enemyTeam);
             if (weatherTicks.Count > 0)
             {
-                AudioManager.Instance?.PlaySound("Audio/Sounds/ability_damage");
+                AudioManager.Instance?.PlaySound("Audio/Sounds/sandstormdamage");
                 foreach (var (p, dmg) in weatherTicks)
                 {
                     SpawnVFX(p, p, "claw", 6);
                     p.currentHP = Mathf.Max(0, p.currentHP - dmg);
                     Debug.Log($"[Sandstorm] {p.DisplayName} takes {dmg} chip damage ({p.currentHP}/{p.maxHP})");
-                    var team = playerTeam.Contains(p) ? playerTeam : enemyTeam;
+                    var team    = playerTeam.Contains(p) ? playerTeam : enemyTeam;
+                    var foeTeam = playerTeam.Contains(p) ? enemyTeam  : playerTeam;
                     AbilitySystem.FireAfterHit(p, team);
+                    if (p.currentHP == 0)
+                    {
+                        Debug.Log($"[Sandstorm] {p.DisplayName} fainted!");
+                        AbilitySystem.FireOnFaint(p, team, foeTeam);
+                    }
                 }
                 Log("The sandstorm rages!");
                 RefreshHP();
@@ -440,6 +448,30 @@ public class BattleSceneManager : MonoBehaviour
 
     private PokemonInstance GetFront(List<PokemonInstance> team)
         => team.FirstOrDefault(p => p.currentHP > 0);
+
+    private static readonly Color IconLocked   = new Color(0.2f, 0.2f, 0.2f, 0.7f);
+    private static readonly Color IconUnlocked = Color.white;
+
+    private void RefreshProgressIcons()
+    {
+        int wins = GameManager.Instance.PlayerWins;
+        int hp   = GameManager.Instance.PlayerHP;
+
+        for (int i = 0; i < badgeImages.Length; i++)
+            if (badgeImages[i] != null)
+                badgeImages[i].color = wins > i ? IconUnlocked : IconLocked;
+
+        for (int i = 0; i < starImages.Length; i++)
+            if (starImages[i] != null)
+                starImages[i].color = wins > 8 + i ? IconUnlocked : IconLocked;
+
+        if (champImage != null)
+            champImage.color = wins >= GameManager.Instance.winsToVictory ? IconUnlocked : IconLocked;
+
+        for (int i = 0; i < heartImages.Length; i++)
+            if (heartImages[i] != null)
+                heartImages[i].color = i < hp ? IconUnlocked : IconLocked;
+    }
 
     private void Log(string message)
     {

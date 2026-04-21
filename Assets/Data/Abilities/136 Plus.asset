@@ -22,7 +22,7 @@ MonoBehaviour:
   condition: ally_is_minus
   chance: 0
   custom: 
-  description: 'On Battle Start: Doubles own Attack if a Minus ally is in the team.'
+  description: 'On Battle Start: Doubles own Attack if a Minum ally is in the team.'
   vfxSheet: buff8
   vfxRow: 4
   sound: stats_raised

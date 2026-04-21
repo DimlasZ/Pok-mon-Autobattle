@@ -18,11 +18,11 @@ MonoBehaviour:
   target: enemy_random
   count: 2
   effect: deal_damage_flat
-  value: 40
+  value: 35
   condition: 
   chance: 0
   custom: 
-  description: 'On Battle Start: Deals 40 damage to two random enemy.'
+  description: 'On Battle Start: Deals 35 damage to two random enemy.'
   vfxSheet: thunder
   vfxRow: 5
   sound: ability_damage

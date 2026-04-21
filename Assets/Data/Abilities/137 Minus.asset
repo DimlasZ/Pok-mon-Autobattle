@@ -22,7 +22,7 @@ MonoBehaviour:
   condition: ally_is_plus
   chance: 0
   custom: 
-  description: 'On Battle Start: Doubles own Speed if a Plus ally is in the team.'
+  description: 'On Battle Start: Doubles own Speed if Plusle is in the team.'
   vfxSheet: buff8
   vfxRow: 4
   sound: stats_raised

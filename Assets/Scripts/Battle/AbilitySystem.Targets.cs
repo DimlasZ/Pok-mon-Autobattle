@@ -74,6 +74,7 @@ public static partial class AbilitySystem
                 break;
 
             case "ally_behind":
+            case "ally_next":
             {
                 int idx = sourceTeam.IndexOf(source);
                 for (int i = idx + 1; i < sourceTeam.Count; i++)

@@ -65,4 +65,23 @@ public static partial class AbilitySystem
             Debug.Log($"{ctx.source.DisplayName}'s {ctx.ab.abilityName}: +{(int)((ctx.v - 1) * 100)}% attack, -{drain} HP");
         }
     }
+
+    // Baton Pass: on faint, transfer positive attack/speed multipliers to the next ally.
+    private static void HandleTransferBuffs(EffectContext ctx)
+    {
+        var targets = GetTargets(ctx);
+        if (targets.Count == 0) return;
+
+        float atkMult = ctx.source.baseAttack > 0 ? (float)ctx.source.attack / ctx.source.baseAttack : 1f;
+        float spdMult = ctx.source.baseSpeed  > 0 ? (float)ctx.source.speed  / ctx.source.baseSpeed  : 1f;
+
+        if (atkMult <= 1f && spdMult <= 1f) return;
+
+        foreach (var t in targets)
+        {
+            if (atkMult > 1f) t.attack = Mathf.RoundToInt(t.attack * atkMult);
+            if (spdMult > 1f) t.speed  = Mathf.RoundToInt(t.speed  * spdMult);
+            Debug.Log($"{ctx.source.DisplayName}'s {ctx.ab.abilityName}: Passed buffs to {t.DisplayName} (atk x{atkMult:F2}, spd x{spdMult:F2})");
+        }
+    }
 }

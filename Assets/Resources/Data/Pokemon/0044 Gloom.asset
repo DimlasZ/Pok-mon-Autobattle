@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 44
   pokemonName: Gloom
-  attack: 51
+  attack: 57
   hp: 65
   type1: Grass
   speed: 54
   tier: 4
   preEvolutionId: 43
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 755efa296c516654c8858ae43c963917, type: 2}
   sprite: {fileID: -3007085259817038793, guid: b8cad5fdfbb01f449990ad7bb9129cf8, type: 3}

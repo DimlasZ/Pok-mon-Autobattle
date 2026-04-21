@@ -27,12 +27,12 @@ public class ShopManager : MonoBehaviour
     // --- Array capacities (never change at runtime) ---
     public const int MaxShopSize   = 6;
     public const int MaxBattleSize = 6;
-    public const int MaxBenchSize  = 4;
+    public const int MaxBenchSize  = 6;
 
     // --- Active sizes (computed from current round) ---
-    public int ShopSize   => GetShopSizeForRound(GameManager.Instance.CurrentRound);
+    public int ShopSize   => GetBattleSizeForRound(GameManager.Instance.CurrentRound);
     public int BattleSize => GetBattleSizeForRound(GameManager.Instance.CurrentRound);
-    public int BenchSize  => GetBenchSizeForTier(GetTierForRound(GameManager.Instance.CurrentRound));
+    public int BenchSize  => GetBattleSizeForRound(GameManager.Instance.CurrentRound);
 
     // --- Pokédollars ---
     public int CurrentPokedollars { get; private set; }
@@ -41,6 +41,15 @@ public class ShopManager : MonoBehaviour
     public PokemonInstance[] ShopRow   { get; private set; }
     public PokemonInstance[] BenchRow  { get; private set; }
     public PokemonInstance[] BattleRow { get; private set; }
+
+    // --- Bait: tracks which shop slots are frozen and survive reroll ---
+    public bool[] BaitedSlots { get; private set; }
+
+    private bool _restoredFromSave;
+    private int  _lastKnownTier = 0;
+
+    // Set when a tier upgrade happens; consumed by UIManager after the shop scene loads.
+    public int  PendingTierUpgrade { get; private set; } = 0;
 
     // --- Selection ---
     public enum SelectionSource { None, Shop, Bench, Battle }
@@ -55,9 +64,10 @@ public class ShopManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        ShopRow   = new PokemonInstance[MaxShopSize];
-        BenchRow  = new PokemonInstance[MaxBenchSize];
-        BattleRow = new PokemonInstance[MaxBattleSize];
+        ShopRow     = new PokemonInstance[MaxShopSize];
+        BenchRow    = new PokemonInstance[MaxBenchSize];
+        BattleRow   = new PokemonInstance[MaxBattleSize];
+        BaitedSlots = new bool[MaxShopSize];
 
         AllPokemon = Resources.LoadAll<PokemonData>("Data/Pokemon");
         Debug.Log($"[ShopManager] Loaded {AllPokemon.Length} Pokémon from Resources.");
@@ -65,11 +75,21 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.Instance?.PlayRandomMusic("Shop");
+        // Music is handled by UIManager.Start() which runs on every shop scene load.
         // First load from main menu: GameManager.EnterBuyPhase() ran before ShopManager existed,
-        // so StartRound() was skipped. Call it now. On subsequent rounds ShopManager persists and
-        // Start() never runs again — GameManager.ReturnToShop() → EnterBuyPhase() handles those.
-        StartRound();
+        // so StartRound() was skipped. Call it now — unless we just restored from an autosave,
+        // in which case the rows are already populated and UIManager just needs a refresh.
+        // On subsequent rounds ShopManager persists and Start() never runs again.
+        if (_restoredFromSave)
+        {
+            _restoredFromSave = false;
+            if (UIManager.Instance != null)
+                UIManager.Instance.RefreshShopWithDelay();
+        }
+        else
+        {
+            StartRound();
+        }
     }
 
     // -------------------------------------------------------
@@ -80,12 +100,19 @@ public class ShopManager : MonoBehaviour
     {
         CurrentPokedollars = startingPokedollars;
         ClearSelection();
+
+        int newTier = GetTierForRound(GameManager.Instance.CurrentRound);
+        bool tierIncreased = newTier > _lastKnownTier && _lastKnownTier > 0;
+        _lastKnownTier = newTier;
+
         PopulateShop();
 
         Debug.Log($"Round {GameManager.Instance.CurrentRound} — Shop: {ShopSize} slots, Battle: {BattleSize} slots");
 
         if (UIManager.Instance != null)
             UIManager.Instance.RefreshShopWithDelay();
+
+        PendingTierUpgrade = tierIncreased ? newTier : 0;
     }
 
     // -------------------------------------------------------
@@ -107,10 +134,19 @@ public class ShopManager : MonoBehaviour
             return;
         }
 
+        // Build weighted pool: normal Pokemon appear 10x, legendaries appear 1x
+        var weightedPool = new List<PokemonData>();
+        foreach (var p in available)
+        {
+            int weight = p.isLegendary ? 1 : 10;
+            for (int w = 0; w < weight; w++) weightedPool.Add(p);
+        }
+
         for (int i = 0; i < MaxShopSize; i++)
         {
+            if (BaitedSlots[i]) continue; // frozen — keep existing Pokemon
             ShopRow[i] = i < active
-                ? new PokemonInstance(available[Random.Range(0, available.Count)])
+                ? new PokemonInstance(weightedPool[Random.Range(0, weightedPool.Count)])
                 : null;
         }
 
@@ -124,26 +160,11 @@ public class ShopManager : MonoBehaviour
     public int GetTierForRound(int round)
     {
         if (round <= 2)  return 1;
-        if (round <= 4)  return 2;
-        if (round <= 6)  return 3;
-        if (round <= 8)  return 4;
-        if (round <= 10) return 5;
+        if (round <= 5)  return 2;
+        if (round <= 8)  return 3;
+        if (round <= 11) return 4;
+        if (round <= 14) return 5;
         return 6;
-    }
-
-    private int GetShopSizeForRound(int round)
-    {
-        if (round <= 2) return 3;
-        if (round <= 4) return 4;
-        if (round <= 6) return 5;
-        return 6;
-    }
-
-    private int GetBenchSizeForTier(int tier)
-    {
-        if (tier <= 1) return 2;
-        if (tier == 2) return 3;
-        return 4;
     }
 
     private int GetBattleSizeForRound(int round)
@@ -264,6 +285,7 @@ public class ShopManager : MonoBehaviour
                         return false;
                     }
                     SetSlotPokemon(targetSource, targetIndex, p);
+                    BaitedSlots[SelectedIndex] = false;
                     ShopRow[SelectedIndex] = null;
                     CurrentPokedollars--;
                     AudioManager.Instance?.PlayCry(p.baseData.id);
@@ -283,6 +305,7 @@ public class ShopManager : MonoBehaviour
                 {
                     if (InsertIntoBattleRow(p, targetIndex))
                     {
+                        BaitedSlots[SelectedIndex] = false;
                         ShopRow[SelectedIndex] = null;
                         CurrentPokedollars--;
                         AudioManager.Instance?.PlayCry(p.baseData.id);
@@ -294,8 +317,9 @@ public class ShopManager : MonoBehaviour
                 else if (targetSource == SelectionSource.Bench)
                 {
                     if (BenchRow[targetIndex] != null) { Debug.Log("Bench slot is occupied!"); return false; }
-                    BenchRow[targetIndex]  = p;
-                    ShopRow[SelectedIndex] = null;
+                    BenchRow[targetIndex]      = p;
+                    BaitedSlots[SelectedIndex] = false;
+                    ShopRow[SelectedIndex]     = null;
                     CurrentPokedollars--;
                     AudioManager.Instance?.PlayCry(p.baseData.id);
                     Debug.Log($"Bought {p.baseData.pokemonName} to bench — P$ remaining: {CurrentPokedollars}");
@@ -427,6 +451,17 @@ public class ShopManager : MonoBehaviour
     }
 
     // -------------------------------------------------------
+    // BAIT
+    // -------------------------------------------------------
+
+    public void ToggleBait(int shopIndex)
+    {
+        if (shopIndex < 0 || shopIndex >= ShopSize || ShopRow[shopIndex] == null) return;
+        BaitedSlots[shopIndex] = !BaitedSlots[shopIndex];
+        Debug.Log($"Slot {shopIndex} bait: {BaitedSlots[shopIndex]}");
+    }
+
+    // -------------------------------------------------------
     // HELPERS
     // -------------------------------------------------------
 
@@ -466,5 +501,37 @@ public class ShopManager : MonoBehaviour
         for (int i = 0; i < BattleSize; i++)
             if (BattleRow[i] != null) return true;
         return false;
+    }
+
+    // -------------------------------------------------------
+    // SAVE / LOAD / RESET
+    // -------------------------------------------------------
+
+    // Clears all team rows — called before starting a new game so the previous run doesn't bleed in.
+    public void ClearAllRows()
+    {
+        for (int i = 0; i < MaxShopSize;   i++) { ShopRow[i]   = null; BaitedSlots[i] = false; }
+        for (int i = 0; i < MaxBattleSize; i++)   BattleRow[i] = null;
+        for (int i = 0; i < MaxBenchSize;  i++)   BenchRow[i]  = null;
+        _lastKnownTier     = 0;
+        PendingTierUpgrade = 0;
+        ClearSelection();
+    }
+
+    // Restores all rows from a save — called by GameManager.ContinueGame().
+    public void ClearPendingTierUpgrade() => PendingTierUpgrade = 0;
+
+    public void LoadFromSave(GameSaveData save)
+    {
+        ClearAllRows();
+        CurrentPokedollars = save.currentPokedollars;
+
+        for (int i = 0; i < MaxShopSize;   i++) ShopRow[i]    = AutoSaveManager.Deserialize(save.shopRow[i],   AllPokemon);
+        for (int i = 0; i < MaxBattleSize; i++) BattleRow[i]  = AutoSaveManager.Deserialize(save.battleRow[i], AllPokemon);
+        for (int i = 0; i < MaxBenchSize;  i++) BenchRow[i]   = AutoSaveManager.Deserialize(save.benchRow[i],  AllPokemon);
+        for (int i = 0; i < MaxShopSize;   i++) BaitedSlots[i] = save.baitedSlots[i];
+
+        _restoredFromSave = true;
+        Debug.Log($"[AutoSave] Loaded round {save.currentRound} — P$ {save.currentPokedollars}");
     }
 }

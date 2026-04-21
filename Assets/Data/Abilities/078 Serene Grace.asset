@@ -21,7 +21,7 @@ MonoBehaviour:
   value: 1.5
   condition: 
   chance: 0
-  custom: serene_grace
+  custom: 
   description: All allies receive increased healing by 50%.
   vfxSheet: buff8
   vfxRow: 0

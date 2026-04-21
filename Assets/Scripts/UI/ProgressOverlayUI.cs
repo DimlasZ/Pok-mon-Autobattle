@@ -286,7 +286,7 @@ public class ProgressOverlayUI : MonoBehaviour
         var btn = btnGO.AddComponent<Button>();
         btn.onClick.AddListener(() =>
         {
-            AudioManager.Instance?.PlayRandomMusic("Shop");
+            AudioManager.Instance?.PlayShopMusic();
             GameManager.Instance.ReturnToShop();
         });
 

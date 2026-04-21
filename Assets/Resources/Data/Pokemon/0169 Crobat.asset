@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 169
   pokemonName: Crobat
-  attack: 47
-  hp: 80
+  attack: 44
+  hp: 75
   type1: Flying
-  speed: 67
+  speed: 63
   tier: 4
   preEvolutionId: 42
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 066bb046e5ed0694291b48de43773ee6, type: 2}
   sprite: {fileID: -7959908117794893759, guid: 5832fcca42735364fb0369245fdd9bb6, type: 3}

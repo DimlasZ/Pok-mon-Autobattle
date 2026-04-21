@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 123
   pokemonName: Scyther
   attack: 62
-  hp: 79
+  hp: 72
   type1: Flying
-  speed: 75
+  speed: 72
   tier: 5
   preEvolutionId: 0
+  isLegendary: 0
   ability: {fileID: 11400000, guid: e6f0754aaa68ed041af5a6eaa8121ffe, type: 2}
   sprite: {fileID: -1011093681461474110, guid: 8538dc67f35b48b4ca2a4d155ba4aac6, type: 3}

@@ -28,6 +28,10 @@ public class PokedexPanel : MonoBehaviour
     public RectTransform   evolutionContainer; // vertical container to the right of the sprite
     public Image           detailTypeIcon;     // type icon, top-left of the detail panel
 
+    // Auto-generated at runtime — no manual wiring needed
+    private Image _detailElite4Icon;
+    private Image _detailChampIcon;
+
     // -------------------------------------------------------
 
     private PokemonData[] _allPokemon;
@@ -92,6 +96,8 @@ public class PokedexPanel : MonoBehaviour
 
         PopulateDropdowns();
 
+        _detailElite4Icon = null;
+        _detailChampIcon  = null;
         if (detailPanel != null) detailPanel.SetActive(false);
     }
 
@@ -269,10 +275,20 @@ public class PokedexPanel : MonoBehaviour
                 detailTypeIcon.gameObject.SetActive(false);
         }
 
+        EnsureUnlockIcons();
+
+        if (_detailElite4Icon != null)
+            _detailElite4Icon.color = PokedexUnlockManager.HasElite4(p.id)
+                ? Color.white : new Color(0.3f, 0.3f, 0.3f, 0.5f);
+
+        if (_detailChampIcon != null)
+            _detailChampIcon.color = PokedexUnlockManager.HasChamp(p.id)
+                ? Color.white : new Color(0.3f, 0.3f, 0.3f, 0.5f);
+
         if (detailStats != null)
-            detailStats.text = $"HP {p.hp}\n" +
-                               $"ATK {p.attack}\n" +
+            detailStats.text = $"ATK {p.attack}\n" +
                                $"SPD {p.speed}\n" +
+                               $"HP {p.hp}\n" +
                                $"Tier {p.tier}";
 
         if (detailAbility != null)
@@ -284,6 +300,48 @@ public class PokedexPanel : MonoBehaviour
         }
 
         BuildEvolutionChain(p);
+    }
+
+    // Creates the star and champ achievement icons below detailTypeIcon on first call.
+    void EnsureUnlockIcons()
+    {
+        if (detailTypeIcon == null) return;
+        if (_detailElite4Icon != null && _detailChampIcon != null) return;
+
+        var typeRT = detailTypeIcon.GetComponent<RectTransform>();
+        float size = typeRT.sizeDelta.y;
+        float gap  = size + 6f;
+
+        // Parent directly to detailTypeIcon so positions are in its local space
+        _detailElite4Icon = CreateUnlockIcon(detailTypeIcon.transform, "Elite4Icon", "Icons/star",
+            new Vector2(0f, -gap), typeRT.sizeDelta);
+
+        _detailChampIcon  = CreateUnlockIcon(detailTypeIcon.transform, "ChampIcon",  "Icons/champ",
+            new Vector2(0f, -gap * 2f), typeRT.sizeDelta);
+    }
+
+    Image CreateUnlockIcon(Transform parent, string goName, string spritePath,
+                           Vector2 anchoredPos, Vector2 size)
+    {
+        var existing = parent.Find(goName);
+        if (existing != null) return existing.GetComponent<Image>();
+
+        var go = new GameObject(goName);
+        go.transform.SetParent(parent, false);
+
+        var rt              = go.AddComponent<RectTransform>();
+        rt.anchorMin        = new Vector2(0.5f, 0.5f);
+        rt.anchorMax        = new Vector2(0.5f, 0.5f);
+        rt.pivot            = new Vector2(0.5f, 0.5f);
+        rt.sizeDelta        = size;
+        rt.anchoredPosition = anchoredPos;
+
+        var img             = go.AddComponent<Image>();
+        img.sprite          = Resources.Load<Sprite>(spritePath);
+        img.preserveAspect  = true;
+        img.raycastTarget   = false;
+
+        return img;
     }
 
     // -------------------------------------------------------

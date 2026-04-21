@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 120
   pokemonName: Staryu
-  attack: 42
-  hp: 32
+  attack: 47
+  hp: 52
   type1: Water
   speed: 81
   tier: 4
   preEvolutionId: 0
+  isLegendary: 0
   ability: {fileID: 11400000, guid: fc4b3feabb7a504468003862ba603c92, type: 2}
   sprite: {fileID: -5282413766150661759, guid: 855a0a108c81d07458b63ad62949347c, type: 3}

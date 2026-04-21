@@ -18,11 +18,11 @@ MonoBehaviour:
   target: self
   count: 0
   effect: boost_attack
-  value: 1.5
+  value: 2
   condition: weather_sun
   chance: 0
   custom: 
-  description: Boosts Attack by 50% during sunlight.
+  description: Boosts Attack by 100% during sunlight.
   vfxSheet: buff8
   vfxRow: 3
   sound: stats_raised

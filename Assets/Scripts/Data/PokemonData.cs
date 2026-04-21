@@ -11,6 +11,7 @@ public class PokemonData : ScriptableObject
     public int speed;
     public int tier;
     public int preEvolutionId; // 0 = no pre-evolution required
+    public bool isLegendary;
     public AbilityData ability;
     public Sprite sprite;
 }

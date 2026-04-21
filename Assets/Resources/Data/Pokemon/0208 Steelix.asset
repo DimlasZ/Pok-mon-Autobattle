@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 208
   pokemonName: Steelix
-  attack: 35
-  hp: 101
+  attack: 55
+  hp: 108
   type1: Ground
-  speed: 48
+  speed: 49
   tier: 5
   preEvolutionId: 95
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 3a231ff2a9452bf4c9758c000ffc294d, type: 2}
   sprite: {fileID: -89499162059626981, guid: 21167508d6450f74fba2beae5a154bb0, type: 3}

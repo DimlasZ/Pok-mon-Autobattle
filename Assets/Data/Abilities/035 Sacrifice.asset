@@ -24,5 +24,5 @@ MonoBehaviour:
   custom: 
   description: 'On Hit: Raises all allies'' Attack by 5%.'
   vfxSheet: buff8
-  vfxRow: 0
-  sound: 
+  vfxRow: 5
+  sound: stats_raised

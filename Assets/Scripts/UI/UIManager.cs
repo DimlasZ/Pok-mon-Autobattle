@@ -34,8 +34,12 @@ public class UIManager : MonoBehaviour
 
     [Header("Action Buttons")]
     public Button releaseButton;
+    public Button baitButton;
     public Button rerollButton;
     public Button startBattleButton;
+
+    [Header("Confirm Panels")]
+    public ConfirmBattlePanel confirmBattlePanel;
 
     [Header("Release Drop Zone")]
     [Tooltip("The UI object the player can drag Pokemon onto to release them.")]
@@ -56,10 +60,32 @@ public class UIManager : MonoBehaviour
         SetupSlots(benchSlots,  ShopManager.SelectionSource.Bench);
 
         releaseButton.onClick.AddListener(OnReleaseClicked);
+        baitButton.onClick.AddListener(OnBaitClicked);
         rerollButton.onClick.AddListener(OnRerollClicked);
         startBattleButton.onClick.AddListener(OnStartBattleClicked);
 
+        // Apply pending save load (Continue button from main menu).
+        // Must happen before RefreshAll so the UI shows the restored team.
+        var pendingSave = GameManager.Instance?.PendingSaveLoad;
+        if (pendingSave != null)
+        {
+            ShopManager.Instance?.LoadFromSave(pendingSave);
+            GameManager.Instance.ClearPendingSaveLoad();
+        }
+
+        AudioManager.Instance?.PlayShopMusic();
         RefreshAll();
+
+        // Show tier upgrade overlay now that the scene is fully loaded.
+        var sm = ShopManager.Instance;
+        if (sm != null && sm.PendingTierUpgrade > 0)
+        {
+            int tier       = sm.PendingTierUpgrade;
+            var newPokemon = System.Array.FindAll(sm.AllPokemon, p => p != null && p.tier == tier);
+            bool heartRestored = GameManager.Instance != null && GameManager.Instance.PendingHeartRestored;
+            GlobalOverlayManager.Instance?.tierUpgradeOverlay?.Show(tier, newPokemon, heartRestored);
+            sm.ClearPendingTierUpgrade();
+        }
     }
 
     private void SetupSlots(PokemonSlotUI[] slots, ShopManager.SelectionSource source)
@@ -116,10 +142,12 @@ public class UIManager : MonoBehaviour
                 shopSlots[i].SetEvolutionAvailable(evoAvailable);
                 shopSlots[i].SetDuplicate(duplicate);
                 shopSlots[i].SetHighlight(isSelected);
+                shopSlots[i].SetBaited(ShopManager.Instance.BaitedSlots[i]);
             }
             else
             {
                 shopSlots[i].DisplayEmpty();
+                shopSlots[i].SetBaited(false);
             }
         }
     }
@@ -214,6 +242,18 @@ public class UIManager : MonoBehaviour
                        || selection == ShopManager.SelectionSource.Battle;
         releaseButton.gameObject.SetActive(canRelease);
 
+        // Bait is available when a shop slot with a Pokemon is selected
+        bool canBait = selection == ShopManager.SelectionSource.Shop
+                    && ShopManager.Instance.SelectedIndex >= 0
+                    && ShopManager.Instance.ShopRow[ShopManager.Instance.SelectedIndex] != null;
+        baitButton.gameObject.SetActive(canBait);
+        if (canBait)
+        {
+            bool isBaited = ShopManager.Instance.BaitedSlots[ShopManager.Instance.SelectedIndex];
+            var label = baitButton.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+            if (label != null) label.text = isBaited ? "Unbait" : "Bait";
+        }
+
         startBattleButton.interactable = ShopManager.Instance.CanStartBattle();
     }
 
@@ -296,6 +336,13 @@ public class UIManager : MonoBehaviour
         RefreshAll();
     }
 
+    private void OnBaitClicked()
+    {
+        AudioManager.Instance?.PlayButtonSound();
+        ShopManager.Instance.ToggleBait(ShopManager.Instance.SelectedIndex);
+        RefreshAll();
+    }
+
     private void OnRerollClicked()
     {
         AudioManager.Instance?.PlayButtonSound();
@@ -317,6 +364,10 @@ public class UIManager : MonoBehaviour
     private void OnStartBattleClicked()
     {
         AudioManager.Instance?.PlayButtonSound();
-        GameManager.Instance.StartBattle();
+        int money = ShopManager.Instance.CurrentPokedollars;
+        if (money > 0 && confirmBattlePanel != null)
+            confirmBattlePanel.Show(money);
+        else
+            GameManager.Instance.StartBattle();
     }
 }

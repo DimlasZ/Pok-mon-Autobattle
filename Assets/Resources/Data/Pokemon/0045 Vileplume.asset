@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 45
   pokemonName: Vileplume
   attack: 79
-  hp: 85
+  hp: 103
   type1: Grass
-  speed: 72
+  speed: 74
   tier: 6
   preEvolutionId: 44
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 755efa296c516654c8858ae43c963917, type: 2}
   sprite: {fileID: 4112311644201363536, guid: ed306872208de7f43ab966855c34c023, type: 3}

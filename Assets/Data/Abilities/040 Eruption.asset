@@ -21,7 +21,7 @@ MonoBehaviour:
   value: 
   condition: 
   chance: 0
-  custom: eruption
+  custom: 
   description: 'Before Attack: Power scales with user''s remaining HP.'
   vfxSheet: 
   vfxRow: 0

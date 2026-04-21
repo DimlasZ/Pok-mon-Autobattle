@@ -17,13 +17,12 @@ MonoBehaviour:
   trigger: on_hit
   target: ally_all
   count: 0
-  effect: boost_attack
-  value: 1.3
-  condition: hp_below_50
+  effect: boost_attack_flat
+  value: 15
+  condition: 
   chance: 0
   custom: 
-  description: 'On Hit: When dropping below 50% HP, boosts all allies'' Attack by
-    30%.'
+  description: 'On Hit: Boosts all allies'' Attack by 15.'
   vfxSheet: buff8
   vfxRow: 0
   sound: stats_raised

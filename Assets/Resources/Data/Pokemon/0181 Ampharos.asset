@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 181
   pokemonName: Ampharos
-  attack: 78
-  hp: 102
+  attack: 98
+  hp: 121
   type1: Electric
   speed: 57
   tier: 6
   preEvolutionId: 180
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 312c3a4bf4265214b9857d6969d0b008, type: 2}
   sprite: {fileID: 3381200212871159798, guid: b32ea074343405f478fd983232c63132, type: 3}

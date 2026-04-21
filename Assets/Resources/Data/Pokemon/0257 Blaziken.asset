@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 257
   pokemonName: Blaziken
-  attack: 48
-  hp: 80
+  attack: 47
+  hp: 72
   type1: Fire
-  speed: 50
+  speed: 52
   tier: 3
   preEvolutionId: 256
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 7c0a08b4290d55f41997cab329f509a0, type: 2}
   sprite: {fileID: 6548313362805230033, guid: a4867fff73456d14b93bc6b3127cd732, type: 3}

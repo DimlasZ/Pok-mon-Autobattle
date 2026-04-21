@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 
 // Generates the enemy team by randomly selecting a pre-simulated team from enemy_teams.csv.
-// Teams are filtered to the current max tier so difficulty scales with round progression.
+// Teams are keyed by Round so each game round gets its own pool.
 
 public static class EnemyGenerator
 {
-    // Parsed CSV rows, keyed by tier. Loaded once and cached.
-    private static Dictionary<int, List<string[]>> _teamsByTier;
+    // Parsed CSV rows, keyed by round number. Loaded once and cached.
+    private static Dictionary<int, List<string[]>> _teamsByRound;
 
-    // Column indices in enemy_teams.csv
-    private const int ColTier  = 0;
-    private const int ColSlot0 = 1;
-    private const int ColSlot5 = 6; // last slot column (inclusive)
+    // Column indices in enemy_teams.csv (Round,Tier,Slot0,Slot1,Slot2,Slot3,Slot4,Slot5,...)
+    private const int ColRound = 0;
+    private const int ColSlot0 = 2;
+    private const int ColSlot5 = 7;
 
     public static List<PokemonInstance> GenerateEnemyTeam()
     {
-        if (_teamsByTier == null)
+        if (_teamsByRound == null)
             LoadTeams();
 
         int round = GameManager.Instance.CurrentRound;
@@ -31,7 +31,6 @@ public static class EnemyGenerator
             return GenerateRandom(maxTier);
         }
 
-        // Build a lookup from name -> PokemonData
         Dictionary<string, PokemonData> lookup = ShopManager.Instance.AllPokemon
             .Where(p => p != null)
             .ToDictionary(p => p.pokemonName, p => p);
@@ -58,48 +57,20 @@ public static class EnemyGenerator
         return enemyTeam;
     }
 
-    // Selects a team row based on round-based difficulty scaling.
-    //
-    // Round pattern (2 rounds per tier):
-    //   Odd  rounds (1, 3, 5, …) → bottom 500 of the current tier (indices 500–999)
-    //   Even rounds (2, 4, 6, …) → full 1000 of the current tier  (indices   0–999)
-    //
-    //   Round 1 → Tier 1 bottom 500
-    //   Round 2 → Tier 1 full 1000
-    //   Round 3 → Tier 2 bottom 500
-    //   Round 4 → Tier 2 full 1000
-    //   Round 5 → Tier 3 bottom 500  … etc.
     private static string[] PickTeamRow(int round)
     {
-        if (round % 2 == 1)
-        {
-            // Odd round — bottom 500 of the current tier
-            int tier = (round + 1) / 2;
-            return PickFromRange(tier, 500, 999);
-        }
-        else
-        {
-            // Even round — full 1000 of the current tier
-            int tier = round / 2;
-            return PickFromRange(tier, 0, 999);
-        }
-    }
+        int maxRound = _teamsByRound.Keys.Max();
+        int clampedRound = Mathf.Min(round, maxRound);
 
-    private static string[] PickFromRange(int tier, int indexMin, int indexMax)
-    {
-        if (!_teamsByTier.TryGetValue(tier, out List<string[]> pool) || pool.Count == 0)
+        if (!_teamsByRound.TryGetValue(clampedRound, out List<string[]> pool) || pool.Count == 0)
             return null;
 
-        int lo = Mathf.Min(indexMin, pool.Count - 1);
-        int hi = Mathf.Min(indexMax, pool.Count - 1);
-        if (lo > hi) return null;
-
-        return pool[Random.Range(lo, hi + 1)];
+        return pool[Random.Range(0, pool.Count)];
     }
 
     private static void LoadTeams()
     {
-        _teamsByTier = new Dictionary<int, List<string[]>>();
+        _teamsByRound = new Dictionary<int, List<string[]>>();
 
         TextAsset csv = Resources.Load<TextAsset>("Data/Teams/enemy_teams");
         if (csv == null)
@@ -116,18 +87,18 @@ public static class EnemyGenerator
             if (string.IsNullOrEmpty(line)) continue;
 
             string[] cols = line.Split(',');
-            if (cols.Length < 2) continue;
+            if (cols.Length < ColSlot5 + 1) continue;
 
-            if (!int.TryParse(cols[ColTier].Trim(), out int tier)) continue;
+            if (!int.TryParse(cols[ColRound].Trim(), out int round)) continue;
 
-            if (!_teamsByTier.ContainsKey(tier))
-                _teamsByTier[tier] = new List<string[]>();
+            if (!_teamsByRound.ContainsKey(round))
+                _teamsByRound[round] = new List<string[]>();
 
-            _teamsByTier[tier].Add(cols);
+            _teamsByRound[round].Add(cols);
         }
 
-        int total = _teamsByTier.Values.Sum(v => v.Count);
-        Debug.Log($"EnemyGenerator: Loaded {total} pre-simulated teams across {_teamsByTier.Count} tiers.");
+        int total = _teamsByRound.Values.Sum(v => v.Count);
+        Debug.Log($"EnemyGenerator: Loaded {total} pre-simulated teams across {_teamsByRound.Count} rounds.");
     }
 
     // Fallback: original random generation (used if CSV is missing or empty)
@@ -136,8 +107,14 @@ public static class EnemyGenerator
         int teamSize = ShopManager.Instance.BattleSize;
 
         List<PokemonData> available = ShopManager.Instance.AllPokemon
-            .Where(p => p != null && p.tier > 0 && p.tier <= maxTier)
+            .Where(p => p != null && p.tier == maxTier)
             .ToList();
+
+        // Widen pool if exact tier has no Pokémon
+        if (available.Count == 0)
+            available = ShopManager.Instance.AllPokemon
+                .Where(p => p != null && p.tier > 0 && p.tier <= maxTier)
+                .ToList();
 
         List<PokemonInstance> enemyTeam = new List<PokemonInstance>();
 

@@ -18,11 +18,11 @@ MonoBehaviour:
   target: self
   count: 0
   effect: heal
-  value: 0.3
+  value: 0.4
   condition: weather_rain&not_full_hp
   chance: 0
   custom: 
-  description: 'On Round Start: Restores 30% of HP after each turn in rain.'
+  description: 'On Round Start: Restores 40% of HP after each turn in rain.'
   vfxSheet: buff7
   vfxRow: 2
   sound: heal

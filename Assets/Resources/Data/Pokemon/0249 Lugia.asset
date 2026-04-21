@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 249
   pokemonName: Lugia
-  attack: 74
-  hp: 121
+  attack: 71
+  hp: 111
   type1: Flying
-  speed: 104
+  speed: 92
   tier: 6
   preEvolutionId: 0
+  isLegendary: 1
   ability: {fileID: 11400000, guid: 1e97199affb9e8840a45878f5bcfff85, type: 2}
   sprite: {fileID: 5335428921741802704, guid: 8434ddedc4a424d4f8ffbb1dd616cc5a, type: 3}

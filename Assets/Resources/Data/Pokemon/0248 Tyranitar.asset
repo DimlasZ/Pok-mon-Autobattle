@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 248
   pokemonName: Tyranitar
-  attack: 91
-  hp: 114
+  attack: 96
+  hp: 124
   type1: Ground
   speed: 63
   tier: 6
   preEvolutionId: 247
+  isLegendary: 0
   ability: {fileID: 11400000, guid: e63371b074e8e774aae9127efc6d4915, type: 2}
   sprite: {fileID: 394947032727991543, guid: 7882a1d4e57635b4bb32461683d721e7, type: 3}

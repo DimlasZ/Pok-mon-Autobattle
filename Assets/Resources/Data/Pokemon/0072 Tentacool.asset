@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 72
   pokemonName: Tentacool
-  attack: 21
+  attack: 25
   hp: 55
   type1: Water
   speed: 37
   tier: 2
   preEvolutionId: 0
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 96f028abdcd2936449653afb8084d623, type: 2}
   sprite: {fileID: -5150642941966725782, guid: 66fbaf05a8669794a9c3103e5fac0c6a, type: 3}

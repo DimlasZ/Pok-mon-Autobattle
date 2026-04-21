@@ -23,6 +23,6 @@ MonoBehaviour:
   chance: 0
   custom: 
   description: 'Before Hit: Completely negates the very first hit received.'
-  vfxSheet: 
-  vfxRow: 0
-  sound: 
+  vfxSheet: circle2
+  vfxRow: 3
+  sound: protect

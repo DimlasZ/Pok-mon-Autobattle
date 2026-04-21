@@ -120,7 +120,7 @@ public class SceneTransitionManager : MonoBehaviour
     public void BattleIntroToScene(string sceneName)
     {
         // Start battle music immediately — before the scene loads
-        AudioManager.Instance?.PlayRandomMusic("Trainerbattle");
+        AudioManager.Instance?.PlayBattleMusic();
 
         var style = (BattleTransition)Random.Range(0, 4);
         StartCoroutine(BattleIntroRoutine(sceneName, style));

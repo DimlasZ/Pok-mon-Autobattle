@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 255
   pokemonName: Torchic
   attack: 29
-  hp: 50
+  hp: 49
   type1: Fire
-  speed: 25
+  speed: 24
   tier: 1
   preEvolutionId: 0
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 9fc22231516ecc14dad53d040eef812c, type: 2}
   sprite: {fileID: -5106820169404967626, guid: ec34d79beffa768429398df37ece109d, type: 3}

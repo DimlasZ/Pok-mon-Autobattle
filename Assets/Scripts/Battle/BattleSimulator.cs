@@ -55,7 +55,10 @@ public static class BattleSimulator
             foreach (var (p, dmg) in AbilitySystem.GetWeatherTick(teamA, teamB))
             {
                 p.currentHP = Mathf.Max(0, p.currentHP - dmg);
-                AbilitySystem.FireAfterHit(p, teamA.Contains(p) ? teamA : teamB);
+                var t = teamA.Contains(p) ? teamA : teamB;
+                var f = teamA.Contains(p) ? teamB : teamA;
+                AbilitySystem.FireAfterHit(p, t);
+                if (p.currentHP == 0) AbilitySystem.FireOnFaint(p, t, f);
             }
 
             teamA.RemoveAll(p => p.currentHP <= 0);

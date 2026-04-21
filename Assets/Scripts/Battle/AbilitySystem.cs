@@ -11,7 +11,7 @@ using System.Linq;
 //   AbilitySystem.Buffs.cs      — boost_attack, boost_speed, boost_all_stats, …
 //   AbilitySystem.Debuffs.cs    — reduce_attack, reduce_speed
 //   AbilitySystem.Weather.cs    — summon_weather, summon_screen, weather queries
-//   AbilitySystem.Special.cs    — moody, solar_power, swap_enemies, …
+//   AbilitySystem.Special.cs    — moody, solar_power, swap_enemies, transfer_buffs, …
 //   AbilitySystem.Passives.cs   — passive query methods (GetDamageReduction, etc.)
 //   AbilitySystem.Targets.cs    — ResolveTargets, team helpers
 //   AbilitySystem.Conditions.cs — CheckCondition
@@ -97,6 +97,7 @@ public static partial class AbilitySystem
         { "cure_status",             HandleCureStatus        },
         { "moody",                   HandleMoody             },
         { "solar_power",             HandleSolarPower        },
+        { "transfer_buffs",          HandleTransferBuffs     },
         // Passives — resolved via query methods, no active effect needed
         { "damage_reduction",          PassiveNoOp },
         { "damage_reduction_flat",     PassiveNoOp },
@@ -311,7 +312,6 @@ public static partial class AbilitySystem
 
     public static void FireAfterHit(PokemonInstance defender, List<PokemonInstance> defenderTeam)
     {
-        if (defender.currentHP <= 0) return;
         List<PokemonInstance> opponentTeam = GetOpponentOf(defender);
         TryFire("on_hit", defender, defenderTeam, opponentTeam, 0, 0, null);
     }
@@ -425,15 +425,16 @@ public static partial class AbilitySystem
         // Pokémon for the animation vs. the actual effect.
         var preResolved = ResolveTargets(ab.target, ab.count, source, sourceTeam, enemyTeam, contextTarget);
 
-        // Only fire VFX/sound/log when at least one resolved target is alive AND
+        // Only fire VFX/sound/log when there is a valid target AND
         // the effect would actually change something:
-        //   leech    — skip when source is already at full HP
+        //   leech    — any resolved target (including just-killed); skip when source is already at full HP
         //   heal / heal_flat — skip when all live targets are already at full HP
         bool anyLiveTarget = preResolved.Any(t => t.currentHP > 0);
         bool wouldHeal     = (ab.effect == "heal" || ab.effect == "heal_flat")
                              && !preResolved.Any(t => t.currentHP > 0 && t.currentHP < t.maxHP);
-        bool shouldFire    = anyLiveTarget &&
+        bool shouldFire    = (ab.effect == "leech" ? preResolved.Count > 0 : anyLiveTarget) &&
                              (ab.effect != "leech" || source.currentHP < source.maxHP) &&
+                             (ab.effect != "boost_attack_once" || !_boostOnceApplied.Contains(source)) &&
                              !wouldHeal;
 
         if (shouldFire && !string.IsNullOrEmpty(ab.vfxSheet))

@@ -22,7 +22,8 @@ MonoBehaviour:
   condition: 
   chance: 0
   custom: 
-  description: Deals 3 damage to all enemies whenever an ally gets healed.
+  description: 'On Ally Heal: Deals 3 damage to all enemies whenever an ally gets
+    healed.'
   vfxSheet: thunder
   vfxRow: 5
   sound: ability_damage

@@ -13,7 +13,8 @@ public class PokemonInstance
     public int attack;
     public int speed;
 
-    // Rolled values at spawn — used to detect buffs (green) and debuffs (red) in the UI
+    // Rolled values at spawn — used to detect buffs (green) and debuffs (red) in the UI, and to reset after battle
+    public int baseMaxHP;
     public int baseAttack;
     public int baseSpeed;
 
@@ -40,9 +41,21 @@ public class PokemonInstance
         currentHP  = maxHP;
         attack     = Spread(data.attack);
         speed      = Spread(data.speed);
+        baseMaxHP  = maxHP;
         baseAttack = attack;
         baseSpeed  = speed;
         starLevel  = 1;
+    }
+
+    // Resets all battle-modified stats back to their rolled values
+    public void ResetForBattle()
+    {
+        maxHP                   = baseMaxHP;
+        currentHP               = baseMaxHP;
+        attack                  = baseAttack;
+        speed                   = baseSpeed;
+        damageTakenMultiplier   = 1f;
+        nextHitDamageMultiplier = 1f;
     }
 
     private static int Spread(int baseStat)

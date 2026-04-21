@@ -18,11 +18,11 @@ MonoBehaviour:
   target: attacker
   count: 0
   effect: reduce_attack
-  value: 0.8
+  value: 0.7
   condition: 
   chance: 0
   custom: 
-  description: 'On Hit: Attacker loses 20% of attack damage after hitting the user.'
+  description: 'On Hit: Attacker loses 30% of attack damage after hitting the user.'
   vfxSheet: debuff3
   vfxRow: 0
   sound: stats_lowered

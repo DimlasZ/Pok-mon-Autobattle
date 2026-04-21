@@ -26,4 +26,4 @@ MonoBehaviour:
     by 30%."
   vfxSheet: debuff3
   vfxRow: 0
-  sound: 
+  sound: stats_lowered

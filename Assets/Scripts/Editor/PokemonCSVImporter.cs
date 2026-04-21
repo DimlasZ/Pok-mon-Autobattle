@@ -63,6 +63,7 @@ public class PokemonCSVImporter
             string abilityID     = col.Length > 15 ? col[15].Trim() : "";
             string spriteName    = col.Length > 16 ? col[16].Trim() : "";
             int    preEvolutionId = col.Length > 20 && !string.IsNullOrEmpty(col[20]) ? int.Parse(col[20]) : 0;
+            bool   isLegendary   = col.Length > 21 && col[21].Trim().ToLower() == "yes";
 
             string safeName  = string.Concat(pName.Split(System.IO.Path.GetInvalidFileNameChars()));
             string assetPath = $"{outputFolder}/{id:0000} {safeName}.asset";
@@ -82,6 +83,7 @@ public class PokemonCSVImporter
             data.speed          = speed;
             data.tier           = tier;
             data.preEvolutionId = preEvolutionId;
+            data.isLegendary    = isLegendary;
 
             // Link ability asset by ID
             if (int.TryParse(abilityID, out int abilityIDInt) && abilityLookup.TryGetValue(abilityIDInt, out AbilityData ab))

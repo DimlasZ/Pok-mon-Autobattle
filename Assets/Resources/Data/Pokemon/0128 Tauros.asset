@@ -20,5 +20,6 @@ MonoBehaviour:
   speed: 84
   tier: 6
   preEvolutionId: 0
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 0b1773e0527f3574480e5a040647cba7, type: 2}
   sprite: {fileID: -3642850989884392111, guid: dbb87a4b5735c7d4ab066882a7a37863, type: 3}

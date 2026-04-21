@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 251
   pokemonName: Celebi
-  attack: 100
+  attack: 85
   hp: 100
   type1: Grass
-  speed: 100
+  speed: 85
   tier: 6
   preEvolutionId: 0
+  isLegendary: 1
   ability: {fileID: 11400000, guid: 6d3e2c8c4d43d5a48a08a6af98abe7a0, type: 2}
   sprite: {fileID: -878318580675279039, guid: b11ade1f92ff29b4786294513a260640, type: 3}

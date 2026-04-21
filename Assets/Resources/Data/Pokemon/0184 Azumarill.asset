@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 184
   pokemonName: Azumarill
-  attack: 35
-  hp: 91
+  attack: 40
+  hp: 103
   type1: Water
-  speed: 51
+  speed: 54
   tier: 5
   preEvolutionId: 183
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 57ca0556e7c5ea344aceb41c9690dacc, type: 2}
   sprite: {fileID: -8202710692536292794, guid: 89fbb02de8efede44aa685a172cd132e, type: 3}

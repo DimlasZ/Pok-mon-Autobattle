@@ -22,7 +22,8 @@ MonoBehaviour:
   condition: 
   chance: 0
   custom: 
-  description: 'On Ally Heal: Deals 100% of Attack as damage to a random enemy.'
+  description: 'On Ally Heal: On Ally Heal: Deals 100% of Attack as damage to a random
+    enemy.'
   vfxSheet: thunder
   vfxRow: 5
   sound: ability_damage

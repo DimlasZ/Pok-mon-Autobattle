@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class GlobalOverlayToggle : MonoBehaviour
 {
-    public enum Target { Settings, Pokedex }
+    public enum Target { Settings, Pokedex, Helper, ReturnToMainMenu, HallOfFame }
     public Target target;
 
     private void Start()
@@ -20,9 +20,17 @@ public class GlobalOverlayToggle : MonoBehaviour
     void OnClicked()
     {
         AudioManager.Instance?.PlayButtonSound();
-        if (target == Target.Settings)
-            GlobalOverlayManager.Instance?.ToggleSettings();
-        else
-            GlobalOverlayManager.Instance?.TogglePokedex();
+        switch (target)
+        {
+            case Target.Settings:         GlobalOverlayManager.Instance?.ToggleSettings(); break;
+            case Target.Pokedex:          GlobalOverlayManager.Instance?.TogglePokedex();  break;
+            case Target.Helper:           GlobalOverlayManager.Instance?.ToggleHelper();   break;
+            case Target.HallOfFame:       GlobalOverlayManager.Instance?.ToggleHallOfFame(); break;
+            case Target.ReturnToMainMenu:
+                var confirmPanel = Object.FindAnyObjectByType<ConfirmReturnPanel>(FindObjectsInactive.Include);
+                if (confirmPanel != null) confirmPanel.Show();
+                else GameManager.Instance?.ReturnToMainMenu(); // fallback if panel not in scene
+                break;
+        }
     }
 }

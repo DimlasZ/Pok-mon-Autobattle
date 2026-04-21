@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 154
   pokemonName: Meganium
   attack: 42
-  hp: 87
+  hp: 84
   type1: Grass
-  speed: 64
+  speed: 62
   tier: 3
   preEvolutionId: 153
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 280b597b196bdb44ea1f6d126abf632f, type: 2}
   sprite: {fileID: -2916634183302355313, guid: bdfabb4c44e4d424b9922386c8ab534f, type: 3}

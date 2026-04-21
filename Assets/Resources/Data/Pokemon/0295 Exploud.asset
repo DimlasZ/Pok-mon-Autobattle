@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 295
   pokemonName: Exploud
-  attack: 54
-  hp: 102
+  attack: 50
+  hp: 100
   type1: Normal
-  speed: 59
+  speed: 54
   tier: 4
   preEvolutionId: 294
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 5d2de1c57bbd417468033bd6c71277b5, type: 2}
   sprite: {fileID: 4438098225431566152, guid: abed39215c1ecd44b8a696232744475b, type: 3}

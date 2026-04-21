@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 1
   pokemonName: Bulbasaur
   attack: 27
-  hp: 50
+  hp: 49
   type1: Grass
-  speed: 25
+  speed: 23
   tier: 1
   preEvolutionId: 0
+  isLegendary: 0
   ability: {fileID: 11400000, guid: e79c443c32c9e8c42890d25736d86339, type: 2}
   sprite: {fileID: -4500970984119265330, guid: 6233f58ef9eae4b46bc9fcffb04e4d28, type: 3}

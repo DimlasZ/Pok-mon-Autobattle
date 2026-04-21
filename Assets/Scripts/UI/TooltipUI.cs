@@ -67,6 +67,30 @@ public class TooltipUI : MonoBehaviour
         RepositionTooltip(screenPosition);
     }
 
+    public void ShowAlreadyOwned(PokemonData pokemon, Vector2 screenPosition)
+    {
+        if (pokemonNameText != null) pokemonNameText.text = pokemon != null ? pokemon.pokemonName : "";
+        if (abilityText     != null) abilityText.text     = "Already on your team";
+
+        if (typeIcon != null)
+        {
+            string type = pokemon != null ? pokemon.type1 : "";
+            if (!string.IsNullOrEmpty(type))
+            {
+                var sprite = Resources.Load<Sprite>("Icons/" + type.ToLower());
+                typeIcon.sprite = sprite;
+                typeIcon.gameObject.SetActive(sprite != null);
+            }
+            else typeIcon.gameObject.SetActive(false);
+        }
+
+        if (preEvoImage != null) preEvoImage.gameObject.SetActive(false);
+        if (evoImage    != null) evoImage.gameObject.SetActive(false);
+
+        gameObject.SetActive(true);
+        RepositionTooltip(screenPosition);
+    }
+
     public void ShowMessage(string message, Vector2 screenPosition)
     {
         if (pokemonNameText != null) pokemonNameText.text = "";

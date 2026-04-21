@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 218
   pokemonName: Slugma
-  attack: 39
-  hp: 49
+  attack: 49
+  hp: 59
   type1: Fire
   speed: 16
   tier: 3
   preEvolutionId: 0
+  isLegendary: 0
   ability: {fileID: 11400000, guid: 7096fb70ce51aa74b8bc7581cd08512f, type: 2}
   sprite: {fileID: 8332893800438002563, guid: 8c8d046873d337740be495facb9ce348, type: 3}

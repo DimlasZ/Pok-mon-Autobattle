@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   id: 243
   pokemonName: Raikou
-  attack: 78
-  hp: 102
+  attack: 74
+  hp: 88
   type1: Electric
-  speed: 109
+  speed: 101
   tier: 6
   preEvolutionId: 0
+  isLegendary: 1
   ability: {fileID: 11400000, guid: 954b51f5e91fa994a8d3ce71876ab824, type: 2}
   sprite: {fileID: 8756451912912252677, guid: 0e36f15da87603c42b8a4d78d9b3a5c9, type: 3}
