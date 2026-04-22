@@ -52,7 +52,7 @@ A auto-battler game built in Unity featuring Pokémon from Generations I–III. 
 
 ## How to Play
 
-Download the .exe from latest release (https://github.com/DimlasZ/Pok-mon-Autobattle/releases/tag/v1.0)
+Download the .exe from latest release [(https://github.com/DimlasZ/Pok-mon-Autobattle/releases/tag/v1.0)](https://github.com/DimlasZ/Pokemon-Auto-Battler/releases)
 
 Or play the game online on a PC-Browser: https://dimlas.itch.io/pokmon-auto-battler
 
