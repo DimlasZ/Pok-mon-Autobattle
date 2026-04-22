@@ -29,6 +29,15 @@ public static partial class AbilitySystem
     private static List<PokemonInstance> _teamA = new List<PokemonInstance>();
     private static List<PokemonInstance> _teamB = new List<PokemonInstance>();
 
+    // Isolated RNG for all simulation randomness. Set via SetRng() before each battle.
+    // Using System.Random keeps sim randomness completely separate from UnityEngine.Random
+    // so UI/audio calls never affect battle determinism (critical for multiplayer seed sync).
+    private static System.Random _rng = new System.Random();
+    public static void SetRng(System.Random rng) => _rng = rng;
+    public static void SetRng(int seed)           => _rng = new System.Random(seed);
+    public static bool   RngNextBool()   => _rng.NextDouble() > 0.5;
+    public static double RngNextDouble() => _rng.NextDouble();
+
     private static bool _weatherNegated   = false;
     public  static bool MoldBreakerActive { get; private set; } = false;
 
@@ -159,7 +168,7 @@ public static partial class AbilitySystem
         list.Sort((a, b) =>
         {
             int cmp = b.Item1.speed.CompareTo(a.Item1.speed);
-            return cmp != 0 ? cmp : (Random.value > 0.5f ? 1 : -1); // random tie-break
+            return cmp != 0 ? cmp : (_rng.NextDouble() > 0.5 ? 1 : -1);
         });
         return list;
     }

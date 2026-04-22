@@ -10,6 +10,7 @@ public class MainMenuController : MonoBehaviour
     [Header("Buttons")]
     public Button playButton;
     public Button continueButton;
+    public Button multiplayerButton;
     public Button quitButton;
 
     // -------------------------------------------------------

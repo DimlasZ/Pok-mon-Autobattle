@@ -8,4 +8,11 @@ using UnityEngine;
 public class PokemonDatabase : ScriptableObject
 {
     public PokemonData[] allPokemon;
+
+    public PokemonData GetById(int id)
+    {
+        foreach (var p in allPokemon)
+            if (p != null && p.id == id) return p;
+        return null;
+    }
 }

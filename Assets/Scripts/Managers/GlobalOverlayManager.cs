@@ -36,6 +36,9 @@ public class GlobalOverlayManager : MonoBehaviour
     [Header("Resolution")]
     public TMP_Dropdown resolutionDropdown;
 
+    [Header("Windowed Mode")]
+    public Toggle windowedToggle;
+
     private Resolution[] _resolutions;
 
     // -------------------------------------------------------
@@ -51,6 +54,7 @@ public class GlobalOverlayManager : MonoBehaviour
     {
         InitVolumeSliders();
         InitResolutionDropdown();
+        InitWindowedToggle();
     }
 
     // -------------------------------------------------------
@@ -203,5 +207,30 @@ public class GlobalOverlayManager : MonoBehaviour
         if (_resolutions == null || index >= _resolutions.Length) return;
         var r = _resolutions[index];
         Screen.SetResolution(r.width, r.height, Screen.fullScreen);
+    }
+
+    // -------------------------------------------------------
+    // WINDOWED MODE
+    // -------------------------------------------------------
+
+    void InitWindowedToggle()
+    {
+        if (windowedToggle == null) return;
+        bool windowed = PlayerPrefs.GetInt("Windowed", 0) == 1;
+        windowedToggle.isOn = windowed;
+        ApplyWindowedMode(windowed);
+        windowedToggle.onValueChanged.AddListener(OnWindowedChanged);
+    }
+
+    void OnWindowedChanged(bool windowed)
+    {
+        PlayerPrefs.SetInt("Windowed", windowed ? 1 : 0);
+        ApplyWindowedMode(windowed);
+    }
+
+    static void ApplyWindowedMode(bool windowed)
+    {
+        Screen.SetResolution(Screen.width, Screen.height,
+            windowed ? FullScreenMode.Windowed : FullScreenMode.FullScreenWindow);
     }
 }

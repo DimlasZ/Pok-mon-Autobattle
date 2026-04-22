@@ -53,7 +53,7 @@ public static partial class AbilitySystem
 
             case "enemy_random":
             {
-                var pool = enemyTeam.Where(p => p.currentHP > 0).OrderBy(_ => Random.value).ToList();
+                var pool = enemyTeam.Where(p => p.currentHP > 0).OrderBy(_ => _rng.NextDouble()).ToList();
                 result.AddRange(pool.Take(n));
                 break;
             }
@@ -64,7 +64,7 @@ public static partial class AbilitySystem
 
             case "ally_random":
             {
-                var pool = sourceTeam.Where(p => p != source && p.currentHP > 0).OrderBy(_ => Random.value).ToList();
+                var pool = sourceTeam.Where(p => p != source && p.currentHP > 0).OrderBy(_ => _rng.NextDouble()).ToList();
                 result.AddRange(pool.Take(n));
                 break;
             }
@@ -160,6 +160,6 @@ public static partial class AbilitySystem
     {
         var alive = team.Where(p => p != exclude && p.currentHP > 0).ToList();
         if (alive.Count == 0) return null;
-        return alive[Random.Range(0, alive.Count)];
+        return alive[_rng.Next(0, alive.Count)];
     }
 }

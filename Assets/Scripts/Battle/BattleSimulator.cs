@@ -11,8 +11,9 @@ public static class BattleSimulator
 {
     // Simulate a single battle between two fresh teams.
     // PlayerWin  = teamA wins, PlayerLoss = teamB wins, Draw = simultaneous wipe or 20-turn timeout.
-    public static BattleResult Simulate(List<PokemonInstance> teamA, List<PokemonInstance> teamB)
+    public static BattleResult Simulate(List<PokemonInstance> teamA, List<PokemonInstance> teamB, int seed = 0)
     {
+        AbilitySystem.SetRng(seed != 0 ? new System.Random(seed) : new System.Random());
         AbilitySystem.InitBattle(teamA, teamB);
         AbilitySystem.ResetBattleState();
 
@@ -39,7 +40,7 @@ public static class BattleSimulator
             // Determine attack order (mirrors BattleSceneManager exactly)
             bool aGoesFirst = aFront.speed != bFront.speed
                 ? aFront.speed > bFront.speed
-                : Random.value > 0.5f;
+                : AbilitySystem.RngNextBool();
 
             var first      = aGoesFirst ? aFront : bFront;
             var second     = aGoesFirst ? bFront : aFront;

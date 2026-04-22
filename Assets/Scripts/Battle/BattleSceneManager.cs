@@ -57,6 +57,9 @@ public class BattleSceneManager : MonoBehaviour
     // How many slots are active this battle (captured at Start, stays fixed during the fight)
     private int activeSlots;
 
+    // Set by MultiplayerBattleSync before scene load in multiplayer; 0 = singleplayer
+    public static int _pendingMultiplayerSeed = 0;
+
     // -------------------------------------------------------
 
     private void Start()
@@ -75,8 +78,15 @@ public class BattleSceneManager : MonoBehaviour
             .ToList();
         playerTeam.ForEach(p => p.ResetForBattle());
 
-        // Generate enemy team
-        enemyTeam = EnemyGenerator.GenerateEnemyTeam();
+        // In multiplayer use the opponent's real team; in singleplayer generate an enemy team.
+        var mpPending = MultiplayerNetworkManager.Instance?.PendingOpponentTeam;
+        if (mpPending != null && mpPending.Length > 0)
+        {
+            enemyTeam = mpPending.Where(p => p != null).ToList();
+            MultiplayerNetworkManager.Instance.PendingOpponentTeam = null;
+        }
+        else
+            enemyTeam = EnemyGenerator.GenerateEnemyTeam();
 
         // Tag enemy instances so they show as "Enemy X" in logs
         foreach (var e in enemyTeam)
@@ -85,6 +95,13 @@ public class BattleSceneManager : MonoBehaviour
         // Capture active slot count (max of both sides, they should be equal)
         activeSlots = Mathf.Max(playerTeam.Count, enemyTeam.Count);
         activeSlots = Mathf.Min(activeSlots, ShopManager.MaxBattleSize);
+
+        // Set RNG seed — in multiplayer this is the shared seed from MultiplayerBattleSync.
+        // In singleplayer a fresh random seed is used (non-determinism is fine there).
+        int battleSeed = MultiplayerNetworkManager.Instance != null && MultiplayerNetworkManager.Instance.IsConnected
+            ? _pendingMultiplayerSeed
+            : UnityEngine.Random.Range(1, int.MaxValue);
+        AbilitySystem.SetRng(battleSeed);
 
         // Register teams with AbilitySystem so it can resolve them without passing everywhere
         AbilitySystem.InitBattle(playerTeam, enemyTeam);

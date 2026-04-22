@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     [Header("Scene Names")]
     public string mainMenuSceneName = "MainMenuScene";
     [Tooltip("Name of the shop/buy phase scene")]
-    public string shopSceneName = "SampleScene";
+    public string shopSceneName = "ShopScene";
     [Tooltip("Name of the battle scene — swap this later for tier-based arenas")]
     public string battleSceneName = "BattleScene";
 
@@ -46,7 +46,10 @@ public class GameManager : MonoBehaviour
     {
         // Save mid-run state so the player can Continue next session.
         // Only save during Buy phase — battle state is ephemeral.
-        if (CurrentPhase == GamePhase.Buy && PlayerHP > 0)
+        // Skip if on the main menu: ReturnToMainMenu() already saved before clearing rows,
+        // and saving here would overwrite that valid save with empty ShopManager data.
+        if (CurrentPhase == GamePhase.Buy && PlayerHP > 0
+            && SceneManager.GetActiveScene().name != mainMenuSceneName)
             AutoSaveManager.Save();
     }
 
@@ -169,6 +172,36 @@ public class GameManager : MonoBehaviour
         string resultLabel = result == BattleResult.PlayerWin ? $"Victory! ({PlayerWins}/{winsToVictory} wins)" : result == BattleResult.Draw ? "Draw" : "Defeat";
         Debug.Log($"Round {CurrentRound} — {resultLabel}");
 
+        // In multiplayer the host pushes authoritative state to the client immediately.
+        // Heart restoration is pre-calculated here so it can be included in the sync payload.
+        // ReturnToShop() on the host will skip the heart logic since PendingHeartRestored is already set.
+        var sync = MultiplayerBattleSync.Instance;
+        if (sync != null && sync.IsHost)
+        {
+            int tierBefore = ShopManager.Instance.GetTierForRound(CurrentRound);
+            int tierAfter  = ShopManager.Instance.GetTierForRound(CurrentRound + 1);
+            PendingHeartRestored = false;
+            if (tierAfter > tierBefore && (tierAfter == 2 || tierAfter == 4) && PlayerHP < playerMaxHP)
+            {
+                PlayerHP++;
+                PendingHeartRestored = true;
+            }
+            sync.SyncPostBattle(result, PlayerHP, PlayerWins, CurrentRound, PendingHeartRestored);
+        }
+
+        GlobalOverlayManager.Instance?.progressOverlay?.Show(result);
+    }
+
+    // Called on the client by MultiplayerBattleSync after receiving host's authoritative state.
+    public void MultiplayerApplyPostBattle(BattleResult result, int hp, int wins, int round, bool heartRestored)
+    {
+        CurrentPhase         = GamePhase.Results;
+        PlayerHP             = hp;
+        PlayerWins           = wins;
+        CurrentRound         = round;
+        PendingHeartRestored = heartRestored;
+
+        Debug.Log($"[MP Client] Round {round} result applied — HP:{hp} Wins:{wins}");
         GlobalOverlayManager.Instance?.progressOverlay?.Show(result);
     }
 
@@ -184,12 +217,18 @@ public class GameManager : MonoBehaviour
         CurrentRound++;
         int tierAfter = ShopManager.Instance.GetTierForRound(CurrentRound);
 
-        PendingHeartRestored = false;
-        if (tierAfter > tierBefore && (tierAfter == 2 || tierAfter == 4) && PlayerHP < playerMaxHP)
+        // In multiplayer the host pre-calculates heart restoration in OnBattleComplete
+        // so it can be synced to the client — skip it here to avoid applying it twice.
+        bool isMultiplayer = MultiplayerBattleSync.Instance != null;
+        if (!isMultiplayer)
         {
-            PlayerHP             = Mathf.Min(PlayerHP + 1, playerMaxHP);
-            PendingHeartRestored = true;
-            Debug.Log($"Tier {tierAfter} reached — restored 1 HP. HP: {PlayerHP}/{playerMaxHP}");
+            PendingHeartRestored = false;
+            if (tierAfter > tierBefore && (tierAfter == 2 || tierAfter == 4) && PlayerHP < playerMaxHP)
+            {
+                PlayerHP             = Mathf.Min(PlayerHP + 1, playerMaxHP);
+                PendingHeartRestored = true;
+                Debug.Log($"Tier {tierAfter} reached — restored 1 HP. HP: {PlayerHP}/{playerMaxHP}");
+            }
         }
 
         // Heal all player Pokémon back to full so bench shows correct HP in the shop.

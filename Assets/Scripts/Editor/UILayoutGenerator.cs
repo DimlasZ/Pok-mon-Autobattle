@@ -35,7 +35,7 @@ public class UILayoutGenerator
         Transform root = canvas.transform;
 
         // --- Destroy existing panels so re-running doesn't stack duplicates ---
-        string[] managedNames = { "TopBar", "ShopPanel", "BattlePanel", "BenchPanel", "ActionPanel", "StartBattleButton", "Tooltip", "DragGhost", "DragDropManager", "ConfirmReturnPanel", "ConfirmBattlePanel" };
+        string[] managedNames = { "TopBar", "ShopPanel", "BattlePanel", "BenchPanel", "ActionPanel", "StartBattleButton", "Tooltip", "DragGhost", "DragDropManager", "ConfirmReturnPanel", "ConfirmBattlePanel", "MultiplayerStatusLabel" };
         // Note: all TopBar children (overlay buttons, return button) are destroyed with TopBar.
         foreach (string n in managedNames)
         {
@@ -147,6 +147,19 @@ public class UILayoutGenerator
         var startBattleBtn = CreateButton(actionPanel.transform, "StartBattleButton", "START BATTLE", new Vector2(260, 60), new Vector2(575, 0));
         SetButtonColor(startBattleBtn, new Color(0.8f, 0.2f, 0.2f));
 
+        // Multiplayer status label — shown only during a multiplayer session
+        var mpStatusGO   = new GameObject("MultiplayerStatusLabel");
+        var mpStatusRect = mpStatusGO.AddComponent<RectTransform>();
+        var mpStatusTMP  = mpStatusGO.AddComponent<TextMeshProUGUI>();
+        mpStatusGO.transform.SetParent(actionPanel.transform, false);
+        mpStatusRect.sizeDelta        = new Vector2(260, 40);
+        mpStatusRect.anchoredPosition = new Vector2(575, -40);
+        mpStatusTMP.text      = "Waiting for opponent...";
+        mpStatusTMP.fontSize  = 18;
+        mpStatusTMP.alignment = TextAlignmentOptions.Center;
+        mpStatusTMP.color     = Color.yellow;
+        mpStatusGO.SetActive(false);
+
         // --- UIManager ---
         var uiManagerGO = GameObject.Find("UIManager");
         if (uiManagerGO == null)
@@ -170,11 +183,12 @@ public class UILayoutGenerator
         uiManager.champImage  = champImage;
         uiManager.heartImages = heartImages;
 
-        uiManager.releaseButton     = releaseBtn;
-        uiManager.baitButton        = baitBtn;
-        uiManager.rerollButton      = rerollBtn;
-        uiManager.startBattleButton = startBattleBtn;
-        uiManager.releaseDropZone   = releaseBtn.GetComponent<ReleaseDropZone>();
+        uiManager.releaseButton            = releaseBtn;
+        uiManager.baitButton               = baitBtn;
+        uiManager.rerollButton             = rerollBtn;
+        uiManager.startBattleButton        = startBattleBtn;
+        uiManager.releaseDropZone          = releaseBtn.GetComponent<ReleaseDropZone>();
+        uiManager.multiplayerStatusLabel   = mpStatusTMP;
 
         // --- Set slot sources and wire clicks ---
         SetupSlots(shopSlots,   ShopManager.SelectionSource.Shop);

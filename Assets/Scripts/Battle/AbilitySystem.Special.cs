@@ -20,7 +20,7 @@ public static partial class AbilitySystem
         // Fisher-Yates shuffle
         for (int i = n - 1; i > 0; i--)
         {
-            int j = UnityEngine.Random.Range(0, i + 1);
+            int j = _rng.Next(0, i + 1);
             var tmp = ctx.enemyTeam[i];
             ctx.enemyTeam[i] = ctx.enemyTeam[j];
             ctx.enemyTeam[j] = tmp;

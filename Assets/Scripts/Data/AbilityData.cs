@@ -34,6 +34,6 @@ public class AbilityData : ScriptableObject
     public bool ShouldTrigger()
     {
         if (chance <= 0f) return true;
-        return Random.value <= chance;
+        return AbilitySystem.RngNextDouble() <= chance;
     }
 }

@@ -104,7 +104,7 @@ public class BattleManager : MonoBehaviour
         else if (playerFront.speed != enemyFront.speed)
             playerGoesFirst = playerFront.speed > enemyFront.speed;
         else
-            playerGoesFirst = Random.value > 0.5f;
+            playerGoesFirst = AbilitySystem.RngNextBool();
 
         PokemonInstance first  = playerGoesFirst ? playerFront : enemyFront;
         PokemonInstance second = playerGoesFirst ? enemyFront  : playerFront;

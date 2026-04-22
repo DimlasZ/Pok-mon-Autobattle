@@ -4,6 +4,8 @@ using UnityEditor;
 using UnityEngine.UI;
 using UnityEditor.SceneManagement;
 using TMPro;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 
 // Generates the Main Menu scene from scratch and saves it to Assets/Scenes/MainMenuScene.unity.
 // Also creates/updates Assets/Resources/PokemonDatabase.asset with all PokemonData in the project.
@@ -120,18 +122,20 @@ public class MainMenuSceneGenerator
         // ── Main Buttons ──────────────────────────────────────────────────
         // Button layout (top → bottom): Continue (if save), Play Now, Pokédex, Hall of Fame, Settings, Quit
         // Continue is hidden at scene-open; MainMenuController shows it at runtime if a save exists.
-        var continueBtn   = CreateButton(root, "ContinueButton",   "Continue",     new Vector2(320, 75), new Vector2(0,  212));
-        var playBtn       = CreateButton(root, "PlayButton",       "Play Now",     new Vector2(320, 75), new Vector2(0,  125));
-        var pokedexBtn    = CreateButton(root, "PokedexButton",    "Pokédex",      new Vector2(320, 75), new Vector2(0,   38));
-        var hallOfFameBtn = CreateButton(root, "HallOfFameButton", "Hall of Fame", new Vector2(320, 75), new Vector2(0,  -50));
-        var settingsBtn   = CreateButton(root, "SettingsButton",   "Settings",     new Vector2(320, 75), new Vector2(0, -137));
-        var quitBtn       = CreateButton(root, "QuitButton",       "Quit",         new Vector2(320, 75), new Vector2(0, -225));
+        var continueBtn      = CreateButton(root, "ContinueButton",      "Continue",      new Vector2(320, 75), new Vector2(0,  250));
+        var playBtn          = CreateButton(root, "PlayButton",          "Play Now",      new Vector2(320, 75), new Vector2(0,  163));
+        var multiplayerBtn   = CreateButton(root, "MultiplayerButton",   "Multiplayer",   new Vector2(320, 75), new Vector2(0,   76));
+        var pokedexBtn       = CreateButton(root, "PokedexButton",       "Pokédex",       new Vector2(320, 75), new Vector2(0,  -12));
+        var hallOfFameBtn    = CreateButton(root, "HallOfFameButton",    "Hall of Fame",  new Vector2(320, 75), new Vector2(0, -100));
+        var settingsBtn      = CreateButton(root, "SettingsButton",      "Settings",      new Vector2(320, 75), new Vector2(0, -187));
+        var quitBtn          = CreateButton(root, "QuitButton",          "Quit",          new Vector2(320, 75), new Vector2(0, -275));
 
-        SetButtonColor(playBtn,       new Color(0.18f, 0.58f, 0.18f));
-        SetButtonColor(continueBtn,   new Color(0.10f, 0.45f, 0.45f));
-        SetButtonColor(pokedexBtn,    new Color(0.18f, 0.28f, 0.68f));
-        SetButtonColor(hallOfFameBtn, new Color(0.55f, 0.40f, 0.05f));
-        SetButtonColor(quitBtn,       new Color(0.58f, 0.12f, 0.12f));
+        SetButtonColor(playBtn,        new Color(0.18f, 0.58f, 0.18f));
+        SetButtonColor(continueBtn,    new Color(0.10f, 0.45f, 0.45f));
+        SetButtonColor(multiplayerBtn, new Color(0.45f, 0.15f, 0.55f));
+        SetButtonColor(pokedexBtn,     new Color(0.18f, 0.28f, 0.68f));
+        SetButtonColor(hallOfFameBtn,  new Color(0.55f, 0.40f, 0.05f));
+        SetButtonColor(quitBtn,        new Color(0.58f, 0.12f, 0.12f));
         // settings keeps default grey
 
         // ── GlobalOverlayCanvas (root-level, persists across scenes via DontDestroyOnLoad) ──
@@ -153,6 +157,7 @@ public class MainMenuSceneGenerator
         var settingsPanelGO = BuildSettingsPanel(overlayRoot,
             out Slider musicSlider, out Slider sfxSlider, out Slider weatherSlider,
             out TMP_Dropdown resDropdown,
+            out Toggle windowedToggle,
             out Button closeSettingsBtn);
         settingsPanelGO.SetActive(false);
 
@@ -186,6 +191,7 @@ public class MainMenuSceneGenerator
         overlayMgr.sfxSlider         = sfxSlider;
         overlayMgr.weatherSlider     = weatherSlider;
         overlayMgr.resolutionDropdown = resDropdown;
+        overlayMgr.windowedToggle    = windowedToggle;
 
         // Wire close buttons via GlobalOverlayToggle (toggle = close when panel is open)
         AddOverlayToggle(closeSettingsBtn.gameObject, GlobalOverlayToggle.Target.Settings);
@@ -219,6 +225,7 @@ public class MainMenuSceneGenerator
         controller.playButton     = playBtn;
         controller.continueButton = continueBtn;
         controller.quitButton     = quitBtn;
+        controller.multiplayerButton = multiplayerBtn;
         // hallOfFameBtn, pokedexBtn, settingsBtn are wired via GlobalOverlayToggle above
 
         // ── Progress Overlay (gym badges / Elite 4 / champ / lives) ──────
@@ -281,13 +288,55 @@ public class MainMenuSceneGenerator
         var hofPanel = hofGO.AddComponent<HallOfFamePanel>();
         overlayMgr.hallOfFamePanel = hofPanel;
 
+        // ── Multiplayer Lobby Panel ───────────────────────────────────────
+        var lobbyPanelGO = BuildLobbyPanel(overlayRoot,
+            out Button mpHostBtn, out Button mpJoinBtn,
+            out Button mpHostCancelBtn, out Button mpJoinCancelBtn, out Button mpBackBtn,
+            out Button mpJoinConfirmBtn,
+            out TextMeshProUGUI mpRoomCodeLabel, out TextMeshProUGUI mpHostStatusLabel,
+            out TMP_InputField mpCodeInput, out TextMeshProUGUI mpJoinStatusLabel,
+            out GameObject mpIdlePanel, out GameObject mpHostPanel, out GameObject mpJoinPanel);
+        lobbyPanelGO.SetActive(false);
+
+        var lobbyUI = lobbyPanelGO.AddComponent<MultiplayerLobbyUI>();
+        lobbyUI.idlePanel        = mpIdlePanel;
+        lobbyUI.hostPanel        = mpHostPanel;
+        lobbyUI.joinPanel        = mpJoinPanel;
+        lobbyUI.hostButton       = mpHostBtn;
+        lobbyUI.joinButton       = mpJoinBtn;
+        lobbyUI.hostCancelButton = mpHostCancelBtn;
+        lobbyUI.joinCancelButton = mpJoinCancelBtn;
+        lobbyUI.backButton       = mpBackBtn;
+        lobbyUI.joinConfirmButton   = mpJoinConfirmBtn;
+        lobbyUI.roomCodeLabel    = mpRoomCodeLabel;
+        lobbyUI.hostStatusLabel  = mpHostStatusLabel;
+        lobbyUI.codeInputField   = mpCodeInput;
+        lobbyUI.joinStatusLabel  = mpJoinStatusLabel;
+
+        // Wire multiplayer button to show lobby panel
+        multiplayerBtn.onClick.AddListener(() => lobbyPanelGO.SetActive(true));
+
+        // ── MultiplayerNetworkManager bootstrap ───────────────────────────
+        var mpGO = new GameObject("MultiplayerNetworkManager");
+        mpGO.transform.SetParent(null);
+        mpGO.AddComponent<MultiplayerNetworkManager>();
+
+        // ── Netcode NetworkManager ────────────────────────────────────────
+        // Unity requires exactly one NetworkManager in the scene (DontDestroyOnLoad).
+        var netGO        = new GameObject("NetworkManager");
+        netGO.transform.SetParent(null);
+        var netManager   = netGO.AddComponent<NetworkManager>();
+        var transport    = netGO.AddComponent<UnityTransport>();
+        netGO.AddComponent<MultiplayerBattleSync>();
+        netManager.NetworkConfig.NetworkTransport = transport;
+
         // ── GameManager bootstrap ─────────────────────────────────────────
         // Ensure a GameManager exists in the scene so it persists into subsequent scenes.
         var gmGO = new GameObject("GameManager");
         gmGO.transform.SetParent(null);
         var gm = gmGO.AddComponent<GameManager>();
         gm.mainMenuSceneName = "MainMenuScene";
-        gm.shopSceneName     = "ShopScene";
+        gm.shopSceneName     = "ShopScene"; // matches Assets/Scenes/ShopScene.unity
         gm.battleSceneName   = "BattleScene";
         gm.winsToVictory     = 13;
         gmGO.AddComponent<SceneTransitionManager>();
@@ -300,7 +349,12 @@ public class MainMenuSceneGenerator
         EditorUtility.SetDirty(overlayCanvasGO);
         EditorSceneManager.SaveScene(scene, "Assets/Scenes/MainMenuScene.unity");
 
-        Debug.Log("Main Menu Scene saved to Assets/Scenes/MainMenuScene.unity — add it as Scene 0 in Build Settings.");
+        // ── Register all game scenes in Build Settings ────────────────────
+        EnsureSceneInBuildSettings("Assets/Scenes/MainMenuScene.unity");
+        EnsureSceneInBuildSettings("Assets/Scenes/ShopScene.unity");
+        EnsureSceneInBuildSettings("Assets/Scenes/BattleScene.unity");
+
+        Debug.Log("Main Menu Scene saved. All scenes registered in Build Settings.");
     }
 
     // ================================================================
@@ -309,9 +363,9 @@ public class MainMenuSceneGenerator
 
     static GameObject BuildSettingsPanel(Transform root,
         out Slider musicSlider, out Slider sfxSlider, out Slider weatherSlider,
-        out TMP_Dropdown resDropdown, out Button closeBtn)
+        out TMP_Dropdown resDropdown, out Toggle windowedToggle, out Button closeBtn)
     {
-        var panel     = CreatePanel(root, "SettingsPanel", new Vector2(760, 520), Vector2.zero);
+        var panel     = CreatePanel(root, "SettingsPanel", new Vector2(760, 560), Vector2.zero);
         SetColor(panel, new Color(0.08f, 0.08f, 0.12f, 0.97f));
         panel.AddComponent<Outline>().effectColor = new Color(0.4f, 0.4f, 0.6f, 0.8f);
 
@@ -336,13 +390,17 @@ public class MainMenuSceneGenerator
         divImg.color             = new Color(0.4f, 0.4f, 0.6f, 0.5f);
 
         // Resolution row
-        CreateLabel(panel.transform, "ResLabel", "Resolution", new Vector2(-230, 120));
-        resDropdown = CreateDropdown(panel.transform, "ResDropdown", new Vector2(310, 45), new Vector2(120, 120));
+        CreateLabel(panel.transform, "ResLabel", "Resolution", new Vector2(-230, 130));
+        resDropdown = CreateDropdown(panel.transform, "ResDropdown", new Vector2(310, 45), new Vector2(120, 130));
+
+        // Windowed toggle row
+        CreateLabel(panel.transform, "WindowedLabel", "Windowed", new Vector2(-230, 70));
+        windowedToggle = CreateToggle(panel.transform, "WindowedToggle", new Vector2(120, 70));
 
         // Volume rows
-        musicSlider   = CreateSliderRow(panel.transform, "Music",   new Vector2(0,  40));
-        sfxSlider     = CreateSliderRow(panel.transform, "SFX",     new Vector2(0, -40));
-        weatherSlider = CreateSliderRow(panel.transform, "Weather", new Vector2(0,-120));
+        musicSlider   = CreateSliderRow(panel.transform, "Music",   new Vector2(0,   0));
+        sfxSlider     = CreateSliderRow(panel.transform, "SFX",     new Vector2(0, -70));
+        weatherSlider = CreateSliderRow(panel.transform, "Weather", new Vector2(0,-140));
 
         return panel;
     }
@@ -578,6 +636,43 @@ public class MainMenuSceneGenerator
         return dropdown;
     }
 
+    static Toggle CreateToggle(Transform parent, string name, Vector2 pos)
+    {
+        var go     = new GameObject(name);
+        var rect   = go.AddComponent<RectTransform>();
+        var toggle = go.AddComponent<Toggle>();
+        go.transform.SetParent(parent, false);
+        rect.sizeDelta        = new Vector2(40, 40);
+        rect.anchoredPosition = pos;
+
+        // Background (unchecked visual)
+        var bgGO   = new GameObject("Background");
+        var bgRect = bgGO.AddComponent<RectTransform>();
+        var bgImg  = bgGO.AddComponent<Image>();
+        bgGO.transform.SetParent(go.transform, false);
+        bgRect.anchorMin        = Vector2.zero;
+        bgRect.anchorMax        = Vector2.one;
+        bgRect.offsetMin        = Vector2.zero;
+        bgRect.offsetMax        = Vector2.zero;
+        bgImg.color             = new Color(0.2f, 0.2f, 0.3f, 1f);
+        toggle.targetGraphic    = bgImg;
+
+        // Checkmark (checked visual)
+        var checkGO   = new GameObject("Checkmark");
+        var checkRect = checkGO.AddComponent<RectTransform>();
+        var checkImg  = checkGO.AddComponent<Image>();
+        checkGO.transform.SetParent(bgGO.transform, false);
+        checkRect.anchorMin        = new Vector2(0.15f, 0.15f);
+        checkRect.anchorMax        = new Vector2(0.85f, 0.85f);
+        checkRect.offsetMin        = Vector2.zero;
+        checkRect.offsetMax        = Vector2.zero;
+        checkImg.color             = new Color(0.3f, 0.8f, 0.3f, 1f);
+        toggle.graphic             = checkImg;
+
+        return toggle;
+    }
+
+
     // ================================================================
     // POKÉDEX PANEL
     // ================================================================
@@ -774,6 +869,99 @@ public class MainMenuSceneGenerator
     }
 
     // ================================================================
+    // MULTIPLAYER LOBBY PANEL
+    // ================================================================
+
+    static GameObject BuildLobbyPanel(Transform root,
+        out Button hostBtn, out Button joinBtn,
+        out Button hostCancelBtn, out Button joinCancelBtn, out Button backBtn,
+        out Button joinConfirmBtn,
+        out TextMeshProUGUI roomCodeLabel, out TextMeshProUGUI hostStatusLabel,
+        out TMP_InputField codeInput, out TextMeshProUGUI joinStatusLabel,
+        out GameObject idlePanel, out GameObject hostPanel, out GameObject joinPanel)
+    {
+        var panel = CreatePanel(root, "MultiplayerLobbyPanel", new Vector2(600, 500), Vector2.zero);
+        SetColor(panel, new Color(0.07f, 0.05f, 0.10f, 0.97f));
+        panel.AddComponent<Outline>().effectColor = new Color(0.5f, 0.2f, 0.7f, 0.8f);
+
+        // Title
+        var title = CreateTMP(panel.transform, "Title", "Multiplayer", 46,
+            new Vector2(0, 210), new Vector2(520, 70));
+        title.fontStyle = FontStyles.Bold;
+        title.alignment = TextAlignmentOptions.Center;
+
+        // Back button (top-right)
+        backBtn = CreateButton(panel.transform, "BackButton", "", new Vector2(50, 50), new Vector2(260, 210));
+        SetButtonColor(backBtn, new Color(0.5f, 0.1f, 0.1f));
+        SetButtonIcon(backBtn, "Assets/Resources/Icons/X.png");
+
+        // ── Idle panel: Host / Join ────────────────────────────────────────
+        var idleGO = new GameObject("IdlePanel");
+        idleGO.AddComponent<RectTransform>();
+        idleGO.transform.SetParent(panel.transform, false);
+
+        hostBtn = CreateButton(idleGO.transform, "HostButton", "Host Game",
+            new Vector2(280, 70), new Vector2(0, 50));
+        SetButtonColor(hostBtn, new Color(0.18f, 0.55f, 0.18f));
+
+        joinBtn = CreateButton(idleGO.transform, "JoinButton", "Join Game",
+            new Vector2(280, 70), new Vector2(0, -40));
+        SetButtonColor(joinBtn, new Color(0.18f, 0.28f, 0.65f));
+
+        idlePanel = idleGO;
+
+        // ── Host panel: room code display ─────────────────────────────────
+        var hostGO = new GameObject("HostPanel");
+        hostGO.AddComponent<RectTransform>();
+        hostGO.transform.SetParent(panel.transform, false);
+
+        roomCodeLabel = CreateTMP(hostGO.transform, "RoomCodeLabel", "Room Code\n----", 36,
+            new Vector2(0, 60), new Vector2(500, 120));
+        roomCodeLabel.alignment = TextAlignmentOptions.Center;
+
+        hostStatusLabel = CreateTMP(hostGO.transform, "HostStatusLabel", "Waiting for opponent...", 22,
+            new Vector2(0, -40), new Vector2(500, 40));
+        hostStatusLabel.alignment = TextAlignmentOptions.Center;
+        hostStatusLabel.color     = Color.yellow;
+
+        hostCancelBtn = CreateButton(hostGO.transform, "HostCancelButton", "Cancel",
+            new Vector2(200, 55), new Vector2(0, -120));
+        SetButtonColor(hostCancelBtn, new Color(0.55f, 0.12f, 0.12f));
+
+        hostPanel = hostGO;
+        hostGO.SetActive(false);
+
+        // ── Join panel: code input ─────────────────────────────────────────
+        var joinGO = new GameObject("JoinPanel");
+        joinGO.AddComponent<RectTransform>();
+        joinGO.transform.SetParent(panel.transform, false);
+
+        var joinPrompt = CreateTMP(joinGO.transform, "JoinPrompt", "Enter room code:", 26,
+            new Vector2(0, 80), new Vector2(480, 40));
+        joinPrompt.alignment = TextAlignmentOptions.Center;
+
+        codeInput = CreateInputField(joinGO.transform, "CodeInputField", "e.g. XK47",
+            new Vector2(220, 55), new Vector2(0, 20));
+
+        joinConfirmBtn = CreateButton(joinGO.transform, "JoinConfirmButton", "Join",
+            new Vector2(200, 55), new Vector2(0, -50));
+        SetButtonColor(joinConfirmBtn, new Color(0.18f, 0.55f, 0.18f));
+
+        joinStatusLabel = CreateTMP(joinGO.transform, "JoinStatusLabel", "", 20,
+            new Vector2(0, -115), new Vector2(480, 36));
+        joinStatusLabel.alignment = TextAlignmentOptions.Center;
+
+        joinCancelBtn = CreateButton(joinGO.transform, "JoinCancelButton", "Cancel",
+            new Vector2(200, 55), new Vector2(0, -160));
+        SetButtonColor(joinCancelBtn, new Color(0.55f, 0.12f, 0.12f));
+
+        joinPanel = joinGO;
+        joinGO.SetActive(false);
+
+        return panel;
+    }
+
+    // ================================================================
     // POKEMON DATABASE
     // ================================================================
 
@@ -909,6 +1097,15 @@ public class MainMenuSceneGenerator
     {
         var groups = mixer.FindMatchingGroups(groupName);
         return groups != null && groups.Length > 0 ? groups[0] : null;
+    }
+
+    static void EnsureSceneInBuildSettings(string scenePath)
+    {
+        var scenes = EditorBuildSettings.scenes.ToList();
+        if (scenes.Any(s => s.path == scenePath)) return;
+        scenes.Add(new EditorBuildSettingsScene(scenePath, true));
+        EditorBuildSettings.scenes = scenes.ToArray();
+        Debug.Log($"Added to Build Settings: {scenePath}");
     }
 
     // ================================================================

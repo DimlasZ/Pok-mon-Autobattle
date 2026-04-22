@@ -8,13 +8,13 @@
 7,Flame Body,on_hit,attacker,,reduce_attack,0.7,,,,debuff3,0,stats_lowered,On Hit: Attacker loses 30% of attack damage after hitting the user.
 8,Huge Power,passive,self,,boost_attack,2,,,,buff8,2,stats_raised,Doubles the Pokémon's Attack stat.
 9,Taunt,passive,self,,immune_to_debuff,,,,,,,,Attack cannot be lowered.
-10,Intimidate,on_battle_start,enemy_front,2,reduce_attack,0.7,,,,debuff3,0,stats_lowered,On Battle Start: Lowers the attack damage of the first enemy Pokémon by 30%.
+10,Intimidate,on_battle_start,enemy_front,2,reduce_attack,0.8,,,,debuff3,0,stats_lowered,On Battle Start: Lowers the attack damage of the first two enemy Pokémon by 20%.
 11,Levitate,passive,self,,immune,,Ground,,,,,,Immune to Ground-type moves.
 12,Overgrow,on_hit,self,,boost_attack_once,1.25,hp_below_40,,,buff8,3,stats_raised,On Hit: Boosts attacks by 25% when below 40% HP.
 13,Rain Dish,on_round_start,self,,heal,0.4,weather_rain&not_full_hp,,,buff7,2,heal,On Round Start: Restores 40% of HP after each turn in rain.
 14,Rock Head,passive,self,,immune_to_ability_damage,,,,,,,,Immune to ability damage.
 15,Sand Stream,on_battle_start,self,,summon_weather,sandstorm,,,,buff4,4,,On Battle Start: Summons a sandstorm on entry.
-16,Speed Boost,on_round_start,self,,boost_speed,1.05,,,,buff8,0,stats_raised,On Round Start: Increases Speed by 5%.
+16,Speed Boost,on_round_start,self,,boost_speed,1.06,,,,buff8,0,stats_raised,On Round Start: Increases Speed by 6%.
 17,Swift Swim,passive,self,,boost_speed,2,weather_rain,,,buff8,2,stats_raised,Doubles Speed in rain.
 18,Torrent,on_hit,self,,boost_attack_once,1.25,hp_below_40,,,buff8,2,stats_raised,On Hit: Boosts attacks by 25% when below 40% HP.
 19,Solid Rock,passive,self,,damage_reduction,0.75,super_effective,,,,,,Reduces super-effective damage by 25%.
@@ -22,10 +22,10 @@
 21,,,,,,,,,,,,,
 22,Absorb,after_attack,self,,heal_flat,7,hp_below_100,,,buff7,3,heal,After Attack: Recovers 7 HP.
 23,Overheat,after_attack,self,,reduce_attack,0.5,,,,,,,After Attack: Loses 50% Attack.
-24,Giga Drain,after_attack,self,,heal_flat,40,,,,,,,After Attack: Recovers 40 HP.
+24,Giga Drain,after_attack,self,,heal_flat,35,,,,,,,After Attack: Recovers 35 HP.
 25,Leaf Storm,after_attack,self,,reduce_attack,0.5,,,,,,,After Attack: The user loses 50% of its Attack.
 26,Leech Seed,after_attack,enemy_front,1,leech,0.3,,,,spark3,3,heal,After Attack: Leeches 30% of the target's max HP.
-27,Mega Drain,after_attack,self,,heal_flat,25,hp_below_100,,,buff7,3,heal,After Attack: Recovers 25 HP.
+27,Mega Drain,after_attack,self,,heal_flat,22,hp_below_100,,,buff7,3,heal,After Attack: Recovers 22 HP.
 28,Flower Gift,passive,self,,boost_attack,2,weather_sun,,,buff8,3,stats_raised,Boosts Attack by 100% during sunlight.
 29,Power Up,on_battle_start,ally_random,,boost_all_stats,1.05,,,,buff8,4,stats_raised,On Battle Start: A random ally increases all stats by 5%.
 30,Sand Force,passive,self,,boost_attack,1.5,weather_sandstorm,,,buff8,5,stats_raised,Boosts Attack by 50% during a sandstorm.
@@ -33,7 +33,7 @@
 32,Moxie,on_kill,self,,boost_attack,1.5,,,,buff8,5,stats_raised,On Kill: Raises Attack by 50%.
 33,Mold Breaker,passive,self,,ignore_abilities,,,,,,,,
 34,Magic Guard,passive,self,,immune_to_ability_damage,,,,,,,,Cannot be damaged by ability effects.
-35,Sacrifice,on_hit,ally_all,,boost_attack,1.05,,,,buff8,5,stats_raised,On Hit: Raises all allies' Attack by 5%.
+35,Sacrifice,on_hit,ally_all,,boost_attack,1.1,,,,buff8,5,stats_raised,On Hit: Raises all allies' Attack by 10%.
 36,Gooey,on_hit,attacker,,reduce_speed,0.8,,,,debuff3,,,On Hit: Reduces the attacker's Speed by 20%.
 37,Friend Guard,passive,ally_all,,damage_reduction,0.9,,,,,,,Reduces all allies' damage taken by 10% while active.
 38,Rollout,after_attack,self,,boost_attack,1.5,,,,buff8,4,stats_raised,After Attack: Increases Attack by 50%.
@@ -131,7 +131,7 @@
 130,Cheek Pouch,on_battle_start,ally_all,,boost_healing,1.33,,,,buff8,,,On Battle Start: Increases all healing on your team by 33%.
 131,Healer,passive,ally_all,,boost_healing,2,,,,,,,All healing effects on this Pokémon are boosted by 100%.
 132,Power Construct,on_hit,self,,boost_attack,1.5,hp_below_50,,,buff8,4,stats_raised,On Hit: Boosts Attack by 50% when falling below 50% HP.
-133,Overload,on_hit,ally_all,,boost_attack_flat,15,,,,buff8,0,stats_raised,On Hit: Boosts all allies' Attack by 15.
+133,Overload,on_hit,ally_all,,boost_attack_flat,5,,,,buff8,0,stats_raised,On Hit: Boosts all allies' Attack by 5.
 134,Unnerve,passive,enemy_all,,reduce_healing,0.5,,,,,,,Reduces all healing received by enemies by 50%.
 135,Battery,passive,ally_all,,boost_ability_damage,1.3,,,,,,,Boosts all allies' ability-based damage by 30%.
 136,Plus,on_battle_start,self,,boost_attack,2,ally_is_minus,,,buff8,4,stats_raised,On Battle Start: Doubles own Attack if a Minum ally is in the team.
@@ -142,11 +142,11 @@
 141,War Cry,on_attack,ally_all,,deal_damage_percent,,,,,,,,On Attack: Deals 20% damage to all allies but boosts their Attack by 30%.
 142,Perish Song,on_battle_start,enemy_all,,deal_damage_percent,0.1,,,,,,,On Battle Start: All enemies lose 10% of their max HP.
 143,Shock Wave,on_attack,enemy_random,,deal_damage_flat,20,,,,thunder,5,ability_damage,On Attack: Deals 20 damage to a random enemy.
-144,Shockwave,on_battle_start,enemy_last,3,reduce_speed,0.5,,,,debuff3,4,stats_lowered,On Battle Start: Reduces last two enemy's Speed by 50%.
+144,Shock Wave,on_battle_start,enemy_last,3,reduce_speed,0.5,,,,debuff3,4,stats_lowered,On Battle Start: Reduces last two enemy's Speed by 50%.
 145,Self-Destruct,on_faint,enemy_front,,deal_damage_source_hp,0.8,,,,,,,On Faint: Deals 80% of this Pokémon's max HP as damage to the front enemy.
 146,Final Flare,on_faint,enemy_random,,deal_damage_flat,40,,,,swipe,4,ability_damage,On Faint: Deals 40 damage to a random enemy.
 147,Cursed Aura,on_faint,enemy_all,,boost_damage_taken,1.2,,,,,,,On Faint: All enemies take 20% increased damage for the rest of combat.
-148,Pulse Bomb,on_ally_heal,enemy_all,,deal_damage_flat,3,,,,thunder,5,ability_damage,On Ally Heal: Deals 3 damage to all enemies whenever an ally gets healed.
+148,Pulse Bomb,on_ally_heal,enemy_all,,deal_damage_flat,5,,,,thunder,5,ability_damage,On Ally Heal: Deals 5 damage to all enemies whenever an ally gets healed.
 149,Life Drain,on_heal,enemy_random,,deal_damage_flat,30,,,,,,,On Heal: Deals 30 damage to a random enemy.
 150,Vengeful Pulse,on_heal,enemy_random,,deal_damage_source_hp,0.25,,,,,,,On Heal: Deals damage equal to 25% of the HP healed to a random enemy.
 151,Anger Lash,on_debuff,enemy_all,,deal_damage_flat,30,,,,fire,0,ability_damage,On Debuff: Deals 30 damage to all enemies whenever this Pokémon is debuffed.

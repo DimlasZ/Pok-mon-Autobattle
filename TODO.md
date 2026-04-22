@@ -152,3 +152,13 @@
 
 claude.md file learning
 
+## Multiplayer
+- [ ] button on main menu
+- [ ] overlay in main menu
+- [ ] host / join
+- [ ] seed
+- [ ] testing
+- [ ] wincon
+- [ ] settings (start Tier 2 for exmaple)
+- [ ] how to win, how to lose
+- [ ] clinet check or host send only

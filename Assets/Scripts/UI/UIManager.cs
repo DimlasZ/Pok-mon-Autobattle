@@ -38,6 +38,9 @@ public class UIManager : MonoBehaviour
     public Button rerollButton;
     public Button startBattleButton;
 
+    [Header("Multiplayer")]
+    public TextMeshProUGUI multiplayerStatusLabel; // "Waiting for opponent..." / "Opponent is ready!"
+
     [Header("Confirm Panels")]
     public ConfirmBattlePanel confirmBattlePanel;
 
@@ -63,6 +66,12 @@ public class UIManager : MonoBehaviour
         baitButton.onClick.AddListener(OnBaitClicked);
         rerollButton.onClick.AddListener(OnRerollClicked);
         startBattleButton.onClick.AddListener(OnStartBattleClicked);
+
+        if (multiplayerStatusLabel != null) multiplayerStatusLabel.gameObject.SetActive(false);
+
+        var sync = MultiplayerBattleSync.Instance;
+        if (sync != null)
+            sync.OnOpponentReadyChanged += OnOpponentReadyChanged;
 
         // Apply pending save load (Continue button from main menu).
         // Must happen before RefreshAll so the UI shows the restored team.
@@ -364,10 +373,48 @@ public class UIManager : MonoBehaviour
     private void OnStartBattleClicked()
     {
         AudioManager.Instance?.PlayButtonSound();
+
+        // Multiplayer: lock in team and wait for opponent instead of starting immediately.
+        if (MultiplayerBattleSync.Instance != null)
+        {
+            startBattleButton.interactable = false;
+            SetMultiplayerStatus("Waiting for opponent...", Color.yellow);
+
+            var row  = ShopManager.Instance.BattleRow;
+            int size = ShopManager.Instance.BattleSize;
+            var team = new PokemonInstance[size];
+            for (int i = 0; i < size; i++)
+                team[i] = row[size - 1 - i];
+
+            MultiplayerBattleSync.Instance.NotifyReady(team);
+            return;
+        }
+
         int money = ShopManager.Instance.CurrentPokedollars;
         if (money > 0 && confirmBattlePanel != null)
             confirmBattlePanel.Show(money);
         else
             GameManager.Instance.StartBattle();
+    }
+
+    private void OnOpponentReadyChanged(bool ready)
+    {
+        if (ready)
+            SetMultiplayerStatus("Opponent is ready!", Color.green);
+    }
+
+    private void SetMultiplayerStatus(string message, Color color)
+    {
+        if (multiplayerStatusLabel == null) return;
+        multiplayerStatusLabel.gameObject.SetActive(true);
+        multiplayerStatusLabel.text  = message;
+        multiplayerStatusLabel.color = color;
+    }
+
+    private void OnDestroy()
+    {
+        var sync = MultiplayerBattleSync.Instance;
+        if (sync != null)
+            sync.OnOpponentReadyChanged -= OnOpponentReadyChanged;
     }
 }
