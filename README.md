@@ -4,7 +4,7 @@ A auto-battler game built in Unity featuring Pokémon from Generations I–III. 
 
 <img width="1920 " height="1080" alt="MainMenu" src="https://github.com/user-attachments/assets/02cf91b2-1ed0-4f8d-89fe-686bfbfe5d94" />
 
----
+
 
 ## Gameplay
 
@@ -22,7 +22,7 @@ A auto-battler game built in Unity featuring Pokémon from Generations I–III. 
 - Survive 13 increasingly difficult rounds: Gym Leaders → Elite Four → Champion
 - Lose HP when your team faints; reach 0 HP and it's Game Over
 
----
+
 
 ## Features
 
@@ -34,7 +34,7 @@ A auto-battler game built in Unity featuring Pokémon from Generations I–III. 
 - **Persistent settings** — resolution, windowed/fullscreen toggle, and separate volume sliders for music, SFX, and weather sounds
 - **Scene-persistent overlay** — Settings and Pokédex panels accessible from every scene without reloading
 
----
+
 
 ## Built With
 
@@ -42,7 +42,7 @@ A auto-battler game built in Unity featuring Pokémon from Generations I–III. 
 - **C#**
 - **TextMeshPro**
 
----
+
 
 ## Screenshots
 
@@ -50,14 +50,9 @@ A auto-battler game built in Unity featuring Pokémon from Generations I–III. 
 <img width="2211" height="1170" alt="dex" src="https://github.com/user-attachments/assets/6bba3641-a866-4627-a095-114a56d45278" />
 
 
-
-
----
-
 ## How to Play
 
 Download the .exe from latest release (https://github.com/DimlasZ/Pok-mon-Autobattle/releases/tag/v1.0)
-
 
 Or play the game online on a PC-Browser: https://dimlas.itch.io/pokmon-auto-battler
 
