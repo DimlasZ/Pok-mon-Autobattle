@@ -2,6 +2,8 @@
 
 A auto-battler game built in Unity featuring Pokémon from Generations I–III. Build your team in the shop phase, watch them fight automatically in the battle phase, and climb through Gym Leaders, the Elite Four, and the Champion.
 
+<img width="1920 " height="1080" alt="MainMenu" src="https://github.com/user-attachments/assets/02cf91b2-1ed0-4f8d-89fe-686bfbfe5d94" />
+
 ---
 
 ## Gameplay
@@ -46,7 +48,7 @@ A auto-battler game built in Unity featuring Pokémon from Generations I–III. 
 
 <img width="2556" height="1307" alt="shop" src="https://github.com/user-attachments/assets/70d4cd73-d50c-488a-afcd-03eab683f2d5" />
 <img width="2211" height="1170" alt="dex" src="https://github.com/user-attachments/assets/6bba3641-a866-4627-a095-114a56d45278" />
-<img width="3439" height="1439" alt="MainMenu" src="https://github.com/user-attachments/assets/02cf91b2-1ed0-4f8d-89fe-686bfbfe5d94" />
+
 
 
 
