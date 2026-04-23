@@ -4,10 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Services.Core;
 using Unity.Services.Authentication;
-using Unity.Services.Lobby;
-using Unity.Services.Lobby.Models;
+using Unity.Services.Lobbies;
+using LobbyModel      = Unity.Services.Lobbies.Models.Lobby;
+using LobbyOptions    = Unity.Services.Lobbies.CreateLobbyOptions;
+using LobbyData       = Unity.Services.Lobbies.Models.DataObject;
+using QueryOptions    = Unity.Services.Lobbies.QueryLobbiesOptions;
+using QueryFilterOpt  = Unity.Services.Lobbies.Models.QueryFilter;
 using Unity.Services.Relay;
-using Unity.Services.Relay.Models;
+using RelayAllocation     = Unity.Services.Relay.Models.Allocation;
+using RelayJoinAllocation = Unity.Services.Relay.Models.JoinAllocation;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 
@@ -25,11 +30,9 @@ public class MultiplayerNetworkManager : MonoBehaviour
     public static MultiplayerNetworkManager Instance { get; private set; }
 
     // ── Events ─────────────────────────────────────────────────────────────
-    public event Action<string>             OnRoomCodeGenerated;   // host: 4-letter code ready
-    public event Action                     OnOpponentConnected;   // both players in lobby
-    public event Action<PokemonInstance[]>  OnOpponentTeamReceived;// opponent team arrived
-    public event Action<int>               OnBattleSeedReceived;  // seed ready → start sim
-    public event Action<string>             OnError;               // human-readable error
+    public event Action<string> OnRoomCodeGenerated; // host: 4-letter code ready
+    public event Action         OnOpponentConnected; // both players in lobby
+    public event Action<string> OnError;             // human-readable error
 
     // ── State ──────────────────────────────────────────────────────────────
     public bool IsHost       { get; private set; }
@@ -39,7 +42,7 @@ public class MultiplayerNetworkManager : MonoBehaviour
     // BattleSceneManager reads this instead of calling EnemyGenerator.
     public PokemonInstance[] PendingOpponentTeam { get; set; }
 
-    private Lobby  _lobby;
+    private LobbyModel _lobby;
     private string _relayJoinCode;
 
     private const int MaxPlayers    = 2;
@@ -56,7 +59,8 @@ public class MultiplayerNetworkManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        NetworkManager.Singleton?.Shutdown();
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+            NetworkManager.Singleton.Shutdown();
     }
 
     // ── Public API ─────────────────────────────────────────────────────────
@@ -67,7 +71,15 @@ public class MultiplayerNetworkManager : MonoBehaviour
             await UnityServices.InitializeAsync();
 
         if (!AuthenticationService.Instance.IsSignedIn)
+        {
+#if UNITY_EDITOR
+            // ParrelSync clones share the same project, so we need a different auth profile
+            // per editor instance to avoid "already a member" lobby errors.
+            if (ParrelSync.ClonesManager.IsClone())
+                AuthenticationService.Instance.SwitchProfile("Clone");
+#endif
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
     }
 
     // Host: allocates relay, creates lobby, returns 4-letter room code.
@@ -80,12 +92,12 @@ public class MultiplayerNetworkManager : MonoBehaviour
             var allocation   = await RelayService.Instance.CreateAllocationAsync(RelayMaxConns);
             _relayJoinCode   = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
-            var lobbyOptions = new CreateLobbyOptions
+            var lobbyOptions = new LobbyOptions
             {
-                IsPrivate = true,
-                Data = new Dictionary<string, DataObject>
+                IsPrivate = false,
+                Data = new Dictionary<string, LobbyData>
                 {
-                    ["relayCode"] = new DataObject(DataObject.VisibilityOptions.Member, _relayJoinCode)
+                    ["relayCode"] = new LobbyData(LobbyData.VisibilityOptions.Member, _relayJoinCode)
                 }
             };
 
@@ -96,9 +108,12 @@ public class MultiplayerNetworkManager : MonoBehaviour
             string roomCode = _lobby.Id[..4].ToUpper();
 
             ConfigureRelayHost(allocation);
-            NetworkManager.Singleton.StartHost();
-
-            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+            NetworkManager.Singleton.OnClientConnectedCallback  += OnClientConnected;
+            NetworkManager.Singleton.OnClientDisconnectCallback += cid => Debug.Log($"[MP Host] OnClientDisconnect cid:{cid}");
+            NetworkManager.Singleton.OnTransportFailure         += ()  => Debug.Log("[MP Host] TransportFailure");
+            bool started = NetworkManager.Singleton.StartHost();
+            Debug.Log($"[MP Host] StartHost returned:{started}");
+            MultiplayerBattleSync.Instance?.RegisterHandlers();
 
             OnRoomCodeGenerated?.Invoke(roomCode);
             Debug.Log($"[MP] Hosting — room code: {roomCode}");
@@ -112,32 +127,37 @@ public class MultiplayerNetworkManager : MonoBehaviour
     }
 
     // Client: looks up lobby by 4-letter code, retrieves relay join code, connects.
-    public async Task JoinGame(string roomCode)
+    // Returns true if StartClient was called successfully; false if room not found.
+    public async Task<bool> JoinGame(string roomCode)
     {
         try
         {
+            Debug.Log($"[MP] JoinGame called — code:'{roomCode}'");
             await SignInAsync();
+            Debug.Log("[MP] SignIn OK, querying lobbies...");
 
             // Query lobbies for matching ID prefix
-            var queryOptions = new QueryLobbiesOptions
+            var queryOptions = new QueryOptions
             {
                 Count   = 10,
-                Filters = new List<QueryFilter>
+                Filters = new List<QueryFilterOpt>
                 {
-                    new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT)
+                    new QueryFilterOpt(QueryFilterOpt.FieldOptions.AvailableSlots, "0", QueryFilterOpt.OpOptions.GT)
                 }
             };
 
             var results = await LobbyService.Instance.QueryLobbiesAsync(queryOptions);
-            Lobby matched = null;
+            Debug.Log($"[MP] Query returned {results.Results.Count} lobbies");
+            LobbyModel matched = null;
             foreach (var l in results.Results)
             {
+                Debug.Log($"[MP] Lobby id:{l.Id} prefix:{l.Id[..4].ToUpper()}");
                 if (l.Id[..4].ToUpper() == roomCode.ToUpper())
                 { matched = l; break; }
             }
 
             if (matched == null)
-            { OnError?.Invoke($"Room '{roomCode}' not found."); return; }
+            { OnError?.Invoke($"Room '{roomCode}' not found."); return false; }
 
             _lobby = await LobbyService.Instance.JoinLobbyByIdAsync(matched.Id);
             IsHost = false;
@@ -146,9 +166,19 @@ public class MultiplayerNetworkManager : MonoBehaviour
             var joinAlloc    = await RelayService.Instance.JoinAllocationAsync(relayCode);
 
             ConfigureRelayClient(joinAlloc);
-            NetworkManager.Singleton.StartClient();
 
-            Debug.Log($"[MP] Joined lobby {roomCode}");
+            NetworkManager.Singleton.OnClientConnectedCallback    += cid => {
+                Debug.Log($"[MP Client] OnClientConnected cid:{cid}");
+                IsConnected = true;
+                OnOpponentConnected?.Invoke();
+            };
+            NetworkManager.Singleton.OnClientDisconnectCallback   += cid => Debug.Log($"[MP Client] OnClientDisconnect cid:{cid}");
+            NetworkManager.Singleton.OnTransportFailure           += ()  => Debug.Log("[MP Client] TransportFailure");
+
+            bool started = NetworkManager.Singleton.StartClient();
+            Debug.Log($"[MP] StartClient returned:{started} — relay:{relayCode}");
+            if (started) MultiplayerBattleSync.Instance?.RegisterHandlers();
+            return started;
         }
         catch (Exception e)
         {
@@ -170,25 +200,9 @@ public class MultiplayerNetworkManager : MonoBehaviour
 
     // ── Team & Seed Exchange (called after both players are in the battle scene) ──
 
-    // Host calls this once both players press Start Battle.
-    // Picks a seed, sends it and the opponent's team to the client.
-    public void HostSendBattleData(PokemonInstance[] myTeam)
-    {
-        if (!IsHost) return;
-        // Netcode RPC exchange handled by MultiplayerBattleSync component.
-        // This just triggers it.
-        MultiplayerBattleSync.Instance?.HostInitiateBattle(myTeam);
-    }
-
-    public void ClientSendTeam(PokemonInstance[] myTeam)
-    {
-        if (IsHost) return;
-        MultiplayerBattleSync.Instance?.ClientSendTeam(myTeam);
-    }
-
     // ── Relay helpers ──────────────────────────────────────────────────────
 
-    private void ConfigureRelayHost(Allocation allocation)
+    private void ConfigureRelayHost(RelayAllocation allocation)
     {
         var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
         transport.SetHostRelayData(
@@ -199,7 +213,7 @@ public class MultiplayerNetworkManager : MonoBehaviour
             allocation.ConnectionData);
     }
 
-    private void ConfigureRelayClient(JoinAllocation allocation)
+    private void ConfigureRelayClient(RelayJoinAllocation allocation)
     {
         var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
         transport.SetClientRelayData(
@@ -215,12 +229,12 @@ public class MultiplayerNetworkManager : MonoBehaviour
 
     private void OnClientConnected(ulong clientId)
     {
+        Debug.Log($"[MP] OnClientConnected fired — clientId:{clientId} IsHost:{IsHost} LocalId:{NetworkManager.Singleton.LocalClientId}");
         if (!IsHost) return;
-        if (NetworkManager.Singleton.ConnectedClients.Count >= MaxPlayers)
-        {
-            IsConnected = true;
-            OnOpponentConnected?.Invoke();
-            Debug.Log("[MP] Opponent connected — lobby full.");
-        }
+        if (clientId == NetworkManager.Singleton.LocalClientId) return;
+
+        IsConnected = true;
+        OnOpponentConnected?.Invoke();
+        Debug.Log($"[MP] Opponent connected (clientId {clientId}).");
     }
 }

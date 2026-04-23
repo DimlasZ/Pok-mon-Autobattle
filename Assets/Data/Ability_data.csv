@@ -127,7 +127,7 @@
 126,Baton Pass,on_faint,ally_next,,transfer_buffs,,,,,buff8,5,stats_raised,On Faint: Transfers all active stat buffs to the next ally in line.
 127,Natural Cure,on_faint,self,,cure_status,,,,,,,,On Faint: Removes all debuffs and status effects.
 128,Wish,on_round_start,ally_random,,heal,0.15,,,,,,,On Round Start: Heals one random ally for 15% of their max HP.
-129,Harvest,on_round_start,ally_all,,heal,0.4,weather_sun,,,,,,On Round Start: Heals all allies by  40% of their max HP during sunlight.
+129,Harvest,on_round_start,ally_all,,heal,0.3,weather_sun,,,,,,On Round Start: Heals all allies by 30% of their max HP during sunlight.
 130,Cheek Pouch,on_battle_start,ally_all,,boost_healing,1.33,,,,buff8,,,On Battle Start: Increases all healing on your team by 33%.
 131,Healer,passive,ally_all,,boost_healing,2,,,,,,,All healing effects on this Pokémon are boosted by 100%.
 132,Power Construct,on_hit,self,,boost_attack,1.5,hp_below_50,,,buff8,4,stats_raised,On Hit: Boosts Attack by 50% when falling below 50% HP.

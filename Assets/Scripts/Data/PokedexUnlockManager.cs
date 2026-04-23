@@ -53,8 +53,10 @@ public static class PokedexUnlockManager
         bool changed = false;
         if (team != null)
             foreach (var p in team)
-                if (p != null && !data.elite4Ids.Contains(p.baseData.id))
-                { data.elite4Ids.Add(p.baseData.id); changed = true; }
+                if (p != null)
+                    foreach (int id in GetEvolutionChainIds(p.baseData))
+                        if (!data.elite4Ids.Contains(id))
+                        { data.elite4Ids.Add(id); changed = true; }
         if (changed) Save();
     }
 
@@ -64,9 +66,47 @@ public static class PokedexUnlockManager
         bool changed = false;
         if (team != null)
             foreach (var p in team)
-                if (p != null && !data.champIds.Contains(p.baseData.id))
-                { data.champIds.Add(p.baseData.id); changed = true; }
+                if (p != null)
+                    foreach (int id in GetEvolutionChainIds(p.baseData))
+                        if (!data.champIds.Contains(id))
+                        { data.champIds.Add(id); changed = true; }
         if (changed) Save();
+    }
+
+    // Returns all IDs in the evolution family (ancestors + descendants) of the given pokemon.
+    static List<int> GetEvolutionChainIds(PokemonData pokemon)
+    {
+        var db = Resources.Load<PokemonDatabase>("PokemonDatabase");
+        if (db == null || db.allPokemon == null)
+            return new List<int> { pokemon.id };
+
+        var all = db.allPokemon;
+
+        // Walk back to root
+        var root = pokemon;
+        int guard = 0;
+        while (root.preEvolutionId != 0 && guard++ < 10)
+        {
+            var pre = System.Array.Find(all, p => p != null && p.id == root.preEvolutionId);
+            if (pre == null) break;
+            root = pre;
+        }
+
+        // BFS forward to collect full family
+        var ids     = new List<int>();
+        var visited = new HashSet<int>();
+        var queue   = new Queue<PokemonData>();
+        queue.Enqueue(root);
+        while (queue.Count > 0)
+        {
+            var node = queue.Dequeue();
+            if (node == null || !visited.Add(node.id)) continue;
+            ids.Add(node.id);
+            foreach (var p in all)
+                if (p != null && p.preEvolutionId == node.id)
+                    queue.Enqueue(p);
+        }
+        return ids;
     }
 
     public static bool HasElite4(int pokemonId) => Load().elite4Ids.Contains(pokemonId);

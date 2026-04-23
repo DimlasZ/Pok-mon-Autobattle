@@ -115,7 +115,7 @@ public class BattleManager : MonoBehaviour
 
         DamageCalculator.Attack(first, second, firstTeam, secondTeam);
 
-        if (second.currentHP > 0)
+        if (second.currentHP > 0 && first.currentHP > 0)
             DamageCalculator.Attack(second, first, secondTeam, firstTeam);
     }
 

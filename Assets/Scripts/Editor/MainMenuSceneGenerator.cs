@@ -313,8 +313,10 @@ public class MainMenuSceneGenerator
         lobbyUI.codeInputField   = mpCodeInput;
         lobbyUI.joinStatusLabel  = mpJoinStatusLabel;
 
-        // Wire multiplayer button to show lobby panel
-        multiplayerBtn.onClick.AddListener(() => lobbyPanelGO.SetActive(true));
+        // Wire multiplayer button to show lobby panel via persistent component
+        var mpHandler = multiplayerBtn.gameObject.AddComponent<MultiplayerButtonHandler>();
+        mpHandler.lobbyPanel = lobbyPanelGO;
+        overlayMgr.multiplayerLobbyPanel = lobbyPanelGO;
 
         // ── MultiplayerNetworkManager bootstrap ───────────────────────────
         var mpGO = new GameObject("MultiplayerNetworkManager");
@@ -327,8 +329,13 @@ public class MainMenuSceneGenerator
         netGO.transform.SetParent(null);
         var netManager   = netGO.AddComponent<NetworkManager>();
         var transport    = netGO.AddComponent<UnityTransport>();
-        netGO.AddComponent<MultiplayerBattleSync>();
-        netManager.NetworkConfig.NetworkTransport = transport;
+        netManager.NetworkConfig.NetworkTransport    = transport;
+        netManager.NetworkConfig.EnableSceneManagement = false;
+
+        // MultiplayerBattleSync uses CustomMessagingManager — no NetworkObject needed.
+        var syncGO = new GameObject("MultiplayerBattleSync");
+        syncGO.transform.SetParent(null);
+        syncGO.AddComponent<MultiplayerBattleSync>();
 
         // ── GameManager bootstrap ─────────────────────────────────────────
         // Ensure a GameManager exists in the scene so it persists into subsequent scenes.

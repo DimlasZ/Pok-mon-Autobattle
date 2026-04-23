@@ -370,31 +370,38 @@ public class UIManager : MonoBehaviour
         RefreshAll();
     }
 
+    public PokemonInstance[] GetBattleTeam()
+    {
+        var row  = ShopManager.Instance.BattleRow;
+        int size = ShopManager.Instance.BattleSize;
+        var team = new PokemonInstance[size];
+        for (int i = 0; i < size; i++)
+            team[i] = row[size - 1 - i];
+        return team;
+    }
+
     private void OnStartBattleClicked()
     {
         AudioManager.Instance?.PlayButtonSound();
 
-        // Multiplayer: lock in team and wait for opponent instead of starting immediately.
+        // Show unspent-money warning in both single- and multi-player.
+        // ConfirmBattlePanel.OnConfirm already handles the multiplayer path.
+        int money = ShopManager.Instance.CurrentPokedollars;
+        if (money > 0 && confirmBattlePanel != null)
+        {
+            confirmBattlePanel.Show(money);
+            return;
+        }
+
         if (MultiplayerBattleSync.Instance != null)
         {
             startBattleButton.interactable = false;
             SetMultiplayerStatus("Waiting for opponent...", Color.yellow);
-
-            var row  = ShopManager.Instance.BattleRow;
-            int size = ShopManager.Instance.BattleSize;
-            var team = new PokemonInstance[size];
-            for (int i = 0; i < size; i++)
-                team[i] = row[size - 1 - i];
-
-            MultiplayerBattleSync.Instance.NotifyReady(team);
+            MultiplayerBattleSync.Instance.NotifyReady(GetBattleTeam());
             return;
         }
 
-        int money = ShopManager.Instance.CurrentPokedollars;
-        if (money > 0 && confirmBattlePanel != null)
-            confirmBattlePanel.Show(money);
-        else
-            GameManager.Instance.StartBattle();
+        GameManager.Instance.StartBattle();
     }
 
     private void OnOpponentReadyChanged(bool ready)
@@ -403,13 +410,15 @@ public class UIManager : MonoBehaviour
             SetMultiplayerStatus("Opponent is ready!", Color.green);
     }
 
-    private void SetMultiplayerStatus(string message, Color color)
+    public void SetMultiplayerStatus(string message, Color color)
     {
         if (multiplayerStatusLabel == null) return;
         multiplayerStatusLabel.gameObject.SetActive(true);
         multiplayerStatusLabel.text  = message;
         multiplayerStatusLabel.color = color;
     }
+
+    public void DisableStartBattleButton() => startBattleButton.interactable = false;
 
     private void OnDestroy()
     {

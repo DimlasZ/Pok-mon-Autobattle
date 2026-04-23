@@ -101,11 +101,13 @@ public class MultiplayerLobbyUI : MonoBehaviour
         AudioManager.Instance?.PlayButtonSound();
         joinConfirmButton.interactable = false;
         SetJoinStatus("Connecting...", Color.yellow);
+        Debug.Log($"[MP UI] JoinConfirm clicked — code:'{code}' mp:{MultiplayerNetworkManager.Instance != null}");
 
         try
         {
-            await MultiplayerNetworkManager.Instance.JoinGame(code);
-            SetJoinStatus("Connected! Waiting for host...", Color.green);
+            bool joined = await MultiplayerNetworkManager.Instance.JoinGame(code);
+            if (joined)
+                SetJoinStatus("Connected! Waiting for host...", Color.green);
         }
         catch
         {

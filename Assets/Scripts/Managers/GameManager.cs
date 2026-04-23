@@ -160,6 +160,17 @@ public class GameManager : MonoBehaviour
     {
         CurrentPhase = GamePhase.Results;
 
+        var sync     = MultiplayerBattleSync.Instance;
+        bool isClient = sync != null && !sync.IsHost;
+
+        if (isClient)
+        {
+            // Client never applies local state — host is authoritative.
+            // Notify sync so it can apply buffered host result (or wait for it to arrive).
+            sync.OnLocalBattleFinished(result);
+            return;
+        }
+
         if (result == BattleResult.PlayerWin)
         {
             PlayerWins++;
@@ -172,11 +183,9 @@ public class GameManager : MonoBehaviour
         string resultLabel = result == BattleResult.PlayerWin ? $"Victory! ({PlayerWins}/{winsToVictory} wins)" : result == BattleResult.Draw ? "Draw" : "Defeat";
         Debug.Log($"Round {CurrentRound} — {resultLabel}");
 
-        // In multiplayer the host pushes authoritative state to the client immediately.
-        // Heart restoration is pre-calculated here so it can be included in the sync payload.
-        // ReturnToShop() on the host will skip the heart logic since PendingHeartRestored is already set.
-        var sync = MultiplayerBattleSync.Instance;
-        if (sync != null && sync.IsHost)
+        // Host pushes authoritative state to client. Heart restoration is pre-calculated here
+        // so it can be included in the sync payload (ReturnToShop skips it to avoid double-apply).
+        if (sync != null)
         {
             int tierBefore = ShopManager.Instance.GetTierForRound(CurrentRound);
             int tierAfter  = ShopManager.Instance.GetTierForRound(CurrentRound + 1);
@@ -202,6 +211,8 @@ public class GameManager : MonoBehaviour
         PendingHeartRestored = heartRestored;
 
         Debug.Log($"[MP Client] Round {round} result applied — HP:{hp} Wins:{wins}");
+        if (wins == 8)
+            PokedexUnlockManager.UnlockElite4(PlayerBattleTeam);
         GlobalOverlayManager.Instance?.progressOverlay?.Show(result);
     }
 
@@ -212,6 +223,9 @@ public class GameManager : MonoBehaviour
 
         if (PlayerHP <= 0)               { EnterGameOver(); return; }
         if (PlayerWins >= winsToVictory) { EnterVictory();  return; }
+
+        var mpSync = MultiplayerBattleSync.Instance;
+        if (mpSync != null && mpSync.OpponentGameOver) { EnterOpponentDiedVictory(); return; }
 
         int tierBefore = ShopManager.Instance.GetTierForRound(CurrentRound);
         CurrentRound++;
@@ -266,7 +280,17 @@ public class GameManager : MonoBehaviour
         CurrentPhase = GamePhase.GameOver;
         AutoSaveManager.Delete();
         Debug.Log("Game Over!");
+        MultiplayerBattleSync.Instance?.SendOpponentDead();
         GlobalOverlayManager.Instance?.gameOverOverlay?.Show();
+    }
+
+    // Called when the opponent's HP reached 0 — we win the multiplayer match.
+    public void EnterOpponentDiedVictory()
+    {
+        CurrentPhase = GamePhase.Victory;
+        AutoSaveManager.Delete();
+        Debug.Log("[MP] Opponent ran out of hearts — you win!");
+        GlobalOverlayManager.Instance?.victoryOverlay?.Show(PlayerBattleTeam);
     }
 
     private void EnterVictory()

@@ -145,20 +145,9 @@
 - [x] 8 wins and then top 4 + champ?
 - [x] weighted tier teams for enemy or database teams / LLM teams / harder enemy teams
 - [x] always have a team size of 6.
-- [ ] Coop Multiplayer? May need a server, or at least a relay. 
+- [x] Coop Multiplayer? May need a server, or at least a relay. 
 - [ ] Item shop and held item logic
 
 ## Continue/ bugs 
 
-claude.md file learning
-
 ## Multiplayer
-- [ ] button on main menu
-- [ ] overlay in main menu
-- [ ] host / join
-- [ ] seed
-- [ ] testing
-- [ ] wincon
-- [ ] settings (start Tier 2 for exmaple)
-- [ ] how to win, how to lose
-- [ ] clinet check or host send only

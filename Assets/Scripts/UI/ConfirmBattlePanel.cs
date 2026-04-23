@@ -26,7 +26,18 @@ public class ConfirmBattlePanel : MonoBehaviour
     {
         AudioManager.Instance?.PlayButtonSound();
         gameObject.SetActive(false);
-        GameManager.Instance?.StartBattle();
+
+        var sync = MultiplayerBattleSync.Instance;
+        if (sync != null)
+        {
+            UIManager.Instance?.DisableStartBattleButton();
+            UIManager.Instance?.SetMultiplayerStatus("Waiting for opponent...", UnityEngine.Color.yellow);
+            sync.NotifyReady(UIManager.Instance?.GetBattleTeam());
+        }
+        else
+        {
+            GameManager.Instance?.StartBattle();
+        }
     }
 
     void OnCancel()

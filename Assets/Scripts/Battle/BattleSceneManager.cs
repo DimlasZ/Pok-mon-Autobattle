@@ -229,7 +229,7 @@ public class BattleSceneManager : MonoBehaviour
             if (playerFront.speed != enemyFront.speed)
                 playerGoesFirst = playerFront.speed > enemyFront.speed;
             else
-                playerGoesFirst = Random.value > 0.5f;
+                playerGoesFirst = AbilitySystem.RngNextBool();
 
             PokemonInstance first  = playerGoesFirst ? playerFront : enemyFront;
             PokemonInstance second = playerGoesFirst ? enemyFront  : playerFront;
@@ -242,7 +242,7 @@ public class BattleSceneManager : MonoBehaviour
             RefreshHP();
             yield return WaitForPlayback();
 
-            if (second.currentHP <= 0)
+            if (second.currentHP <= 0 || first.currentHP <= 0)
             {
             }
             else

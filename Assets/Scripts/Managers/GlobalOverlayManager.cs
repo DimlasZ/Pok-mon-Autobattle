@@ -28,6 +28,9 @@ public class GlobalOverlayManager : MonoBehaviour
     [Header("Tier Upgrade")]
     public TierUpgradeOverlayUI tierUpgradeOverlay;
 
+    [Header("Multiplayer")]
+    public GameObject multiplayerLobbyPanel;
+
     [Header("Audio Sliders")]
     public Slider musicSlider;
     public Slider sfxSlider;
