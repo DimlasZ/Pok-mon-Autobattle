@@ -95,8 +95,17 @@ public class GameManager : MonoBehaviour
     }
 
     // Called by MainMenuController's Play Now button — starts the game from scratch.
+    // Tears down multiplayer managers before entering a singleplayer run.
+    private void DisconnectMultiplayer()
+    {
+        MultiplayerNetworkManager.Instance?.Disconnect();
+        if (MultiplayerBattleSync.Instance != null)     Destroy(MultiplayerBattleSync.Instance.gameObject);
+        if (MultiplayerNetworkManager.Instance != null) Destroy(MultiplayerNetworkManager.Instance.gameObject);
+    }
+
     public void StartGame()
     {
+        DisconnectMultiplayer();
         AutoSaveManager.Delete();
         PlayerHP     = playerMaxHP;
         PlayerWins   = 0;
@@ -115,6 +124,7 @@ public class GameManager : MonoBehaviour
         var save = AutoSaveManager.Load();
         if (save == null) return false;
 
+        DisconnectMultiplayer();
         PlayerHP        = save.playerHP;
         PlayerWins      = save.playerWins;
         CurrentRound    = save.currentRound;
