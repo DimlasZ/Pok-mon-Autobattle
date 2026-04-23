@@ -44,12 +44,6 @@ A auto-battler game built in Unity featuring Pokémon from Generations I–III. 
 
 
 
-## Screenshots
-
-<img width="2556" height="1307" alt="shop" src="https://github.com/user-attachments/assets/70d4cd73-d50c-488a-afcd-03eab683f2d5" />
-<img width="2211" height="1170" alt="dex" src="https://github.com/user-attachments/assets/6bba3641-a866-4627-a095-114a56d45278" />
-
-
 ## How to Play
 
 Download the .exe from latest release [(https://github.com/DimlasZ/Pok-mon-Autobattle/releases/tag/v1.0)](https://github.com/DimlasZ/Pokemon-Auto-Battler/releases)
